@@ -1,0 +1,95 @@
+version 1.1.18 (released 2011-07-18)
+-change: 
+				Opensourced the Cordys CoE Library
+			
+
+version 1.1.17 (released 2011-01-26)
+-add: Added the ISOAPWrapper interface to allow stubbing.
+
+version 1.1.16 (released 2011-01-25)
+-add: Added more options to the SOAPException class.
+
+version 1.1.15 (released 2010-11-01)
+-add: Added the result mapping to the query wrapper
+
+version 1.1.14 (released 2010-09-29)
+-fix: Fixed CordysGatewayClient initialization with SSO authentication
+-add: Added instance generation based on the schema to the CoE Method TestTool
+
+version 1.1.13 (released 2010-05-19)
+-fix: Small fixes to the SQLQueryWrapper class
+-fix: Fixed the CordysGatewayClient bug when using SSO
+
+version 1.1.12 (released 2010-03-17)
+-fix: Fixed a null pointer in the DOMXPathMetaInfo classes
+-fix: Small fixes to the XMLProperties class for NOM with regard to the getProperties() method
+-add: Added the method com.cordys.coe.util.cpc.CPCUtilities.calculateDayDifference(Date a, Date b)
+-add: Added a special treatment to the JMX viewer to allow an easy overview of all threads that are running in the current JVM. To see this, just invoke the dumpAllThreads operation on the Threading object in java.lang.
+-unknown: Added additional functionality to the SqlWrapper class to be able to handle OR statements as well. Contributed by Przemek Chudzinski
+
+version 1.1.11 (released 2009-10-21)
+-add: Added some methods to the StringUtils class
+-fix: Fixed a bug in the XMLHelper class in the createElementWithParentNS to be able to cope with parent elements that have no namespace
+-add: Added the DOMXPathMetaInfo class. It is JDK 1.4 compatible wrapper around the prefix resolver dor DOM
+
+version 1.1.10 (released 2009-07-13)
+-fix: UTF-8 handling fixed for NiceDOMWriter
+-fix: Fixed the SqlQueryWrapper to be able to cope with left/right inner/outer join statements
+
+version 1.1.9 (released 2009-06-02)
+-add: Added getDateValue methods the the XPathHelper classes.
+-add: Added the method groupBy to the SQL wrapper class
+
+version 1.1.8 (released 2009-03-19)
+-add: Added two new methods: XPathHelpers.evaluateToString and XPathHelpers.evaluateToStringArray.
+-add: Added the searchLDAP and readLDAPEntry to the Cordys Gateway Client
+-add: Added a new Swing-based tool: Organization Manager. This tool can manage SOAP processors and their configurations.
+-fix: When using SSO the token was not obtained when test-mode was used.
+-update: The Log4J Viewer now uses a RegEx find as a fall-back mechanism if for some reason it was not able to parse the Log entry
+-update: The organization manager now also supports clusters.
+-add: Added the possibility to specify the receiver for the CordysGatewayClient
+
+version 1.1.7 (released 2009-01-06)
+-fix: Fixed a bug in the CoEMessageSet which causes problems when the WebGatewayClient is run from within Eclipse
+-fix: Fixed a bug in the build process for the coelib-full.jar. It didn't package some png files needed for the CGCLogin dialog.
+-fix: Fixed the coetool build problems. Included the proper jars and used the C3 libs now.
+-add: Added a class called NameValuePair
+-add: Added a Swing util class ProgressDialog
+
+version 1.1.6 (released 2008-10-14)
+-add: Added the Swing dialog CGCLoginDialog when can be used to create a connection to a Cordys system in a Swing application
+-add: Added some additional DOM and NOM related XML helper methods (XPathHelper class).
+
+version 1.1.5 (released 2008-08-21)
+-add: Added some additional DOM related XML helper methods
+-add: Added a new tool: CoE XML Formatter
+
+version 1.1.4 (released 2008-08-01)
+-add: Added the ServerRuntimeLocalizableException and the WsAppsRuntimeLocalizableException classes
+
+version 1.1.3 (released 2008-07-31)
+-add: Extended the XPathHelper API of the dom variant
+-add: Added additional tool: FlowInfo
+This tool allows an easy view of current process data.
+-fix: Changes the MessageDialog class to be able to resize it.
+-add: Added an interface to the sendsoapmessage so that it is possible to do some custom output handling with a java class.
+-add: Added SSO support to the CordysGatewayClient
+-add: Added a new generic SWT form to connect to a cordys environment
+
+version 1.1.2 (released 2008-07-18)
+-add: Added a tool to finds classes based on a certain classpath. This tool is usefull to figure out from which jar or folder a class is loaded.
+-update: Made the CordysGatewayClient understand C3 soap errors.
+-add: Added the package com.cordys.coe.util.i18n. This is an alternative way (using the default Java ResourceBundles) to do localization. It is compatible with Cordys using the IStringResource interface. This option allows you to include localization files within a jar.
+-add: Added the possibility to get the user information from the CordysGatewayClient
+-add: The CordysGatewayClient now also supports Custom Authentication
+-add: Completely revamped the structure of the Cordys Gateway client to support all different connection modes EXCEPT SSO. This is still pending.
+-add: Added a tool to test web services via the gateway. For now only NTLM authentication is supported. It has integrated support for handling XReport methods.
+-add: Added a tool which acts as a method test tool, but using the Web Gateway as a connection.
+
+version 1.1.1 (released 2008-04-16)
+-update: Updated to the 1.1.x range. The 1.1 is only compatible with C3 and no longer with C2 and below.
+-fix: Fixed the NetworkDrive class to also support non-English windows systems
+-add: Added additional methods to the NOM XPathHelper class.
+-change: The coelib.js has been moved to it's own project: FELibrary.
+-add: Added a class NiceDOMWriter to properly format XML. The CoENiceDOMWriter is now deprecated.
+

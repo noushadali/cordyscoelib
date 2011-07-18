@@ -1,0 +1,7 @@
+
+<systemenvironment>
+	<variable
+		name="CLASSPATH"
+		value="cordys_install_dir\${project.deploy}\${project.jar.name}.jar"
+	/>
+</systemenvironment>

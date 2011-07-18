@@ -1,0 +1,697 @@
+<!-- 
+    Methodset for utility JavaCall methods.
+-->
+<methodset 
+    name="Method Set JavaCall Utilities" 
+    description="Methodset for accessing the TaskManager processor" 
+    implementationclass="com.eibus.applicationconnector.java.JavaCallHandler" 
+    namespace="http://www.cordys.com/coe/javacall/utils"
+>
+    <method name="ConcatString">
+        <methodimplementation>
+            <implementation type="JavaCall">
+                <class>com.cordys.coe.util.cpc.CPCUtilities</class>
+                <method dt="string" scope="out">concatString</method>
+                <parameters>
+                    <XMLNode dt="i4" scope="in" ct="elements"/>
+                    <ValidChildren dt="string" scope="in"/>
+                </parameters>
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions name="ConcatString" targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.cordys.com/coe/javacall/utils">
+                <types>
+                    <schema targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://www.w3.org/2000/10/XMLSchema" xmlns:wcp="http://schemas.cordys.com/">
+                        <element name="ConcatString">
+                            <complexType>
+                                <element name="tag1" type="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="ConcatStringResponse">
+                            <complexType>
+                                <element name="tuple" minOccurs="0" maxOccurs="1">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="callMethodDynamicly">
+                                                    <complexType>
+                                                        <element name="callMethodDynamicly">
+                                                            <complexType/>
+                                                        </element>
+                                                    </complexType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="ConcatStringInput">
+                    <part name="body" element="tns:ConcatString"/>
+                </message>
+                <message name="ConcatStringOutput">
+                    <part name="body" element="tns:ConcatStringResponse"/>
+                </message>
+                <portType name="Method Set tiitm001 PortType">
+                    <operation name="ConcatString">
+                        <input message="tns:ConcatStringInput"/>
+                        <output message="tns:ConcatStringOutput"/>
+                    </operation>
+                </portType>
+            </definitions>
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+    <method name="DummyMethod">
+        <methodimplementation>
+            <implementation type="JavaCall">
+                <class>com.cordys.coe.util.cpc.CPCUtilities</class>
+                <method dt="string" scope="out">dummyMethod</method>
+                <parameters>
+                    <Dummy dt="i4" scope="in" ct="elements"/>
+                </parameters>
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions name="DummyMethod" targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.cordys.com/coe/javacall/utils">
+                <types>
+                    <schema targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://www.w3.org/2000/10/XMLSchema" xmlns:wcp="http://schemas.cordys.com/">
+                        <element name="DummyMethod">
+                            <complexType>
+                                <element name="Dummy" type="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="DummyMethodResponse">
+                            <complexType>
+                                <element name="tuple" minOccurs="0" maxOccurs="1">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="dummyMethod">
+                                                    <complexType>
+                                                        <element name="dummyMethod">
+                                                            <complexType/>
+                                                        </element>
+                                                    </complexType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="DummyMethodInput">
+                    <part name="body" element="tns:DummyMethod"/>
+                </message>
+                <message name="DummyMethodOutput">
+                    <part name="body" element="tns:DummyMethodResponse"/>
+                </message>
+                <portType name="Method Set tiitm001 PortType">
+                    <operation name="DummyMethod">
+                        <input message="tns:DummyMethodInput"/>
+                        <output message="tns:DummyMethodOutput"/>
+                    </operation>
+                </portType>
+            </definitions>			
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+    <method name="TrimString">
+        <methodimplementation>
+            <implementation type="JavaCall">
+                <class>com.cordys.coe.util.cpc.CPCUtilities</class>
+                <method dt="string" scope="out">trimString</method>
+                <parameters>
+                    <Source dt="string" scope="in"/>
+                </parameters>
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions name="TrimString" targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.cordys.com/coe/javacall/utils">
+                <types>
+                    <schema targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://www.w3.org/2000/10/XMLSchema" xmlns:wcp="http://schemas.cordys.com/">
+                        <element name="TrimString">
+                            <complexType>
+                                <element name="Source" type="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="TrimStringResponse">
+                            <complexType>
+                                <element name="tuple" minOccurs="0" maxOccurs="1">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="trimString">
+                                                    <complexType>
+                                                        <element name="trimString">
+                                                            <complexType/>
+                                                        </element>
+                                                    </complexType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="TrimStringInput">
+                    <part name="body" element="tns:TrimString"/>
+                </message>
+                <message name="TrimStringOutput">
+                    <part name="body" element="tns:TrimStringResponse"/>
+                </message>
+                <portType name="Method Set tiitm001 PortType">
+                    <operation name="TrimString">
+                        <input message="tns:TrimStringInput"/>
+                        <output message="tns:TrimStringOutput"/>
+                    </operation>
+                </portType>
+            </definitions>
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+    <method name="CreateRoottag">
+        <methodimplementation>
+            <implementation type="JavaCall">
+                <class>com.cordys.coe.util.cpc.CPCUtilities</class>
+                <method dt="int" ct="elements" scope="out">createRoottag</method>
+                <parameters>
+                    <InputDoc dt="int" ct="elements" scope="in"/>
+                </parameters>
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions name="CreateRootTag" targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.cordys.com/coe/javacall/utils">
+                <types>
+                    <schema targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://www.w3.org/2000/10/XMLSchema" xmlns:wcp="http://schemas.cordys.com/">
+                        <element name="CreateRootTag">
+                            <complexType>
+                                <element name="InputDoc" type="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="CreateRootTagResponse">
+                            <complexType>
+                                <element name="tuple" minOccurs="0" maxOccurs="1">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="createRootTag">
+                                                    <complexType>
+                                                        <element name="createRootTag">
+                                                            <complexType/>
+                                                        </element>
+                                                    </complexType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="CreateRootTagInput">
+                    <part name="body" element="tns:CreateRootTag"/>
+                </message>
+                <message name="CreateRootTagOutput">
+                    <part name="body" element="tns:CreateRootTagResponse"/>
+                </message>
+                <portType name="Method Set tiitm001 PortType">
+                    <operation name="CreateRootTag">
+                        <input message="tns:CreateRootTagInput"/>
+                        <output message="tns:CreateRootTagOutput"/>
+                    </operation>
+                </portType>
+            </definitions>
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+    <method name="DoMath">
+        <methodimplementation>
+            <implementation type="JavaCall">
+                <class>com.cordys.coe.util.cpc.CPCUtilities</class>
+                <method dt="int" scope="out">doMath</method>
+                <parameters>
+                    <Math dt="int" ct="elements" scope="in"/>
+                </parameters>
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions name="DoMath" targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.cordys.com/coe/javacall/utils">
+                <types>
+                    <schema targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://www.w3.org/2000/10/XMLSchema" xmlns:wcp="http://schemas.cordys.com/">
+                        <element name="DoMath">
+                            <complexType>
+                                <element name="Math" type="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="DoMathResponse">
+                            <complexType>
+                                <element name="tuple" minOccurs="0" maxOccurs="1">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="doMath">
+                                                    <complexType>
+                                                        <element name="doMath">
+                                                            <complexType/>
+                                                        </element>
+                                                    </complexType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="DoMathInput">
+                    <part name="body" element="tns:DoMath"/>
+                </message>
+                <message name="DoMathOutput">
+                    <part name="body" element="tns:DoMathResponse"/>
+                </message>
+                <portType name="Method Set tiitm001 PortType">
+                    <operation name="DoMath">
+                        <input message="tns:DoMathInput"/>
+                        <output message="tns:DoMathOutput"/>
+                    </operation>
+                </portType>
+            </definitions>
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+    <method name="FormatDate">
+        <methodimplementation>
+            <implementation type="JavaCall">
+                <class>com.cordys.coe.util.cpc.CPCUtilities</class>
+                <method dt="int" ct="elements" scope="out">formatDate</method>
+                <parameters>
+                    <DateXML dt="int" ct="elements" scope="in"/>
+                    <Format dt="string" scope="in"/>
+                </parameters>
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions name="FormatDate" targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.cordys.com/coe/javacall/utils">
+                <types>
+                    <schema targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://www.w3.org/2000/10/XMLSchema" xmlns:wcp="http://schemas.cordys.com/">
+                        <element name="FormatDate">
+                            <complexType>
+                                <element name="DateXML" type="xsd:string"/>
+                                <element name="Format" type="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="FormatDateResponse">
+                            <complexType>
+                                <element name="tuple" minOccurs="0" maxOccurs="1">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="formatDate">
+                                                    <complexType>
+                                                        <element name="formatDate">
+                                                            <complexType/>
+                                                        </element>
+                                                    </complexType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="FormatDateInput">
+                    <part name="body" element="tns:FormatDate"/>
+                </message>
+                <message name="FormatDateOutput">
+                    <part name="body" element="tns:FormatDateResponse"/>
+                </message>
+                <portType name="Method Set tiitm001 PortType">
+                    <operation name="FormatDate">
+                        <input message="tns:FormatDateInput"/>
+                        <output message="tns:FormatDateOutput"/>
+                    </operation>
+                </portType>
+            </definitions>
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+    <method name="IsTagFilled">
+        <methodimplementation>
+            <implementation type="JavaCall">
+                <class>com.cordys.coe.util.cpc.CPCUtilities</class>
+                <method dt="i4" scope="out" ct="elements">isTagFilled</method>
+                <parameters>
+                    <XML dt="i4" scope="in" ct="elements"/>
+                    <Path dt="string" scope="in"/>
+                </parameters>
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions name="IsTagFilled" targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.cordys.com/coe/javacall/utils">
+                <types>
+                    <schema targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://www.w3.org/2000/10/XMLSchema" xmlns:wcp="http://schemas.cordys.com/">
+                        <element name="IsTagFilled">
+                            <complexType>
+                                <element name="XML" type="xsd:string"/>
+                                <element name="Path" type="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="IsTagFilledResponse">
+                            <complexType>
+                                <element name="tuple" minOccurs="0" maxOccurs="1">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="isTagFilled">
+                                                    <complexType>
+                                                        <element name="isTagFilled">
+                                                            <complexType/>
+                                                        </element>
+                                                    </complexType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="IsTagFilledInput">
+                    <part name="body" element="tns:IsTagFilled"/>
+                </message>
+                <message name="IsTagFilledOutput">
+                    <part name="body" element="tns:IsTagFilledResponse"/>
+                </message>
+                <portType name="Method Set tiitm001 PortType">
+                    <operation name="IsTagFilled">
+                        <input message="tns:IsTagFilledInput"/>
+                        <output message="tns:IsTagFilledOutput"/>
+                    </operation>
+                </portType>
+            </definitions>
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+    <method name="IsTagAvailable">
+        <methodimplementation>
+            <implementation type="JavaCall">
+                <class>com.cordys.coe.util.cpc.CPCUtilities</class>
+                <method dt="i4" scope="out" ct="elements">isTagAvailable</method>
+                <parameters>
+                    <XML dt="i4" scope="in" ct="elements"/>
+                    <Path dt="string" scope="in"/>
+                </parameters>
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions name="IsTagAvailable" targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.cordys.com/coe/javacall/utils">
+                <types>
+                    <schema targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://www.w3.org/2000/10/XMLSchema" xmlns:wcp="http://schemas.cordys.com/">
+                        <element name="IsTagAvailable">
+                            <complexType>
+                                <element name="XML" type="xsd:string"/>
+                                <element name="Path" type="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="IsTagAvailableResponse">
+                            <complexType>
+                                <element name="tuple" minOccurs="0" maxOccurs="1">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="isTagAvailable">
+                                                    <complexType>
+                                                        <element name="isTagAvailable">
+                                                            <complexType/>
+                                                        </element>
+                                                    </complexType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="IsTagAvailableInput">
+                    <part name="body" element="tns:IsTagAvailable"/>
+                </message>
+                <message name="IsTagAvailableOutput">
+                    <part name="body" element="tns:IsTagAvailableResponse"/>
+                </message>
+                <portType name="Method Set tiitm001 PortType">
+                    <operation name="IsTagAvailable">
+                        <input message="tns:IsTagAvailableInput"/>
+                        <output message="tns:IsTagAvailableOutput"/>
+                    </operation>
+                </portType>
+            </definitions>
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+    <method name="FormatWCPDate">
+        <methodimplementation>
+            <implementation type="JavaCall">
+                <class>com.cordys.coe.util.cpc.CPCUtilities</class>
+                <method dt="string" scope="out">formatWCPDate</method>
+                <parameters>
+                    <Date dt="string" scope="in"/>
+                    <Format dt="string" scope="in"/>
+                </parameters>
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions name="FormatWCPDate" targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.cordys.com/coe/javacall/utils">
+                <types>
+                    <schema targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://www.w3.org/2000/10/XMLSchema" xmlns:wcp="http://schemas.cordys.com/">
+                        <element name="FormatWCPDate">
+                            <complexType>
+                                <element name="Date" type="xsd:string"/>
+                                <element name="Format" type="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="FormatWCPDateResponse">
+                            <complexType>
+                                <element name="tuple" minOccurs="0" maxOccurs="1">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="FormatWCPDate">
+                                                    <complexType>
+                                                        <element name="FormatWCPDate" type="string"> </element>
+                                                    </complexType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="FormatWCPDateInput">
+                    <part name="body" element="tns:FormatWCPDate"/>
+                </message>
+                <message name="FormatWCPDateOutput">
+                    <part name="body" element="tns:FormatWCPDateResponse"/>
+                </message>
+                <portType name="Method Set tiitm001 PortType">
+                    <operation name="FormatWCPDate">
+                        <input message="tns:FormatWCPDateInput"/>
+                        <output message="tns:FormatWCPDateOutput"/>
+                    </operation>
+                </portType>
+            </definitions>
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+    <method name="AddTimeToDate">
+        <methodimplementation>
+            <implementation type="JavaCall">
+                <class>com.cordys.coe.util.cpc.CPCUtilities</class>
+                <method dt="string" scope="out">addTimeToDate</method>
+                <parameters>
+                    <Date dt="string" scope="in"/>
+                    <Value dt="i4" scope="in"/>
+                    <Unit dt="string" scope="in"/>
+                    <Format dt="string" scope="in"/>
+                </parameters>
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" name="AddTimeToDate" targetNamespace="http://www.cordys.com/coe/javacall/utils">
+                <types>
+                    <schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="http://www.cordys.com/coe/javacall/utils">
+                        <element name="AddTimeToDate">
+                            <complexType>
+                                <element name="Date" type="xsd:string"/>
+                                <element name="Value" type="xsd:i4"/>
+                                <element name="Unit" type="xsd:string"/>
+                                <element name="Format" type="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="AddTimeToDateResponse">
+                            <complexType>
+                                <element maxOccurs="1" minOccurs="0" name="tuple">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="addTimeToDate">
+                                                    <complexType>
+                                                        <element name="addTimeToDate" type="string"/>
+                                                    </complexType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="AddTimeToDateInput">
+                    <part element="tns:AddTimeToDate" name="body"/>
+                </message>
+                <message name="AddTimeToDateOutput">
+                    <part element="tns:AddTimeToDateResponse" name="body"/>
+                </message>
+                <portType name="Method Set tiitm001 PortType">
+                    <operation name="AddTimeToDate">
+                        <input message="tns:AddTimeToDateInput"/>
+                        <output message="tns:AddTimeToDateOutput"/>
+                    </operation>
+                </portType>
+            </definitions>
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+    <method name="GetPeriodLength">
+        <methodimplementation>
+            <implementation type="JavaCall">
+                <class>com.cordys.coe.util.cpc.CPCUtilities</class>
+                <method dt="i8" scope="out">getPeriodLength</method>
+                <parameters>
+                    <Date1 dt="string" scope="in"/>
+                    <Date2 dt="string" scope="in"/>
+                    <Unit dt="string" scope="in"/>
+                    <Format dt="string" scope="in"/>
+                </parameters>
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" name="GetPeriodLength" targetNamespace="http://www.cordys.com/coe/javacall/utils">
+                <types>
+                    <schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="http://www.cordys.com/coe/javacall/utils">
+                        <element name="GetPeriodLength">
+                            <complexType>
+                                <element name="Date1" type="xsd:string"/>
+                                <element name="Date2" type="xsd:string"/>
+                                <element name="Unit" type="xsd:string"/>
+                                <element name="Format" type="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="GetPeriodLengthResponse">
+                            <complexType>
+                                <element maxOccurs="1" minOccurs="0" name="tuple">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="getPeriodLength">
+                                                    <complexType>
+                                                        <element name="getPeriodLength" type="i8"/>
+                                                    </complexType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="GetPeriodLengthInput">
+                    <part element="tns:GetPeriodLength" name="body"/>
+                </message>
+                <message name="GetPeriodLengthOutput">
+                    <part element="tns:GetPeriodLengthResponse" name="body"/>
+                </message>
+                <portType name="Method Set tiitm001 PortType">
+                    <operation name="GetPeriodLength">
+                        <input message="tns:GetPeriodLengthInput"/>
+                        <output message="tns:GetPeriodLengthOutput"/>
+                    </operation>
+                </portType>
+            </definitions>
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+    <method name="DoMathInteger">
+        <methodimplementation>
+            <implementation type="JavaCall">
+                <class>com.cordys.coe.util.cpc.CPCUtilities</class>
+                <method dt="int" scope="out">doMathInteger</method>
+                <parameters>
+                    <Math dt="int" ct="elements" scope="in"/>
+                </parameters>
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions name="DoMathInteger" targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.cordys.com/coe/javacall/utils">
+                <types>
+                    <schema targetNamespace="http://www.cordys.com/coe/javacall/utils" xmlns="http://www.w3.org/2000/10/XMLSchema" xmlns:wcp="http://schemas.cordys.com/">
+                        <element name="DoMathInteger">
+                            <complexType>
+                                <element name="Math" type="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="DoMathIntegerResponse">
+                            <complexType>
+                                <element name="tuple" minOccurs="0" maxOccurs="1">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="DoMathInteger">
+                                                    <complexType>
+                                                        <element name="DoMathInteger">
+                                                            <complexType/>
+                                                        </element>
+                                                    </complexType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="DoMathIntegerInput">
+                    <part name="body" element="tns:DoMathInteger"/>
+                </message>
+                <message name="DoMathIntegerOutput">
+                    <part name="body" element="tns:DoMathIntegerResponse"/>
+                </message>
+                <portType name="Method Set tiitm001 PortType">
+                    <operation name="DoMathInteger">
+                        <input message="tns:DoMathIntegerInput"/>
+                        <output message="tns:DoMathIntegerOutput"/>
+                    </operation>
+                </portType>
+            </definitions>
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+</methodset>

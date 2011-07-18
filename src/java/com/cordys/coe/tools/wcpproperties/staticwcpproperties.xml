@@ -1,0 +1,199 @@
+<properties>
+<!--
+	This file contains all the static properties that could not be derived from 
+	the sourcecode.
+-->    
+    <cordys version="C2">
+<!--
+	Dynamic Java properties.
+-->
+        <property>
+            <name>com.eibus.license.LicMasterStoreDir</name>
+            <caption>com.eibus.license.LicMasterStoreDir</caption>
+            <description>
+            	This property is used by the License module to define the folder where license information 
+            	is stored for contributors.
+            </description>
+            <default>license/masterstore</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.internal.Register</class>
+                <class component="Integrator">com.eibus.license.report.LicMasterStore</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.license.LogDir.key</name>
+            <caption>com.eibus.license.LogDir.key</caption>
+            <description>
+            	This property is used by the License module to define the folder where received 
+            	license keys are stored.
+            </description>
+            <default>license/log/key</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.report.SendReport</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.license.MasterLogDir.key</name>
+            <caption>com.eibus.license.MasterLogDir.key</caption>
+            <description>
+            	This property is used by the License module to define the folder where received master license 
+            	keys are stored.
+            </description>
+            <default>license/master/log/key</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.report.SendReport</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.license.MasterLogDir.report</name>
+            <caption>com.eibus.license.MasterLogDir.report</caption>
+            <description>
+            	This property is used by the License module to define the folder where master 
+            	reports are stored.
+            </description>
+            <default>license/master/log/report</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.report.SendReport</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.license.LogDir.report</name>
+            <caption>com.eibus.license.LogDir.report</caption>
+            <description>
+            	This property is used by the License module to define the folder where 
+            	sent reports are stored.
+            </description>
+            <default>license/log/report</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.report.SendReport</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.&lt;name&gt;</name>
+            <caption>com.eibus.web.&lt;name&gt;</caption>
+            <description>
+            	This property is used by the webgateway. You can call a Cordys Web Application 
+            	(which is a Java class) by doing: http://cordysserver/com.cordys.WebApp.wcp. 
+            	You can also do some aliassing. This means that if you want the 
+            	URL to be: http://cordysserver/cordys/WebApp.wcp you can set the following 
+            	property in the wcp.properties: com.eibus.web.WebApp=com.cordys.coe.web.WebApp. 
+            	This tells the Cordys ISAPI extention the proper class to use.
+            </description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.isapi.ExtensionControlBlock</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.isapi.extension.&lt;extention&gt;</name>
+            <caption>com.eibus.web.isapi.extension.&lt;extention&gt;</caption>
+            <description>
+            	This property is used by the webgateway. This property can be used to have 
+            	the Cordys ISAPI filter handle custom extentions for Web applications. 
+            	Take this example: You want to add a new extention .other. So that people could 
+            	call: http://server/cordys/MyPage.other. You need to do 2 things:
+            	1. Register the eibisapi in IIS/APACHE for the .other extention 
+            	2. Set the actual Java WebApp handler via the wcp.properties:
+            	   com.eibus.web.isapi.extension.other=com.cordys.coe.OtherWebApp
+            </description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.isapi.ExtensionControlBlock</class>
+            </whereused>
+        </property>
+<!--
+	Native properties.
+-->    
+        <property>
+            <name>bus.vm.options.gateway</name>
+            <caption>bus.vm.options.gateway</caption>
+            <description>
+            	This property can be used to control the parameters for the JVM which the ISAPI extention start. 
+	            To launch the Web Gateway JVM in debug mode fill this property with:
+    	        bus.vm.options.gateway=-Xdebug -Xnoagent -Djava.compiler\=NONE -Xrunjdwp:transport\=dt_socket,server\=y,suspend\=n,address\=8812
+            </description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">Native ISAPI extention</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.vm.options.monitor</name>
+            <caption>bus.vm.options.gateway</caption>
+            <description>
+            	This property can be used to control the parameters for the JVM which is started by the WCPMonitor service/daemon. 
+	            To launch the Monitor JVM in debug mode fill this property with:
+    	        bus.vm.options.monitor=-Xdebug -Xnoagent -Djava.compiler\=NONE -Xrunjdwp:transport\=dt_socket,server\=y,suspend\=n,address\=8812
+            </description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">Native ISAPI extention</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.jvm.heapsize</name>
+            <caption>bus.jvm.heapsize</caption>
+            <description>
+            	This property can be used to control the heap size of the JVMs that are started by the web gateway (ISAPI/mod_cordys) or the monitor service.
+            	This property is still there only for backwards compatibility. If the property bus.vm.options.&lt;component&gt;
+            	has been set this value is ignored.
+            </description>
+            <default>64</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">Native ISAPI/mod_cordys extention</class>
+                <class component="Integrator">Native Monitor Service</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.vm.debug.&lt;component&gt;</name>
+            <caption>bus.vm.debug.&lt;component&gt;</caption>
+            <description>
+            	Component name can be: monitor or debug.
+            	This property can be used to have the WCP monitor service or the ISAPI extention pop up a dialog 
+            	allowing someone to attach a debugger.
+            	NOTE: This only works on windows.
+            </description>
+            <default>false</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">Native ISAPI/mod_cordys extention</class>
+                <class component="Integrator">Native Monitor Service</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.xml.cdata.text</name>
+            <caption>bus.xml.cdata.text</caption>
+            <description>
+            	This property controls whether or not the CData part of the XML are serialized as normal text 
+            	or actual CData blocks.
+            </description>
+            <default>false</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">Native XML parser</class>
+            </whereused>
+        </property>
+	</cordys>
+</properties>

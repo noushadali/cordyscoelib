@@ -1,0 +1,198 @@
+<!--
+	© 2003 Cordys R&D B.V. All rights reserved.
+	The computer program(s) is the proprietary information of Cordys R&D B.V. 
+	and provided under the relevant License Agreement containing restrictions 
+	on use and disclosure. Use is subject to the License Agreement.
+-->
+<html xmlns:eibus onapplicationready="initialize()">
+    <head>
+        <link href="/cordys/wcp/style/behaviors.css" rel="stylesheet"></link>
+        <title>Java Flow Engine Connector Configuration</title>
+    </head>
+    <script	src="/cordys/wcp/admin/behavior/applicationconnector.js"></script>
+    <script language="JScript">
+        /**
+         * This method creates the needed configuration for the connector
+         *
+         * @param xmlConfig The configuration-XML.
+         */
+        function createConnectorConfiguration(xmlConfig)
+        {
+            var bReturn = true;
+            var xmlDoc = xmlConfig.ownerDocument;
+            var nConfig = xmlDoc.createElement("Configuration");
+            xmlConfig.appendChild(nConfig);
+            
+            if (txtNrOfThreads.value == "")
+            {
+                alert("Number of workerthreads need to be filled.");
+                bReturn = false;
+                txtNrOfThreads.focus();
+            }
+            else
+            {
+                var nNode = xmlDoc.createElement("nrofworkerthreads");
+                nNode.text = txtNrOfThreads.value;
+                nConfig.appendChild(nNode);
+            
+                nNode = xmlDoc.createElement("seperateconnectors");
+                nNode.text = txtOwnConnector.value;
+                nConfig.appendChild(nNode);
+            }
+            
+            if (bReturn == true && txtCreateFiles.value == "true" && txtDirLogfiles.value.length == 0)
+            {
+                alert("If you want to create logfiles, you will also have to specify the location for those files.");
+                bReturn = false;
+                txtDirLogfiles.focus();
+            }
+            else
+            {
+                var nNode = xmlDoc.createElement("createlogfiles");
+                nNode.text = txtCreateFiles.value;
+                nConfig.appendChild(nNode);
+            
+                nNode = xmlDoc.createElement("logfilelocation");
+                nNode.text = txtDirLogfiles.value;
+                nConfig.appendChild(nNode);
+            }
+            
+            nNode = xmlDoc.createElement("gcrequests");
+            nNode.text = txtGC.value;
+            nConfig.appendChild(nNode);
+            
+            return bReturn;
+        }//createConnectorConfiguration
+        
+        /**
+         * This method fills the inputfields based on the XML
+         *
+         * @param xmlConfig The configuration-XML.
+         */
+        function fillInPropertyScreen(xmlConfig)
+        {
+	        var nNode = xmlConfig.selectSingleNode(".//nrofworkerthreads");
+	        if (nNode != null)
+	        {
+	            txtNrOfThreads.value = nNode.text;
+	        }
+	        else
+	        {
+	            txtNrOfThreads.value = "10";
+	        }
+	        
+	        nNode = xmlConfig.selectSingleNode(".//seperateconnectors");
+	        if (nNode != null)
+	        {
+	            txtOwnConnector.value = nNode.text;
+	        }
+	        else
+	        {
+	            txtOwnConnector.value = "true";
+	        }
+	        
+	        nNode = xmlConfig.selectSingleNode(".//createlogfiles");
+	        if (nNode != null)
+	        {
+	            txtCreateFiles.value = nNode.text;
+	        }
+	        else
+	        {
+	            txtCreateFiles.value = "false";
+	        }
+	        
+	        nNode = xmlConfig.selectSingleNode(".//logfilelocation");
+	        if (nNode != null)
+	        {
+	            txtDirLogfiles.value = nNode.text;
+	        }
+	        else
+	        {
+	            txtDirLogfiles.value = "";
+	        }
+	        
+	        nNode = xmlConfig.selectSingleNode(".//gcrequests");
+	        if (nNode != null)
+	        {
+	            txtGC.value = nNode.text;
+	        }
+	        else
+	        {
+	            txtGC.value = "250";
+	        }
+	        
+	        changeDirLogfiles();
+        }//fillInPropertyScreen
+
+        /**
+         * This method changes the read-only attribute on txtDirLogfiles based on the selected value.
+         */
+        function changeDirLogfiles()
+        {
+            if (txtCreateFiles.value == "false")
+            {
+                txtDirLogfiles.readOnly = true;
+                txtDirLogfiles.value = "";
+            }
+            else
+            {
+                txtDirLogfiles.removeAttribute("readOnly");
+            }
+        }//changeDirLogfiles
+    </script>
+    <body>
+        <table width="100%" style="border: 1px solid black;" cellspacing="0" cellpadding="5">
+            <tr class="medium">
+                <td colspan="2" align="center">
+                    <STRONG>Java FlowEngine Connector Details</STRONG>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" align="right">
+                    Number of workerthreads:
+                </td>
+                <td width="50%" align="left">
+                    <input type="text" id="txtNrOfThreads" class="input" value="10"/>
+                </td>
+            </tr>
+            <tr class="lightmedium">
+                <td width="50%" align="right">
+                    Each worker has it's own connector:
+                </td>
+                <td width="50%" align="left">
+                    <eibus:select id="txtOwnConnector" style="width:100px;">
+                        <div value="true">Yes</div>
+                        <div value="false">No</div>
+                    </eibus:select>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" align="right">
+                    Create logfiles:
+                </td>
+                <td width="50%" align="left">
+                    <eibus:select id="txtCreateFiles" style="width:100px;" onchange="changeDirLogfiles()">
+                        <div value="true">Yes</div>
+                        <div value="false" selected="true">No</div>
+                    </eibus:select>
+                </td>
+            </tr>
+            <tr class="lightmedium">
+                <td width="50%" align="right">
+                    Directory for logfiles:
+                </td>
+                <td width="50%" align="left">
+                    <input type="text" readonly="true" id="txtDirLogfiles" class="input" value="c:/temp"/>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" align="right">
+                    Force GarbageCollection after:
+                </td>
+                <td width="50%" align="left">
+                    <input type="text" id="txtGC" class="input" value="250"/> requests.
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

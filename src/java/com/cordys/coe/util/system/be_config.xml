@@ -1,0 +1,11 @@
+<commands>
+    <command>
+        <program>cmd.exe</program>
+    </command>
+    <command>
+        <program>javaw.exe</program>
+        <arguments>
+            <argument>com.vanenburg.util.orgmanager.OrganizationManager</argument>
+        </arguments>
+    </command>
+</commands>

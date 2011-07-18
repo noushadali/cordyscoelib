@@ -1,0 +1,43 @@
+
+<filesystem>
+	<file
+		source="${build.jar}/${project.jar.name}.jar"
+		destdir="${project.deploy}"
+		ecxdir="cordys_install_dir"
+	/>
+	<file
+		source="${build.jar}/${project.jar.name.full}.jar"
+		destdir="${project.deploy}"
+		ecxdir="cordys_install_dir"
+	/>	
+	<file
+		source="${build.apidocs}"
+		destdir="${project.deploy}\docs\javadoc"
+		ecxdir="cordys_install_dir"
+	/>
+	<file
+		source="${build.web}"
+		destdir="\web\${project.deploy}"
+		ecxdir="cordys_install_dir"
+	/>
+	<file
+		source="${src.md5.bin.win32}/MD5.dll"
+		destdir="${project.deploy}\bin"
+		ecxdir="cordys_install_dir"
+	/>
+	<file
+		source="${src.md5.bin.win32}/MD5.dll"
+		destdir="${project.deploy}\bin\win32"
+		ecxdir="cordys_install_dir"
+	/>
+	<file
+		source="${src.md5.bin.linux}/MD5.so"
+		destdir="${project.deploy}\bin\linux"
+		ecxdir="cordys_install_dir"
+	/>
+	<file
+		source="${lib.dir}/fastmd5.jar"
+		destdir="${project.deploy}"
+		ecxdir="cordys_install_dir"
+	/>
+</filesystem>

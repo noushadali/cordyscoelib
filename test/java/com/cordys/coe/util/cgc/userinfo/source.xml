@@ -1,0 +1,297 @@
+
+<tuple xmlns="http://schemas.cordys.com/1.1/ldap">
+	<old>
+		<user>
+			<authuserdn>cn=admin,cn=authenticated users,cn=cordys,o=vanenburg.com</authuserdn>
+			<description>admin</description>
+			<organization>
+				<dn>o=system,cn=cordys,o=vanenburg.com</dn>
+				<description>System</description>
+				<organizationaluser>
+					<dn>cn=admin,cn=organizational users,o=system,cn=cordys,o=vanenburg.com</dn>
+				</organizationaluser>
+				<toolbar>/Cordys/WCP/Toolbar/Cordys/WCP/Desktop1</toolbar>
+				<toolbar>/Cordys/WCP/Toolbar/Cordys/WCP/Desktop2</toolbar>
+				<role id="cn=everyoneInsystem,cn=organizational roles,o=system,cn=cordys,o=vanenburg.com">
+					<description>Everyone In System</description>
+					<role id="cn=everyone,cn=Cordys WCP 1.2,cn=cordys,o=vanenburg.com">
+						<description>Everyone</description>
+						<toolbar>/Cordys/WCP/Toolbar/Cordys/WCP/Desktop1</toolbar>
+						<toolbar>/Cordys/WCP/Toolbar/Cordys/WCP/Desktop2</toolbar>
+						<role id="cn=everyoneInSoftware Package Cordys 1.0,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Software Package Cordys 1.0</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.1,cn=Cordys WCP 1.1,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.1</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.3,cn=Cordys WCP 1.3,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.3</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.4,cn=Cordys WCP 1.4,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.4</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.5</description>
+						</role>
+						<role id="cn=everyoneInCordys Northwind Demo 1.0,cn=Cordys Northwind Demo 1.0,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Northwind Demo 1.0</description>
+						</role>
+						<role id="cn=everyoneInCordys Integrator 1.5 FP 1,cn=Cordys Integrator 1.5 FP 1,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Integrator 1.5 FP 1</description>
+						</role>
+						<role id="cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Integrator 4.2</description>
+						</role>
+					</role>
+				</role>
+				<role id="cn=systemAdmin,cn=organizational roles,o=system,cn=cordys,o=vanenburg.com">
+					<description>System Administrator</description>
+					<toolbar>/Cordys/WCP/Toolbar/Cordys/WCP/Advanced</toolbar>
+					<menu>Cordys/WCP/Menu/Cordys/WCP/systemAdmin</menu>
+					<role id="cn=everyone,cn=Cordys WCP 1.2,cn=cordys,o=vanenburg.com">
+						<description>Everyone</description>
+						<toolbar>/Cordys/WCP/Toolbar/Cordys/WCP/Desktop</toolbar>
+						<role id="cn=everyoneInSoftware Package Cordys 1.0,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Software Package Cordys 1.0</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.1,cn=Cordys WCP 1.1,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.1</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.3,cn=Cordys WCP 1.3,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.3</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.4,cn=Cordys WCP 1.4,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.4</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.5</description>
+						</role>
+						<role id="cn=everyoneInCordys Northwind Demo 1.0,cn=Cordys Northwind Demo 1.0,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Northwind Demo 1.0</description>
+						</role>
+						<role id="cn=everyoneInCordys Integrator 1.5 FP 1,cn=Cordys Integrator 1.5 FP 1,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Integrator 1.5 FP 1</description>
+						</role>
+						<role id="cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Integrator 4.2</description>
+						</role>
+					</role>
+				</role>
+				<role id="cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com">
+					<description>Everyone In Cordys Integrator 4.2</description>
+				</role>
+				<role id="cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com">
+					<description>Everyone In Cordys WCP 1.5</description>
+				</role>
+				<role id="cn=developer,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com">
+					<description>Developer</description>
+					<toolbar>/Cordys/WCP/Toolbar/Cordys/WCP/Advanced</toolbar>
+					<menu>Cordys/WCP/Menu/Cordys/WCP/developer</menu>
+					<menu>Cordys/WCP/Menu/Cordys/WCP/demo</menu>
+					<role id="cn=everyone,cn=Cordys WCP 1.2,cn=cordys,o=vanenburg.com">
+						<description>Everyone</description>
+						<toolbar>/Cordys/WCP/Toolbar/Cordys/WCP/Desktop</toolbar>
+						<role id="cn=everyoneInSoftware Package Cordys 1.0,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Software Package Cordys 1.0</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.1,cn=Cordys WCP 1.1,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.1</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.3,cn=Cordys WCP 1.3,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.3</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.4,cn=Cordys WCP 1.4,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.4</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.5</description>
+						</role>
+						<role id="cn=everyoneInCordys Northwind Demo 1.0,cn=Cordys Northwind Demo 1.0,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Northwind Demo 1.0</description>
+						</role>
+						<role id="cn=everyoneInCordys Integrator 1.5 FP 1,cn=Cordys Integrator 1.5 FP 1,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Integrator 1.5 FP 1</description>
+						</role>
+						<role id="cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Integrator 4.2</description>
+						</role>
+					</role>
+				</role>
+				<role id="cn=everyoneInCordys Orchestrator 4.2,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com">
+					<description>everyoneInCordys Orchestrator 4.2</description>
+				</role>
+				<role id="cn=Orchestrator Admin,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com">
+					<description>Orchestrator Admin</description>
+					<menu>/Cordys/WCP/Menu/Cordys/Orchestrator/orchestratoradmin</menu>
+					<menu>/Cordys/WCP/Menu/Cordys/Orchestrator/orchestratoradmin2</menu>
+					<role id="cn=everyoneInCordys Orchestrator 4.2,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com">
+						<description>everyoneInCordys Orchestrator 4.2</description>
+					</role>
+				</role>
+				<role id="cn=Orchestrator Developer,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com">
+					<description>Orchestrator Developer</description>
+					<menu>/Cordys/WCP/Menu/Cordys/Orchestrator/orchestratordevelopermenu</menu>
+					<role id="cn=everyoneInCordys Orchestrator 4.2,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com">
+						<description>everyoneInCordys Orchestrator 4.2</description>
+					</role>
+				</role>
+			</organization>
+			<organization default="true">
+				<dn>o=wdm,cn=cordys,o=vanenburg.com</dn>
+				<description>Fusion - Workflow project</description>
+				<organizationaluser>
+					<dn>cn=admin,cn=organizational users,o=wdm,cn=cordys,o=vanenburg.com</dn>
+				</organizationaluser>
+				<menu>/Cordys/WCP/Menu/WDM Administration</menu>
+				<menu>/Cordys/WCP/Menu/Cordys/Orchestrator/orchestratoradmin</menu>
+				<menu>/Cordys/WCP/Menu/Cordys/Orchestrator/orchestratoradmin2</menu>
+				<role id="cn=everyoneInwdm,cn=organizational roles,o=wdm,cn=cordys,o=vanenburg.com">
+					<description>Everyone In Fusion - Workflow project</description>
+					<role id="cn=everyone,cn=Cordys WCP 1.2,cn=cordys,o=vanenburg.com">
+						<description>Everyone</description>
+						<toolbar>/Cordys/WCP/Toolbar/Cordys/WCP/Desktop</toolbar>
+						<role id="cn=everyoneInSoftware Package Cordys 1.0,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Software Package Cordys 1.0</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.1,cn=Cordys WCP 1.1,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.1</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.3,cn=Cordys WCP 1.3,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.3</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.4,cn=Cordys WCP 1.4,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.4</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.5</description>
+						</role>
+						<role id="cn=everyoneInCordys Northwind Demo 1.0,cn=Cordys Northwind Demo 1.0,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Northwind Demo 1.0</description>
+						</role>
+						<role id="cn=everyoneInCordys Integrator 1.5 FP 1,cn=Cordys Integrator 1.5 FP 1,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Integrator 1.5 FP 1</description>
+						</role>
+						<role id="cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Integrator 4.2</description>
+						</role>
+					</role>
+				</role>
+				<role id="cn=Normal User,cn=organizational roles,o=wdm,cn=cordys,o=vanenburg.com">
+					<description>Normal User</description>
+					<role id="cn=everyoneInwdm,cn=organizational roles,o=wdm,cn=cordys,o=vanenburg.com">
+						<description>Everyone In Fusion - Workflow project</description>
+						<role id="cn=everyone,cn=Cordys WCP 1.2,cn=cordys,o=vanenburg.com">
+							<description>Everyone</description>
+							<toolbar>/Cordys/WCP/Toolbar/Cordys/WCP/Desktop</toolbar>
+							<role id="cn=everyoneInSoftware Package Cordys 1.0,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com">
+								<description>Everyone In Software Package Cordys 1.0</description>
+							</role>
+							<role id="cn=everyoneInCordys WCP 1.1,cn=Cordys WCP 1.1,cn=cordys,o=vanenburg.com">
+								<description>Everyone In Cordys WCP 1.1</description>
+							</role>
+							<role id="cn=everyoneInCordys WCP 1.3,cn=Cordys WCP 1.3,cn=cordys,o=vanenburg.com">
+								<description>Everyone In Cordys WCP 1.3</description>
+							</role>
+							<role id="cn=everyoneInCordys WCP 1.4,cn=Cordys WCP 1.4,cn=cordys,o=vanenburg.com">
+								<description>Everyone In Cordys WCP 1.4</description>
+							</role>
+							<role id="cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com">
+								<description>Everyone In Cordys WCP 1.5</description>
+							</role>
+							<role id="cn=everyoneInCordys Northwind Demo 1.0,cn=Cordys Northwind Demo 1.0,cn=cordys,o=vanenburg.com">
+								<description>Everyone In Cordys Northwind Demo 1.0</description>
+							</role>
+							<role id="cn=everyoneInCordys Integrator 1.5 FP 1,cn=Cordys Integrator 1.5 FP 1,cn=cordys,o=vanenburg.com">
+								<description>Everyone In Cordys Integrator 1.5 FP 1</description>
+							</role>
+							<role id="cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com">
+								<description>Everyone In Cordys Integrator 4.2</description>
+							</role>
+						</role>
+					</role>
+					<role id="cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com">
+						<description>Everyone In Cordys Integrator 4.2</description>
+					</role>
+				</role>
+				<role id="cn=organizationalAdmin,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com">
+					<description>Administrator</description>
+					<toolbar>/Cordys/WCP/Toolbar/Cordys/WCP/Advanced</toolbar>
+					<menu>Cordys/WCP/Menu/Cordys/WCP/organizationalAdmin</menu>
+					<role id="cn=everyone,cn=Cordys WCP 1.2,cn=cordys,o=vanenburg.com">
+						<description>Everyone</description>
+						<toolbar>/Cordys/WCP/Toolbar/Cordys/WCP/Desktop</toolbar>
+						<role id="cn=everyoneInSoftware Package Cordys 1.0,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Software Package Cordys 1.0</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.1,cn=Cordys WCP 1.1,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.1</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.3,cn=Cordys WCP 1.3,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.3</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.4,cn=Cordys WCP 1.4,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.4</description>
+						</role>
+						<role id="cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys WCP 1.5</description>
+						</role>
+						<role id="cn=everyoneInCordys Northwind Demo 1.0,cn=Cordys Northwind Demo 1.0,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Northwind Demo 1.0</description>
+						</role>
+						<role id="cn=everyoneInCordys Integrator 1.5 FP 1,cn=Cordys Integrator 1.5 FP 1,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Integrator 1.5 FP 1</description>
+						</role>
+						<role id="cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com">
+							<description>Everyone In Cordys Integrator 4.2</description>
+						</role>
+					</role>
+				</role>
+				<role id="cn=Application Developer,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com">
+					<description>Application Developer</description>
+					<role id="cn=everyoneInCordys Studio 4.2,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com">
+						<description>Cordys CAS VCM 4.2</description>
+					</role>
+				</role>
+				<role id="cn=Application Model Administrator,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com">
+					<description>Application Model Administrator</description>
+					<role id="cn=everyoneInCordys Studio 4.2,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com">
+						<description>Cordys CAS VCM 4.2</description>
+					</role>
+				</role>
+				<role id="cn=Business Analyst,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com">
+					<description>Business Analyst</description>
+					<role id="cn=everyoneInCordys Studio 4.2,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com">
+						<description>Cordys CAS VCM 4.2</description>
+					</role>
+				</role>
+				<role id="cn=Business Model Administrator,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com">
+					<description>Business Model Administrator</description>
+					<role id="cn=everyoneInCordys Studio 4.2,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com">
+						<description>Cordys CAS VCM 4.2</description>
+					</role>
+				</role>
+				<role id="cn=Cordys Studio,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com">
+					<description>Cordys Studio</description>
+					<menu>/Cordys/WCP/Menu/Cordys/Studio/Cordys Studio</menu>
+					<role id="cn=everyoneInCordys Studio 4.2,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com">
+						<description>Cordys CAS VCM 4.2</description>
+					</role>
+				</role>
+				<role id="cn=Orchestrator Admin,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com">
+					<description>Orchestrator Admin</description>
+					<menu>/Cordys/WCP/Menu/Cordys/Orchestrator/orchestratoradmin</menu>
+					<role id="cn=everyoneInCordys Orchestrator 4.2,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com">
+						<description>everyoneInCordys Orchestrator 4.2</description>
+					</role>
+				</role>
+				<role id="cn=Orchestrator Developer,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com">
+					<description>Orchestrator Developer</description>
+					<menu>/Cordys/WCP/Menu/Cordys/Orchestrator/orchestratordevelopermenu</menu>
+					<role id="cn=everyoneInCordys Orchestrator 4.2,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com">
+						<description>everyoneInCordys Orchestrator 4.2</description>
+					</role>
+				</role>
+			</organization>
+		</user>
+	</old>
+</tuple>

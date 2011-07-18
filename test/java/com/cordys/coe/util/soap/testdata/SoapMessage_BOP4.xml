@@ -1,0 +1,16 @@
+<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+	<SOAP:Header xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+		<header xmlns="http://schemas.cordys.com/General/1.0/">
+			<Logger xmlns="http://schemas.cordys.com/General/1.0/"/>
+		</header>
+	</SOAP:Header>
+	<SOAP:Body>
+		<SearchLDAP xmlns="http://schemas.cordys.com/1.0/ldap">
+			<dn>PARAMETER</dn>
+			<scope>PARAMETER</scope>
+			<filter>PARAMETER</filter>
+			<sort>PARAMETER</sort>
+			<returnValues>true</returnValues>
+		</SearchLDAP>
+	</SOAP:Body>
+</SOAP:Envelope>

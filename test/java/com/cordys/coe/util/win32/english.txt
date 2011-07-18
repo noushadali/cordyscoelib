@@ -1,0 +1,15 @@
+New connections will be remembered.
+
+
+Status       Local     Remote                    Network
+
+-------------------------------------------------------------------------------
+Disconnected O:        \\srv-nl-putten0\CoE-Common-share 
+                                                 Microsoft Windows Network
+Disconnected P:        \\srv-nl-putten0\Cordys CoE-Software 
+                                                 Microsoft Windows Network
+Disconnected Q:        \\cnd0986\c$              Microsoft Windows Network
+Disconnected X:        \\srv-nl-apps7\c$         Microsoft Windows Network
+OK                     \\10.0.1.100\c$           Microsoft Windows Network
+The command completed successfully.
+

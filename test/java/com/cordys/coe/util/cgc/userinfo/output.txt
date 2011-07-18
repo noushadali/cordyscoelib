@@ -1,0 +1,226 @@
+Authenticated user: cn=admin,cn=authenticated users,cn=cordys,o=vanenburg.com
+Description: admin
+Default organization: o=wdm,cn=cordys,o=vanenburg.com
+-------------------------------
+-         Organizations       -
+-------------------------------
+DN: o=system,cn=cordys,o=vanenburg.com
+Description: System
+Organizational user: cn=admin,cn=organizational users,o=system,cn=cordys,o=vanenburg.com
+Default org: false
+Toolbars: /Cordys/WCP/Toolbar/Cordys/WCP/Desktop1, /Cordys/WCP/Toolbar/Cordys/WCP/Desktop2
+Roles:
+	DN: cn=everyoneInsystem,cn=organizational roles,o=system,cn=cordys,o=vanenburg.com
+	Description: Everyone In System
+	Nested roles:
+		DN: cn=everyone,cn=Cordys WCP 1.2,cn=cordys,o=vanenburg.com
+		Description: Everyone
+		Toolbars: /Cordys/WCP/Toolbar/Cordys/WCP/Desktop1, /Cordys/WCP/Toolbar/Cordys/WCP/Desktop2
+		Nested roles:
+			DN: cn=everyoneInSoftware Package Cordys 1.0,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com
+			Description: Everyone In Software Package Cordys 1.0
+			DN: cn=everyoneInCordys WCP 1.1,cn=Cordys WCP 1.1,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.1
+			DN: cn=everyoneInCordys WCP 1.3,cn=Cordys WCP 1.3,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.3
+			DN: cn=everyoneInCordys WCP 1.4,cn=Cordys WCP 1.4,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.4
+			DN: cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.5
+			DN: cn=everyoneInCordys Northwind Demo 1.0,cn=Cordys Northwind Demo 1.0,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Northwind Demo 1.0
+			DN: cn=everyoneInCordys Integrator 1.5 FP 1,cn=Cordys Integrator 1.5 FP 1,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Integrator 1.5 FP 1
+			DN: cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Integrator 4.2
+	DN: cn=systemAdmin,cn=organizational roles,o=system,cn=cordys,o=vanenburg.com
+	Description: System Administrator
+	Menus: Cordys/WCP/Menu/Cordys/WCP/systemAdmin
+	Toolbars: /Cordys/WCP/Toolbar/Cordys/WCP/Advanced
+	Nested roles:
+		DN: cn=everyone,cn=Cordys WCP 1.2,cn=cordys,o=vanenburg.com
+		Description: Everyone
+		Toolbars: /Cordys/WCP/Toolbar/Cordys/WCP/Desktop
+		Nested roles:
+			DN: cn=everyoneInSoftware Package Cordys 1.0,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com
+			Description: Everyone In Software Package Cordys 1.0
+			DN: cn=everyoneInCordys WCP 1.1,cn=Cordys WCP 1.1,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.1
+			DN: cn=everyoneInCordys WCP 1.3,cn=Cordys WCP 1.3,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.3
+			DN: cn=everyoneInCordys WCP 1.4,cn=Cordys WCP 1.4,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.4
+			DN: cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.5
+			DN: cn=everyoneInCordys Northwind Demo 1.0,cn=Cordys Northwind Demo 1.0,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Northwind Demo 1.0
+			DN: cn=everyoneInCordys Integrator 1.5 FP 1,cn=Cordys Integrator 1.5 FP 1,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Integrator 1.5 FP 1
+			DN: cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Integrator 4.2
+	DN: cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com
+	Description: Everyone In Cordys Integrator 4.2
+	DN: cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com
+	Description: Everyone In Cordys WCP 1.5
+	DN: cn=developer,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com
+	Description: Developer
+	Menus: Cordys/WCP/Menu/Cordys/WCP/developer, Cordys/WCP/Menu/Cordys/WCP/demo
+	Toolbars: /Cordys/WCP/Toolbar/Cordys/WCP/Advanced
+	Nested roles:
+		DN: cn=everyone,cn=Cordys WCP 1.2,cn=cordys,o=vanenburg.com
+		Description: Everyone
+		Toolbars: /Cordys/WCP/Toolbar/Cordys/WCP/Desktop
+		Nested roles:
+			DN: cn=everyoneInSoftware Package Cordys 1.0,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com
+			Description: Everyone In Software Package Cordys 1.0
+			DN: cn=everyoneInCordys WCP 1.1,cn=Cordys WCP 1.1,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.1
+			DN: cn=everyoneInCordys WCP 1.3,cn=Cordys WCP 1.3,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.3
+			DN: cn=everyoneInCordys WCP 1.4,cn=Cordys WCP 1.4,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.4
+			DN: cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.5
+			DN: cn=everyoneInCordys Northwind Demo 1.0,cn=Cordys Northwind Demo 1.0,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Northwind Demo 1.0
+			DN: cn=everyoneInCordys Integrator 1.5 FP 1,cn=Cordys Integrator 1.5 FP 1,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Integrator 1.5 FP 1
+			DN: cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Integrator 4.2
+	DN: cn=everyoneInCordys Orchestrator 4.2,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com
+	Description: everyoneInCordys Orchestrator 4.2
+	DN: cn=Orchestrator Admin,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com
+	Description: Orchestrator Admin
+	Menus: /Cordys/WCP/Menu/Cordys/Orchestrator/orchestratoradmin, /Cordys/WCP/Menu/Cordys/Orchestrator/orchestratoradmin2
+	Nested roles:
+		DN: cn=everyoneInCordys Orchestrator 4.2,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com
+		Description: everyoneInCordys Orchestrator 4.2
+	DN: cn=Orchestrator Developer,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com
+	Description: Orchestrator Developer
+	Menus: /Cordys/WCP/Menu/Cordys/Orchestrator/orchestratordevelopermenu
+	Nested roles:
+		DN: cn=everyoneInCordys Orchestrator 4.2,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com
+		Description: everyoneInCordys Orchestrator 4.2
+
+DN: o=wdm,cn=cordys,o=vanenburg.com
+Description: Fusion - Workflow project
+Organizational user: cn=admin,cn=organizational users,o=wdm,cn=cordys,o=vanenburg.com
+Default org: true
+Menus: /Cordys/WCP/Menu/WDM Administration, /Cordys/WCP/Menu/Cordys/Orchestrator/orchestratoradmin, /Cordys/WCP/Menu/Cordys/Orchestrator/orchestratoradmin2
+Roles:
+	DN: cn=everyoneInwdm,cn=organizational roles,o=wdm,cn=cordys,o=vanenburg.com
+	Description: Everyone In Fusion - Workflow project
+	Nested roles:
+		DN: cn=everyone,cn=Cordys WCP 1.2,cn=cordys,o=vanenburg.com
+		Description: Everyone
+		Toolbars: /Cordys/WCP/Toolbar/Cordys/WCP/Desktop
+		Nested roles:
+			DN: cn=everyoneInSoftware Package Cordys 1.0,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com
+			Description: Everyone In Software Package Cordys 1.0
+			DN: cn=everyoneInCordys WCP 1.1,cn=Cordys WCP 1.1,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.1
+			DN: cn=everyoneInCordys WCP 1.3,cn=Cordys WCP 1.3,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.3
+			DN: cn=everyoneInCordys WCP 1.4,cn=Cordys WCP 1.4,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.4
+			DN: cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.5
+			DN: cn=everyoneInCordys Northwind Demo 1.0,cn=Cordys Northwind Demo 1.0,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Northwind Demo 1.0
+			DN: cn=everyoneInCordys Integrator 1.5 FP 1,cn=Cordys Integrator 1.5 FP 1,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Integrator 1.5 FP 1
+			DN: cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Integrator 4.2
+	DN: cn=Normal User,cn=organizational roles,o=wdm,cn=cordys,o=vanenburg.com
+	Description: Normal User
+	Nested roles:
+		DN: cn=everyoneInwdm,cn=organizational roles,o=wdm,cn=cordys,o=vanenburg.com
+		Description: Everyone In Fusion - Workflow project
+		Nested roles:
+			DN: cn=everyone,cn=Cordys WCP 1.2,cn=cordys,o=vanenburg.com
+			Description: Everyone
+			Toolbars: /Cordys/WCP/Toolbar/Cordys/WCP/Desktop
+			Nested roles:
+				DN: cn=everyoneInSoftware Package Cordys 1.0,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com
+				Description: Everyone In Software Package Cordys 1.0
+				DN: cn=everyoneInCordys WCP 1.1,cn=Cordys WCP 1.1,cn=cordys,o=vanenburg.com
+				Description: Everyone In Cordys WCP 1.1
+				DN: cn=everyoneInCordys WCP 1.3,cn=Cordys WCP 1.3,cn=cordys,o=vanenburg.com
+				Description: Everyone In Cordys WCP 1.3
+				DN: cn=everyoneInCordys WCP 1.4,cn=Cordys WCP 1.4,cn=cordys,o=vanenburg.com
+				Description: Everyone In Cordys WCP 1.4
+				DN: cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com
+				Description: Everyone In Cordys WCP 1.5
+				DN: cn=everyoneInCordys Northwind Demo 1.0,cn=Cordys Northwind Demo 1.0,cn=cordys,o=vanenburg.com
+				Description: Everyone In Cordys Northwind Demo 1.0
+				DN: cn=everyoneInCordys Integrator 1.5 FP 1,cn=Cordys Integrator 1.5 FP 1,cn=cordys,o=vanenburg.com
+				Description: Everyone In Cordys Integrator 1.5 FP 1
+				DN: cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com
+				Description: Everyone In Cordys Integrator 4.2
+		DN: cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com
+		Description: Everyone In Cordys Integrator 4.2
+	DN: cn=organizationalAdmin,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com
+	Description: Administrator
+	Menus: Cordys/WCP/Menu/Cordys/WCP/organizationalAdmin
+	Toolbars: /Cordys/WCP/Toolbar/Cordys/WCP/Advanced
+	Nested roles:
+		DN: cn=everyone,cn=Cordys WCP 1.2,cn=cordys,o=vanenburg.com
+		Description: Everyone
+		Toolbars: /Cordys/WCP/Toolbar/Cordys/WCP/Desktop
+		Nested roles:
+			DN: cn=everyoneInSoftware Package Cordys 1.0,cn=Software Package Cordys 1.0,cn=cordys,o=vanenburg.com
+			Description: Everyone In Software Package Cordys 1.0
+			DN: cn=everyoneInCordys WCP 1.1,cn=Cordys WCP 1.1,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.1
+			DN: cn=everyoneInCordys WCP 1.3,cn=Cordys WCP 1.3,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.3
+			DN: cn=everyoneInCordys WCP 1.4,cn=Cordys WCP 1.4,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.4
+			DN: cn=everyoneInCordys WCP 1.5,cn=Cordys WCP 1.5,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys WCP 1.5
+			DN: cn=everyoneInCordys Northwind Demo 1.0,cn=Cordys Northwind Demo 1.0,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Northwind Demo 1.0
+			DN: cn=everyoneInCordys Integrator 1.5 FP 1,cn=Cordys Integrator 1.5 FP 1,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Integrator 1.5 FP 1
+			DN: cn=everyoneInCordys Integrator 4.2,cn=Cordys Integrator 4.2,cn=cordys,o=vanenburg.com
+			Description: Everyone In Cordys Integrator 4.2
+	DN: cn=Application Developer,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com
+	Description: Application Developer
+	Nested roles:
+		DN: cn=everyoneInCordys Studio 4.2,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com
+		Description: Cordys CAS VCM 4.2
+	DN: cn=Application Model Administrator,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com
+	Description: Application Model Administrator
+	Nested roles:
+		DN: cn=everyoneInCordys Studio 4.2,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com
+		Description: Cordys CAS VCM 4.2
+	DN: cn=Business Analyst,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com
+	Description: Business Analyst
+	Nested roles:
+		DN: cn=everyoneInCordys Studio 4.2,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com
+		Description: Cordys CAS VCM 4.2
+	DN: cn=Business Model Administrator,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com
+	Description: Business Model Administrator
+	Nested roles:
+		DN: cn=everyoneInCordys Studio 4.2,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com
+		Description: Cordys CAS VCM 4.2
+	DN: cn=Cordys Studio,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com
+	Description: Cordys Studio
+	Menus: /Cordys/WCP/Menu/Cordys/Studio/Cordys Studio
+	Nested roles:
+		DN: cn=everyoneInCordys Studio 4.2,cn=Cordys Studio 4.2,cn=cordys,o=vanenburg.com
+		Description: Cordys CAS VCM 4.2
+	DN: cn=Orchestrator Admin,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com
+	Description: Orchestrator Admin
+	Menus: /Cordys/WCP/Menu/Cordys/Orchestrator/orchestratoradmin
+	Nested roles:
+		DN: cn=everyoneInCordys Orchestrator 4.2,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com
+		Description: everyoneInCordys Orchestrator 4.2
+	DN: cn=Orchestrator Developer,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com
+	Description: Orchestrator Developer
+	Menus: /Cordys/WCP/Menu/Cordys/Orchestrator/orchestratordevelopermenu
+	Nested roles:
+		DN: cn=everyoneInCordys Orchestrator 4.2,cn=Cordys Orchestrator 4.2,cn=cordys,o=vanenburg.com
+		Description: everyoneInCordys Orchestrator 4.2
+
+-------------------------------

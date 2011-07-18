@@ -1,0 +1,17 @@
+<processes>
+    <process>
+        <exename matchCase="false">java.exe</exename>
+    </process>
+    <process>
+        <exename matchCase="false">becs.exe</exename>
+    </process>
+    <process>
+        <exename matchCase="false">bw.exe</exename>
+    </process>
+    <process>
+        <exename matchCase="false">wcpmonitor.exe</exename>
+    </process>
+    <process>
+        <exename matchCase="false">slapd.exe</exename>
+    </process>
+</processes>    

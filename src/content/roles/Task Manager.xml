@@ -1,0 +1,5 @@
+<role
+    name="Task Manager"
+    description="Task Manager">
+    <menu>/Cordys/WCP/Menu/Cordys/CoE/taskmanager</menu>
+</role>

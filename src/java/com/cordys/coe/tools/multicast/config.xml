@@ -1,0 +1,48 @@
+<config>
+	<!-- Linux -->
+<!--	
+	<cmd>
+		<arg>ping</arg>
+		<arg>-c</arg>
+		<arg>2</arg>
+		<arg>-i</arg>
+		<arg>10</arg>
+		<arg>237.68.7.98</arg>
+	</cmd>
+-->
+	<!-- Windows -->
+	<cmd>
+		<arg>ping</arg>
+		<arg>-n</arg>
+		<arg>2</arg>
+		<arg>-i</arg>
+		<arg>10</arg>
+		<arg>237.68.7.98</arg>
+	</cmd>
+	<logfolder>/home/oude600/multicastping</logfolder>
+	<threshold>5</threshold>
+	<interval>15000</interval>
+	<expectedips>
+		<ip>10.68.7.98</ip>
+		<ip>10.68.7.99</ip>
+		<ip>10.68.7.100</ip>
+		<ip>10.68.7.101</ip>
+	</expectedips>
+	<commands>
+		<command>
+			<cmd>
+				<arg>top</arg>
+				<arg>-b</arg>
+				<arg>-n1</arg>
+			</cmd>
+			<file>top.log</file>
+		</command>
+		<command>
+			<cmd>
+				<arg>netstat</arg>
+				<arg>-g</arg>
+			</cmd>
+			<file>netstat.log</file>
+		</command>
+	</commands>
+</config>

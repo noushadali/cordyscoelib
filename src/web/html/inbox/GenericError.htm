@@ -1,0 +1,131 @@
+<!--
+	© 2003 Cordys R&D B.V. All rights reserved.
+	The computer program(s) is the proprietary information of Cordys R&D B.V. 
+	and provided under the relevant License Agreement containing restrictions 
+	on use and disclosure. Use is subject to the License Agreement.
+	 
+	@original authors: jgeuze, pganessa, pgussow & ssasikum
+-->
+<html xmlns:eibus onselect="selectApplication()">
+    <head>
+    	<title>Error</title>
+    	<link rel="stylesheet" type="text/css" href="/cordys/wcp/style/behaviors.css">
+    </head>
+    <script language="JScript">
+        /**
+         * This method gets the data taht was passed on to this application. 
+         * The data should look like this:
+         * <error>
+         *   <message>...</message>
+         *   <source>...</source>
+         *   <date>...</date>
+         *   <detail>...</detail>
+         * </error>
+         */
+        function selectApplication()
+        {
+            var xmlApp = window.event.applicationDefinition;
+            var nError = xmlApp.selectSingleNode(".//data/error");
+            if (nError != null)
+            {
+                //The message
+                var nNode = nError.selectSingleNode("./message");
+                var sValue = "&nbsp;";
+                if (nNode != null)
+                {
+                    sValue = nNode.text;
+                }
+                txtMessage.innerHTML = sValue;
+                
+                //The date
+                nNode = nError.selectSingleNode("./date");
+                sValue = "&nbsp;";
+                if (nNode != null)
+                {
+                    sValue = nNode.text;
+                }
+                txtDate.innerHTML = sValue;
+                
+                //The source
+                nNode = nError.selectSingleNode("./source");
+                sValue = "&nbsp;";
+                if (nNode != null)
+                {
+                    sValue = nNode.text;
+                }
+                txtSource.innerHTML = sValue;
+                
+                //The detail
+                nNode = nError.selectSingleNode("./detail");
+                sValue = "&nbsp;";
+                if (nNode != null)
+                {
+                    sValue = nNode.text;
+                }
+                txtDetail.innerHTML = "<xmp>" + sValue + "</xmp>";
+                
+                //The stacktrace
+                nNode = nError.selectSingleNode(".//stacktrace");
+                if (nNode != null)
+                {
+                    txtStacktrace.innerHTML = "<xmp>" + nError.xml + "</xmp>";
+                }
+                else
+                {
+                    trStackTrace.style.display = "none";
+                }
+                    
+            }
+        }//selectApplication
+    </script>
+    <body style="margin:0px;padding:0px;">
+        <fieldset style="width: 100%; height: 95%; padding: 10px">
+            <legend>
+                <b>Details</b>
+            </legend>
+            <table id="tblDetails" border="1px" width="100%" cellpadding="0" cellspacing="1" class="grid" sortable="false" movableColumns="false" saveState="false">
+                <tr>
+                    <td width="30%" valign="top">
+                        Message
+                    </td>
+                    <td width="70%">
+                        <label style="width:100%;" id="txtMessage"/>
+                    </td>
+                </tr>
+                <tr class="lightmedium">
+                    <td width="30%" valign="top">
+                        Date
+                    </td>
+                    <td width="70%">
+                        <label style="width:100%;" id="txtDate"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%" valign="top">
+                        Source
+                    </td>
+                    <td width="70%">
+                        <label style="width:100%;" id="txtSource"/>
+                    </td>
+                </tr>
+                <tr class="lightmedium" height="*">
+                    <td width="30%" valign="top">
+                        Details
+                    </td>
+                    <td width="70%">
+                        <div style="width:100%; height:100%;overflow:auto" id="txtDetail"></div>
+                    </td>
+                </tr>
+                <tr class="light" height="*" id="trStackTrace">
+                    <td width="30%" valign="top" align="center">
+                        <input type="button" class="input" id="btnShow" value="Show trace" onclick="txtStacktrace.style.display='';btnShow.style.display='none';btnHide.style.display='';"/>
+                        <input style="display: none;" type="button" class="input" id="btnHide" value="Hide trace" onclick="txtStacktrace.style.display='none';btnShow.style.display='';btnHide.style.display='none';"/>
+                    </td>
+                    <td width="70%">
+                        <div style="width:100%; height:100%;overflow:auto" style="display: none" id="txtStacktrace"></div>
+                    </td>
+                </tr>
+            </table>
+         </fieldset>
+    </body>
+</html>

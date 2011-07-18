@@ -1,0 +1,16 @@
+Neue Verbindungen werden gespeichert.
+
+
+Status       Lokal     Remote                    Netzwerk
+
+-------------------------------------------------------------------------------
+Nicht verfgb M:        \\172.30.1.21\DIR_Inbound Microsoft Windows-Netzwerk
+Nicht verfgb N:        \\172.30.1.47\ScanStation Microsoft Windows-Netzwerk
+Getrennt     O:        \\172.30.1.25\DIR_Inbound Microsoft Windows-Netzwerk
+Nicht verfgb Q:        \\172.30.1.47\ScanStation Microsoft Windows-Netzwerk
+Nicht verfgb Z:        \\172.30.1.47\ScanStation Microsoft Windows-Netzwerk
+Getrennt     H:        \\172.30.1.472\AIDA WORK  Microsoft Windows-Netzwerk
+OK           K:        \\172.30.1.472\Daten\BPMTest\AIDA 
+                                                 Microsoft Windows-Netzwerk
+Der Befehl wurde erfolgreich ausgef?hrt.
+

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<methodsets>
+    <methodset file="${src.content.methodsets}/Method Set JavaCall Utilities.xml"/>
+	<methodset file="${src.content.methodsets}/Method Set XML JavaCall Utilities.xml"/>
+</methodsets>
+

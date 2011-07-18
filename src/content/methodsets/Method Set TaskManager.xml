@@ -1,0 +1,149 @@
+<!-- 
+    Methodset for accessing the TaskManager
+-->
+<methodset name="Method Set TaskManager" description="Methodset for accessing the TaskManager processor" implementationclass="com.cordys.coe.ac.taskmanager.TaskManagerMapper" namespace="http://www.cordys.com/coe/taskmanager">
+    <!-- method information within a methodset is enclosed within the <method>...</method> tag -->
+    <method name="List">
+        <methodimplementation>
+            <implementation type="taskmanager">
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" name="List" targetNamespace="http://www.cordys.com/coe/taskmanager">
+                <types>
+                    <schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="http://www.cordys.com/coe/taskmanager">
+                        <element name="List">
+                            <complexType>
+                                <element maxOccurs="1" minOccurs="0" name="sort" base="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="ListResponse">
+                            <complexType>
+                                <element maxOccurs="1" minOccurs="0" name="tuple">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="systemprocess">
+                                                    <complexType>
+                                                        <all>
+                                                            <element name="processid">
+                                                                <simpleType>
+                                                                    <restriction base="xsd:string">
+                                                                        <length value="25"/>
+                                                                    </restriction>
+                                                                </simpleType>
+                                                            </element>
+                                                            <element name="exename">
+                                                                <simpleType>
+                                                                    <restriction base="xsd:string">
+                                                                        <length value="100"/>
+                                                                    </restriction>
+                                                                </simpleType>
+                                                            </element>
+                                                            <element name="cntthread">
+                                                                <simpleType>
+                                                                    <restriction base="xsd:string">
+                                                                        <length value="25"/>
+                                                                    </restriction>
+                                                                </simpleType>
+                                                            </element>
+                                                            <element name="priority">
+                                                                <simpleType>
+                                                                    <restriction base="xsd:string">
+                                                                        <length value="25"/>
+                                                                    </restriction>
+                                                                </simpleType>
+                                                            </element>
+                                                            <element name="parentpid">
+                                                                <simpleType>
+                                                                    <restriction base="xsd:string">
+                                                                        <length value="25"/>
+                                                                    </restriction>
+                                                                </simpleType>
+                                                            </element>
+                                                            <element name="moduleid">
+                                                                <simpleType>
+                                                                    <restriction base="xsd:string">
+                                                                        <length value="25"/>
+                                                                    </restriction>
+                                                                </simpleType>
+                                                            </element>
+                                                        </all>
+                                                    </complexType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="ListInput">
+                    <part element="tns:List" name="body"/>
+                </message>
+                <message name="ListOutput">
+                    <part element="tns:ListResponse" name="body"/>
+                </message>
+                <portType name="Method Set Taskmanager">
+                    <operation name="List">
+                        <input message="tns:ListInput"/>
+                        <output message="tns:ListOutput"/>
+                    </operation>
+                </portType>
+            </definitions>
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+    <method name="Kill">
+        <methodimplementation>
+            <implementation type="taskmanager">
+            </implementation>
+        </methodimplementation>
+        <methodwsdl>
+            <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" name="Kill" targetNamespace="http://www.cordys.com/coe/taskmanager">
+                <types>
+                    <schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="http://www.cordys.com/coe/taskmanager">
+                        <element name="Kill">
+                            <complexType>
+                                <element maxOccurs="1" minOccurs="0" name="processid" base="xsd:string"/>
+                            </complexType>
+                        </element>
+                        <element name="KillResponse">
+                            <complexType>
+                                <element maxOccurs="1" minOccurs="0" name="tuple">
+                                    <complexType>
+                                        <element name="old">
+                                            <complexType>
+                                                <element name="status">
+                                                    <simpleType>
+                                                        <restriction base="xsd:string">
+                                                            <length value="100"/>
+                                                        </restriction>
+                                                    </simpleType>
+                                                </element>
+                                            </complexType>
+                                        </element>
+                                    </complexType>
+                                </element>
+                            </complexType>
+                        </element>
+                    </schema>
+                </types>
+                <message name="KillInput">
+                    <part element="tns:Kill" name="body"/>
+                </message>
+                <message name="KillOutput">
+                    <part element="tns:KillResponse" name="body"/>
+                </message>
+                <portType name="Method Set Taskmanager">
+                    <operation name="Kill">
+                        <input message="tns:KillInput"/>
+                        <output message="tns:KillOutput"/>
+                    </operation>
+                </portType>
+            </definitions>
+        </methodwsdl>
+        <methodinterface/>
+    </method>
+</methodset>

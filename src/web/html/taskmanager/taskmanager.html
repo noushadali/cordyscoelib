@@ -1,0 +1,276 @@
+<html xmlns:eibus onapplicationready="initialize()" onselect="selectApplication()">
+	<head>
+		<link rel="stylesheet" href="/cordys/wcp/style/behaviors.css"></link>
+		<title>Taskmanager</title>
+		<style>
+			table { font-size:11; font-family:verdana; }
+			input { font-size:11; font-family:verdana; }
+			button { font-size:11; font-family:verdana; }
+			select { font-size:11; font-family:verdana; }
+			.medium { font-size:11; font-family:verdana; }
+			.statustext{ font-size:9; font-family:verdana; }
+		</style>
+	</head>
+	<script language="JScript">
+		/**
+		 * The element that was contexted.
+		 */
+		var contextedItem;
+		
+		/**
+		 * This method initializes the application. It registers the contextmenu.
+		 */
+		function initialize()
+		{
+			cmMultiSelect.registerHTML(bcControl);
+		}
+		
+		/**
+		 * This application loads the taskmanagers that are available.
+		 */
+		function selectApplication()
+		{
+			var sOrg = application.organization;
+			
+			getTaskManagers(sOrg);
+			
+			refreshData();
+		}
+		
+		/**
+		 * This method fills the combobox.
+		 */
+		function getTaskManagers(sOrganization)
+		{
+			nDN = xmlGetSoapNodes.selectSingleNode("//dn");
+			nDN.text = sOrganization;
+			
+			bdiTemp.async = false;
+			bdiTemp.request = xmlGetSoapNodes;
+			bdiTemp.reset();
+			
+			var aTuples = bdiTemp.data.selectNodes("//tuple/old/entry");
+			
+			for (var iCount = 0; iCount < aTuples.length; iCount++)
+			{
+				var nNode = aTuples[iCount].selectSingleNode(".//cn/string");
+				if (nNode != null)
+				{
+					var sName = nNode.text;
+					txtSystems.add(sName, aTuples[iCount].getAttribute("dn"));
+				}
+			}
+			
+			txtSystems.remove(0);
+		}
+		
+		/**
+		 * function is called when a row is contexted
+		 */
+		function contextApplication()
+		{
+			var item = window.event.activeElement;
+			contextedItem = getRow(item);
+			var blnContextedRowInSelectedRow = false;
+				
+			var selectedRows = tblProcesses.getSelectedRows();
+			var numberOfSelectedRows = 0;
+			for (var selectedRow in selectedRows)
+			{
+				numberOfSelectedRows++;
+				if (contextedItem == selectedRows[selectedRow])
+					blnContextedRowInSelectedRow = true;
+			}	
+		
+			if (! blnContextedRowInSelectedRow)
+			{
+				tblProcesses.selectAll(false);
+				numberOfSelectedRows = 1;
+			}
+			
+			var enableSingletonOptions = false;
+			if (numberOfSelectedRows < 2)
+			{
+				tblProcesses.selectAll(false);	
+				tblProcesses.selectRow(contextedItem, true);
+				enableSingletonOptions = true;
+			}
+		}
+		
+		/**
+		 * This method returns the row in which the HTML-object resides.
+		 *
+		 * @param The The object to find the row-object of.
+		 */
+		function getRow(htmlObject)
+		{
+			if (htmlObject.tagName == "TR")
+				return htmlObject;
+			else
+				return getRow(htmlObject.parentElement);
+		}
+		
+		/**
+		 * This function kills the selected processes.
+		 */
+		function killProcesses()
+		{
+			var arSelectedRows = tblProcesses.getSelectedRows();
+			
+			var nBody = xmlKill.documentElement.selectSingleNode("//SOAP:Body");
+			while (nBody.childNodes.length > 0)
+			{
+				nBody.removeChild(nBody.childNodes[0]);
+			}
+			
+			for (var rRow in  arSelectedRows)
+			{
+				var nNode = arSelectedRows[rRow].xml.selectSingleNode(".//processid/textnode()");
+				if (nNode != null)
+				{
+					var sPID = nNode.data;
+					var nKill = xmlKill.createElement("Kill");
+					nKill.setAttribute("xmlns", "http://www.cordys.com/coe/taskmanager");
+					var nPid = xmlKill.createElement("processid");
+					nPid.text = sPID;
+					nKill.appendChild(nPid);
+					nBody.appendChild(nKill);
+				}
+			}
+			
+			bdiTemp.reset();
+		}
+		
+		/**
+		 * This method refreshes the process-list.
+		 */
+		function refreshData()
+		{
+			bdiProcesses.receiver = txtSystems.value;
+			
+			bdiProcesses.clear();
+			bdiProcesses.reset();
+		}
+				
+	</script>
+	<eibus:dataisland
+		id="bdiProcesses"
+		request="xmlRequest"
+		automatic="false"
+	>
+		<xml id="xmlRequest">
+			<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+			    <SOAP:Body>
+			        <List xmlns="http://www.cordys.com/coe/taskmanager">
+			        </List>
+			    </SOAP:Body>
+			</SOAP:Envelope>
+		</xml>
+		<xml id="xmlKill">
+			<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+			    <SOAP:Body>
+			        <Kill xmlns="http://www.cordys.com/coe/taskmanager">
+			        	<processid></processid>
+			        </Kill>
+			    </SOAP:Body>
+			</SOAP:Envelope>
+		</xml>
+		<xml id="xmlGetSoapNodes">
+			<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+			    <SOAP:Body>
+			        <GetSoapNodes xmlns="http://schemas.cordys.com/1.0/ldap">
+			            <dn></dn>
+			            <namespace>http://www.cordys.com/coe/taskmanager</namespace>
+			        </GetSoapNodes>
+			    </SOAP:Body>
+			</SOAP:Envelope>
+		</xml>
+	</eibus:dataisland>
+	<eibus:dataisland
+		id="bdiTemp"
+		automatic="false"
+		request="xmlKill"
+	/>
+	<eibus:contextmenu id="cmMultiSelect" automaticLoad="false" style="display:none" oncontext="contextApplication()">
+		<eibus:menuitem onclick="killProcesses()">Kill</eibus:menuitem>
+		<eibus:menuitem separator="true" />
+		<eibus:menuitem onclick="refreshData()" ><B>Refresh</B></eibus:menuitem>
+	</eibus:contextmenu>
+	<body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" scroll="no">
+		<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
+			<tr height="30">
+				<td>
+					<table width="100%" height="100%" class="lightmedium toolbar" align="center" valign="middle" border="0" cellspacing="0" cellpadding="0" style="border-bottom:1 solid buttonshadow;" >
+						<tr>
+							<td align="right">			
+								<label>Select computer:&nbsp;&nbsp;</label>
+							</td>
+							<td style="width:250">	
+								<eibus:select  id="txtSystems" style="width:210" tabindex="1" onchange="refreshData()"c>
+									<div value="" selected></div>
+								</eibus:select>
+							</td>
+							<td>
+								&nbsp;
+							</td>
+						</tr>
+					</table>
+				</td>	
+			</tr>
+			<tr>
+				<td style="padding: 5px;">
+					<span style="width:100%;height:100%;" class="input mainbody">
+						<div style="width:100%;height:100%;overflow:auto;" >
+							<table id="tblProcesses" class="grid" selectType="multiple" border="0" cellpadding="0" cellspacing="0" onclick="event.cancelBubble=true">
+								<thead>
+									<tr class="medium">
+										<td>
+											<button class="medium" style="height:20;width:100%">Process ID</button>
+										</td>
+										<td>
+											<button class="medium" style="height:20;width:100%">Parent ID</button>
+										</td>
+										<td>
+											<button class="medium" style="height:20;width:100%">Exe-name</button>
+										</td>
+										<td>
+											<button class="medium" style="height:20;width:100%">Thread cnt.</button>
+										</td>
+										<td>
+											<button class="medium" style="height:20;width:100%">Priority</button>
+										</td>
+										<td>
+											<button class="medium" style="height:20;width:100%">Module ID</button>
+										</td>
+									</tr>
+								</thead>
+								<tbody class="BusControl" id="bcControl">
+									<tr BusDataIsland="bdiProcesses" xql=".">
+										<td>
+											<label xql="processid/textnode()"/>
+										</td>
+										<td>
+											<label xql="parentpid/textnode()"/>
+										</td>
+										<td>
+											<label xql="exename/textnode()"/>
+										</td>
+										<td>
+											<label xql="cntthread/textnode()"/>
+										</td>
+										<td>
+											<label xql="priority/textnode()"/>
+										</td>
+										<td>
+											<label xql="moduleid/textnode()"/>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</span>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+  <Header>
+    <header xmlns="http://schemas.cordys.com/General/1.0/">
+    </header>
+  </Header>
+  <Body>
+      <m:mymethod xmlns:m="mynamespace">
+      	  <data>data here</data>
+      </m:mymethod>
+  </Body>
+</SOAP:Envelope>

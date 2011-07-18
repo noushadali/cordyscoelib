@@ -1,0 +1,32 @@
+<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+	<SOAP:Header xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+		<header xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://schemas.cordys.com/General/1.0/">
+			<sender>
+				<reply-to>cn=LDAP,cn=LDAP,cn=soap nodes,o=system,cn=cordys,cn=DEV,o=cordys.csc.nl</reply-to>
+				<organizationalContext>o=CCD,cn=cordys,cn=DEV,o=cordys.csc.nl</organizationalContext>
+				<component>cn=LDAP,cn=soap nodes,o=system,cn=cordys,cn=DEV,o=cordys.csc.nl</component>
+			</sender>
+			<receiver>
+				<component>cn=webgateway@cscappamd304,cn=cordys,cn=DEV,o=cordys.csc.nl</component>
+				<sent-to xmlns="http://schemas.cordys.com/General/1.0/">socket://cscappamd304:52157/</sent-to>
+			</receiver>
+			<msg-id>005056B2-0B23-11E0-E512-479A39031657</msg-id>
+			<license>License has expired since 98 day(s)</license>
+		</header>
+	</SOAP:Header>
+	<SOAP:Body>
+		<SOAP:Fault>
+			<faultcode xmlns:ns0="http://schemas.xmlsoap.org/soap/envelope/">ns0:Client</faultcode>
+			<faultstring xml:lang="en-US">SearchLDAP method does not have a proper search root.</faultstring>
+			<faultactor>http://schemas.cordys.com/1.0/ldap</faultactor>
+			<detail>
+				<cordys:FaultDetails xmlns:cordys="http://schemas.cordys.com/General/1.0/">
+					<cordys:LocalizableMessage xmlns:cordys="http://schemas.cordys.com/General/1.0/">
+						<cordys:MessageCode xmlns:cordys="http://schemas.cordys.com/General/1.0/">Cordys.LDAP.Messages.methodSearcRootInvalid</cordys:MessageCode>
+						<cordys:Insertion xmlns:cordys="http://schemas.cordys.com/General/1.0/">SearchLDAP</cordys:Insertion>
+					</cordys:LocalizableMessage>
+				</cordys:FaultDetails>
+			</detail>
+		</SOAP:Fault>
+	</SOAP:Body>
+</SOAP:Envelope>

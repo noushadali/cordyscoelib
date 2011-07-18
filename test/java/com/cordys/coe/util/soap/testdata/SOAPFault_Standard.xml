@@ -1,0 +1,29 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+               soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <soap:Header>
+    <header xmlns="http://schemas.cordys.com/General/1.0/">
+      <sender>
+        <component>Anonymous Connector</component>
+        <reply-to>socket://127.127.127.127:12345</reply-to>
+        <user>cn=SYSTEM,cn=organizational users,o=system,cn=cordys,o=stubland.net</user>
+      </sender>
+      <receiver>
+        <component>cn=STUBNODE,cn=soap nodes,o=system,cn=cordys,o=stubland.net</component>
+      </receiver>
+      <msg-id>Fixed Message ID</msg-id>
+    </header>
+  </soap:Header>               
+  <soap:Body>
+	<soap:Fault>
+	      <faultcode>soap:MustUnderstand</faultcode> 
+	      <faultstring>Mandatory Header error.</faultstring> 
+	      <faultactor>http://www.wrox.com/heroes/endpoint.asp</faultactor> 
+	      <detail> 
+	         <w:source xmlns:w="http://www.wrox.com/"> 
+	            <module>endpoint.asp</module> 
+	            <line>203</line> 
+	         </w:source> 
+	      </detail> 
+	</soap:Fault>
+	</soap:Body>
+</soap:Envelope>	

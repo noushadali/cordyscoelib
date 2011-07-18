@@ -1,0 +1,1785 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<properties>
+    <cordys version="C2 Build 538">
+        <property>
+            <name>bsf.repository.root</name>
+            <caption>bsf.repository.root</caption>
+            <description>
+            	The root folder of the WsAppServer repostory files. This property should no 
+            	longer be used since the WsAppServer repository has moved to the XML store in C2.
+            </description>
+            <default>CORDYS_INSTALL_DIR</default>
+            <component>Orchestrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Orchestrator">com.cordys.cpc.bsf.ccm.RepositoryIO</class>
+                <class component="Orchestrator">com.cordys.cpc.bsf.metadata.io.RepositoryIO</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.administrator.pwd</name>
+            <caption>bus.administrator.pwd</caption>
+            <description>
+            	This property is not used anymore. Only as a fallback property in the 
+            	Cordys Management Console.
+            </description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.tools.admin.ldap.LogonForm</class>
+                <class component="Integrator">com.eibus.tools.admin.ldap.SchemaRepair</class>
+                <class component="Orchestrator">com.cordys.cpc.dbinstaller.UpdateScheduleMethods</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.administrator.user</name>
+            <caption>bus.administrator.user</caption>
+            <description>
+				This property is not used anymore. Only as a fallback property in the 
+            	Cordys Management Console.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.tools.admin.ldap.LogonForm</class>
+                <class component="Orchestrator">com.cordys.cpc.dbinstaller.UpdateScheduleMethods</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.anonymous.ports.maxValue</name>
+            <caption>bus.anonymous.ports.maxValue</caption>
+            <description>
+            	This property allows you to control the range op TCP ports that anonymous clients
+            	open. If you use the Connector.getInstance("name").open() method TCP middleware
+            	is opened. This is always a TCP server socket. And the range of port numbers is controlled
+            	by the properties bus.anonymous.ports.minValue and bus.anonymous.ports.maxValue
+            </description>
+            <default>65535</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.socket.InboundQueue</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.anonymous.ports.minValue</name>
+            <caption>bus.anonymous.ports.minValue</caption>
+            <description>
+            	This property allows you to control the range op TCP ports that anonymous clients
+            	open. If you use the Connector.getInstance("name").open() method TCP middleware
+            	is opened. This is always a TCP server socket. And the range of port numbers is controlled
+            	by the properties bus.anonymous.ports.minValue and bus.anonymous.ports.maxValue
+            </description>
+            <default>0</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.socket.InboundQueue</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.bdf.manager.timeout</name>
+            <caption>bus.bdf.manager.timeout</caption>
+            <description>
+            	This is the timeout for messages send to listeners (SOAP processors) on the bus in 
+            	Cordys Integrator. It is client-side generated. By default, this timeout is 30000ms 
+            	(30 seconds). You can set this property on process level (preferred option), or for 
+            	the Integrator as a whole. To change the value on Integrator level, insert a 
+            	setting in the wcp.properties</description>
+            <default>30000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.connector.dom.Connector</class>
+                <class component="Integrator">com.eibus.connector.nom.Connector</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.component</name>
+            <caption>bus.component</caption>
+            <description>
+				Default component name. Overrides default machine name. Usually overriden by specific 
+				bus applications. This property is pretty useless since it only affects the internal name 
+				of the connector.
+			</description>
+            <default>&lt;machinename&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.bdf.BusinessDocumentManager</class>
+                <class component="Orchestrator">com.cordys.cpc.bsf.soap.SOAPRequestObject</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.connection.max.readers</name>
+            <caption>bus.connection.max.readers</caption>
+            <description>
+				This property controls the maximum number of waiting clients that can connect to
+				a socket. This is referred to as the 'backlog' for the socket.
+			</description>
+            <default>50</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.socket.InboundQueue</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.gateway.protocol</name>
+            <caption>bus.gateway.protocol</caption>
+            <description>
+				This property describes the protocol that is used to connect to the license.cordys.com
+				for validating the license information and renewing the license.
+			</description>
+            <default>http</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.soap.Connection</class>
+                <class component="Integrator">com.eibus.license.soap.GetRemoteWebServerType</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.gateway.user</name>
+            <caption>bus.gateway.user</caption>
+            <description>
+				This property allows you to set the user context for the web gateway. By default it's user SYSTEM
+				but you can change it to any osidentity registered in the Cordys LDAP.
+			</description>
+            <default>SYSTEM</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.isapi.Engine</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.http.proxyAuthorization</name>
+            <caption>bus.http.proxyAuthorization</caption>
+            <description>
+				This property sets the proxy authorization if the computer on which Cordys is installed
+				needs a proxy server to connect to the internet.
+				Basically the only option you have is to set it to Basic. The value is directly injected
+				in the HTTP header for the proxy server:
+				setRequestProperty("Proxy-Authorization", authorization + " " + encode(username + ":" + password));
+				It is used by the license software to make a connection with license.cordys.com.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.soap.Connection</class>
+                <class component="Integrator">com.eibus.license.soap.GetRemoteWebServerType</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.http.proxyHost</name>
+            <caption>bus.http.proxyHost</caption>
+            <description>
+				This property sets the host name of the proxy server if the computer on which Cordys is installed
+				needs a proxy server to connect to the internet. 
+				It is used by the license software to make a connection with license.cordys.com.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.soap.Connection</class>
+                <class component="Integrator">com.eibus.license.soap.GetRemoteWebServerType</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.http.proxyPassword</name>
+            <caption>bus.http.proxyPassword</caption>
+            <description>
+				This property sets the password of the user for the proxy server if the computer on 
+				which Cordys is installed needs a proxy server to connect to the internet. 
+				It is used by the license software to make a connection with license.cordys.com.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.soap.Connection</class>
+                <class component="Integrator">com.eibus.license.soap.GetRemoteWebServerType</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.http.proxyPort</name>
+            <caption>bus.http.proxyPort</caption>
+            <description>
+				This property sets the port of the proxy server if the computer on 
+				which Cordys is installed needs a proxy server to connect to the internet. 
+				It is used by the license software to make a connection with license.cordys.com.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.soap.Connection</class>
+                <class component="Integrator">com.eibus.license.soap.GetRemoteWebServerType</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.http.ProxySet</name>
+            <caption>bus.http.ProxySet</caption>
+            <description>
+				This property must be set to true to have the license software use a proxy server. 
+				It is used by the license software to make a connection with license.cordys.com.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.soap.Connection</class>
+                <class component="Integrator">com.eibus.license.soap.GetRemoteWebServerType</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.http.proxyUser</name>
+            <caption>bus.http.proxyUser</caption>
+            <description>
+				This property sets the username for the proxy server if the computer on 
+				which Cordys is installed needs a proxy server to connect to the internet. 
+				It is used by the license software to make a connection with license.cordys.com.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.soap.Connection</class>
+                <class component="Integrator">com.eibus.license.soap.GetRemoteWebServerType</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.jvm.heapsize</name>
+            <caption>bus.jvm.heapsize</caption>
+            <description>
+            	This property can be used to control the heap size of the JVMs that are started by the web gateway (ISAPI/mod_cordys) or the monitor service.
+            	This property is still there only for backwards compatibility. If the property bus.vm.options.&lt;component&gt;
+            	has been set this value is ignored.
+            </description>
+            <default>64</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">Native ISAPI/mod_cordys extention</class>
+                <class component="Integrator">Native Monitor Service</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ldap.cache.maxSize</name>
+            <caption>bus.ldap.cache.maxSize</caption>
+            <description>
+				Use this property to control the local LDAP cache for each process. You can use this
+				property to bring down the amount of LDAP entries that will be cached. By default all
+				entries will be cached since the default size is 0x7fffffffffffffffL
+			</description>
+            <default>Long.MAX_VALUE</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.directory.soap.Cache</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ldap.directory.schemadefinition</name>
+            <caption>bus.ldap.directory.schemadefinition</caption>
+            <description>
+				This property allows you to control the classname which is used for the LDAP schema.
+				By default the CARS(OpenLDAP) schema is used.
+				You will only need this proeprty if you need to move away from the standard CARS LDAP
+				which is currently not supported.
+			</description>
+            <default>com.eibus.directory.schema.CARSSchemaDefinition</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.directory.schema.SchemaDefinition</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ldap.information.file</name>
+            <caption>bus.ldap.information.file</caption>
+            <description>
+				If this property is set to true the process will look at the DMZ.xml in the
+				cordys install dir for LDAP information.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.Launcher</class>
+                <class component="Integrator">com.eibus.directory.soap.Proxy</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ldap.processor.host</name>
+            <caption>bus.ldap.processor.host</caption>
+            <description>
+            	This property contains the servername of the LDAP server that is currently used.
+            </description>
+            <default/>
+            <component>Integrator</component>
+            <mandatory>true</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.ldap.LDAPService</class>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.Launcher</class>
+                <class component="Integrator">com.eibus.directory.soap.Proxy</class>
+                <class component="Integrator">com.eibus.soap.Processor</class>
+                <class component="Integrator">com.eibus.tools.admin.cmc.NetworkConfigurator</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ldap.processor.keystore</name>
+            <caption>bus.ldap.processor.keystore</caption>
+            <description>
+            	This property contains the keystore that should be used to connect to the LDAP server
+            	using a SLL connection.
+            </description>
+            <default/>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.directory.soap.LDAPSearchCache</class>
+                <class component="Integrator">com.eibus.tools.admin.ldap.LDAPTreeViewer</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ldap.processor.maximumnoofsearchresult</name>
+            <caption>bus.ldap.processor.maximumnoofsearchresult</caption>
+            <description>
+            	This property allows you to control the maximium number of search results the LDAP server
+            	will return.
+            </description>
+            <default>2000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.ldap.LDAPService</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ldap.processor.password</name>
+            <caption>bus.ldap.processor.password</caption>
+            <description>
+            	This property contains the password (Base64 encoded) to use to connect to the LDAP server.
+            </description>
+            <default/>
+            <component>Integrator</component>
+            <mandatory>true</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.ldap.LDAPService</class>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.Launcher</class>
+                <class component="Integrator">com.eibus.directory.Proxy</class>
+                <class component="Integrator">com.eibus.directory.soap.Proxy</class>
+                <class component="Integrator">com.eibus.soap.Processor</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ldap.processor.port</name>
+            <caption>bus.ldap.processor.port</caption>
+            <description>
+            	This property contains the port number on which the LDAP server is listening for connections.
+            </description>
+            <default>389</default>
+            <component>Integrator</component>
+            <mandatory>true</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.ldap.LDAPService</class>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.Launcher</class>
+                <class component="Integrator">com.eibus.directory.Proxy</class>
+                <class component="Integrator">com.eibus.directory.soap.Proxy</class>
+                <class component="Integrator">com.eibus.soap.Processor</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ldap.processor.ssl</name>
+            <caption>bus.ldap.processor.ssl</caption>
+            <description>
+				This property indicates whether or not the connection to LDAP is done via SSL.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>true</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.ldap.LDAPWrapper</class>
+                <class component="Integrator">com.eibus.directory.soap.LDAPSearchCache</class>
+                <class component="Integrator">com.eibus.directory.soap.Proxy</class>
+                <class component="Integrator">com.eibus.tools.admin.ldap.LDAPTreeViewer</class>
+                <class component="Integrator">com.eibus.tools.admin.ldap.LogonForm</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ldap.processor.user</name>
+            <caption>bus.ldap.processor.user</caption>
+            <description>
+            	This property contains the username to use for connecting to the LDAP server.
+            </description>
+            <default/>
+            <component>Integrator</component>
+            <mandatory>true</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.ldap.LDAPService</class>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.Launcher</class>
+                <class component="Integrator">com.eibus.directory.Proxy</class>
+                <class component="Integrator">com.eibus.directory.soap.Proxy</class>
+                <class component="Integrator">com.eibus.soap.Processor</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ldaprequest.timeout</name>
+            <caption>bus.ldaprequest.timeout</caption>
+            <description>
+            	Increase the time-out value of the LDAP SOAP processor. Value should be 
+            	180000 when SSL for LDAP processor is enabled. Value in milliseconds. 
+            	Default 10000. Is used for LDAP entry searches
+            </description>
+            <default>10000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.Launcher</class>
+                <class component="Integrator">com.eibus.directory.soap.LDAPSearchCache</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ldapwrapper.monitorinterval</name>
+            <caption>bus.ldapwrapper.monitorinterval</caption>
+            <description>
+				This property is used to control the interval in which the monitor will try to reach the
+				LDAP server again after it has lost the connection to the LDAP server.
+			</description>
+            <default>5000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.ldap.LDAPWrapper</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.monitor.computer</name>
+            <caption>bus.monitor.computer</caption>
+            <description>
+				Set this property to any value to test run the monitor itself. If you set this property 
+				it will only start the monitor without starting the LDAP processor. 
+				This is a property you'd only want to use during testing.
+			</description>
+            <default>null</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.Launcher</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.monitor.ssu.statepublishtimeout</name>
+            <caption>bus.monitor.ssu.statepublishtimeout</caption>
+            <description>
+            	This property identifies the interval for committing the transactions to the local registry.
+            </description>
+            <default>60000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.LocalAdministration</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.queue.read.timeout</name>
+            <caption>bus.queue.read.timeout</caption>
+            <description>
+				The timeout in milliseconds is for reading messages from a queue.
+				NOTE: This property is deprecated. Please use the connection-point specific settings to
+				control this.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.msmq.MSMessageQueueImpl</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.services.guid.GuidFactory</name>
+            <caption>bus.services.guid.GuidFactory</caption>
+            <description>
+            	This property allows you to influence the class that generates the GUIDs. Guids are primarialy used
+            	for generating the message id for SOAP messages.
+            	If you want to provide a different GUIS factory your custom factory needs to implement
+            	the interface com.eibus.util.guid.GuidFactory.
+            	NOTE: Not all of Cordys uses this class. Most classes use Native.createGuid() to create their GUIDs.
+            </description>
+            <default>com.eibus.util.guid.standard.BetterGuidFactory</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.guid.Guid</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.socket.connectioninvalidtime</name>
+            <caption>bus.socket.connectioninvalidtime</caption>
+            <description>
+            	This property holds the time which will be added to the current time to indicate a connection
+            	was not valid anymore.
+            </description>
+            <default>5000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.socket.OutboundQueue</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.socket.localloop</name>
+            <caption>bus.socket.localloop</caption>
+            <description>
+				If this property is set to true the whole Cordys environment will use 127.0.0.1
+				for accessing the SOAP processors.
+				This property is used on systems that have a frequent changing IP address.
+				This property is thus only usefull for a demo-system or a local Cordys installation on a laptop.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.ldap.LDAPMulticastServer</class>
+                <class component="Integrator">com.eibus.applicationconnector.ldap.LDAPService</class>
+                <class component="Integrator">com.eibus.directory.soap.LDAPMulticastClient</class>
+                <class component="Integrator">com.eibus.license.form.LicConfig</class>
+                <class component="Integrator">com.eibus.tools.admin.cmc.BusAdministrator</class>
+                <class component="Integrator">com.eibus.tools.admin.cmc.NetworkConfigurator</class>
+                <class component="Integrator">com.eibus.tools.admin.ldap.LogonForm</class>
+                <class component="Integrator">com.eibus.transport.socket.InboundQueue</class>
+                <class component="Integrator">com.eibus.transport.socket.NSocketWriter</class>
+                <class component="Integrator">com.eibus.transport.socket.SocketWriter</class>
+                <class component="Orchestrator">com.cordys.cpc.coboc.net.CoBOCNetworkHandler</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.socket.minimumdowntime</name>
+            <caption>bus.socket.minimumdowntime</caption>
+            <description>
+            	This property holds the minimum time a middleware connection needs to be invalidated
+            	before it will be recreated.
+            </description>
+            <default>2000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.socket.OutboundQueue</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.socket.nio</name>
+            <caption>bus.socket.nio</caption>
+            <description>
+            	This property indicates whether or not Cordys should use the nio package to write
+            	data to the sockets.
+            </description>
+            <default>false</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.socket.OutboundQueue</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.spy.categories</name>
+            <caption>bus.spy.categories</caption>
+            <description>
+				This property sets the Spy categories to log separated by a '|'.
+				NOTE: The Spy is deprecated and will be replaced by the Log4J based logging.
+				So do not use the spy in new code.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.spy.Spy</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.spy.file</name>
+            <caption>bus.spy.file</caption>
+            <description>
+				This property sets the Spy file to write the logging to.
+				NOTE: The Spy is deprecated and will be replaced by the Log4J based logging.
+				So do not use the spy in new code.
+			</description>
+            <default>null</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.spy.Spy</class>
+                <class component="Integrator">com.eibus.web.soap.GatewayMonitor</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.spy.levels</name>
+            <caption>bus.spy.levels</caption>
+            <description>
+				This property sets the Spy levels to log separated by a '|'.
+				NOTE: The Spy is deprecated and will be replaced by the Log4J based logging.
+				So do not use the spy in new code.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.spy.Spy</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.spy.logger</name>
+            <caption>bus.spy.logger</caption>
+            <description>
+				This property sets the classname of the SpyStrategy that should do the actual logging.
+				Your class should implement the com.eibus.util.spy.SpyStrategy interface.
+				NOTE: The Spy is deprecated and will be replaced by the Log4J based logging.
+				So do not use the spy in new code.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.spy.Spy</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.spy.publish</name>
+            <caption>bus.spy.publish</caption>
+            <description>
+				This property indicates whether or not the spy events should be published to the event service.
+				NOTE: The Spy is deprecated and will be replaced by the Log4J based logging.
+				So do not use the spy in new code.
+			</description>
+            <default>false</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.spy.Spy</class>
+                <class component="Integrator">com.eibus.web.soap.GatewayMonitor</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ssl.keystore</name>
+            <caption>bus.ssl.keystore</caption>
+            <description>
+				Holds the location of the keystore containing the certificates to connect to LDAP.
+			</description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>true</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.system.SSLConfiguration</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ssl.keystorepassword</name>
+            <caption>bus.ssl.keystorepassword</caption>
+            <description>
+				Holds the password of the keystore containing the certificates to connect to LDAP.
+			</description>
+            <default>null</default>
+            <component>Integrator</component>
+            <mandatory>true</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.system.SSLConfiguration</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ssl.truststore</name>
+            <caption>bus.ssl.truststore</caption>
+            <description>
+				Holds the location of the keystore containing the trusted certificates. This store is used to validate the
+				LDAP Server certificate.
+			</description>
+            <default/>
+            <component>Integrator</component>
+            <mandatory>true</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.tools.admin.ldap.AdminRepositoryManager</class>
+                <class component="Integrator">com.eibus.tools.admin.ldap.LogonForm</class>
+                <class component="Integrator">com.eibus.util.system.SSLConfiguration</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.ssl.truststorepassword</name>
+            <caption>bus.ssl.truststorepassword</caption>
+            <description>
+				Holds the password of the keystore containing the trusted certificates. This store is used to validate the
+				LDAP Server certificate.
+			</description>
+            <default/>
+            <component>Integrator</component>
+            <mandatory>true</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.tools.admin.ldap.AdminRepositoryManager</class>
+                <class component="Integrator">com.eibus.tools.admin.ldap.LogonForm</class>
+                <class component="Integrator">com.eibus.util.system.SSLConfiguration</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.transport.socket.sotimeout</name>
+            <caption>bus.transport.socket.sotimeout</caption>
+            <description>
+				Holds the timeout for reading from a socket.
+			</description>
+            <default>100000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.socket.SocketReader</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.vm.debug.&lt;component&gt;</name>
+            <caption>bus.vm.debug.&lt;component&gt;</caption>
+            <description>
+            	Component name can be: monitor or debug.
+            	This property can be used to have the WCP monitor service or the ISAPI extention pop up a dialog 
+            	allowing someone to attach a debugger.
+            	NOTE: This only works on windows.
+            </description>
+            <default>false</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">Native ISAPI/mod_cordys extention</class>
+                <class component="Integrator">Native Monitor Service</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.vm.options.gateway</name>
+            <caption>bus.vm.options.gateway</caption>
+            <description>
+            	This property can be used to control the parameters for the JVM which the ISAPI extention start. 
+	            To launch the Web Gateway JVM in debug mode fill this property with:
+    	        bus.vm.options.gateway=-Xdebug -Xnoagent -Djava.compiler\=NONE -Xrunjdwp:transport\=dt_socket,server\=y,suspend\=n,address\=8812
+            </description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">Native ISAPI extention</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.vm.options.monitor</name>
+            <caption>bus.vm.options.gateway</caption>
+            <description>
+            	This property can be used to control the parameters for the JVM which is started by the WCPMonitor service/daemon. 
+	            To launch the Monitor JVM in debug mode fill this property with:
+    	        bus.vm.options.monitor=-Xdebug -Xnoagent -Djava.compiler\=NONE -Xrunjdwp:transport\=dt_socket,server\=y,suspend\=n,address\=8812
+            </description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">Native ISAPI extention</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.xml.cdata.text</name>
+            <caption>bus.xml.cdata.text</caption>
+            <description>
+            	This property controls whether or not the CData part of the XML are serialized as normal text 
+            	or actual CData blocks.
+            </description>
+            <default>false</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">Native XML parser</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.xml.nom.docCreationStackTraces.enabled</name>
+            <caption>bus.xml.nom.docCreationStackTraces.enabled</caption>
+            <description>
+				When set to true NOM will keep track of who created a document and where. If set to true it will
+				append the creation information to the NOMLeakInfo.
+			</description>
+            <default>false</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.xml.nom.Document</class>
+            </whereused>
+        </property>
+        <property>
+            <name>bus.xml.nom.exceptions.enabled</name>
+            <caption>bus.xml.nom.exceptions.enabled</caption>
+            <description>
+				When set to true NOM will log exceptions in the NOM-layer to std-out. Things like 
+				double-deletes will be logged.
+			</description>
+            <default>false</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.xml.nom.Document</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.applicationconnector.sql.dbreconnectioninterval</name>
+            <caption>com.eibus.applicationconnector.sql.dbreconnectioninterval</caption>
+            <description>com.eibus.applicationconnector.sql.dbreconnectioninterval</description>
+            <default>120*1000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.sql.DBTransaction</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.license.dll</name>
+            <caption>com.eibus.license.dll</caption>
+            <description>
+				This property holds the name of the dll/so file that holds the license routines.
+				WARNING: Do not change this property unless explicity needed. It can cause the Cordys system to stop functioning.
+			</description>
+            <default>wcplic</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.Monitor</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.license.installedDate</name>
+            <caption>com.eibus.license.installedDate</caption>
+            <description>
+				This property is set by the installer and is used in the Cordys Snapshot information.
+				WARNING: Do not change this property.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.automatic.which</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.license.LicMasterStoreDir</name>
+            <caption>com.eibus.license.LicMasterStoreDir</caption>
+            <description>
+            	This property is used by the License module to define the folder where license information 
+            	is stored for contributors.
+            </description>
+            <default>license/masterstore</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.internal.Register</class>
+                <class component="Integrator">com.eibus.license.report.LicMasterStore</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.license.LogDir.key</name>
+            <caption>com.eibus.license.LogDir.key</caption>
+            <description>
+            	This property is used by the License module to define the folder where received 
+            	license keys are stored.
+            </description>
+            <default>license/log/key</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.report.SendReport</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.license.LogDir.report</name>
+            <caption>com.eibus.license.LogDir.report</caption>
+            <description>
+            	This property is used by the License module to define the folder where 
+            	sent reports are stored.
+            </description>
+            <default>license/log/report</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.report.SendReport</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.license.MasterLogDir.key</name>
+            <caption>com.eibus.license.MasterLogDir.key</caption>
+            <description>
+            	This property is used by the License module to define the folder where received master license 
+            	keys are stored.
+            </description>
+            <default>license/master/log/key</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.report.SendReport</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.license.MasterLogDir.report</name>
+            <caption>com.eibus.license.MasterLogDir.report</caption>
+            <description>
+            	This property is used by the License module to define the folder where master 
+            	reports are stored.
+            </description>
+            <default>license/master/log/report</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.license.report.SendReport</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.management.adaptor.class</name>
+            <caption>com.eibus.management.adaptor.class</caption>
+            <description>
+				This property can be used to plug in an adapter for JMX. It should contain the fully
+				qualified name of the class to plug in. Also the class should have a default constructor and
+				implement the IJMXAdapter interface.
+				A good example is the com.eibus.management.internal.adventnet.SNMPJMXAdaptor. It provides a SNMP 
+				interface on top of JMX.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.management.ManagedComponent</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.management.adaptor.config</name>
+            <caption>com.eibus.management.adaptor.config</caption>
+            <description>
+				This property should be used in conjunction with the com.eibus.management.adaptor.class property.
+				The content of this property should be the configuration data needed to make the JMXAdapter 
+				function properly.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.management.ManagedComponent</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.management.jmxPassword</name>
+            <caption>com.eibus.management.jmxPassword</caption>
+            <description>
+				This property contains the Base64 encoded password that can be used to access the RMI registry
+				to use the JMX functionality of Cordys.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.management.PasswordAuthenticator</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.management.jmxUser</name>
+            <caption>com.eibus.management.jmxUser</caption>
+            <description>
+				This property contains the Base64 encoded password that can be used to access the RMI registry
+				to use the JMX functionality of Cordys.
+			</description>
+            <default>unknown</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.management.PasswordAuthenticator</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.management.rmiregistry.port</name>
+            <caption>com.eibus.management.rmiregistry.port</caption>
+            <description>
+            	This property contains the TCP port number on which the RMI registry is exposed.
+            	The RMI registry contains all the JMX components.
+            </description>
+            <default>1099</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.Launcher</class>
+                <class component="Integrator">com.eibus.management.ManagedComponent</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.management.useHierarchicalName</name>
+            <caption>com.eibus.management.useHierarchicalName</caption>
+            <description>
+				Build a list of key properties for the object name of this component.
+				The names follow the JMX best practice naming convention as described in
+				http://java.sun.com/products/JavaManagement/best-practices.html
+				Suppose the following component hierarchy:
+				type=OSProcess,name=myOSProcess
+				type=SoapProcessor,name=NorthwindProcessor
+				 
+				The names will be as follows:
+				type=OSProcess,name=myOSProcess
+				type=OSProcess.SoapProcessor,OSProcess=myOSProcess,name=NorthwindProcessor
+			</description>
+            <default>false</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.management.ManagedComponent</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.processor.outputstream.buffersize</name>
+            <caption>com.eibus.processor.outputstream.buffersize</caption>
+            <description>
+				If JVM itself crashes or by some other reason JVM itself not loaded. 
+				we are storing 2KB of OutPut buffer by default. This information will be logged.
+				This size of output buffer can be configured by setting this property.
+			</description>
+            <default>2048</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.InputStreamReader</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.security.ac.dll</name>
+            <caption>com.eibus.security.ac.dll</caption>
+            <description>
+				This property holds the name of the dll/so file that holds the security routines.
+				WARNING: Do not change this property unless explicity needed. It can cause the Cordys system to stop functioning.
+			</description>
+            <default>aclForJava</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.security.ac.Registration</class>
+                <class component="Integrator">com.eibus.util.expression.Engine</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.transport.groupmembership.udp.maxpacketsize</name>
+            <caption>com.eibus.transport.groupmembership.udp.maxpacketsize</caption>
+            <description>
+            	This property contains the UDP packet size for the multi-cast packets sent by Cordys.
+            	The minimum size is 4096.
+            </description>
+            <default>8192</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.groupmembership.comlayer.MulticastClient</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.transport.groupmembership.udp.networkipaddress</name>
+            <caption>com.eibus.transport.groupmembership.udp.networkipaddress</caption>
+            <description>
+            	This property sets the IP address for the monitor on the current system in the multi cast ring.
+            </description>
+            <default>ipAddress</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.groupmembership.comlayer.CommsAddressing</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.transport.groupmembership.udp.ttl</name>
+            <caption>com.eibus.transport.groupmembership.udp.ttl</caption>
+            <description>
+				This property sets teh time-to-live on the MultiCast socket. The value should be in the range 0 to 255.
+			</description>
+            <default>1</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.groupmembership.comlayer.CommsAddressing</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.transport.middleware.queue.size</name>
+            <caption>com.eibus.transport.middleware.queue.size</caption>
+            <description>
+            	This property indicates the maximum size for the inboud queue.
+            	The default value is the value of the property com.eibus.transport.middleware.threads times 
+            	a 'thread-multiplier'. That thread multiplier is default set to 1 (For each thread a single position 
+            	in the inbound queue). But the XForms processor uses a thread-multiplier of 4. This means that the XForms
+            	connector can hold 40 (default value of the property com.eibus.transport.middleware.threads) inbound requests
+			</description>
+            <default>s_maximumWorkerThreadsPerDispatcher * threadMultiplier</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.Middleware</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.transport.middleware.routing</name>
+            <caption>com.eibus.transport.middleware.routing</caption>
+            <description>
+				This property sets the default routing class. It defaults to com.eibus.transport.routing.ClassicRouting.
+				This routing class is ONLY used if the configuration of the soap processor it's sending to has
+				no routing algorithm configured.
+				This means that if you are sending a message to an anonymous connection point it will ignore the StateSyncUp 
+				information
+			</description>
+            <default>com.eibus.transport.routing.ClassicRouting</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.Target</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.transport.middleware.threads</name>
+            <caption>com.eibus.transport.middleware.threads</caption>
+            <description>
+				This property sets the number of worker threads for each configured middleware. It defaults to 10.
+				This means that each SOAP processor can handle 10 requests concurrently. If you need to handle more
+				requests concurrently you have 2 options:
+				1. Increase this property.
+				2. Scale up by adding a new SOAP processor.
+				NOTE: If you set this property in the wcp.properties the effect is that ALL SOAP processors on this
+				machine use this value. The way to influence this value for a single SOAP processor is by setting
+				-Dcom.eibus.transport.middleware.threads=20 in the additional JVM parameters.
+			</description>
+            <default>10</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.Middleware</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.transport.msmq.dll</name>
+            <caption>com.eibus.transport.msmq.dll</caption>
+            <description>
+				This property holds the name of the dll/so file that holds the msmw routines.
+				WARNING: Do not change this property unless explicity needed. It can cause the Cordys system to stop functioning.
+			</description>
+            <default>eibmsmq</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.msmq.TransportProvider</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.util.multicast.packet.size</name>
+            <caption>com.eibus.util.multicast.packet.size</caption>
+            <description>
+            	This property sets the packet size for SOAP-based multi casting.
+            </description>
+            <default>2048</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.multicast.SOAPMulticastPoint</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.util.remotesyncup.maxapplicationpendingmessages</name>
+            <caption>com.eibus.util.remotesyncup.maxapplicationpendingmessages</caption>
+            <description>
+            	This property sets the queue size for the messages received by the Remote SyncUp.
+            	WARNING: This property should not be changed. It's only usefull for debugging.
+            </description>
+            <default>100</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.syncup.clients.RemoteSyncUp</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.util.sleep.roundedvalue</name>
+            <caption>com.eibus.util.sleep.roundedvalue</caption>
+            <description>
+            	This property sets the scaling for sleep times. It is abserved that sleep times below 10 ms
+            	cause the Windows clock to run faster. Cordys advises at least 50 ms. If you pass a value
+            	of 120 to the com.eibus.util.SleepWrapper.roundedSleep() method it will return a value of
+            	100. In other words: the sleep time will be rounded to a multiple of the 
+            	value of com.eibus.util.sleep.roundedvalue
+            </description>
+            <default>50</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.SleepWrapper</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.&lt;name&gt;</name>
+            <caption>com.eibus.web.&lt;name&gt;</caption>
+            <description>
+            	This property is used by the webgateway. You can call a Cordys Web Application 
+            	(which is a Java class) by doing: http://cordysserver/com.cordys.WebApp.wcp. 
+            	You can also do some aliassing. This means that if you want the 
+            	URL to be: http://cordysserver/cordys/WebApp.wcp you can set the following 
+            	property in the wcp.properties: com.eibus.web.WebApp=com.cordys.coe.web.WebApp. 
+            	This tells the Cordys ISAPI extention the proper class to use.
+            </description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.isapi.ExtensionControlBlock</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.authentication.custom</name>
+            <caption>com.eibus.web.authentication.custom</caption>
+            <description>
+				This property indicates whether or not custom authenntication is used. If this preperty is 
+				set to true and the gateway cannot get the AUTH_USER from the web server it will redirect
+				to the url /cordys/wcp/library/system/authenticate.htm?targetURL=&lt;URL&gt; in case 
+				of a GET request. 
+			</description>
+            <default>true</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.soap.Gateway</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.authentication.enableanonymousaccess</name>
+            <caption>com.eibus.web.authentication.enableanonymousaccess</caption>
+            <description>
+				If this proeprty is set to true AND the value of com.eibus.web.authentication.custom
+				is set to false all requests will be sent with the CordysGuest user if the server does
+				not contain the AUTH_USER or CERT_SUBJECT variables.
+			</description>
+            <default>false</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.soap.Gateway</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.event.connection.cleanuptime</name>
+            <caption>com.eibus.web.event.connection.cleanuptime</caption>
+            <description>
+            	This property controls the clean up time for dead session with regard to Event Service 
+            	Clients that are registered via the web server.
+            </description>
+            <default>1800000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.event.EventClientManager</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.event.gateway</name>
+            <caption>com.eibus.web.event.gateway</caption>
+            <description>
+            	This property contains the name for the connector that is used to subscribe web clients to
+            	events from the event service. The default value is 'Cordys Integrator Web Event Gateway'
+            	which is not named in LDAP. You could create a connection point in LDAP to make the 
+            	middleware the Web Event Client specific. By default a TCP socekt is opened. 
+            </description>
+            <default>Cordys Integrator Web Event Gateway</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.application.EventApplicationPlugin</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.gateway</name>
+            <caption>com.eibus.web.gateway</caption>
+            <description>
+            	This property contains the name for the connection point of the webgateway. The
+            	connection point contains the named middleware for the web geteway to use.
+            	If you have set the property com.eibus.web.gateway.maxinstances to a value greater then 1 (i.e. 3)
+            	and you've set this value to 'Cordys Integrator Web Gateway' then you need 3 LDAP entries named:
+            	cn=0Cordys Integrator Web Gateway,cn=cordys,o=root
+            	cn=1Cordys Integrator Web Gateway,cn=cordys,o=root
+            	cn=2Cordys Integrator Web Gateway,cn=cordys,o=root
+            </description>
+            <default>Cordys Integrator Web Gateway</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.gateway.BusGateway</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.gateway.maxinstances</name>
+            <caption>com.eibus.web.gateway.maxinstances</caption>
+            <description>
+            	This property sets the number of web gateway processes you want. You can use
+            	this property to scale up the request handling capacity of the web server.
+            </description>
+            <default>1</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.gateway.BusGateway</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.gateway.timeout</name>
+            <caption>com.eibus.web.gateway.timeout</caption>
+            <description>
+            	This property specifies the default timeout for all soap communication
+            	done by the web gateway.
+            	NOTE: This timeout is used client side. So even if you configure your
+            	SOAP processor to have a timeout of 60000 the client will still go into 
+            	the timeout after 30000 miliseconds.
+            </description>
+            <default>30000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.soap.Gateway</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.isapi.dll</name>
+            <caption>com.eibus.web.isapi.dll</caption>
+            <description>
+				This property holds the name of the dll/so file that holds the isapi routines.
+				WARNING: Do not change this property unless explicity needed. It can cause the Cordys system to stop functioning.
+			</description>
+            <default>defaultLibraryName</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.isapi.Engine</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.isapi.extension.&lt;extention&gt;</name>
+            <caption>com.eibus.web.isapi.extension.&lt;extention&gt;</caption>
+            <description>
+            	This property is used by the webgateway. This property can be used to have 
+            	the Cordys ISAPI filter handle custom extentions for Web applications. 
+            	Take this example: You want to add a new extention .other. So that people could 
+            	call: http://server/cordys/MyPage.other. You need to do 2 things:
+            	1. Register the eibisapi in IIS/APACHE for the .other extention 
+            	2. Set the actual Java WebApp handler via the wcp.properties:
+            	   com.eibus.web.isapi.extension.other=com.cordys.coe.OtherWebApp
+            </description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.isapi.ExtensionControlBlock</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.license.LicReportGateway.licuser</name>
+            <caption>com.eibus.web.license.LicReportGateway.licuser</caption>
+            <description>
+				This property can be used to set the Cordys user for the license report gateway to use.
+				The default value is the wcpLicUser user.
+			</description>
+            <default>wcpLicUser</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.license.LicReportGateway</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.soap.Session.duration</name>
+            <caption>com.eibus.web.soap.Session.duration</caption>
+            <description>
+				In case custom authentication to BCP is used, the WCP Gateway keeps track of a session for the user. 
+				Upon authentication, a sessionID is allotted which the client can use for subsequent soap requests. 
+				The session has a timeout which is a time period for which the session is said to be valid. Once the 
+				timeout period expires, the session is said to be expired. By default, this timeout is 
+				1 hour. To override, set the timeout.
+			</description>
+            <default>3600000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.soap.Authenticate</class>
+                <class component="Integrator">com.eibus.web.soap.Session</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.soap.Validator</name>
+            <caption>com.eibus.web.soap.Validator</caption>
+            <description>
+            	In case of Cordys custom authentication, this gives the class to be used for custom authentication. 
+            	The custom class should implement the com.eibus.web.soap.Validator interface.
+            </description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.Middleware</class>
+                <class component="Integrator">com.eibus.web.soap.Authenticate</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.web.tools.upload.UploadWritePath</name>
+            <caption>com.eibus.web.tools.upload.UploadWritePath</caption>
+            <description>
+				This property sets the path where files should be uploaded in case the Upload:FilePath is used
+				in the request. If you want to use this feature you must set this property.
+				NOTE: The files will be uploaded to the server where the web gateway is running, so it could cause
+				problems in a distributed environment.
+			</description>
+            <default>null</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.web.tools.upload.Upload</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.xml.nom.dll</name>
+            <caption>com.eibus.xml.nom.dll</caption>
+            <description>
+				This property holds the name of the dll/so file that holds the NOM XML routines.
+				WARNING: Do not change this property unless explicity needed. It can cause the Cordys system to stop functioning.
+			</description>
+            <default>xmlForJava</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.xml.nom.Document</class>
+            </whereused>
+        </property>
+        <property>
+            <name>com.eibus.xmlmapper.sql.dll</name>
+            <caption>com.eibus.xmlmapper.sql.dll</caption>
+            <description>
+				This property holds the name of the dll/so file that holds the xqy routines.
+				WARNING: Do not change this property unless explicity needed. It can cause the Cordys system to stop functioning.
+			</description>
+            <default>xqyForJava</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.sql.LocalConnection</class>
+                <class component="Integrator">com.eibus.applicationconnector.sql.SQLMapper</class>
+            </whereused>
+        </property>
+        <property>
+            <name>ldap.cache.size</name>
+            <caption>ldap.cache.size</caption>
+            <description>
+				This property controls the amount of DNs which are cached in the local LDAP cache.
+				Each process that uses Cordys connectors will have an instance of this cache.
+				
+				NOTE: This property is deprecated and should not be used.
+			</description>
+            <default>1000000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.directory.Proxy</class>
+            </whereused>
+        </property>
+        <property>
+            <name>ldap.cache.timeout</name>
+            <caption>ldap.cache.timeout</caption>
+            <description>
+            	This property holds teh LDAP cache timeout.
+				
+				NOTE: This property is deprecated and should not be used.
+            </description>
+            <default>3600</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.directory.Proxy</class>
+            </whereused>
+        </property>
+        <property>
+            <name>ldap.multicast.ip</name>
+            <caption>ldap.multicast.ip</caption>
+            <description>
+				This property can be used to set the multicast IP address for the multicast ring
+				between the LDAP processors.
+				The default value is the IP address of the server specified by the ldap.server property.
+			</description>
+            <default>&lt;ldapserver&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.multicast.MulticastProtocol</class>
+            </whereused>
+        </property>
+        <property>
+            <name>ldap.multicast.port</name>
+            <caption>ldap.multicast.port</caption>
+            <description>
+				This property specifies the multicast port for the LDAP processors to communicate with eachother.
+				The default value is 3899 which might be confusing since Cordys' LDAP used to run on non-SSL on port 3899.
+				The difference is that this is a UDP port and the Cordys' LDAP was running on a TCP port.
+			</description>
+            <default>3899</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.multicast.MulticastProtocol</class>
+            </whereused>
+        </property>
+        <property>
+            <name>ldap.multicast.timeout</name>
+            <caption>ldap.multicast.timeout</caption>
+            <description>
+            	This property sets the timeout for LDAP multicasting.
+            </description>
+            <default>30000</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.directory.soap.LDAPMulticastClient</class>
+            </whereused>
+        </property>
+        <property>
+            <name>ldap.port</name>
+            <caption>ldap.port</caption>
+            <description>
+            	This property specifies the port on which the LDAP server is running. For non-SSL it's
+            	port 3899. Usually CARS running in SSL mode uses port 6366.
+            </description>
+            <default>3899</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.Monitor</class>
+            </whereused>
+        </property>
+        <property>
+            <name>ldap.root</name>
+            <caption>ldap.root</caption>
+            <description>
+            	This property specifies the root DN for the LDAP server where to find the Cordys schema.
+            	The property is set by the installer and defaults to cn=cordys,o=&lt;name-of-the-network-suffix&gt;
+            </description>
+            <default>cn=cordys,o=&lt;domainname&gt;</default>
+            <component>Integrator</component>
+            <mandatory>true</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.isvpackage.LoadISVPackage</class>
+                <class component="Integrator">com.eibus.applicationconnector.isvpackage.UnloadISVPackage</class>
+                <class component="Integrator">com.eibus.applicationconnector.ldap.GetMethodsetsByClass</class>
+                <class component="Integrator">com.eibus.applicationconnector.ldap.LDAPWrapper</class>
+                <class component="Integrator">com.eibus.contentmanagement.ISVContentManager</class>
+                <class component="Integrator">com.eibus.contentmanagement.ISVMethodSetManager</class>
+                <class component="Integrator">com.eibus.contentmanagement.ISVRoleManager</class>
+                <class component="Integrator">com.eibus.directory.LDAPDirectory</class>
+                <class component="Integrator">com.eibus.directory.soap.LDAPCache</class>
+                <class component="Integrator">com.eibus.directory.soap.LDAPDirectory</class>
+                <class component="Integrator">com.eibus.tools.admin.cmc.BusAdministrator</class>
+                <class component="Integrator">com.eibus.tools.admin.ldap.LDAPNode</class>
+                <class component="Integrator">com.eibus.tools.admin.ldap.LogonForm</class>
+                <class component="Integrator">com.eibus.tools.wsdl.wsdl11.Util</class>
+                <class component="Integrator">com.eibus.util.installer.config.RemoveWebEx</class>
+                <class component="Integrator">com.eibus.util.installer.config.UDDIModifier</class>
+                <class component="Integrator">com.eibus.web.tools.wsdl.WSDLSOAPTransaction</class>
+                <class component="Orchestrator">com.cordys.cpc.bchannel.BChannelUtil</class>
+                <class component="Orchestrator">com.cordys.cpc.bsf.runtime.ClassRegistry</class>
+                <class component="Orchestrator">com.cordys.cpc.dbinstaller.MigrateSOAPNodes</class>
+                <class component="Orchestrator">com.cordys.cpc.dbinstaller.UpdateScheduleMethods</class>
+                <class component="Orchestrator">com.eibus.applicationconnector.fileconnector.thread.FileThread</class>
+                <class component="Studio">com.cordys.cas.contentmanagement.AssignRoles</class>
+                <class component="Studio">com.cordys.cas.contentmanagement.ConfigureServices</class>
+                <class component="Studio">com.cordys.cas.contentmanagement.ConfigureServicesLoader</class>
+                <class component="Studio">com.cordys.cas.contentmanagement.UpdateMenus</class>
+                <class component="Studio">com.cordys.cas.contentmanagement.UpdatePatchMenus</class>
+                <class component="Studio">com.cordys.cas.vcm.XformsContentLoader</class>
+                <class component="Studio">com.eibus.applicationconnector.xforms.GetMethod</class>
+                <class component="Studio">com.eibus.web.soap.XGateway</class>
+                <class component="Studio">com.eibus.xforms.UpdatePatchMenus</class>
+                <class component="Studio">com.eibus.xforms.XformsPatch</class>
+                <class component="Portal">com.cordys.cas.contentmanagement.AssignRoles</class>
+                <class component="Portal">com.cordys.cas.contentmanagement.ConfigureServices</class>
+                <class component="Portal">com.cordys.cas.contentmanagement.ConfigureServicesLoader</class>
+                <class component="Portal">com.cordys.cas.contentmanagement.UpdateMenus</class>
+                <class component="Portal">com.cordys.cas.contentmanagement.UpdatePatchMenus</class>
+                <class component="Portal">com.cordys.cas.vcm.XformsContentLoader</class>
+                <class component="Portal">com.eibus.applicationconnector.xforms.GetMethod</class>
+                <class component="Portal">com.eibus.web.soap.XGateway</class>
+                <class component="Portal">com.eibus.xforms.UpdatePatchMenus</class>
+                <class component="Portal">com.eibus.xforms.XformsPatch</class>
+            </whereused>
+        </property>
+        <property>
+            <name>ldap.server</name>
+            <caption>ldap.server</caption>
+            <description>
+            	This property sets the name of the LDAP server that is used.
+            </description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.Monitor</class>
+                <class component="Integrator">com.eibus.directory.Proxy</class>
+                <class component="Integrator">com.eibus.license.LicStore</class>
+                <class component="Integrator">com.eibus.tools.admin.cmc.NetworkConfigurator</class>
+                <class component="Integrator">com.eibus.util.multicast.MulticastProtocol</class>
+                <class component="Orchestrator">com.cordys.cpc.bchannel.BChannelUtil</class>
+                <class component="Orchestrator">com.cordys.cpc.dbinstaller.UpdateScheduleMethods</class>
+                <class component="Studio">com.cordys.cas.migrator.CobocWSDLMigrator</class>
+                <class component="Portal">com.cordys.cas.migrator.CobocWSDLMigrator</class>
+            </whereused>
+        </property>
+        <property>
+            <name>ldap.soap.processor.dn</name>
+            <caption>ldap.soap.processor.dn</caption>
+            <description>
+            	This property contains the LDAP DN of the LDAP SOAP processor. The monitor uses this property to
+            	find the configuration details of the LDAP soap processor so that it can start the processor before
+            	starting the other SOAP processors.
+            </description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.Launcher</class>
+                <class component="Integrator">com.eibus.applicationconnector.monitor.LocalAdministration</class>
+                <class component="Integrator">com.eibus.directory.soap.LDAPCache</class>
+                <class component="Integrator">com.eibus.soap.Processor</class>
+            </whereused>
+        </property>
+        <property>
+            <name>log.config.file</name>
+            <caption>log.config.file</caption>
+            <description>
+            	This property holds the location of the Log4J configuration file that is used to initialize the logger.
+            	This property can be usefull to give a Cordys process a different Log4J configuration then the rest.
+            </description>
+            <default>&lt;cordys_install_dir&gt;/Log4jConfiguration.xml</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.logger.config.LoggerConfigurator</class>
+            </whereused>
+        </property>
+        <property>
+            <name>spy.StartupErrorsLogFile</name>
+            <caption>spy.StartupErrorsLogFile</caption>
+            <description>
+            	Deprecated. It's not used anymore.
+            </description>
+            <default>&lt;cordys_install_dir&gt;/Logs/StartupErrors.log</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.spy.Spy</class>
+            </whereused>
+        </property>
+        <property>
+            <name>sslsocket.public.keystore</name>
+            <caption>sslsocket.public.keystore</caption>
+            <description>
+            	The path of the truststore file that holds all the public keys.
+            </description>
+            <default>null</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.socket.SSLConfiguration</class>
+                <class component="Integrator">com.eibus.transport.socket.TransportProvider</class>
+            </whereused>
+        </property>
+        <property>
+            <name>sslsocket.public.keystore.pwd</name>
+            <caption>sslsocket.public.keystore.pwd</caption>
+            <description>
+            	The password for the truststore. This password value must be in Base64 Encode format.
+            </description>
+            <default>null</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.socket.SSLConfiguration</class>
+                <class component="Integrator">com.eibus.transport.socket.TransportProvider</class>
+            </whereused>
+        </property>
+        <property>
+            <name>sslsocket.public.keystore.type</name>
+            <caption>sslsocket.public.keystore.type</caption>
+            <description>
+				This property holds the type for this keystore. It defaults to the JKS format.
+			</description>
+            <default>JKS</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.transport.socket.SSLConfiguration</class>
+            </whereused>
+        </property>
+        <property>
+            <name>SYNCUP_REMOTE_HOST</name>
+            <caption>SYNCUP_REMOTE_HOST</caption>
+            <description>
+				If for some reason no RemoteSyncUp registry could be found it will start a new 
+				RemoteSyncUp registry on TCP address SYNCUP_REMOTE_HOST and port SYNCUP_REMOTE_PORT.
+				It defaults to localhost.
+				NOTE: You won't need to change this property.
+			</description>
+            <default>localhost</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.syncup.clients.RemoteSyncUp</class>
+            </whereused>
+        </property>
+        <property>
+            <name>SYNCUP_REMOTE_PORT</name>
+            <caption>SYNCUP_REMOTE_PORT</caption>
+            <description>
+				If for some reason no RemoteSyncUp registry could be found it will start a new 
+				RemoteSyncUp registry on TCP address SYNCUP_REMOTE_HOST and port SYNCUP_REMOTE_PORT.
+				It defaults to port 8432.
+				NOTE: You won't need to change this property.
+			</description>
+            <default>8432</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.util.syncup.clients.RemoteSyncUp</class>
+            </whereused>
+        </property>
+        <property>
+            <name>web.root</name>
+            <caption>web.root</caption>
+            <description>
+            	This method specifies the location of the web root. This is used by the TiGER code
+            	generation utility to determine where it should place the generated code so that it
+            	can be downloaded.
+            </description>
+            <default>null</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.tools.tiger.wrapper.CPPWrapperGenerator</class>
+                <class component="Integrator">com.eibus.web.tools.tiger.GenerateTiger</class>
+            </whereused>
+        </property>
+        <property>
+            <name>web.server.vendor</name>
+            <caption>web.server.vendor</caption>
+            <description>
+            	This property tells Cordys which type of web server is used. The value can be 'iis' or 'apache'.
+            	It is read when an ISV package is loaded to see whether or not the virtual directoreis should
+            	be created in IIS or Apache.
+            </description>
+            <default>&lt;empty&gt;</default>
+            <component>Integrator</component>
+            <mandatory>false</mandatory>
+            <whereused>
+                <class component="Integrator">com.eibus.contentmanagement.ISVWebServerManager</class>
+            </whereused>
+        </property>
+    </cordys>
+</properties>

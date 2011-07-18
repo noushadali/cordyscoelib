@@ -1,0 +1,247 @@
+<!--
+	This buildfile should be used to customize the default behavior of the build tasks.
+	All targets can be overridden in this file.
+-->
+<project default="all">
+	<!--Pattern set which selects only the core classes for the standard jar. -->
+	<patternset id="coelib.core.classes">
+		<include name="com/cordys/coe/coelib/*.class" />
+		<include name="com/cordys/coe/exception/*.class" />
+		<include name="com/cordys/coe/util/*.class" />
+		<include name="com/cordys/coe/util/bpm/*.class" />
+		<include name="com/cordys/coe/util/classpath/*.class" />
+		<include name="com/cordys/coe/util/cgc/**" />
+		<include name="com/cordys/coe/util/cmdline/*.class" />
+		<include name="com/cordys/coe/util/config/**/*.class" />
+		<include name="com/cordys/coe/util/connection/**/*.class" />
+		<include name="com/cordys/coe/util/cpc/*.class" />
+		<include name="com/cordys/coe/util/exceptions/**/*.class" />
+		<include name="com/cordys/coe/util/general/*.class" />
+		<include name="com/cordys/coe/util/general/ldap/*.class" />
+		<include name="com/cordys/coe/util/i18n/**" />
+		<include name="com/cordys/coe/util/ipc/**/*.class" />	
+		<include name="com/cordys/coe/util/io/*.class" />
+		<include name="com/cordys/coe/util/log/*.class" />
+		<include name="com/cordys/coe/util/soap/*.class" />
+		<include name="com/cordys/coe/util/sql/*.class" />
+		<include name="com/cordys/coe/util/ssm/*.class" />
+		<include name="com/cordys/coe/util/system/**/*.class" />
+		<include name="com/cordys/coe/util/template/**/*.class" />
+		<include name="com/cordys/coe/util/test/junit/*.class" />		
+		<include name="com/cordys/coe/util/win32/*.class" />
+		<include name="com/cordys/coe/util/xml/**/*.class" />
+		<include name="com/cordys/coe/util/xmlstore/*.class" />
+	</patternset>
+	
+	<!--Target for compiling java source files. Done to make sure also .png files are copied -->
+	<target name="compile"
+	        description="Compiles Java source files"
+	        depends="init,copy-coelib-version"
+	        unless="skip.java"
+	>
+		<javac srcdir="${src.java}"
+		       destdir="${build.classes}"
+		       debug="${javac.debug}"
+		       deprecation="${javac.deprecation}"
+		       optimize="${javac.optimize}"
+		       source="${javac.source.version}"
+		       target="${javac.target.version}"
+			   encoding="${javac.encoding}"
+		>
+			<include name="**/*.java" />
+			<classpath refid="classpath" />
+		</javac>
+		<!-- Copy the property-files to the classdir -->
+		<copy todir="${build.classes}">
+			<fileset dir="${src.java}">
+				<patternset>
+					<include name="**/*.properties" />
+					<include name="**/*.xml" />
+					<include name="**/*.gif" />
+					<include name="**/*.ico" />
+					<include name="**/*.png" />
+				</patternset>
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- Sets the library build number to LibraryVersion class -->
+	<target name="setlibrarynumber">
+		<property name="setbuildnumber.class.path"
+		          value="com/cordys/coe/coelib"
+		/>
+		<property name="setbuildnumber.class.name"
+		          value="LibraryVersion.java"
+		/>
+		<tstamp>
+			<format property="setbuildnumber.build.timestamp"
+			        pattern="yyyy-MM-dd hh:mm aa"
+			/>
+		</tstamp>
+
+		<!-- Read the next build number -->
+		<property file="build.number" prefix="setbuildnumber" />
+
+		<!-- Create the build directory structure if needed -->
+		<mkdir dir="${build.classes}/${setbuildnumber.class.path}" />
+
+		<!-- Copy the Java file and replace the next version parameter -->
+		<copy file="${src.java}/${setbuildnumber.class.path}/${setbuildnumber.class.name}"
+		      todir="${build.classes}/${setbuildnumber.class.path}"
+		>
+			<filterchain>
+				<replacetokens>
+					<token key="current-version"
+					       value="${setbuildnumber.patch.number}"
+					/>
+					<token key="build-time"
+					       value="${setbuildnumber.build.timestamp}"
+					/>
+				</replacetokens>
+			</filterchain>
+		</copy>
+
+		<!-- Compile the LibraryVersion class -->
+		<javac srcdir="${build.classes}/${setbuildnumber.class.path}"
+		       destdir="${build.classes}"
+		       debug="${javac.debug}"
+		       deprecation="${javac.deprecation}"
+		       optimize="${javac.optimize}"
+		       source="${javac.source.version}"
+		       target="${javac.target.version}"
+			   encoding="${javac.encoding}"
+		>
+			<include name="*.java" />
+			<classpath refid="classpath" />
+		</javac>
+
+		<!-- Delete the Java source file -->
+		<delete file="${build.classes}/${setbuildnumber.class.path}/${setbuildnumber.class.name}"
+		/>
+	</target>
+
+	<!--Target for making jar files of the project in build folder. This makes a 'core' version and a 'full' version -->
+	<target name="jar"
+	        description="Compiles Java sources and creates 'core' and 'full' JAR files"
+	        depends="compile,setlibrarynumber"
+	>
+		<tstamp>
+			<format property="now" pattern="dd MMM yyyy hh:mm aa" />
+		</tstamp>
+		<jar jarfile="${build.jar}/${project.jar.name}.jar">
+			<manifest>
+				<attribute name="Build-Number" value="${version.full}" />
+				<attribute name="Created-By" value="${isv.owner}" />
+				<attribute name="Created-On" value="${now}" />
+				<attribute name="Main-Class"
+				           value="com/cordys/coe/coelib/LibraryVersion"
+				/>
+			</manifest>
+			<fileset dir="${build.classes}">
+				<patternset refid="coelib.core.classes" />
+			</fileset>
+		</jar>
+		<jar jarfile="${build.jar}/${project.jar.name.full}.jar"
+		     basedir="${build.classes}"
+		>
+			<manifest>
+				<attribute name="Build-Number" value="${version.full}" />
+				<attribute name="Created-By" value="${isv.owner}" />
+				<attribute name="Created-On" value="${now}" />
+				<attribute name="Main-Class"
+				           value="com/cordys/coe/coelib/LibraryVersion"
+				/>
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- ================================= 
+          target: coetool              
+         ================================= -->
+	<target name="coetool"
+	        depends="jar"
+	        description="--> This target builds up the coetool standalone binary"
+	>
+		<property name="build.coetool" value="${build.dir}/coetool" />
+		<mkdir dir="${build.coetool}" />
+		<copy todir="${build.coetool}" flatten="true">
+			<fileset dir="${build.jar}">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${src.coetool}">
+				<include name="*.cmd" />
+			</fileset>
+			<fileset dir="${lib.dir}">
+				<include name="log4j*.jar" />
+				<include name="swt-*.dll" />
+				<include name="org.eclipse*.jar" />
+				<include name="commons-*.jar" />
+				<include name="bcprov-*.jar" />
+				<include name="org-netbeans-*.jar" />
+				<include name="xbean.jar" />
+			</fileset>
+			<fileset dir="${platform.dir}/bin">
+				<include name="eib4java.dll" />
+				<include name="eibxml.dll" />
+				<include name="jniForCpp.dll" />
+				<include name="XmlForJava.dll" />
+				<include name="eibxmlsec.dll" />
+				<include name="jniForCpp.dll" />
+				<include name="js32.dll" />
+			</fileset>
+			<fileset dir="${platform.dir}/components">
+				<include name="esbclient/esbclient.jar" />
+				<include name="esbserver/esbserver.jar" />
+				<include name="eibxml/eibxml.jar" />
+				<include name="basicutil/basicutil.jar" />
+				<include name="managementlib/managementlib.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- ================================= 
+          target: coetool-dist
+         ================================= -->
+	<target name="coetool-dist"
+	        depends="coetool"
+	        description="--> This target zips up the coetool"
+	>
+		<zip destfile="${build.dir}/coetool.zip" basedir="${build.coetool}">
+		</zip>
+	</target>
+	
+	<!-- Target for copying extra content to the build folder -->
+	<target name="content"
+	        description="Copies content to the build folder"
+	        depends="init,web,zipprojectsource,coetool-dist"
+	>
+		<copy todir="${build.content}/dbschema">
+			<fileset dir="${src.content}/dbschema">
+				<patternset refid="all.non.cvs.files" />
+				<patternset refid="all.non.vss.files" />
+				<patternset refid="all.non.svn.files" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="copy-dist-coelib">
+		<copy todir="${dist.dir}/jar">
+			<fileset dir="${build.jar}">
+				<include name="*.jar" />
+			</fileset>		
+		</copy>
+		<copy todir="${dist.dir}/coetool" file="${build.dir}/coetool.zip"/>
+		<mkdir dir="${dist.dir}/docs/api-bundle" />
+		<zip destfile="${dist.dir}/docs/api-bundle/coelib-javadocs.zip">
+			<fileset dir="${build.apidocs}">
+				<patternset refid="all.non.cvs.files" />
+				<patternset refid="all.non.vss.files" />
+				<patternset refid="all.non.svn.files" />
+			</fileset>
+		</zip>		
+	</target>
+
+	<!--Target for copying resources from build to distribution -->
+	<target name="copy-dist" depends="copy-docs,copy-javadocs,copy-isv,copy-testreports,createsourcezip,copy-dist-coelib,_create-build-info">
+	</target>
+</project>

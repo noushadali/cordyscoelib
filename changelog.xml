@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>Cordys CoE Library Changelog</title>
+        <author email="pgussow@cordys.com">Phillip Gussow</author>
+    </properties>
+    <template>
+        <release date="YYYY-MM-DD" description="OPTIONAL DESCRIPTION" version="x.y.z">
+            <action dev="USER" type="add|fix|update|change">
+				Description about the action.
+			</action>
+        </release>
+    </template>
+    <body>
+        <release description="Development release" version="@NEXT@">
+				</release>
+<release date="2011-01-26" description="Development release" version="1.1.17">
+            <action dev="pgussow" type="add">Added the ISOAPWrapper interface to allow stubbing.</action>
+        </release>
+        <release date="2011-01-25" description="Development release" version="1.1.16">
+            <action dev="pgussow" type="add">Added more options to the SOAPException class.</action>
+        </release>
+        <release date="2010-11-01" description="Development release" version="1.1.15">
+            <action dev="pgussow" type="add">Added the result mapping to the query wrapper</action>
+        </release>
+        <release date="2010-09-29" description="Development release" version="1.1.14">
+            <action dev="mpoyhone" type="fix">Fixed CordysGatewayClient initialization with SSO authentication</action>
+            <action dev="pgussow" type="add">Added instance generation based on the schema to the CoE Method TestTool</action>
+        </release>
+        <release date="2010-05-19" description="Development release" version="1.1.13">
+            <action dev="pgussow" type="fix">Small fixes to the SQLQueryWrapper class</action>
+            <action dev="bjkumar" type="fix">Fixed the CordysGatewayClient bug when using SSO</action>
+        </release>
+        <release date="2010-03-17" description="Development release" version="1.1.12">
+            <action dev="pgussow" type="fix">Fixed a null pointer in the DOMXPathMetaInfo classes</action>
+            <action dev="pgussow" type="fix">Small fixes to the XMLProperties class for NOM with regard to the getProperties() method</action>
+            <action dev="pgussow" type="add">Added the method com.cordys.coe.util.cpc.CPCUtilities.calculateDayDifference(Date a, Date b)</action>
+            <action dev="pgussow" type="add">Added a special treatment to the JMX viewer to allow an easy overview of all threads that are running in the current JVM. To see this, just invoke the dumpAllThreads operation on the Threading object in java.lang.</action>
+            <action dev="pgussow" type="unknown">Added additional functionality to the SqlWrapper class to be able to handle OR statements as well. Contributed by Przemek Chudzinski</action>
+        </release>
+        <release date="2009-10-21" description="Development release" version="1.1.11">
+            <action dev="pgussow" type="add">Added some methods to the StringUtils class</action>
+            <action dev="pgussow" type="fix">Fixed a bug in the XMLHelper class in the createElementWithParentNS to be able to cope with parent elements that have no namespace</action>
+            <action dev="pgussow" type="add">Added the DOMXPathMetaInfo class. It is JDK 1.4 compatible wrapper around the prefix resolver dor DOM</action>
+        </release>
+        <release date="2009-07-13" description="Development release" version="1.1.10">
+            <action dev="mpoyhone" type="fix">UTF-8 handling fixed for NiceDOMWriter</action>
+            <action dev="pgussow" type="fix">Fixed the SqlQueryWrapper to be able to cope with left/right inner/outer join statements</action>
+        </release>
+        <release date="2009-06-02" description="Development release" version="1.1.9">
+            <action dev="pgussow" type="add">Added getDateValue methods the the XPathHelper classes.</action>
+            <action dev="pgussow" type="add">Added the method groupBy to the SQL wrapper class</action>
+        </release>
+        <release date="2009-03-19" description="Development release" version="1.1.8">
+            <action dev="mpoyhone" type="add">Added two new methods: XPathHelpers.evaluateToString and XPathHelpers.evaluateToStringArray.</action>
+            <action dev="pgussow" type="add">Added the searchLDAP and readLDAPEntry to the Cordys Gateway Client</action>
+            <action dev="pgussow" type="add">Added a new Swing-based tool: Organization Manager. This tool can manage SOAP processors and their configurations.</action>
+            <action dev="pgussow" type="fix">When using SSO the token was not obtained when test-mode was used.</action>
+            <action dev="pgussow" type="update">The Log4J Viewer now uses a RegEx find as a fall-back mechanism if for some reason it was not able to parse the Log entry</action>
+            <action dev="pgussow" type="update">The organization manager now also supports clusters.</action>
+            <action dev="pgussow" type="add">Added the possibility to specify the receiver for the CordysGatewayClient</action>
+        </release>
+        <release date="2009-01-06" description="Development release" version="1.1.7">
+            <action dev="pgussow" type="fix">Fixed a bug in the CoEMessageSet which causes problems when the WebGatewayClient is run from within Eclipse</action>
+            <action dev="pgussow" type="fix">Fixed a bug in the build process for the coelib-full.jar. It didn't package some png files needed for the CGCLogin dialog.</action>
+            <action dev="pgussow" type="fix">Fixed the coetool build problems. Included the proper jars and used the C3 libs now.</action>
+            <action dev="pgussow" type="add">Added a class called NameValuePair</action>
+            <action dev="pgussow" type="add">Added a Swing util class ProgressDialog</action>
+        </release>
+        <release date="2008-10-14" description="Development release" version="1.1.6">
+            <action dev="pgussow" type="add">Added the Swing dialog CGCLoginDialog when can be used to create a connection to a Cordys system in a Swing application</action>
+            <action dev="pgussow" type="add">Added some additional DOM and NOM related XML helper methods (XPathHelper class).</action>
+        </release>
+        <release date="2008-08-21" description="Development release" version="1.1.5">
+            <action dev="pgussow" type="add">Added some additional DOM related XML helper methods</action>
+            <action dev="pgussow" type="add">Added a new tool: CoE XML Formatter</action>
+        </release>
+        <release date="2008-08-01" description="Development release" version="1.1.4">
+            <action dev="pgussow" type="add">Added the ServerRuntimeLocalizableException and the WsAppsRuntimeLocalizableException classes</action>
+        </release>
+        <release date="2008-07-31" description="Development release" version="1.1.3">
+            <action dev="pgussow" type="add">Extended the XPathHelper API of the dom variant</action>
+            <action dev="pgussow" type="add">Added additional tool: FlowInfo
+This tool allows an easy view of current process data.</action>
+            <action dev="pgussow" type="fix">Changes the MessageDialog class to be able to resize it.</action>
+            <action dev="pgussow" type="add">Added an interface to the sendsoapmessage so that it is possible to do some custom output handling with a java class.</action>
+            <action dev="pgussow" type="add">Added SSO support to the CordysGatewayClient</action>
+            <action dev="pgussow" type="add">Added a new generic SWT form to connect to a cordys environment</action>
+        </release>
+        <release date="2008-07-18" description="Development release" version="1.1.2">
+            <action dev="pgussow" type="add">Added a tool to finds classes based on a certain classpath. This tool is usefull to figure out from which jar or folder a class is loaded.</action>
+            <action dev="pgussow" type="update">Made the CordysGatewayClient understand C3 soap errors.</action>
+            <action dev="pgussow" type="add">Added the package com.cordys.coe.util.i18n. This is an alternative way (using the default Java ResourceBundles) to do localization. It is compatible with Cordys using the IStringResource interface. This option allows you to include localization files within a jar.</action>
+            <action dev="pgussow" type="add">Added the possibility to get the user information from the CordysGatewayClient</action>
+            <action dev="pgussow" type="add">The CordysGatewayClient now also supports Custom Authentication</action>
+            <action dev="pgussow" type="add">Completely revamped the structure of the Cordys Gateway client to support all different connection modes EXCEPT SSO. This is still pending.</action>
+            <action dev="pgussow" type="add">Added a tool to test web services via the gateway. For now only NTLM authentication is supported. It has integrated support for handling XReport methods.</action>
+            <action dev="pgussow" type="add">Added a tool which acts as a method test tool, but using the Web Gateway as a connection.</action>
+        </release>
+        <release date="2008-04-16" description="Development release" version="1.1.1">
+            <action dev="pgussow" type="update">Updated to the 1.1.x range. The 1.1 is only compatible with C3 and no longer with C2 and below.</action>
+            <action dev="pgussow" type="fix">Fixed the NetworkDrive class to also support non-English windows systems</action>
+            <action dev="pgussow" type="add">Added additional methods to the NOM XPathHelper class.</action>
+            <action dev="pgussow" type="change">The coelib.js has been moved to it's own project: FELibrary.</action>
+            <action dev="pgussow" type="add">Added a class NiceDOMWriter to properly format XML. The CoENiceDOMWriter is now deprecated.</action>
+        </release>
+    </body>
+</document>

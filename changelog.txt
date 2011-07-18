@@ -1,8 +1,6 @@
 version 1.1.18 (released 2011-07-18)
--change: 
-				Opensourced the Cordys CoE Library
+-change: Opensourced the Cordys CoE Library
 			
-
 version 1.1.17 (released 2011-01-26)
 -add: Added the ISOAPWrapper interface to allow stubbing.
 

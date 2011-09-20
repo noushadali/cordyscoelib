@@ -13,11 +13,12 @@
     </template>
     <body>
         <release description="Development release" version="@NEXT@">
-				</release>
-<release date="2011-07-18" description="Development release" version="1.1.18">
-		   <action dev="mvdveen" type="change">Opensourced the Cordys CoE Library</action>
-				</release>
-<release date="2011-01-26" description="Development release" version="1.1.17">
+            <action dev="pgussow" type="fix">There was a bug in the XPathhelper.getDateValue(). If 4 digits or more were given for the ms, then the call would produce a weird date. Now all the digits are cut off after the 3rd one.</action>
+        </release>
+        <release date="2011-07-18" description="Development release" version="1.1.18">
+            <action dev="mvdveen" type="change">Opensourced the Cordys CoE Library</action>
+        </release>
+        <release date="2011-01-26" description="Development release" version="1.1.17">
             <action dev="pgussow" type="add">Added the ISOAPWrapper interface to allow stubbing.</action>
         </release>
         <release date="2011-01-25" description="Development release" version="1.1.16">

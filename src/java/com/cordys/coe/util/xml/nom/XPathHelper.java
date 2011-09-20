@@ -1,5 +1,7 @@
 package com.cordys.coe.util.xml.nom;
 
+import com.cordys.coe.util.DateUtil;
+
 import com.eibus.xml.nom.Node;
 import com.eibus.xml.nom.NodeType;
 import com.eibus.xml.xpath.NodeSet;
@@ -8,13 +10,9 @@ import com.eibus.xml.xpath.XPath;
 import com.eibus.xml.xpath.XPathMetaInfo;
 import com.eibus.xml.xpath.XPathResult;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 /**
  * This class contains helper methods for NOM XPaths.
@@ -24,22 +22,9 @@ import java.util.TimeZone;
 public class XPathHelper
 {
     /**
-     * Holds the simpe date format that is used to parse a date.
-     */
-    private static SimpleDateFormat s_sdf;
-
-    static
-    {
-        s_sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
-
-        // All dates are assumed to be UTC
-        s_sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-    }
-
-    /**
-     * Uses the XPath.evaluate method to get the XPath result as a string. All kind of matches are
-     * supported by this method (e.g. boolean, number, string or node matches). For node matches,
-     * the node text of the matching node is returned.
+     * Uses the XPath.evaluate method to get the XPath result as a string. All kind of matches are supported by this
+     * method (e.g. boolean, number, string or node matches). For node matches, the node text of the matching node is
+     * returned.
      *
      * @param   node      Match root node.
      * @param   xpath     XPath to be evaluated.
@@ -89,9 +74,9 @@ public class XPathHelper
     }
 
     /**
-     * Uses the XPath.evaluate method to get the XPath result as a string. All kind of matches are
-     * supported by this method (e.g. boolean, number, string or node matches). For node matches,
-     * the node text is returned. Note that non-nodeset results return an array of one string.
+     * Uses the XPath.evaluate method to get the XPath result as a string. All kind of matches are supported by this
+     * method (e.g. boolean, number, string or node matches). For node matches, the node text is returned. Note that
+     * non-nodeset results return an array of one string.
      *
      * @param   node      Match root node.
      * @param   xpath     XPath to be evaluated.
@@ -139,9 +124,9 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the boolean value for the given XPath. This version return the boolean
-     * value for XPath expressions that evaluate to a node, attribute or a boolean value (e.g.
-     * "boolean(.)"). This version returns only the first match.<br>
+     * This method returns the boolean value for the given XPath. This version return the boolean value for XPath
+     * expressions that evaluate to a node, attribute or a boolean value (e.g. "boolean(.)"). This version returns only
+     * the first match.<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
      *
      * @param   iNode   The node to operate on.
@@ -155,9 +140,9 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the boolean value for the given XPath. This version return the boolean
-     * value for XPath expressions that evaluate to a node, attribute or a boolean value (e.g.
-     * "boolean(.)"). This version returns only the first match.
+     * This method returns the boolean value for the given XPath. This version return the boolean value for XPath
+     * expressions that evaluate to a node, attribute or a boolean value (e.g. "boolean(.)"). This version returns only
+     * the first match.
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
@@ -177,8 +162,7 @@ public class XPathHelper
      * @param   sXPath      The XPath to execute.
      * @param   bMandatory  Whether or not the field is mandatory.
      *
-     * @return  The boolean value. If the value is not found and bMandatory is false the default
-     *          value is false.
+     * @return  The boolean value. If the value is not found and bMandatory is false the default value is false.
      *
      * @throws  NOMXPathParseException  If the value cannot be found and bMandatory is true.
      */
@@ -202,9 +186,8 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the boolean value for the given XPath. This version return the boolean
-     * value for XPath expressions that evaluate to a node, attribute or a boolean value (e.g.
-     * "boolean(.)").
+     * This method returns the boolean value for the given XPath. This version return the boolean value for XPath
+     * expressions that evaluate to a node, attribute or a boolean value (e.g. "boolean(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
@@ -213,33 +196,30 @@ public class XPathHelper
      *
      * @return  The boolean value.
      */
-    public static boolean getBooleanValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo,
-                                          boolean bDefault)
+    public static boolean getBooleanValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo, boolean bDefault)
     {
         return getBooleanValue(iNode, sXPath, xmiPathInfo, false, bDefault);
     }
 
     /**
-     * This method returns the boolean value for the given XPath. This version return the boolean
-     * value for XPath expressions that evaluate to a node, attribute or a boolean value (e.g.
-     * "number(.)").
+     * This method returns the boolean value for the given XPath. This version return the boolean value for XPath
+     * expressions that evaluate to a node, attribute or a boolean value (e.g. "number(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
      * @param   prPathInfo   Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first
-     *                       one is returned. Otherwise the results are concatenated together.
+     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first one is returned.
+     *                       Otherwise the results are concatenated together.
      * @param   bDefault     The default value to return if there was nothing found.
      *
      * @return  The boolean value.
      */
-    public static boolean getBooleanValue(int iNode, String sXPath, XPathMetaInfo prPathInfo,
-                                          boolean bAllMatches, boolean bDefault)
+    public static boolean getBooleanValue(int iNode, String sXPath, XPathMetaInfo prPathInfo, boolean bAllMatches,
+                                          boolean bDefault)
     {
         boolean bReturn = bDefault;
 
-        String sTemp = getStringValue(iNode, sXPath, prPathInfo, bAllMatches,
-                                      String.valueOf(bDefault));
+        String sTemp = getStringValue(iNode, sXPath, prPathInfo, bAllMatches, String.valueOf(bDefault));
 
         bReturn = Boolean.parseBoolean(sTemp);
 
@@ -247,9 +227,8 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for
-     * XPath expressions that evaluate to a node, attribute or a int value (e.g. "int(.)"). This
-     * version returns only the first match.<br>
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
+     * that evaluate to a node, attribute or a int value (e.g. "int(.)"). This version returns only the first match.<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
      *
      * @param   iNode   The node to operate on.
@@ -263,9 +242,8 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for
-     * XPath expressions that evaluate to a node, attribute or a int value (e.g. "int(.)"). This
-     * version returns only the first match.
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
+     * that evaluate to a node, attribute or a int value (e.g. "int(.)"). This version returns only the first match.
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
@@ -279,8 +257,8 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for
-     * XPath expressions that evaluate to a node, attribute or a int value (e.g. "int(.)").<br>
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
+     * that evaluate to a node, attribute or a int value (e.g. "int(.)").<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
      *
      * @param   iNode     The node to operate on.
@@ -301,8 +279,7 @@ public class XPathHelper
      * @param   sXPath      The XPath to execute.
      * @param   bMandatory  Whether or not the field is mandatory.
      *
-     * @return  The Date value. If the value is not found and bMandatory is false the default value
-     *          is false.
+     * @return  The Date value. If the value is not found and bMandatory is false the default value is false.
      *
      * @throws  NOMXPathParseException  If the value cannot be found and bMandatory is true.
      */
@@ -315,17 +292,7 @@ public class XPathHelper
 
         if ((sTemp != null) && (sTemp.length() != 0))
         {
-            try
-            {
-                synchronized (s_sdf)
-                {
-                    dReturn = s_sdf.parse(sTemp);
-                }
-            }
-            catch (ParseException e)
-            {
-                // Ignore it.
-            }
+            dReturn = DateUtil.parseDate(sTemp);
         }
 
         if ((bMandatory == true) && (dReturn == null))
@@ -337,26 +304,25 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for
-     * XPath expressions that evaluate to a node, attribute or a int value (e.g. "int(.)").
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
+     * that evaluate to a node, attribute or a int value (e.g. "int(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sPath        The XPath to execute.
      * @param   xmiPathInfo  Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first
-     *                       one is returned. Otherwise the results are concatenated together.
+     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first one is returned.
+     *                       Otherwise the results are concatenated together.
      *
      * @return  The Date value.
      */
-    public static Date getDateValue(int iNode, String sPath, XPathMetaInfo xmiPathInfo,
-                                    boolean bAllMatches)
+    public static Date getDateValue(int iNode, String sPath, XPathMetaInfo xmiPathInfo, boolean bAllMatches)
     {
         return getDateValue(iNode, sPath, xmiPathInfo, bAllMatches, null);
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for
-     * XPath expressions that evaluate to a node, attribute or a int value (e.g. "int(.)").
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
+     * that evaluate to a node, attribute or a int value (e.g. "int(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
@@ -365,52 +331,39 @@ public class XPathHelper
      *
      * @return  The Date value.
      */
-    public static Date getDateValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo,
-                                    Date dDefault)
+    public static Date getDateValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo, Date dDefault)
     {
         return getDateValue(iNode, sXPath, xmiPathInfo, false, dDefault);
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for
-     * XPath expressions that evaluate to a node, attribute or a int value (e.g. "number(.)").
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
+     * that evaluate to a node, attribute or a int value (e.g. "number(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
      * @param   prPathInfo   Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first
-     *                       one is returned. Otherwise the results are concatenated together.
+     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first one is returned.
+     *                       Otherwise the results are concatenated together.
      * @param   dDefault     The default value to return if there was nothing found.
      *
      * @return  The Date value.
      */
-    public static Date getDateValue(int iNode, String sXPath, XPathMetaInfo prPathInfo,
-                                    boolean bAllMatches, Date dDefault)
+    public static Date getDateValue(int iNode, String sXPath, XPathMetaInfo prPathInfo, boolean bAllMatches,
+                                    Date dDefault)
     {
         Date dReturn = dDefault;
 
-        String sTemp = getStringValue(iNode, sXPath, prPathInfo, bAllMatches,
-                                      String.valueOf(dDefault));
+        String sTemp = getStringValue(iNode, sXPath, prPathInfo, bAllMatches, String.valueOf(dDefault));
 
-        synchronized (s_sdf)
-        {
-            try
-            {
-                dReturn = s_sdf.parse(sTemp);
-            }
-            catch (ParseException e)
-            {
-                // Ignore it.
-            }
-        }
+        dReturn = DateUtil.parseDate(sTemp);
 
         return dReturn;
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for
-     * XPath expressions that evaluate to a node, attribute or a int value (e.g. "int(.)"). This
-     * version returns only the first match.<br>
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
+     * that evaluate to a node, attribute or a int value (e.g. "int(.)"). This version returns only the first match.<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
      *
      * @param   iNode   The node to operate on.
@@ -424,9 +377,8 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for
-     * XPath expressions that evaluate to a node, attribute or a int value (e.g. "int(.)"). This
-     * version returns only the first match.
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
+     * that evaluate to a node, attribute or a int value (e.g. "int(.)"). This version returns only the first match.
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
@@ -440,8 +392,8 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for
-     * XPath expressions that evaluate to a node, attribute or a int value (e.g. "int(.)").<br>
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
+     * that evaluate to a node, attribute or a int value (e.g. "int(.)").<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
      *
      * @param   iNode     The node to operate on.
@@ -452,8 +404,7 @@ public class XPathHelper
      */
     public static int getIntegerValue(int iNode, String sXPath, int iDefault)
     {
-        return getIntegerValue(iNode, sXPath, NamespaceConstants.getXPathMetaInfo(), false,
-                               iDefault);
+        return getIntegerValue(iNode, sXPath, NamespaceConstants.getXPathMetaInfo(), false, iDefault);
     }
 
     /**
@@ -463,8 +414,7 @@ public class XPathHelper
      * @param   sXPath      The XPath to execute.
      * @param   bMandatory  Whether or not the field is mandatory.
      *
-     * @return  The integer value. If the value is not found and bMandatory is false the default
-     *          value is false.
+     * @return  The integer value. If the value is not found and bMandatory is false the default value is false.
      *
      * @throws  NOMXPathParseException  If the value cannot be found and bMandatory is true.
      */
@@ -496,26 +446,25 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for
-     * XPath expressions that evaluate to a node, attribute or a int value (e.g. "int(.)").
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
+     * that evaluate to a node, attribute or a int value (e.g. "int(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sPath        The XPath to execute.
      * @param   xmiPathInfo  Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first
-     *                       one is returned. Otherwise the results are concatenated together.
+     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first one is returned.
+     *                       Otherwise the results are concatenated together.
      *
      * @return  The int value.
      */
-    public static int getIntegerValue(int iNode, String sPath, XPathMetaInfo xmiPathInfo,
-                                      boolean bAllMatches)
+    public static int getIntegerValue(int iNode, String sPath, XPathMetaInfo xmiPathInfo, boolean bAllMatches)
     {
         return getIntegerValue(iNode, sPath, xmiPathInfo, bAllMatches, -1);
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for
-     * XPath expressions that evaluate to a node, attribute or a int value (e.g. "int(.)").
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
+     * that evaluate to a node, attribute or a int value (e.g. "int(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
@@ -524,32 +473,30 @@ public class XPathHelper
      *
      * @return  The int value.
      */
-    public static int getIntegerValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo,
-                                      int iDefault)
+    public static int getIntegerValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo, int iDefault)
     {
         return getIntegerValue(iNode, sXPath, xmiPathInfo, false, iDefault);
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for
-     * XPath expressions that evaluate to a node, attribute or a int value (e.g. "number(.)").
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
+     * that evaluate to a node, attribute or a int value (e.g. "number(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
      * @param   prPathInfo   Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first
-     *                       one is returned. Otherwise the results are concatenated together.
+     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first one is returned.
+     *                       Otherwise the results are concatenated together.
      * @param   iDefault     The default value to return if there was nothing found.
      *
      * @return  The int value.
      */
-    public static int getIntegerValue(int iNode, String sXPath, XPathMetaInfo prPathInfo,
-                                      boolean bAllMatches, int iDefault)
+    public static int getIntegerValue(int iNode, String sXPath, XPathMetaInfo prPathInfo, boolean bAllMatches,
+                                      int iDefault)
     {
         int iReturn = iDefault;
 
-        String sTemp = getStringValue(iNode, sXPath, prPathInfo, bAllMatches,
-                                      String.valueOf(iDefault));
+        String sTemp = getStringValue(iNode, sXPath, prPathInfo, bAllMatches, String.valueOf(iDefault));
 
         iReturn = Integer.parseInt(sTemp);
 
@@ -557,9 +504,9 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the long value for the given XPath. This version return the long value
-     * for XPath expressions that evaluate to a node, attribute or a long value (e.g. "long(.)").
-     * This version returns only the first match.<br>
+     * This method returns the long value for the given XPath. This version return the long value for XPath expressions
+     * that evaluate to a node, attribute or a long value (e.g. "long(.)"). This version returns only the first match.
+     * <br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
      *
      * @param   iNode   The node to operate on.
@@ -579,8 +526,7 @@ public class XPathHelper
      * @param   sXPath      The XPath to execute.
      * @param   bMandatory  Whether or not the field is mandatory.
      *
-     * @return  The long value. If the value is not found and bMandatory is false the default value
-     *          is false.
+     * @return  The long value. If the value is not found and bMandatory is false the default value is false.
      *
      * @throws  NOMXPathParseException  In case mandatory is true and the XPath was not found.
      */
@@ -612,9 +558,8 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the long value for the given XPath. This version return the long value
-     * for XPath expressions that evaluate to a node, attribute or a long value (e.g. "long(.)").
-     * This version returns only the first match.
+     * This method returns the long value for the given XPath. This version return the long value for XPath expressions
+     * that evaluate to a node, attribute or a long value (e.g. "long(.)"). This version returns only the first match.
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
@@ -628,9 +573,8 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the long value for the given XPath. This version return the long value
-     * for XPath expressions that evaluate to a node, attribute or a long value (e.g. "long(.)").
-     * <br>
+     * This method returns the long value for the given XPath. This version return the long value for XPath expressions
+     * that evaluate to a node, attribute or a long value (e.g. "long(.)").<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
      *
      * @param   iNode     The node to operate on.
@@ -645,26 +589,25 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the long value for the given XPath. This version return the long value
-     * for XPath expressions that evaluate to a node, attribute or a long value (e.g. "long(.)").
+     * This method returns the long value for the given XPath. This version return the long value for XPath expressions
+     * that evaluate to a node, attribute or a long value (e.g. "long(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sPath        The XPath to execute.
      * @param   xmiPathInfo  Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first
-     *                       one is returned. Otherwise the results are concatenated together.
+     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first one is returned.
+     *                       Otherwise the results are concatenated together.
      *
      * @return  The long value.
      */
-    public static long getLongValue(int iNode, String sPath, XPathMetaInfo xmiPathInfo,
-                                    boolean bAllMatches)
+    public static long getLongValue(int iNode, String sPath, XPathMetaInfo xmiPathInfo, boolean bAllMatches)
     {
         return getLongValue(iNode, sPath, xmiPathInfo, bAllMatches, -1);
     }
 
     /**
-     * This method returns the long value for the given XPath. This version return the long value
-     * for XPath expressions that evaluate to a node, attribute or a long value (e.g. "long(.)").
+     * This method returns the long value for the given XPath. This version return the long value for XPath expressions
+     * that evaluate to a node, attribute or a long value (e.g. "long(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
@@ -673,32 +616,30 @@ public class XPathHelper
      *
      * @return  The long value.
      */
-    public static long getLongValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo,
-                                    long iDefault)
+    public static long getLongValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo, long iDefault)
     {
         return getLongValue(iNode, sXPath, xmiPathInfo, false, iDefault);
     }
 
     /**
-     * This method returns the long value for the given XPath. This version return the long value
-     * for XPath expressions that evaluate to a node, attribute or a long value (e.g. "number(.)").
+     * This method returns the long value for the given XPath. This version return the long value for XPath expressions
+     * that evaluate to a node, attribute or a long value (e.g. "number(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
      * @param   prPathInfo   Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first
-     *                       one is returned. Otherwise the results are concatenated together.
+     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first one is returned.
+     *                       Otherwise the results are concatenated together.
      * @param   iDefault     The default value to return if there was nothing found.
      *
      * @return  The long value.
      */
-    public static long getLongValue(int iNode, String sXPath, XPathMetaInfo prPathInfo,
-                                    boolean bAllMatches, long iDefault)
+    public static long getLongValue(int iNode, String sXPath, XPathMetaInfo prPathInfo, boolean bAllMatches,
+                                    long iDefault)
     {
         long lReturn = iDefault;
 
-        String sTemp = getStringValue(iNode, sXPath, prPathInfo, bAllMatches,
-                                      String.valueOf(iDefault));
+        String sTemp = getStringValue(iNode, sXPath, prPathInfo, bAllMatches, String.valueOf(iDefault));
 
         lReturn = Long.parseLong(sTemp);
 
@@ -706,13 +647,11 @@ public class XPathHelper
     }
 
     /**
-     * Returns the next match from the nodeset as a string. For node matches, the node text is
-     * returned.
+     * Returns the next match from the nodeset as a string. For node matches, the node text is returned.
      *
      * @param   resultNodeSet  Node set to be evaluated.
      *
-     * @return  Next match as a string or <code>null</code> if no more matches are found from the
-     *          node set.
+     * @return  Next match as a string or <code>null</code> if no more matches are found from the node set.
      */
     public static String getNextNodeSetMatch(NodeSet resultNodeSet)
     {
@@ -732,8 +671,7 @@ public class XPathHelper
         {
             int iResNode = ResultNode.getElementNode(lResult);
 
-            if ((Node.getType(iResNode) == NodeType.CDATA) ||
-                    (Node.getType(iResNode) == NodeType.DATA))
+            if ((Node.getType(iResNode) == NodeType.CDATA) || (Node.getType(iResNode) == NodeType.DATA))
             {
                 // Use the parent node because there can be multiple
                 // text elements in one node (e.g. in case of <a>x&b</a>).
@@ -752,9 +690,9 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string
-     * value for XPath expressions that evaluate to a node, attribute or a string value (e.g.
-     * "string(.)"). This version returns only the first match.<br>
+     * This method returns the string value for the given XPath. This version return the string value for XPath
+     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)"). This version returns only
+     * the first match.<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
      *
      * @param   iNode   The node to operate on.
@@ -764,14 +702,14 @@ public class XPathHelper
      */
     public static String getStringValue(int iNode, String sXPath)
     {
-        return getStringValue(iNode, XPath.getXPathInstance(sXPath),
-                              NamespaceConstants.getXPathMetaInfo(), false, null);
+        return getStringValue(iNode, XPath.getXPathInstance(sXPath), NamespaceConstants.getXPathMetaInfo(), false,
+                              null);
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string
-     * value for XPath expressions that evaluate to a node, attribute or a string value (e.g.
-     * "string(.)"). This version returns only the first match.<br>
+     * This method returns the string value for the given XPath. This version return the string value for XPath
+     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)"). This version returns only
+     * the first match.<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
      *
      * @param   iNode  The node to operate on.
@@ -785,9 +723,9 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string
-     * value for XPath expressions that evaluate to a node, attribute or a string value (e.g.
-     * "string(.)"). This version returns only the first match.
+     * This method returns the string value for the given XPath. This version return the string value for XPath
+     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)"). This version returns only
+     * the first match.
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
@@ -801,9 +739,9 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string
-     * value for XPath expressions that evaluate to a node, attribute or a string value (e.g.
-     * "string(.)"). This version returns only the first match.
+     * This method returns the string value for the given XPath. This version return the string value for XPath
+     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)"). This version returns only
+     * the first match.
      *
      * @param   iNode        The node to operate on.
      * @param   xPath        The XPath to execute.
@@ -817,28 +755,25 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string
-     * value for XPath expressions that evaluate to a node, attribute or a string value (e.g.
-     * "string(.)").<br>
+     * This method returns the string value for the given XPath. This version return the string value for XPath
+     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)").<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
      *
      * @param   iNode        The node to operate on.
      * @param   xPath        The XPath to execute.
-     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first
-     *                       one is returned. Otherwise the results are concatenated together.
+     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first one is returned.
+     *                       Otherwise the results are concatenated together.
      *
      * @return  The string value.
      */
     public static String getStringValue(int iNode, XPath xPath, boolean bAllMatches)
     {
-        return getStringValue(iNode, xPath, NamespaceConstants.getXPathMetaInfo(), bAllMatches,
-                              null);
+        return getStringValue(iNode, xPath, NamespaceConstants.getXPathMetaInfo(), bAllMatches, null);
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string
-     * value for XPath expressions that evaluate to a node, attribute or a string value (e.g.
-     * "string(.)").<br>
+     * This method returns the string value for the given XPath. This version return the string value for XPath
+     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)").<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
      *
      * @param   iNode     The node to operate on.
@@ -849,8 +784,8 @@ public class XPathHelper
      */
     public static String getStringValue(int iNode, String sXPath, String sDefault)
     {
-        return getStringValue(iNode, XPath.getXPathInstance(sXPath),
-                              NamespaceConstants.getXPathMetaInfo(), false, sDefault);
+        return getStringValue(iNode, XPath.getXPathInstance(sXPath), NamespaceConstants.getXPathMetaInfo(), false,
+                              sDefault);
     }
 
     /**
@@ -884,8 +819,7 @@ public class XPathHelper
             {
                 int iResNode = ResultNode.getElementNode(lResult);
 
-                if ((Node.getType(iResNode) == NodeType.CDATA) ||
-                        (Node.getType(iResNode) == NodeType.DATA))
+                if ((Node.getType(iResNode) == NodeType.CDATA) || (Node.getType(iResNode) == NodeType.DATA))
                 {
                     sReturn = Node.getData(iResNode);
                 }
@@ -905,47 +839,42 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string
-     * value for XPath expressions that evaluate to a node, attribute or a string value (e.g.
-     * "string(.)").
+     * This method returns the string value for the given XPath. This version return the string value for XPath
+     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   xPath        The XPath to execute.
      * @param   xmiPathInfo  Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first
-     *                       one is returned. Otherwise the results are concatenated together.
+     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first one is returned.
+     *                       Otherwise the results are concatenated together.
      *
      * @return  The string value.
      */
-    public static String getStringValue(int iNode, XPath xPath, XPathMetaInfo xmiPathInfo,
-                                        boolean bAllMatches)
+    public static String getStringValue(int iNode, XPath xPath, XPathMetaInfo xmiPathInfo, boolean bAllMatches)
     {
         return getStringValue(iNode, xPath, xmiPathInfo, bAllMatches, null);
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string
-     * value for XPath expressions that evaluate to a node, attribute or a string value (e.g.
-     * "string(.)").
+     * This method returns the string value for the given XPath. This version return the string value for XPath
+     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sPath        The XPath to execute.
      * @param   xmiPathInfo  Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first
-     *                       one is returned. Otherwise the results are concatenated together.
+     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first one is returned.
+     *                       Otherwise the results are concatenated together.
      *
      * @return  The string value.
      */
-    public static String getStringValue(int iNode, String sPath, XPathMetaInfo xmiPathInfo,
-                                        boolean bAllMatches)
+    public static String getStringValue(int iNode, String sPath, XPathMetaInfo xmiPathInfo, boolean bAllMatches)
     {
         return getStringValue(iNode, XPath.getXPathInstance(sPath), xmiPathInfo, bAllMatches, null);
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string
-     * value for XPath expressions that evaluate to a node, attribute or a string value (e.g.
-     * "string(.)").
+     * This method returns the string value for the given XPath. This version return the string value for XPath
+     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
@@ -954,49 +883,45 @@ public class XPathHelper
      *
      * @return  The string value.
      */
-    public static String getStringValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo,
-                                        String sDefault)
+    public static String getStringValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo, String sDefault)
     {
         return getStringValue(iNode, XPath.getXPathInstance(sXPath), xmiPathInfo, false, sDefault);
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string
-     * value for XPath expressions that evaluate to a node, attribute or a string value (e.g.
-     * "string(.)").
+     * This method returns the string value for the given XPath. This version return the string value for XPath
+     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   sXPath       The XPath to execute.
      * @param   xmiPathInfo  Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first
-     *                       one is returned. Otherwise the results are concatenated together.
+     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first one is returned.
+     *                       Otherwise the results are concatenated together.
      * @param   sDefault     The default value to return if there was nothing found.
      *
      * @return  The string value.
      */
-    public static String getStringValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo,
-                                        boolean bAllMatches, String sDefault)
+    public static String getStringValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo, boolean bAllMatches,
+                                        String sDefault)
     {
-        return getStringValue(iNode, XPath.getXPathInstance(sXPath), xmiPathInfo, bAllMatches,
-                              sDefault);
+        return getStringValue(iNode, XPath.getXPathInstance(sXPath), xmiPathInfo, bAllMatches, sDefault);
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string
-     * value for XPath expressions that evaluate to a node, attribute or a string value (e.g.
-     * "string(.)").
+     * This method returns the string value for the given XPath. This version return the string value for XPath
+     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)").
      *
      * @param   iNode        The node to operate on.
      * @param   xPath        The XPath to execute.
      * @param   xmiPathInfo  Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first
-     *                       one is returned. Otherwise the results are concatenated together.
+     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first one is returned.
+     *                       Otherwise the results are concatenated together.
      * @param   sDefault     The default value to return if there was nothing found.
      *
      * @return  The string value.
      */
-    public static String getStringValue(int iNode, XPath xPath, XPathMetaInfo xmiPathInfo,
-                                        boolean bAllMatches, String sDefault)
+    public static String getStringValue(int iNode, XPath xPath, XPathMetaInfo xmiPathInfo, boolean bAllMatches,
+                                        String sDefault)
     {
         String sReturn = sDefault;
 
@@ -1039,8 +964,7 @@ public class XPathHelper
                     {
                         int iResNode = ResultNode.getElementNode(lResult);
 
-                        if ((Node.getType(iResNode) == NodeType.CDATA) ||
-                                (Node.getType(iResNode) == NodeType.DATA))
+                        if ((Node.getType(iResNode) == NodeType.CDATA) || (Node.getType(iResNode) == NodeType.DATA))
                         {
                             if (!bAllMatches)
                             {
@@ -1095,8 +1019,8 @@ public class XPathHelper
     }
 
     /**
-     * This method returns all the nodes that match the given XPath. Note: This method ONLY returns
-     * element nodes. Element nodes include text nodes.
+     * This method returns all the nodes that match the given XPath. Note: This method ONLY returns element nodes.
+     * Element nodes include text nodes.
      *
      * @param   iXML    The source XML.
      * @param   sXPath  The XPath to execute.
@@ -1105,13 +1029,12 @@ public class XPathHelper
      */
     public static int[] selectNodes(int iXML, String sXPath)
     {
-        return selectNodes(iXML, XPath.getXPathInstance(sXPath),
-                           NamespaceConstants.getXPathMetaInfo());
+        return selectNodes(iXML, XPath.getXPathInstance(sXPath), NamespaceConstants.getXPathMetaInfo());
     }
 
     /**
-     * This method returns all the nodes that match the given XPath. Note: This method ONLY returns
-     * element nodes. Element nodes include text nodes.
+     * This method returns all the nodes that match the given XPath. Note: This method ONLY returns element nodes.
+     * Element nodes include text nodes.
      *
      * @param   iXML         The source XML.
      * @param   sXPath       The XPath to execute.
@@ -1125,8 +1048,8 @@ public class XPathHelper
     }
 
     /**
-     * This method returns all the nodes that match the given XPath. Note: This method ONLY returns
-     * element nodes. Element nodes include text nodes.
+     * This method returns all the nodes that match the given XPath. Note: This method ONLY returns element nodes.
+     * Element nodes include text nodes.
      *
      * @param   iXML         The source XML.
      * @param   xPath        The XPath to execute.
@@ -1164,8 +1087,8 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the first match that was found for the given XPath. Note: This method
-     * ONLY returns element nodes. Element nodes include text nodes.
+     * This method returns the first match that was found for the given XPath. Note: This method ONLY returns element
+     * nodes. Element nodes include text nodes.
      *
      * @param   iXML   The source XML.
      * @param   xPath  The XPath to execute.
@@ -1178,8 +1101,8 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the first match that was found for the given XPath. Note: This method
-     * ONLY returns element nodes. Element nodes include text nodes.
+     * This method returns the first match that was found for the given XPath. Note: This method ONLY returns element
+     * nodes. Element nodes include text nodes.
      *
      * @param   iXML    The source XML.
      * @param   sXPath  The XPath to execute.
@@ -1188,13 +1111,12 @@ public class XPathHelper
      */
     public static int selectSingleNode(int iXML, String sXPath)
     {
-        return selectSingleNode(iXML, XPath.getXPathInstance(sXPath),
-                                NamespaceConstants.getXPathMetaInfo());
+        return selectSingleNode(iXML, XPath.getXPathInstance(sXPath), NamespaceConstants.getXPathMetaInfo());
     }
 
     /**
-     * This method returns the first match that was found for the given XPath. Note: This method
-     * ONLY returns element nodes. Element nodes include text nodes.
+     * This method returns the first match that was found for the given XPath. Note: This method ONLY returns element
+     * nodes. Element nodes include text nodes.
      *
      * @param   iXML         The source XML.
      * @param   sXPath       The XPath to execute.
@@ -1208,8 +1130,8 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the first match that was found for the given XPath. Note: This method
-     * ONLY returns element nodes. Element nodes include text nodes.
+     * This method returns the first match that was found for the given XPath. Note: This method ONLY returns element
+     * nodes. Element nodes include text nodes.
      *
      * @param   iXML         The source XML.
      * @param   xPath        The XPath to execute.
@@ -1237,40 +1159,38 @@ public class XPathHelper
     }
 
     /**
-     * Sets a string value for the nodes matched by the XPath expression or for only the first node
-     * if <code>bAllMatches</code> is <code>false</code>. This version sets only the value of the
-     * first matched node.
+     * Sets a string value for the nodes matched by the XPath expression or for only the first node if <code>
+     * bAllMatches</code> is <code>false</code>. This version sets only the value of the first matched node.
      *
      * @param   iNode        The node to operate on.
      * @param   xPath        The XPath to execute.
      * @param   xmiPathInfo  Extra XPath information, e.g. namespace mappings
      * @param   sValue       The string value to set.
      *
-     * @return  <code>true</code> if the value was set correctly, otherwise <code>false</code> (e.g.
-     *          the XPath expression didn't match any nodes.
+     * @return  <code>true</code> if the value was set correctly, otherwise <code>false</code> (e.g. the XPath
+     *          expression didn't match any nodes.
      */
-    public static boolean setNodeValue(int iNode, XPath xPath, XPathMetaInfo xmiPathInfo,
-                                       String sValue)
+    public static boolean setNodeValue(int iNode, XPath xPath, XPathMetaInfo xmiPathInfo, String sValue)
     {
         return setNodeValue(iNode, xPath, xmiPathInfo, sValue, false);
     }
 
     /**
-     * Sets a string value for the nodes matched by the XPath expression or for only the first node
-     * if <code>bAllMatches</code> is <code>false</code>.
+     * Sets a string value for the nodes matched by the XPath expression or for only the first node if <code>
+     * bAllMatches</code> is <code>false</code>.
      *
      * @param   iNode        The node to operate on.
      * @param   xPath        The XPath to execute.
      * @param   xmiPathInfo  Extra XPath information, e.g. namespace mappings
      * @param   sValue       The string value to set.
-     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first
-     *                       node value is set. Otherwise all values of all mathed nodes are set.
+     * @param   bAllMatches  If <code>false</code> and there are multiple matches, only the first node value is set.
+     *                       Otherwise all values of all mathed nodes are set.
      *
-     * @return  <code>true</code> if the value was set correctly, otherwise <code>false</code> (e.g.
-     *          the XPath expression didn't match any nodes.
+     * @return  <code>true</code> if the value was set correctly, otherwise <code>false</code> (e.g. the XPath
+     *          expression didn't match any nodes.
      */
-    public static boolean setNodeValue(int iNode, XPath xPath, XPathMetaInfo xmiPathInfo,
-                                       String sValue, boolean bAllMatches)
+    public static boolean setNodeValue(int iNode, XPath xPath, XPathMetaInfo xmiPathInfo, String sValue,
+                                       boolean bAllMatches)
     {
         NodeSet ns = xPath.selectNodeSet(iNode, xmiPathInfo);
         boolean matched = false;

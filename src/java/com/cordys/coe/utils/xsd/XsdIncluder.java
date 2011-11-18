@@ -251,7 +251,7 @@ public class XsdIncluder
             Message mFileNode = mcContext.createMessage(rootFile);
             Iterator<Object> childNodes = mFileNode.childIterator();
 
-            for (int i = 0; childNodes.hasNext(); i++)
+            while (childNodes.hasNext())
             {
                 Message childNode = (Message) childNodes.next();
                 String childNameAttrib = childNode.getValue("./@name", null);

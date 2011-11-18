@@ -23,9 +23,12 @@ import java.math.BigInteger;
 
 import java.util.LinkedHashMap;
 
+import javax.management.AttributeNotFoundException;
 import javax.management.MBeanNotificationInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanParameterInfo;
+import javax.management.MBeanServerConnection;
+import javax.management.ObjectName;
 
 import org.eclipse.swt.widgets.Text;
 
@@ -36,6 +39,67 @@ import org.eclipse.swt.widgets.Text;
  */
 public class MBeanUtils
 {
+    /**
+     * This method gets the value for the given attribute.
+     *
+     * @param   mbsc        The JMX connection.
+     * @param   objectName  The object name for the object.
+     * @param   attribute   The name of the attribute to get the value for.
+     *
+     * @return  The value for the given attribute.
+     *
+     * @throws  Exception  In case of any exceptions
+     */
+    public static Object getAttributeValue(MBeanServerConnection mbsc, ObjectName objectName, String attribute)
+                                    throws Exception
+    {
+        Object retVal = null;
+
+        try
+        {
+            retVal = mbsc.getAttribute(objectName, attribute);
+        }
+        catch (AttributeNotFoundException anfe)
+        {
+            // We'll ignore it and just return null.
+        }
+        
+        return retVal;
+    }
+
+    /**
+     * This method gets the integer value for the given attribute.
+     *
+     * @param   mbsc        The JMX connection.
+     * @param   objectName  The object name for the object.
+     * @param   attribute   The name of the attribute to get the value for.
+     *
+     * @return  The integer value for the given attribute.
+     *
+     * @throws  Exception  In case of any exceptions
+     */
+    public static int getIntAttributeValue(MBeanServerConnection mbsc, ObjectName objectName, String attribute)
+                                    throws Exception
+    {
+        int retVal = -1;
+
+        Object tmp = getAttributeValue(mbsc, objectName, attribute);
+
+        if (tmp != null)
+        {
+            if (tmp instanceof Integer)
+            {
+                retVal = (Integer) tmp;
+            }
+            else
+            {
+                retVal = Integer.parseInt(tmp.toString());
+            }
+        }
+
+        return retVal;
+    }
+
     /**
      * DOCUMENTME.
      *
@@ -82,10 +146,9 @@ public class MBeanUtils
     {
         String sReturn = "";
 
-        if (sType.equals("byte") || sType.equals("short") || sType.equals("java.lang.Short") ||
-                sType.equals("int") || sType.equals("java.lang.Integer") || sType.equals("long") ||
-                sType.equals("java.lang.Long") || sType.equals("float") ||
-                sType.equals("java.lang.Float") || sType.equals("double") ||
+        if (sType.equals("byte") || sType.equals("short") || sType.equals("java.lang.Short") || sType.equals("int") ||
+                sType.equals("java.lang.Integer") || sType.equals("long") || sType.equals("java.lang.Long") ||
+                sType.equals("float") || sType.equals("java.lang.Float") || sType.equals("double") ||
                 sType.equals("java.lang.Double") || sType.equals("char"))
         {
             sReturn = "0";
@@ -108,8 +171,7 @@ public class MBeanUtils
      *
      * @throws  ClassNotFoundException  DOCUMENTME
      */
-    public static Object[] getParameters(LinkedHashMap<String, Text> lhmParams,
-                                         MBeanParameterInfo[] params)
+    public static Object[] getParameters(LinkedHashMap<String, Text> lhmParams, MBeanParameterInfo[] params)
                                   throws ClassNotFoundException
     {
         if ((lhmParams == null) || (params == null))
@@ -122,79 +184,103 @@ public class MBeanUtils
         for (int i = 0; (i < ret.length) && (i < params.length); i++)
         {
             MBeanParameterInfo param = params[i];
-            String texti = lhmParams.get(param.getName()).getText();
+            String textValue = lhmParams.get(param.getName()).getText();
 
-            if (texti.length() == 0)
-            {
-                ret[i] = null;
-            }
-            else if (param.getType().equals("byte"))
-            { // $NON-NLS-1$
-                ret[i] = new Byte(texti);
-            }
-            else if (param.getType().equals("short"))
-            { // $NON-NLS-1$
-                ret[i] = new Short(texti);
-            }
-            else if (param.getType().equals("java.lang.Short"))
-            { // $NON-NLS-1$
-                ret[i] = new Short(texti);
-            }
-            else if (param.getType().equals("int"))
-            { // $NON-NLS-1$
-                ret[i] = new Integer(texti);
-            }
-            else if (param.getType().equals("java.lang.Integer"))
-            { // $NON-NLS-1$
-                ret[i] = new Integer(texti);
-            }
-            else if (param.getType().equals("long"))
-            { // $NON-NLS-1$
-                ret[i] = new Long(texti);
-            }
-            else if (param.getType().equals("java.lang.Long"))
-            { // $NON-NLS-1$
-                ret[i] = new Long(texti);
-            }
-            else if (param.getType().equals("float"))
-            { // $NON-NLS-1$
-                ret[i] = new Float(texti);
-            }
-            else if (param.getType().equals("java.lang.Float"))
-            { // $NON-NLS-1$
-                ret[i] = new Float(texti);
-            }
-            else if (param.getType().equals("double"))
-            { // $NON-NLS-1$
-                ret[i] = new Double(texti);
-            }
-            else if (param.getType().equals("java.lang.Double"))
-            { // $NON-NLS-1$
-                ret[i] = new Double(texti);
-            }
-            else if (param.getType().equals("char"))
-            { // $NON-NLS-1$
-                ret[i] = new Character(texti.charAt(0));
-            }
-            else if (param.getType().equals("boolean"))
-            { // $NON-NLS-1$
-                ret[i] = new Boolean(texti);
-            }
-            else if (param.getType().equals("java.lang.Boolean"))
-            { // $NON-NLS-1$
-                ret[i] = new Boolean(texti);
-            }
-            else if (MBeanUtils.class.getClassLoader().loadClass("java.lang.Number")
-                         .isAssignableFrom(MBeanUtils.class.getClassLoader().loadClass(param.getType())))
-            { // $NON-NLS-1$
-                ret[i] = createNumber(texti);
-            }
-            else
-            {
-                ret[i] = texti;
-            }
+            Object result = null;
+
+            result = getParameterValue(param, textValue);
+
+            ret[i] = result;
         }
         return ret;
+    }
+
+    /**
+     * This method returns the proper value for the given parameter.
+     *
+     * @param   param      The MBean parameter details.
+     * @param   textValue  The String value of the parameter.
+     *
+     * @return  The proper return object to match the method's signature.
+     *
+     * @throws  ClassNotFoundException  In case of any exceptions.
+     */
+    public static Object getParameterValue(MBeanParameterInfo param, String textValue)
+                                    throws ClassNotFoundException
+    {
+        Object result;
+
+        if (textValue.length() == 0)
+        {
+            result = null;
+        }
+        else if (param.getType().equals("byte"))
+        { // $NON-NLS-1$
+            result = new Byte(textValue);
+        }
+        else if (param.getType().equals("short"))
+        { // $NON-NLS-1$
+            result = new Short(textValue);
+        }
+        else if (param.getType().equals("java.lang.Short"))
+        { // $NON-NLS-1$
+            result = new Short(textValue);
+        }
+        else if (param.getType().equals("int"))
+        { // $NON-NLS-1$
+            result = new Integer(textValue);
+        }
+        else if (param.getType().equals("java.lang.Integer"))
+        { // $NON-NLS-1$
+            result = new Integer(textValue);
+        }
+        else if (param.getType().equals("long"))
+        { // $NON-NLS-1$
+            result = new Long(textValue);
+        }
+        else if (param.getType().equals("java.lang.Long"))
+        { // $NON-NLS-1$
+            result = new Long(textValue);
+        }
+        else if (param.getType().equals("float"))
+        { // $NON-NLS-1$
+            result = new Float(textValue);
+        }
+        else if (param.getType().equals("java.lang.Float"))
+        { // $NON-NLS-1$
+            result = new Float(textValue);
+        }
+        else if (param.getType().equals("double"))
+        { // $NON-NLS-1$
+            result = new Double(textValue);
+        }
+        else if (param.getType().equals("java.lang.Double"))
+        { // $NON-NLS-1$
+            result = new Double(textValue);
+        }
+        else if (param.getType().equals("char"))
+        { // $NON-NLS-1$
+            result = new Character(textValue.charAt(0));
+        }
+        else if (param.getType().equals("boolean"))
+        { // $NON-NLS-1$
+            result = new Boolean(textValue);
+        }
+        else if (param.getType().equals("java.lang.Boolean"))
+        { // $NON-NLS-1$
+            result = new Boolean(textValue);
+        }
+        else if (MBeanUtils.class.getClassLoader().loadClass("java.lang.Number").isAssignableFrom(MBeanUtils.class
+                                                                                                      .getClassLoader()
+                                                                                                      .loadClass(param.getType())))
+        { // $NON-NLS-1$
+            result = createNumber(textValue);
+        }
+        else
+        {
+            result = textValue;
+        }
+        return result;
     }
 
     /**

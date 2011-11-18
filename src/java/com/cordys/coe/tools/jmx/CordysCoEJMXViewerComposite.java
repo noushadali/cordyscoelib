@@ -49,8 +49,6 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -60,16 +58,20 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Decorations;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
@@ -170,8 +172,8 @@ public class CordysCoEJMXViewerComposite extends Composite
     /**
      * Creates a new CordysCoEJMXViewerComposite object.
      *
-     * @param  cParent  DOCUMENTME
-     * @param  iStyle   DOCUMENTME
+     * @param  cParent  The parent compisite.
+     * @param  iStyle   The SWT style to use.
      */
     public CordysCoEJMXViewerComposite(Composite cParent, int iStyle)
     {
@@ -265,6 +267,37 @@ public class CordysCoEJMXViewerComposite extends Composite
         final TableColumn newColumnTableColumn_2 = new TableColumn(m_tblBBProcessors, SWT.NONE);
         newColumnTableColumn_2.setWidth(134);
         newColumnTableColumn_2.setText("Organization");
+
+        final TableColumn newColumnTableColumn_3 = new TableColumn(m_tblBBProcessors, SWT.NONE);
+        newColumnTableColumn_3.setWidth(300);
+        newColumnTableColumn_3.setText("JMX URL");
+
+        // Create the popup menu
+        Menu menu = new Menu((Decorations) cParent, SWT.POP_UP);
+        MenuItem mi = new MenuItem(menu, SWT.PUSH);
+        mi.setText("Copy JMX URL");
+
+        mi.addSelectionListener(new SelectionAdapter()
+            {
+                /**
+                 * @see  org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+                 */
+                @Override public void widgetSelected(SelectionEvent e)
+                {
+                    TableItem[] sel = m_tblBBProcessors.getSelection();
+
+                    if ((sel != null) && (sel.length > 0))
+                    {
+                        String url = (String) sel[0].getData();
+
+                        Clipboard cb = new Clipboard(Display.getCurrent());
+
+                        TextTransfer tt = TextTransfer.getInstance();
+                        cb.setContents(new String[] { url }, new Transfer[] { tt });
+                    }
+                }
+            });
+        m_tblBBProcessors.setMenu(menu);
 
         final CTabItem tiByURL = new CTabItem(tabFolder_1, SWT.NONE);
         tiByURL.setText("By URL");
@@ -699,18 +732,32 @@ public class CordysCoEJMXViewerComposite extends Composite
                                  {
                                      @Override public int compare(String[] o1, String[] o2)
                                      {
-                                         // We'll compare the name of the Soap Processor
+                                         // We'll compare the name of the organization, then the service group, then the container.
+                                         int retVal = o1[3].toLowerCase().compareTo(o2[3].toLowerCase());
 
-                                         return o1[1].toLowerCase().compareTo(o2[1].toLowerCase());
+                                         if (retVal == 0)
+                                         {
+                                             retVal = o1[2].toLowerCase().compareTo(o2[2].toLowerCase());
+                                         }
+
+                                         if (retVal == 0)
+                                         {
+                                             retVal = o1[1].toLowerCase().compareTo(o2[1].toLowerCase());
+                                         }
+
+                                         return retVal;
                                      }
                                  });
 
                 // Now add the sorted list to the table.
                 for (String[] data : entries)
                 {
-                    String[] text = new String[3];
+                    String[] text = new String[4];
 
-                    for (int count = 0; count < text.length; count++)
+                    // The JMX URL should be added last.
+                    text[3] = data[0];
+
+                    for (int count = 0; count < (text.length - 1); count++)
                     {
                         text[count] = data[count + 1];
                     }
@@ -922,7 +969,7 @@ public class CordysCoEJMXViewerComposite extends Composite
     }
 
     /**
-     * THis method will handle special operations result.
+     * This method will handle special operations result.
      *
      * <p>Currently the following 'special' operations are supported:</p>
      *
@@ -983,72 +1030,6 @@ public class CordysCoEJMXViewerComposite extends Composite
          */
         public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
         {
-        }
-    }
-
-    /**
-     * DOCUMENTME.
-     *
-     * @author  $author$
-     */
-    class TableLabelProvider extends LabelProvider
-        implements ITableLabelProvider
-    {
-        /**
-         * DOCUMENTME.
-         *
-         * @param   element      DOCUMENTME
-         * @param   columnIndex  DOCUMENTME
-         *
-         * @return  DOCUMENTME
-         */
-        public Image getColumnImage(Object element, int columnIndex)
-        {
-            return null;
-        }
-
-        /**
-         * DOCUMENTME.
-         *
-         * @param   element      DOCUMENTME
-         * @param   columnIndex  DOCUMENTME
-         *
-         * @return  DOCUMENTME
-         */
-        public String getColumnText(Object element, int columnIndex)
-        {
-            if (element instanceof MBeanAttributeInfoWrapper)
-            {
-                MBeanAttributeInfoWrapper bawAttribute = (MBeanAttributeInfoWrapper) element;
-
-                if (columnIndex == 0)
-                {
-                    return bawAttribute.getObjectName().toString();
-                }
-                else if (columnIndex == 1)
-                {
-                    Object oValue = null;
-
-                    try
-                    {
-                        oValue = bawAttribute.getValue();
-                    }
-                    catch (Exception e)
-                    {
-                        // Ignore it.
-                        e.printStackTrace();
-                    }
-
-                    String sReturn = "";
-
-                    if (oValue != null)
-                    {
-                        sReturn = oValue.toString();
-                    }
-                    return sReturn;
-                }
-            }
-            return element.toString();
         }
     }
 

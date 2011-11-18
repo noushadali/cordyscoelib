@@ -20,7 +20,6 @@ package com.cordys.coe.tools.jmx.tables;
 import com.cordys.coe.tools.jmx.JMXImageRegistry;
 import com.cordys.coe.tools.jmx.StringUtils;
 import com.cordys.coe.tools.jmx.resources.MBeanAttributeInfoWrapper;
-import com.cordys.coe.util.swt.MessageBoxUtil;
 
 import javax.management.MBeanAttributeInfo;
 
@@ -114,11 +113,11 @@ class AttributesLabelProvider extends LabelProvider
                 }
                 catch (Throwable t)
                 {
-                    MessageBoxUtil.showError("Error getting value of attribute " +
-                                             attrInfo.getName(), t);
-                    return "";
+                    t.printStackTrace();
+                    return "Error: " + t.getMessage();
                 }
         }
+
         return getText(element);
     }
 }

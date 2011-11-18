@@ -8,6 +8,7 @@ import com.cordys.coe.tools.snapshot.data.SnapshotData;
 import com.cordys.coe.tools.snapshot.data.SnapshotResult;
 import com.cordys.coe.tools.snapshot.data.ThrowableWrapper;
 import com.cordys.coe.tools.snapshot.data.handler.DataHandlerFactory;
+import com.cordys.coe.tools.snapshot.view.ViewDataFactory;
 import com.cordys.coe.util.swing.MessageBoxUtil;
 
 import java.awt.BorderLayout;
@@ -42,6 +43,9 @@ import javax.swing.JTree;
 import javax.swing.UIManager;
 
 import javax.swing.border.TitledBorder;
+
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 
 import javax.swing.filechooser.FileFilter;
 
@@ -89,6 +93,10 @@ public class SystemSnapshot
      * DOCUMENTME.
      */
     private JTree m_resultTree;
+    /**
+     * DOCUMENTME.
+     */
+    private JPanel m_detailPanel;
 
     /**
      * Launch the application.
@@ -212,10 +220,21 @@ public class SystemSnapshot
         JScrollPane scrollPane_1 = new JScrollPane();
         splitPane.setRightComponent(scrollPane_1);
 
+        m_detailPanel = new JPanel();
+        scrollPane_1.setViewportView(m_detailPanel);
+        m_detailPanel.setLayout(new BorderLayout(0, 0));
+
         JScrollPane scrollPane = new JScrollPane();
         splitPane.setLeftComponent(scrollPane);
 
-        m_resultTree = new JTree();
+        m_resultTree = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode("Results")));
+        m_resultTree.addTreeSelectionListener(new TreeSelectionListener()
+            {
+                public void valueChanged(TreeSelectionEvent e)
+                {
+                    displayProperData();
+                }
+            });
         scrollPane.setViewportView(m_resultTree);
         splitPane.setDividerLocation(250);
 
@@ -230,6 +249,28 @@ public class SystemSnapshot
         m_rawResult.setFont(new Font("Consolas", Font.PLAIN, 10));
         m_rawResult.setEditable(false);
         scrollPane_2.setViewportView(m_rawResult);
+    }
+
+    /**
+     * This method will display the composite for the selected tree item.
+     */
+    public void displayProperData()
+    {
+        m_detailPanel.removeAll();
+
+        ResultTreeNode rtn = (ResultTreeNode) m_resultTree.getSelectionPath().getLastPathComponent();
+        Object uo = rtn.getUserObject();
+
+        if (uo instanceof Object[])
+        {
+            Object[] tmp = (Object[]) uo;
+            JMXCounter counter = (JMXCounter) tmp[0];
+            Object data = tmp[1];
+
+            m_detailPanel.add(ViewDataFactory.createComponent(data, counter, m_context), BorderLayout.CENTER);
+        }
+
+        m_detailPanel.revalidate();
     }
 
     /**
@@ -255,7 +296,7 @@ public class SystemSnapshot
      */
     public void showConfigurationDetails()
     {
-        ConfigurationDetailsDlg cdd = new ConfigurationDetailsDlg(frmSnapshotGrabber, true, m_config);
+        ConfigurationDetailsDlg cdd = new ConfigurationDetailsDlg(frmSnapshotGrabber, true, m_config, m_context);
 
         cdd.setVisible(true);
     }

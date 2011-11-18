@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 
 import javax.swing.border.EmptyBorder;
 
+import javax.xml.bind.JAXBContext;
+
 /**
  * Dialog to show the details of the configuration.
  *
@@ -30,11 +32,12 @@ public class ConfigurationDetailsDlg extends JDialog
     /**
      * Creates a new ConfigurationDetailsDlg object.
      *
-     * @param  owner   The owner frame.
-     * @param  modal   Whether or not the dialog should be visible.
-     * @param  config  The configuration to display.
+     * @param  owner    The owner frame.
+     * @param  modal    Whether or not the dialog should be visible.
+     * @param  config   The configuration to display.
+     * @param  context  The JAXBContext to use.
      */
-    public ConfigurationDetailsDlg(Frame owner, boolean modal, Config config)
+    public ConfigurationDetailsDlg(Frame owner, boolean modal, Config config, JAXBContext context)
     {
         super(owner, modal);
         setModalityType(ModalityType.APPLICATION_MODAL);
@@ -66,6 +69,6 @@ public class ConfigurationDetailsDlg extends JDialog
             }
         }
 
-        contentPanel.add(new ConfigurationDetails(config), BorderLayout.CENTER);
+        contentPanel.add(new ConfigurationDetails(config, context), BorderLayout.CENTER);
     }
 }

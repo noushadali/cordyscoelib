@@ -7,12 +7,14 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Wrapper class for the worker thread dispatchers that are found within the connector.
  *
  * @author  localpg
  */
+@XmlRootElement(name = "WorkerThreadResult", namespace = Constants.NS)
 public class WorkerThreadResult
 {
     /**

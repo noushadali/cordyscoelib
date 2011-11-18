@@ -6,8 +6,11 @@ import com.cordys.coe.tools.snapshot.config.Property;
 import com.cordys.coe.tools.snapshot.config.Server;
 import com.cordys.coe.tools.snapshot.config.ServiceContainer;
 import com.cordys.coe.tools.snapshot.config.ServiceGroup;
+import com.cordys.coe.util.swing.MessageBoxUtil;
 
 import java.awt.BorderLayout;
+
+import java.io.ByteArrayOutputStream;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,9 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -77,15 +83,25 @@ public class ConfigurationDetails extends JPanel
      * DOCUMENTME.
      */
     private JTable m_counterProperties;
+    /**
+     * Holds teh raw configuration XML.
+     */
+    private JTextArea m_rawView;
+    /**
+     * Holds teh JAXB context.
+     */
+    private JAXBContext m_context;
 
     /**
      * Create the panel.
      *
-     * @param  config  The configuration that be displayed.
+     * @param  config   The configuration that be displayed.
+     * @param  context  The JAXB context.
      */
-    public ConfigurationDetails(Config config)
+    public ConfigurationDetails(Config config, JAXBContext context)
     {
         m_config = config;
+        m_context = context;
 
         setLayout(new BorderLayout(0, 0));
 
@@ -198,7 +214,7 @@ public class ConfigurationDetails extends JPanel
         JScrollPane scrollPane_1 = new JScrollPane();
         rawPanel.add(scrollPane_1, BorderLayout.CENTER);
 
-        JTextArea m_rawView = new JTextArea();
+        m_rawView = new JTextArea();
         scrollPane_1.setViewportView(m_rawView);
 
         fillFromConfig();
@@ -276,6 +292,19 @@ public class ConfigurationDetails extends JPanel
         }
 
         m_serversTable.setModel(new ServerTableModel(servers));
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        try
+        {
+            Marshaller m = m_context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m.marshal(m_config, baos);
+        }
+        catch (Exception e)
+        {
+            MessageBoxUtil.showError("Error getting raw data", e);
+        }
     }
 
     /**

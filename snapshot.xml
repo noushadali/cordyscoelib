@@ -1,0 +1,3874 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SnapshotResult xmlns="http://schemas.cordys.csc.com/snapshotgrabber">
+    <SnapshotDataList>
+        <SnapshotData>
+            <ActualServiceContainer>
+                <JmxURL>service:jmx:rmi:///jndi/rmi://localhost:1099/cordys/csc_aus%23bpm%23bpm</JmxURL>
+                <Organization>csc_aus</Organization>
+                <Server>localhost</Server>
+                <ServiceContainer>bpm</ServiceContainer>
+                <ServiceGroup>bpm</ServiceGroup>
+            </ActualServiceContainer>
+            <JMXCounterResult>
+                <JMXCounterResultList>
+                    <JMXCounterResult>
+                        <JMXCounter>
+                            <Domain>java.lang</Domain>
+                            <NameProperties>
+<NameProperty>
+    <Key>type</Key>
+    <Value>Runtime</Value>
+</NameProperty>
+                            </NameProperties>
+                            <Property>Name</Property>
+                            <CounterType>ATTRIBUTE</CounterType>
+                            <ParameterList/>
+                            <DataHandler>com.cordys.coe.tools.snapshot.data.handler.HostPIDInfo</DataHandler>
+                        </JMXCounter>
+                        <ns3:Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns3="http://schemas.cordys.csc.com/snapshotgrabber" xmlns="" xsi:type="hostPIDInfo">
+                            <ns3:Host>CSCNLD2916841</ns3:Host>
+                            <ns3:ProcessID>3120</ns3:ProcessID>
+                        </ns3:Value>
+                    </JMXCounterResult>
+                    <JMXCounterResult>
+                        <JMXCounter>
+                            <Domain>com.cordys</Domain>
+                            <NameProperties/>
+                            <CounterType>ATTRIBUTE</CounterType>
+                            <ParameterList/>
+                            <DataCollector>com.cordys.coe.tools.snapshot.data.collector.WorkerThreadCollector</DataCollector>
+                        </JMXCounter>
+                        <ns3:Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns3="http://schemas.cordys.csc.com/snapshotgrabber" xmlns="" xsi:type="workerThreadResult">
+                            <ns3:ThreadDispatcherList>
+<ns3:ThreadDispatcher>
+    <ns3:ActiveWorkers>0</ns3:ActiveWorkers>
+    <ns3:CurrentWorkers>1</ns3:CurrentWorkers>
+    <ns3:IdleWorkers>1</ns3:IdleWorkers>
+    <ns3:MaxConcurrentWorkers>-1</ns3:MaxConcurrentWorkers>
+    <ns3:MinConcurrentWorkers>-1</ns3:MinConcurrentWorkers>
+</ns3:ThreadDispatcher>
+<ns3:ThreadDispatcher>
+    <ns3:ActiveWorkers>0</ns3:ActiveWorkers>
+    <ns3:CurrentWorkers>1</ns3:CurrentWorkers>
+    <ns3:IdleWorkers>1</ns3:IdleWorkers>
+    <ns3:MaxConcurrentWorkers>10</ns3:MaxConcurrentWorkers>
+    <ns3:MinConcurrentWorkers>1</ns3:MinConcurrentWorkers>
+</ns3:ThreadDispatcher>
+                            </ns3:ThreadDispatcherList>
+                        </ns3:Value>
+                    </JMXCounterResult>
+                    <JMXCounterResult>
+                        <JMXCounter>
+                            <Domain>java.lang</Domain>
+                            <NameProperties>
+<NameProperty>
+    <Key>type</Key>
+    <Value>MemoryPool</Value>
+</NameProperty>
+<NameProperty>
+    <Key>name</Key>
+    <Value>Perm Gen</Value>
+</NameProperty>
+                            </NameProperties>
+                            <Property>Usage</Property>
+                            <CounterType>ATTRIBUTE</CounterType>
+                            <ParameterList/>
+                        </JMXCounter>
+                        <ns3:Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns3="http://schemas.cordys.csc.com/snapshotgrabber" xmlns="" xsi:type="compositeData">
+                            <ns3:PropertyList>
+<ns3:Property>
+    <ns3:Key>committed</ns3:Key>
+    <ns3:Value xsi:type="stringWrappedValue">9437184</ns3:Value>
+</ns3:Property>
+<ns3:Property>
+    <ns3:Key>init</ns3:Key>
+    <ns3:Value xsi:type="stringWrappedValue">5242880</ns3:Value>
+</ns3:Property>
+<ns3:Property>
+    <ns3:Key>max</ns3:Key>
+    <ns3:Value xsi:type="stringWrappedValue">67108864</ns3:Value>
+</ns3:Property>
+<ns3:Property>
+    <ns3:Key>used</ns3:Key>
+    <ns3:Value xsi:type="stringWrappedValue">9269864</ns3:Value>
+</ns3:Property>
+                            </ns3:PropertyList>
+                        </ns3:Value>
+                    </JMXCounterResult>
+                    <JMXCounterResult>
+                        <JMXCounter>
+                            <Domain>java.lang</Domain>
+                            <NameProperties>
+<NameProperty>
+    <Key>type</Key>
+    <Value>Threading</Value>
+</NameProperty>
+                            </NameProperties>
+                            <Property>dumpAllThreads</Property>
+                            <CounterType>OPERATION</CounterType>
+                            <ParameterList>
+<Parameter>
+    <Value>true</Value>
+</Parameter>
+<Parameter>
+    <Value>true</Value>
+</Parameter>
+                            </ParameterList>
+                            <DataHandler>com.cordys.coe.tools.snapshot.data.handler.DumpAllThreads</DataHandler>
+                        </JMXCounter>
+                        <ns3:Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns3="http://schemas.cordys.csc.com/snapshotgrabber" xmlns="" xsi:type="dumpAllThreads">
+                            <ns3:FullDump>RMI TCP Connection(278)-10.1.50.131(RUNNABLE, false)
+sun.management.ThreadImpl.dumpThreads0(Native Method)
+sun.management.ThreadImpl.dumpAllThreads(null)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(null)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(null)
+java.lang.reflect.Method.invoke(null)
+com.sun.jmx.mbeanserver.ConvertingMethod.invokeWithOpenReturn(null)
+com.sun.jmx.mbeanserver.MXBeanIntrospector.invokeM2(null)
+com.sun.jmx.mbeanserver.MXBeanIntrospector.invokeM2(null)
+com.sun.jmx.mbeanserver.MBeanIntrospector.invokeM(null)
+com.sun.jmx.mbeanserver.PerInterface.invoke(null)
+com.sun.jmx.mbeanserver.MBeanSupport.invoke(null)
+javax.management.StandardMBean.invoke(null)
+com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(null)
+com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(null)
+javax.management.remote.rmi.RMIConnectionImpl.doOperation(null)
+javax.management.remote.rmi.RMIConnectionImpl.access$200(null)
+javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(null)
+java.security.AccessController.doPrivileged(Native Method)
+javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(null)
+javax.management.remote.rmi.RMIConnectionImpl.invoke(null)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(null)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(null)
+java.lang.reflect.Method.invoke(null)
+sun.rmi.server.UnicastServerRef.dispatch(null)
+sun.rmi.transport.Transport$1.run(null)
+java.security.AccessController.doPrivileged(Native Method)
+sun.rmi.transport.Transport.serviceCall(null)
+sun.rmi.transport.tcp.TCPTransport.handleMessages(null)
+sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(null)
+sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(null)
+java.util.concurrent.ThreadPoolExecutor$Worker.runTask(null)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(null)
+java.lang.Thread.run(null)
+
+JMX server connection timeout 224(TIMED_WAITING, false)
+java.lang.Object.wait(Native Method)
+com.sun.jmx.remote.internal.ServerCommunicatorAdmin$Timeout.run(null)
+java.lang.Thread.run(null)
+
+RMI TCP Connection(idle)(TIMED_WAITING, false)
+sun.misc.Unsafe.park(Native Method)
+java.util.concurrent.locks.LockSupport.parkNanos(null)
+java.util.concurrent.SynchronousQueue$TransferStack.awaitFulfill(null)
+java.util.concurrent.SynchronousQueue$TransferStack.transfer(null)
+java.util.concurrent.SynchronousQueue.poll(null)
+java.util.concurrent.ThreadPoolExecutor.getTask(null)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(null)
+java.lang.Thread.run(null)
+
+RemoteSyncUp_CSCNLD2916841_38918(RUNNABLE, false)
+java.net.SocketInputStream.socketRead0(Native Method)
+java.net.SocketInputStream.read(null)
+java.net.SocketInputStream.read(null)
+java.io.ObjectInputStream$PeekInputStream.peek(null)
+java.io.ObjectInputStream$BlockDataInputStream.peek(null)
+java.io.ObjectInputStream$BlockDataInputStream.peekByte(null)
+java.io.ObjectInputStream.readObject0(null)
+java.io.ObjectInputStream.readObject(null)
+com.eibus.util.syncup.clients.RemoteSyncUp$InputReader.run(RemoteSyncUp.java:442)
+
+JDBCAppenderConnectionWatcher_1321520432110(TIMED_WAITING, false)
+java.lang.Object.wait(Native Method)
+com.cordys.logger.appender.CordysJDBCAppender$JDBCAppenderConnectionWatcher.run(CordysJDBCAppender.java:573)
+
+DynamicRoutingUpdateWatcherThread(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.transport.routing.DynamicRouting$DynamicRoutingUpdateWatcherThread.run(DynamicRouting.java:389)
+
+Composite Application Logging Configuration Helper Thread(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.cordys.soap.internal.CALConfigurationHelper.run(CALConfigurationHelper.java:138)
+
+INFORMATION-THREAD-0(TIMED_WAITING, false)
+java.lang.Object.wait(Native Method)
+com.eibus.soap.InformationThread.run(InformationThread.java:303)
+
+BusinessProcessCache-Synchronizer(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.cordys.bpm.runtime.failover.ProcessCacheSynchUp.run(ProcessCacheSynchUp.java:137)
+java.lang.Thread.run(null)
+
+ProcessManager_47f8ca12-41a2-49d6-9d02-460bec7dcbce(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.cordys.bpm.utils.priorityqueue.PriorityManager.get(PriorityManager.java:88)
+com.cordys.bpm.utils.priorityqueue.PriorityQueue.get(PriorityQueue.java:93)
+com.cordys.bpm.runtime.engine.ProcessManager.run(ProcessManager.java:969)
+
+BusinesProcessFailOverThread(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.cordys.bpm.runtime.failover.ProcessEngineFailOverManager.run(ProcessEngineFailOverManager.java:124)
+java.lang.Thread.run(null)
+
+ProcessRegisterSyncUpThread(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.cordys.bpm.runtime.failover.ProcessRegisterSyncUp.run(ProcessRegisterSyncUp.java:134)
+java.lang.Thread.run(null)
+
+Thread-46(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.cordys.bpm.runtime.failover.ProcessNetworkManager.run(ProcessNetworkManager.java:55)
+java.lang.Thread.run(null)
+
+Thread-44(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.cordys.cpc.coboc.scheduler.failover.ScheduleRegisterSyncUp.run(ScheduleRegisterSyncUp.java:103)
+java.lang.Thread.run(null)
+
+Thread-43(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.cordys.cpc.coboc.scheduler.failover.ScheduleNetworkManager.run(ScheduleNetworkManager.java:55)
+java.lang.Thread.run(null)
+
+Thread-42(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.cordys.cpc.coboc.scheduler.failover.ScheduleFailOverManager.run(ScheduleFailOverManager.java:90)
+java.lang.Thread.run(null)
+
+Scheduler Engine - 00A0C600-0000-11E1-E21F-524263007DAF(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.cordys.cpc.coboc.scheduler.SchedulerManager$CPCSchedulerThread.run(SchedulerManager.java:948)
+
+ScheduleDipatcher(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.threadpool.Dispatcher.run(Dispatcher.java:576)
+
+ScheduleDipatcher/Worker-0(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody.getWork(Dispatcher.java:730)
+com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody.run(Dispatcher.java:758)
+com.eibus.util.threadpool.WorkerThread.run(WorkerThread.java:64)
+
+socket:\\/Worker-0(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.transport.Middleware$InboundQueueWrapper.receive(Middleware.java:2368)
+com.eibus.transport.Middleware$NonTransactionalWorkerThreadBody.run(Middleware.java:1694)
+com.eibus.util.threadpool.WorkerThread.run(WorkerThread.java:64)
+
+Process Engine/Reaper Thread(TIMED_WAITING, false)
+java.lang.Object.wait(Native Method)
+com.cordys.bpm.utils.priorityqueue.algorithm.AgingAlgorithm$ReaperThread.run(AgingAlgorithm.java:141)
+java.lang.Thread.run(null)
+
+BPMEngine_LongLivedProcess_ThreadPool/WorkerThread-5(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.cordys.bpm.runtime.threadpool.WaitQueue.remove(WaitQueue.java:84)
+com.cordys.bpm.runtime.threadpool.WorkerThread.startWork(WorkerThread.java:86)
+com.cordys.bpm.runtime.threadpool.WorkerThread.access$000(WorkerThread.java:7)
+com.cordys.bpm.runtime.threadpool.WorkerThread$1.run(WorkerThread.java:36)
+java.lang.Thread.run(null)
+
+BPMEngine_LongLivedProcess_ThreadPool/WorkerThread-4(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.cordys.bpm.runtime.threadpool.WaitQueue.remove(WaitQueue.java:84)
+com.cordys.bpm.runtime.threadpool.WorkerThread.startWork(WorkerThread.java:86)
+com.cordys.bpm.runtime.threadpool.WorkerThread.access$000(WorkerThread.java:7)
+com.cordys.bpm.runtime.threadpool.WorkerThread$1.run(WorkerThread.java:36)
+java.lang.Thread.run(null)
+
+BPMEngine_LongLivedProcess_ThreadPool/WorkerThread-3(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.cordys.bpm.runtime.threadpool.WaitQueue.remove(WaitQueue.java:84)
+com.cordys.bpm.runtime.threadpool.WorkerThread.startWork(WorkerThread.java:86)
+com.cordys.bpm.runtime.threadpool.WorkerThread.access$000(WorkerThread.java:7)
+com.cordys.bpm.runtime.threadpool.WorkerThread$1.run(WorkerThread.java:36)
+java.lang.Thread.run(null)
+
+BPMEngine_LongLivedProcess_ThreadPool/WorkerThread-2(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.cordys.bpm.runtime.threadpool.WaitQueue.remove(WaitQueue.java:84)
+com.cordys.bpm.runtime.threadpool.WorkerThread.startWork(WorkerThread.java:86)
+com.cordys.bpm.runtime.threadpool.WorkerThread.access$000(WorkerThread.java:7)
+com.cordys.bpm.runtime.threadpool.WorkerThread$1.run(WorkerThread.java:36)
+java.lang.Thread.run(null)
+
+BPMEngine_LongLivedProcess_ThreadPool/WorkerThread-1(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.cordys.bpm.runtime.threadpool.WaitQueue.remove(WaitQueue.java:84)
+com.cordys.bpm.runtime.threadpool.WorkerThread.startWork(WorkerThread.java:86)
+com.cordys.bpm.runtime.threadpool.WorkerThread.access$000(WorkerThread.java:7)
+com.cordys.bpm.runtime.threadpool.WorkerThread$1.run(WorkerThread.java:36)
+java.lang.Thread.run(null)
+
+CreateArchiveDispatcher(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.threadpool.Dispatcher.run(Dispatcher.java:576)
+
+CreateArchiveDispatcher/Worker-0(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody.getWork(Dispatcher.java:730)
+com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody.run(Dispatcher.java:758)
+com.eibus.util.threadpool.WorkerThread.run(WorkerThread.java:64)
+
+DBConnectionPool-Cleaner-Thread(TIMED_WAITING, false)
+java.lang.Thread.sleep(Native Method)
+com.eibus.applicationconnector.sql.DBConnectionPool$CleanUpThread.run(DBConnectionPool.java:2791)
+
+DynamicRoutingUpdateWatcherThread(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.transport.routing.DynamicRouting$DynamicRoutingUpdateWatcherThread.run(DynamicRouting.java:389)
+
+TCP/IP-InboundQueue-2(RUNNABLE, false)
+java.net.PlainSocketImpl.socketAccept(Native Method)
+java.net.PlainSocketImpl.accept(null)
+java.net.ServerSocket.implAccept(null)
+java.net.ServerSocket.accept(null)
+com.eibus.transport.socket.InboundQueue.run(InboundQueue.java:329)
+
+socket:\\/Worker-0(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.transport.Middleware$InboundQueueWrapper.receive(Middleware.java:2368)
+com.eibus.transport.Middleware$NonTransactionalWorkerThreadBody.run(Middleware.java:1694)
+com.eibus.util.threadpool.WorkerThread.run(WorkerThread.java:64)
+
+Thread-27(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.cordys.cpc.coboc.net.CoBOCSyncUpManager.run(CoBOCSyncUpManager.java:112)
+java.lang.Thread.run(null)
+
+GroupCommunicator:Dispatching(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.transport.groupmembership.comlayer.GroupCommunicator.run(GroupCommunicator.java:476)
+java.lang.Thread.run(null)
+
+GroupCommunicator:DatagramPacketReceiving(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.transport.groupmembership.comlayer.GroupCommunicator$DatagramPacketReceiver.run(GroupCommunicator.java:1253)
+java.lang.Thread.run(null)
+
+GroupCommunicator:StateListening(/127.0.0.1:60719)(RUNNABLE, false)
+java.net.PlainSocketImpl.socketAccept(Native Method)
+java.net.PlainSocketImpl.accept(null)
+java.net.ServerSocket.implAccept(null)
+java.net.ServerSocket.accept(null)
+com.eibus.transport.groupmembership.comlayer.GroupCommunicator$StateServer.run(GroupCommunicator.java:1515)
+java.lang.Thread.run(null)
+
+GroupCommunicator:MessageReceiving(/233.1.50.131:1280)(RUNNABLE, false)
+java.net.PlainDatagramSocketImpl.receive0(Native Method)
+java.net.PlainDatagramSocketImpl.receive(null)
+java.net.DatagramSocket.receive(null)
+com.eibus.transport.groupmembership.comlayer.MulticastClient.receive(MulticastClient.java:377)
+com.eibus.transport.groupmembership.comlayer.GroupCommunicator$MessageReceiver.run(GroupCommunicator.java:1111)
+java.lang.Thread.run(null)
+
+GroupCommunicator:TokenReceiving(/127.0.0.1:33670)(RUNNABLE, false)
+java.net.PlainDatagramSocketImpl.receive0(Native Method)
+java.net.PlainDatagramSocketImpl.receive(null)
+java.net.DatagramSocket.receive(null)
+com.eibus.transport.groupmembership.comlayer.GroupCommunicator$TokenReceiver.run(GroupCommunicator.java:873)
+java.lang.Thread.run(null)
+
+MessageOrderer:MessageDelivery_0(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.transport.groupmembership.messageordering.MessageOrderer.run(MessageOrderer.java:231)
+java.lang.Thread.run(null)
+
+ThreadPool_GroupCommunicator(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.threadpool.Dispatcher.run(Dispatcher.java:576)
+
+ThreadPool_GroupCommunicator/Worker-0(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody.getWork(Dispatcher.java:730)
+com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody.run(Dispatcher.java:758)
+com.eibus.util.threadpool.WorkerThread.run(WorkerThread.java:64)
+
+Timer-1(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+java.util.TimerThread.mainLoop(null)
+java.util.TimerThread.run(null)
+
+Timer-0(TIMED_WAITING, false)
+java.lang.Object.wait(Native Method)
+java.util.TimerThread.mainLoop(null)
+java.util.TimerThread.run(null)
+
+CoBOC Index Tree Dispatcher(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.threadpool.Dispatcher.run(Dispatcher.java:576)
+
+CoBOC Index Tree Dispatcher/Worker-0(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody.getWork(Dispatcher.java:730)
+com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody.run(Dispatcher.java:758)
+com.eibus.util.threadpool.WorkerThread.run(WorkerThread.java:64)
+
+DBConnectionPool-Cleaner-Thread(TIMED_WAITING, false)
+java.lang.Thread.sleep(Native Method)
+com.eibus.applicationconnector.sql.DBConnectionPool$CleanUpThread.run(DBConnectionPool.java:2791)
+
+DBConnectionPool-Cleaner-Thread(TIMED_WAITING, false)
+java.lang.Thread.sleep(Native Method)
+com.eibus.applicationconnector.sql.DBConnectionPool$CleanUpThread.run(DBConnectionPool.java:2791)
+
+DBConnectionPool-Cleaner-Thread(TIMED_WAITING, false)
+java.lang.Thread.sleep(Native Method)
+com.eibus.applicationconnector.sql.DBConnectionPool$CleanUpThread.run(DBConnectionPool.java:2791)
+
+RequestMonitor-cn=BPM,cn=soap nodes,o=csc_aus,cn=cordys,cn=main,o=EMEA.globalcsc.net(TIMED_WAITING, false)
+java.lang.Thread.sleep(Native Method)
+com.eibus.soap.RequestMonitor.run(RequestMonitor.java:221)
+java.lang.Thread.run(null)
+
+TCP/IP-InboundQueue-1(RUNNABLE, false)
+java.net.PlainSocketImpl.socketAccept(Native Method)
+java.net.PlainSocketImpl.accept(null)
+java.net.ServerSocket.implAccept(null)
+java.net.ServerSocket.accept(null)
+com.eibus.transport.socket.InboundQueue.run(InboundQueue.java:329)
+
+socket:\\cscnld2916841:56066/Worker-0(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.transport.Middleware$InboundQueueWrapper.receive(Middleware.java:2368)
+com.eibus.transport.Middleware$NonTransactionalWorkerThreadBody.run(Middleware.java:1694)
+com.eibus.util.threadpool.WorkerThread.run(WorkerThread.java:64)
+
+SOAPNodeConfigurationWatcherThread - cn=BPM,cn=soap nodes,o=csc_aus,cn=cordys,cn=main,o=EMEA.globalcsc.net(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.soap.internal.SOAPNodeConfigurationWatcher.run(SOAPNodeConfigurationWatcher.java:245)
+
+Monitor Stream Reader Thread(TIMED_WAITING, false)
+java.lang.Thread.sleep(Native Method)
+com.eibus.soap.ProcessStreamsHandler$StreamReader.run(ProcessStreamsHandler.java:257)
+
+RMI Scheduler(0)(TIMED_WAITING, false)
+sun.misc.Unsafe.park(Native Method)
+java.util.concurrent.locks.LockSupport.parkNanos(null)
+java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(null)
+java.util.concurrent.DelayQueue.take(null)
+java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(null)
+java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(null)
+java.util.concurrent.ThreadPoolExecutor.getTask(null)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(null)
+java.lang.Thread.run(null)
+
+GC Daemon(TIMED_WAITING, false)
+java.lang.Object.wait(Native Method)
+sun.misc.GC$Daemon.run(null)
+
+RMI Reaper(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.ref.ReferenceQueue.remove(null)
+java.lang.ref.ReferenceQueue.remove(null)
+sun.rmi.transport.ObjectTable$Reaper.run(null)
+java.lang.Thread.run(null)
+
+RMI TCP Accept-0(RUNNABLE, false)
+java.net.PlainSocketImpl.socketAccept(Native Method)
+java.net.PlainSocketImpl.accept(null)
+java.net.ServerSocket.implAccept(null)
+java.net.ServerSocket.accept(null)
+sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(null)
+sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(null)
+java.lang.Thread.run(null)
+
+com.eibus.license.MonitorThread(TIMED_WAITING, false)
+java.lang.Thread.sleep(Native Method)
+com.eibus.license.MonitorThread.run(MonitorThread.java:178)
+
+BootstrapInfoUpdater(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.directory.soap.BootstrapInfoUpdater.run(BootstrapInfoUpdater.java:66)
+java.lang.Thread.run(null)
+
+Clear_LDAP_Cache_Thread(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.directory.soap.LDAPSOAPNodeWatcher$ClearCacheThread.run(LDAPSOAPNodeWatcher.java:119)
+
+DynamicRoutingUpdateWatcherThread(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.transport.routing.DynamicRouting$DynamicRoutingUpdateWatcherThread.run(DynamicRouting.java:389)
+
+RemoteSyncUp_msg_dispatcherCSCNLD2916841_38918(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.util.syncup.clients.RemoteSyncUp$InputMessageDispatcher.run(RemoteSyncUp.java:595)
+
+LDAP Cache Updater(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.directory.soap.CacheUpdater.run(CacheUpdater.java:147)
+java.lang.Thread.run(null)
+
+TCP/IP-InboundQueue-0(RUNNABLE, false)
+java.net.PlainSocketImpl.socketAccept(Native Method)
+java.net.PlainSocketImpl.accept(null)
+java.net.ServerSocket.implAccept(null)
+java.net.ServerSocket.accept(null)
+com.eibus.transport.socket.InboundQueue.run(InboundQueue.java:329)
+
+socket:\\/Worker-0(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.util.Queue.get(Queue.java:91)
+com.eibus.util.Queue.get(Queue.java:64)
+com.eibus.transport.Middleware$InboundQueueWrapper.receive(Middleware.java:2368)
+com.eibus.transport.Middleware$NonTransactionalWorkerThreadBody.run(Middleware.java:1694)
+com.eibus.util.threadpool.WorkerThread.run(WorkerThread.java:64)
+
+OutboundQueuesHandler_TP_Socket_1321520418768(TIMED_WAITING, false)
+java.lang.Object.wait(Native Method)
+com.eibus.transport.socket.TransportProvider$ConnectionKiller$OutboundQueuesHandler.run(TransportProvider.java:346)
+
+Outbound Queue Cache(TIMED_WAITING, false)
+java.lang.Object.wait(Native Method)
+com.eibus.transport.socket.OutboundQueueCache.run(OutboundQueueCache.java:108)
+java.lang.Thread.run(null)
+
+NodeObjectRef cleanup thread(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.ref.ReferenceQueue.remove(null)
+java.lang.ref.ReferenceQueue.remove(null)
+com.eibus.xml.nom.NodeObjectRef$1.run(NodeObjectRef.java:42)
+java.lang.Thread.run(null)
+
+Thread-0(TIMED_WAITING, false)
+java.lang.Thread.sleep(Native Method)
+org.apache.log4j.helpers.FileWatchdog.run(FileWatchdog.java:104)
+
+Attach Listener(RUNNABLE, false)
+
+Finalizer(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.ref.ReferenceQueue.remove(null)
+java.lang.ref.ReferenceQueue.remove(null)
+java.lang.ref.Finalizer$FinalizerThread.run(null)
+
+Reference Handler(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+java.lang.ref.Reference$ReferenceHandler.run(null)
+
+main(WAITING, false)
+java.lang.Object.wait(Native Method)
+java.lang.Object.wait(Object.java:485)
+com.eibus.soap.Processor.main(Processor.java:1388)
+
+</ns3:FullDump>
+                            <ns3:ThreadInfoList>
+<ns3:ThreadInfo>
+    <ns3:Name>RMI TCP Connection(278)-10.1.50.131</ns3:Name>
+    <ns3:ThreadID>225</ns3:ThreadID>
+    <ns3:State>RUNNABLE</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.management.ThreadImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>dumpThreads0</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.management.ThreadImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>dumpAllThreads</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.reflect.NativeMethodAccessorImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>invoke0</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.reflect.NativeMethodAccessorImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invoke</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.reflect.DelegatingMethodAccessorImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invoke</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.reflect.Method</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invoke</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.sun.jmx.mbeanserver.ConvertingMethod</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invokeWithOpenReturn</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.sun.jmx.mbeanserver.MXBeanIntrospector</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invokeM2</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.sun.jmx.mbeanserver.MXBeanIntrospector</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invokeM2</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.sun.jmx.mbeanserver.MBeanIntrospector</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invokeM</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.sun.jmx.mbeanserver.PerInterface</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invoke</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.sun.jmx.mbeanserver.MBeanSupport</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invoke</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>javax.management.StandardMBean</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invoke</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.sun.jmx.interceptor.DefaultMBeanServerInterceptor</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invoke</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.sun.jmx.mbeanserver.JmxMBeanServer</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invoke</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>javax.management.remote.rmi.RMIConnectionImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>doOperation</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>javax.management.remote.rmi.RMIConnectionImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>access$200</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.security.AccessController</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>doPrivileged</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>javax.management.remote.rmi.RMIConnectionImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>doPrivilegedOperation</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>javax.management.remote.rmi.RMIConnectionImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invoke</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.reflect.NativeMethodAccessorImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>invoke0</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.reflect.NativeMethodAccessorImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invoke</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.reflect.DelegatingMethodAccessorImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invoke</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.reflect.Method</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>invoke</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.rmi.server.UnicastServerRef</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>dispatch</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.rmi.transport.Transport$1</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.security.AccessController</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>doPrivileged</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.rmi.transport.Transport</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>serviceCall</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.rmi.transport.tcp.TCPTransport</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>handleMessages</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.rmi.transport.tcp.TCPTransport$ConnectionHandler</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run0</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.rmi.transport.tcp.TCPTransport$ConnectionHandler</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.ThreadPoolExecutor$Worker</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>runTask</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.ThreadPoolExecutor$Worker</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>JMX server connection timeout 224</ns3:Name>
+    <ns3:ThreadID>224</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.sun.jmx.remote.internal.ServerCommunicatorAdmin$Timeout</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>RMI TCP Connection(idle)</ns3:Name>
+    <ns3:ThreadID>223</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.misc.Unsafe</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>park</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.locks.LockSupport</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>parkNanos</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.SynchronousQueue$TransferStack</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>awaitFulfill</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.SynchronousQueue$TransferStack</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>transfer</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.SynchronousQueue</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>poll</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.ThreadPoolExecutor</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>getTask</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.ThreadPoolExecutor$Worker</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>RemoteSyncUp_CSCNLD2916841_38918</ns3:Name>
+    <ns3:ThreadID>187</ns3:ThreadID>
+    <ns3:State>RUNNABLE</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.SocketInputStream</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>socketRead0</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.SocketInputStream</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>read</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.SocketInputStream</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>read</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.io.ObjectInputStream$PeekInputStream</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>peek</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.io.ObjectInputStream$BlockDataInputStream</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>peek</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.io.ObjectInputStream$BlockDataInputStream</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>peekByte</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.io.ObjectInputStream</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>readObject0</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.io.ObjectInputStream</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>readObject</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.syncup.clients.RemoteSyncUp$InputReader</ns3:ClassName>
+            <ns3:Filename>RemoteSyncUp.java</ns3:Filename>
+            <ns3:Line>442</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>JDBCAppenderConnectionWatcher_1321520432110</ns3:Name>
+    <ns3:ThreadID>94</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.logger.appender.CordysJDBCAppender$JDBCAppenderConnectionWatcher</ns3:ClassName>
+            <ns3:Filename>CordysJDBCAppender.java</ns3:Filename>
+            <ns3:Line>573</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>DynamicRoutingUpdateWatcherThread</ns3:Name>
+    <ns3:ThreadID>93</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.routing.DynamicRouting$DynamicRoutingUpdateWatcherThread</ns3:ClassName>
+            <ns3:Filename>DynamicRouting.java</ns3:Filename>
+            <ns3:Line>389</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Composite Application Logging Configuration Helper Thread</ns3:Name>
+    <ns3:ThreadID>92</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.soap.internal.CALConfigurationHelper</ns3:ClassName>
+            <ns3:Filename>CALConfigurationHelper.java</ns3:Filename>
+            <ns3:Line>138</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>INFORMATION-THREAD-0</ns3:Name>
+    <ns3:ThreadID>41</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.soap.InformationThread</ns3:ClassName>
+            <ns3:Filename>InformationThread.java</ns3:Filename>
+            <ns3:Line>303</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>BusinessProcessCache-Synchronizer</ns3:Name>
+    <ns3:ThreadID>91</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.failover.ProcessCacheSynchUp</ns3:ClassName>
+            <ns3:Filename>ProcessCacheSynchUp.java</ns3:Filename>
+            <ns3:Line>137</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>ProcessManager_47f8ca12-41a2-49d6-9d02-460bec7dcbce</ns3:Name>
+    <ns3:ThreadID>69</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.utils.priorityqueue.PriorityManager</ns3:ClassName>
+            <ns3:Filename>PriorityManager.java</ns3:Filename>
+            <ns3:Line>88</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.utils.priorityqueue.PriorityQueue</ns3:ClassName>
+            <ns3:Filename>PriorityQueue.java</ns3:Filename>
+            <ns3:Line>93</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.engine.ProcessManager</ns3:ClassName>
+            <ns3:Filename>ProcessManager.java</ns3:Filename>
+            <ns3:Line>969</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>BusinesProcessFailOverThread</ns3:Name>
+    <ns3:ThreadID>89</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.failover.ProcessEngineFailOverManager</ns3:ClassName>
+            <ns3:Filename>ProcessEngineFailOverManager.java</ns3:Filename>
+            <ns3:Line>124</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>ProcessRegisterSyncUpThread</ns3:Name>
+    <ns3:ThreadID>88</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.failover.ProcessRegisterSyncUp</ns3:ClassName>
+            <ns3:Filename>ProcessRegisterSyncUp.java</ns3:Filename>
+            <ns3:Line>134</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Thread-46</ns3:Name>
+    <ns3:ThreadID>87</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.failover.ProcessNetworkManager</ns3:ClassName>
+            <ns3:Filename>ProcessNetworkManager.java</ns3:Filename>
+            <ns3:Line>55</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Thread-44</ns3:Name>
+    <ns3:ThreadID>84</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.cpc.coboc.scheduler.failover.ScheduleRegisterSyncUp</ns3:ClassName>
+            <ns3:Filename>ScheduleRegisterSyncUp.java</ns3:Filename>
+            <ns3:Line>103</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Thread-43</ns3:Name>
+    <ns3:ThreadID>83</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.cpc.coboc.scheduler.failover.ScheduleNetworkManager</ns3:ClassName>
+            <ns3:Filename>ScheduleNetworkManager.java</ns3:Filename>
+            <ns3:Line>55</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Thread-42</ns3:Name>
+    <ns3:ThreadID>82</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.cpc.coboc.scheduler.failover.ScheduleFailOverManager</ns3:ClassName>
+            <ns3:Filename>ScheduleFailOverManager.java</ns3:Filename>
+            <ns3:Line>90</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Scheduler Engine - 00A0C600-0000-11E1-E21F-524263007DAF</ns3:Name>
+    <ns3:ThreadID>76</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.cpc.coboc.scheduler.SchedulerManager$CPCSchedulerThread</ns3:ClassName>
+            <ns3:Filename>SchedulerManager.java</ns3:Filename>
+            <ns3:Line>948</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>ScheduleDipatcher</ns3:Name>
+    <ns3:ThreadID>80</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.Dispatcher</ns3:ClassName>
+            <ns3:Filename>Dispatcher.java</ns3:Filename>
+            <ns3:Line>576</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>ScheduleDipatcher/Worker-0</ns3:Name>
+    <ns3:ThreadID>81</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody</ns3:ClassName>
+            <ns3:Filename>Dispatcher.java</ns3:Filename>
+            <ns3:Line>730</ns3:Line>
+            <ns3:Method>getWork</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody</ns3:ClassName>
+            <ns3:Filename>Dispatcher.java</ns3:Filename>
+            <ns3:Line>758</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>socket:\\/Worker-0</ns3:Name>
+    <ns3:ThreadID>79</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.Middleware$InboundQueueWrapper</ns3:ClassName>
+            <ns3:Filename>Middleware.java</ns3:Filename>
+            <ns3:Line>2368</ns3:Line>
+            <ns3:Method>receive</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.Middleware$NonTransactionalWorkerThreadBody</ns3:ClassName>
+            <ns3:Filename>Middleware.java</ns3:Filename>
+            <ns3:Line>1694</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Process Engine/Reaper Thread</ns3:Name>
+    <ns3:ThreadID>75</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.utils.priorityqueue.algorithm.AgingAlgorithm$ReaperThread</ns3:ClassName>
+            <ns3:Filename>AgingAlgorithm.java</ns3:Filename>
+            <ns3:Line>141</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>BPMEngine_LongLivedProcess_ThreadPool/WorkerThread-5</ns3:Name>
+    <ns3:ThreadID>74</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WaitQueue</ns3:ClassName>
+            <ns3:Filename>WaitQueue.java</ns3:Filename>
+            <ns3:Line>84</ns3:Line>
+            <ns3:Method>remove</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>86</ns3:Line>
+            <ns3:Method>startWork</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>7</ns3:Line>
+            <ns3:Method>access$000</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread$1</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>36</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>BPMEngine_LongLivedProcess_ThreadPool/WorkerThread-4</ns3:Name>
+    <ns3:ThreadID>73</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WaitQueue</ns3:ClassName>
+            <ns3:Filename>WaitQueue.java</ns3:Filename>
+            <ns3:Line>84</ns3:Line>
+            <ns3:Method>remove</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>86</ns3:Line>
+            <ns3:Method>startWork</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>7</ns3:Line>
+            <ns3:Method>access$000</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread$1</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>36</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>BPMEngine_LongLivedProcess_ThreadPool/WorkerThread-3</ns3:Name>
+    <ns3:ThreadID>72</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WaitQueue</ns3:ClassName>
+            <ns3:Filename>WaitQueue.java</ns3:Filename>
+            <ns3:Line>84</ns3:Line>
+            <ns3:Method>remove</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>86</ns3:Line>
+            <ns3:Method>startWork</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>7</ns3:Line>
+            <ns3:Method>access$000</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread$1</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>36</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>BPMEngine_LongLivedProcess_ThreadPool/WorkerThread-2</ns3:Name>
+    <ns3:ThreadID>71</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WaitQueue</ns3:ClassName>
+            <ns3:Filename>WaitQueue.java</ns3:Filename>
+            <ns3:Line>84</ns3:Line>
+            <ns3:Method>remove</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>86</ns3:Line>
+            <ns3:Method>startWork</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>7</ns3:Line>
+            <ns3:Method>access$000</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread$1</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>36</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>BPMEngine_LongLivedProcess_ThreadPool/WorkerThread-1</ns3:Name>
+    <ns3:ThreadID>70</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WaitQueue</ns3:ClassName>
+            <ns3:Filename>WaitQueue.java</ns3:Filename>
+            <ns3:Line>84</ns3:Line>
+            <ns3:Method>remove</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>86</ns3:Line>
+            <ns3:Method>startWork</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>7</ns3:Line>
+            <ns3:Method>access$000</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.bpm.runtime.threadpool.WorkerThread$1</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>36</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>CreateArchiveDispatcher</ns3:Name>
+    <ns3:ThreadID>67</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.Dispatcher</ns3:ClassName>
+            <ns3:Filename>Dispatcher.java</ns3:Filename>
+            <ns3:Line>576</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>CreateArchiveDispatcher/Worker-0</ns3:Name>
+    <ns3:ThreadID>68</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody</ns3:ClassName>
+            <ns3:Filename>Dispatcher.java</ns3:Filename>
+            <ns3:Line>730</ns3:Line>
+            <ns3:Method>getWork</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody</ns3:ClassName>
+            <ns3:Filename>Dispatcher.java</ns3:Filename>
+            <ns3:Line>758</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>DBConnectionPool-Cleaner-Thread</ns3:Name>
+    <ns3:ThreadID>66</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>sleep</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.applicationconnector.sql.DBConnectionPool$CleanUpThread</ns3:ClassName>
+            <ns3:Filename>DBConnectionPool.java</ns3:Filename>
+            <ns3:Line>2791</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>DynamicRoutingUpdateWatcherThread</ns3:Name>
+    <ns3:ThreadID>62</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.routing.DynamicRouting$DynamicRoutingUpdateWatcherThread</ns3:ClassName>
+            <ns3:Filename>DynamicRouting.java</ns3:Filename>
+            <ns3:Line>389</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>TCP/IP-InboundQueue-2</ns3:Name>
+    <ns3:ThreadID>59</ns3:ThreadID>
+    <ns3:State>RUNNABLE</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>socketAccept</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>accept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.ServerSocket</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>implAccept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.ServerSocket</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>accept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.socket.InboundQueue</ns3:ClassName>
+            <ns3:Filename>InboundQueue.java</ns3:Filename>
+            <ns3:Line>329</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>socket:\\/Worker-0</ns3:Name>
+    <ns3:ThreadID>61</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.Middleware$InboundQueueWrapper</ns3:ClassName>
+            <ns3:Filename>Middleware.java</ns3:Filename>
+            <ns3:Line>2368</ns3:Line>
+            <ns3:Method>receive</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.Middleware$NonTransactionalWorkerThreadBody</ns3:ClassName>
+            <ns3:Filename>Middleware.java</ns3:Filename>
+            <ns3:Line>1694</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Thread-27</ns3:Name>
+    <ns3:ThreadID>58</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.cordys.cpc.coboc.net.CoBOCSyncUpManager</ns3:ClassName>
+            <ns3:Filename>CoBOCSyncUpManager.java</ns3:Filename>
+            <ns3:Line>112</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>GroupCommunicator:Dispatching</ns3:Name>
+    <ns3:ThreadID>57</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.groupmembership.comlayer.GroupCommunicator</ns3:ClassName>
+            <ns3:Filename>GroupCommunicator.java</ns3:Filename>
+            <ns3:Line>476</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>GroupCommunicator:DatagramPacketReceiving</ns3:Name>
+    <ns3:ThreadID>55</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.groupmembership.comlayer.GroupCommunicator$DatagramPacketReceiver</ns3:ClassName>
+            <ns3:Filename>GroupCommunicator.java</ns3:Filename>
+            <ns3:Line>1253</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>GroupCommunicator:StateListening(/127.0.0.1:60719)</ns3:Name>
+    <ns3:ThreadID>56</ns3:ThreadID>
+    <ns3:State>RUNNABLE</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>socketAccept</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>accept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.ServerSocket</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>implAccept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.ServerSocket</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>accept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.groupmembership.comlayer.GroupCommunicator$StateServer</ns3:ClassName>
+            <ns3:Filename>GroupCommunicator.java</ns3:Filename>
+            <ns3:Line>1515</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>GroupCommunicator:MessageReceiving(/233.1.50.131:1280)</ns3:Name>
+    <ns3:ThreadID>54</ns3:ThreadID>
+    <ns3:State>RUNNABLE</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainDatagramSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>receive0</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainDatagramSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>receive</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.DatagramSocket</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>receive</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.groupmembership.comlayer.MulticastClient</ns3:ClassName>
+            <ns3:Filename>MulticastClient.java</ns3:Filename>
+            <ns3:Line>377</ns3:Line>
+            <ns3:Method>receive</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.groupmembership.comlayer.GroupCommunicator$MessageReceiver</ns3:ClassName>
+            <ns3:Filename>GroupCommunicator.java</ns3:Filename>
+            <ns3:Line>1111</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>GroupCommunicator:TokenReceiving(/127.0.0.1:33670)</ns3:Name>
+    <ns3:ThreadID>53</ns3:ThreadID>
+    <ns3:State>RUNNABLE</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainDatagramSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>receive0</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainDatagramSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>receive</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.DatagramSocket</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>receive</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.groupmembership.comlayer.GroupCommunicator$TokenReceiver</ns3:ClassName>
+            <ns3:Filename>GroupCommunicator.java</ns3:Filename>
+            <ns3:Line>873</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>MessageOrderer:MessageDelivery_0</ns3:Name>
+    <ns3:ThreadID>48</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.groupmembership.messageordering.MessageOrderer</ns3:ClassName>
+            <ns3:Filename>MessageOrderer.java</ns3:Filename>
+            <ns3:Line>231</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>ThreadPool_GroupCommunicator</ns3:Name>
+    <ns3:ThreadID>51</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.Dispatcher</ns3:ClassName>
+            <ns3:Filename>Dispatcher.java</ns3:Filename>
+            <ns3:Line>576</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>ThreadPool_GroupCommunicator/Worker-0</ns3:Name>
+    <ns3:ThreadID>52</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody</ns3:ClassName>
+            <ns3:Filename>Dispatcher.java</ns3:Filename>
+            <ns3:Line>730</ns3:Line>
+            <ns3:Method>getWork</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody</ns3:ClassName>
+            <ns3:Filename>Dispatcher.java</ns3:Filename>
+            <ns3:Line>758</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Timer-1</ns3:Name>
+    <ns3:ThreadID>50</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.TimerThread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>mainLoop</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.TimerThread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Timer-0</ns3:Name>
+    <ns3:ThreadID>49</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.TimerThread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>mainLoop</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.TimerThread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>CoBOC Index Tree Dispatcher</ns3:Name>
+    <ns3:ThreadID>46</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.Dispatcher</ns3:ClassName>
+            <ns3:Filename>Dispatcher.java</ns3:Filename>
+            <ns3:Line>576</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>CoBOC Index Tree Dispatcher/Worker-0</ns3:Name>
+    <ns3:ThreadID>47</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody</ns3:ClassName>
+            <ns3:Filename>Dispatcher.java</ns3:Filename>
+            <ns3:Line>730</ns3:Line>
+            <ns3:Method>getWork</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.Dispatcher$StandardWorkerThreadBody</ns3:ClassName>
+            <ns3:Filename>Dispatcher.java</ns3:Filename>
+            <ns3:Line>758</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>DBConnectionPool-Cleaner-Thread</ns3:Name>
+    <ns3:ThreadID>44</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>sleep</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.applicationconnector.sql.DBConnectionPool$CleanUpThread</ns3:ClassName>
+            <ns3:Filename>DBConnectionPool.java</ns3:Filename>
+            <ns3:Line>2791</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>DBConnectionPool-Cleaner-Thread</ns3:Name>
+    <ns3:ThreadID>43</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>sleep</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.applicationconnector.sql.DBConnectionPool$CleanUpThread</ns3:ClassName>
+            <ns3:Filename>DBConnectionPool.java</ns3:Filename>
+            <ns3:Line>2791</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>DBConnectionPool-Cleaner-Thread</ns3:Name>
+    <ns3:ThreadID>42</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>sleep</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.applicationconnector.sql.DBConnectionPool$CleanUpThread</ns3:ClassName>
+            <ns3:Filename>DBConnectionPool.java</ns3:Filename>
+            <ns3:Line>2791</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>RequestMonitor-cn=BPM,cn=soap nodes,o=csc_aus,cn=cordys,cn=main,o=EMEA.globalcsc.net</ns3:Name>
+    <ns3:ThreadID>36</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>sleep</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.soap.RequestMonitor</ns3:ClassName>
+            <ns3:Filename>RequestMonitor.java</ns3:Filename>
+            <ns3:Line>221</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>TCP/IP-InboundQueue-1</ns3:Name>
+    <ns3:ThreadID>38</ns3:ThreadID>
+    <ns3:State>RUNNABLE</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>socketAccept</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>accept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.ServerSocket</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>implAccept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.ServerSocket</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>accept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.socket.InboundQueue</ns3:ClassName>
+            <ns3:Filename>InboundQueue.java</ns3:Filename>
+            <ns3:Line>329</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>socket:\\cscnld2916841:56066/Worker-0</ns3:Name>
+    <ns3:ThreadID>40</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.Middleware$InboundQueueWrapper</ns3:ClassName>
+            <ns3:Filename>Middleware.java</ns3:Filename>
+            <ns3:Line>2368</ns3:Line>
+            <ns3:Method>receive</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.Middleware$NonTransactionalWorkerThreadBody</ns3:ClassName>
+            <ns3:Filename>Middleware.java</ns3:Filename>
+            <ns3:Line>1694</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>SOAPNodeConfigurationWatcherThread - cn=BPM,cn=soap nodes,o=csc_aus,cn=cordys,cn=main,o=EMEA.globalcsc.net</ns3:Name>
+    <ns3:ThreadID>37</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.soap.internal.SOAPNodeConfigurationWatcher</ns3:ClassName>
+            <ns3:Filename>SOAPNodeConfigurationWatcher.java</ns3:Filename>
+            <ns3:Line>245</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Monitor Stream Reader Thread</ns3:Name>
+    <ns3:ThreadID>34</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>sleep</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.soap.ProcessStreamsHandler$StreamReader</ns3:ClassName>
+            <ns3:Filename>ProcessStreamsHandler.java</ns3:Filename>
+            <ns3:Line>257</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>RMI Scheduler(0)</ns3:Name>
+    <ns3:ThreadID>32</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.misc.Unsafe</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>park</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.locks.LockSupport</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>parkNanos</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>awaitNanos</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.DelayQueue</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>take</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>take</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>take</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.ThreadPoolExecutor</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>getTask</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.util.concurrent.ThreadPoolExecutor$Worker</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>GC Daemon</ns3:Name>
+    <ns3:ThreadID>31</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.misc.GC$Daemon</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>RMI Reaper</ns3:Name>
+    <ns3:ThreadID>30</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.ref.ReferenceQueue</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>remove</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.ref.ReferenceQueue</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>remove</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.rmi.transport.ObjectTable$Reaper</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>RMI TCP Accept-0</ns3:Name>
+    <ns3:ThreadID>29</ns3:ThreadID>
+    <ns3:State>RUNNABLE</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>socketAccept</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>accept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.ServerSocket</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>implAccept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.ServerSocket</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>accept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.rmi.transport.tcp.TCPTransport$AcceptLoop</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>executeAcceptLoop</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>sun.rmi.transport.tcp.TCPTransport$AcceptLoop</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>com.eibus.license.MonitorThread</ns3:Name>
+    <ns3:ThreadID>28</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>sleep</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.license.MonitorThread</ns3:ClassName>
+            <ns3:Filename>MonitorThread.java</ns3:Filename>
+            <ns3:Line>178</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>BootstrapInfoUpdater</ns3:Name>
+    <ns3:ThreadID>24</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.directory.soap.BootstrapInfoUpdater</ns3:ClassName>
+            <ns3:Filename>BootstrapInfoUpdater.java</ns3:Filename>
+            <ns3:Line>66</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Clear_LDAP_Cache_Thread</ns3:Name>
+    <ns3:ThreadID>23</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.directory.soap.LDAPSOAPNodeWatcher$ClearCacheThread</ns3:ClassName>
+            <ns3:Filename>LDAPSOAPNodeWatcher.java</ns3:Filename>
+            <ns3:Line>119</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>DynamicRoutingUpdateWatcherThread</ns3:Name>
+    <ns3:ThreadID>22</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.routing.DynamicRouting$DynamicRoutingUpdateWatcherThread</ns3:ClassName>
+            <ns3:Filename>DynamicRouting.java</ns3:Filename>
+            <ns3:Line>389</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>RemoteSyncUp_msg_dispatcherCSCNLD2916841_38918</ns3:Name>
+    <ns3:ThreadID>21</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.syncup.clients.RemoteSyncUp$InputMessageDispatcher</ns3:ClassName>
+            <ns3:Filename>RemoteSyncUp.java</ns3:Filename>
+            <ns3:Line>595</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>LDAP Cache Updater</ns3:Name>
+    <ns3:ThreadID>19</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.directory.soap.CacheUpdater</ns3:ClassName>
+            <ns3:Filename>CacheUpdater.java</ns3:Filename>
+            <ns3:Line>147</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>TCP/IP-InboundQueue-0</ns3:Name>
+    <ns3:ThreadID>16</ns3:ThreadID>
+    <ns3:State>RUNNABLE</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>socketAccept</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.PlainSocketImpl</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>accept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.ServerSocket</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>implAccept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.net.ServerSocket</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>accept</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.socket.InboundQueue</ns3:ClassName>
+            <ns3:Filename>InboundQueue.java</ns3:Filename>
+            <ns3:Line>329</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>socket:\\/Worker-0</ns3:Name>
+    <ns3:ThreadID>18</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>91</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.Queue</ns3:ClassName>
+            <ns3:Filename>Queue.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>get</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.Middleware$InboundQueueWrapper</ns3:ClassName>
+            <ns3:Filename>Middleware.java</ns3:Filename>
+            <ns3:Line>2368</ns3:Line>
+            <ns3:Method>receive</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.Middleware$NonTransactionalWorkerThreadBody</ns3:ClassName>
+            <ns3:Filename>Middleware.java</ns3:Filename>
+            <ns3:Line>1694</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.util.threadpool.WorkerThread</ns3:ClassName>
+            <ns3:Filename>WorkerThread.java</ns3:Filename>
+            <ns3:Line>64</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>OutboundQueuesHandler_TP_Socket_1321520418768</ns3:Name>
+    <ns3:ThreadID>15</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.socket.TransportProvider$ConnectionKiller$OutboundQueuesHandler</ns3:ClassName>
+            <ns3:Filename>TransportProvider.java</ns3:Filename>
+            <ns3:Line>346</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Outbound Queue Cache</ns3:Name>
+    <ns3:ThreadID>13</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.transport.socket.OutboundQueueCache</ns3:ClassName>
+            <ns3:Filename>OutboundQueueCache.java</ns3:Filename>
+            <ns3:Line>108</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>NodeObjectRef cleanup thread</ns3:Name>
+    <ns3:ThreadID>12</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.ref.ReferenceQueue</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>remove</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.ref.ReferenceQueue</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>remove</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.xml.nom.NodeObjectRef$1</ns3:ClassName>
+            <ns3:Filename>NodeObjectRef.java</ns3:Filename>
+            <ns3:Line>42</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Thread-0</ns3:Name>
+    <ns3:ThreadID>7</ns3:ThreadID>
+    <ns3:State>TIMED_WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Thread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>sleep</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>org.apache.log4j.helpers.FileWatchdog</ns3:ClassName>
+            <ns3:Filename>FileWatchdog.java</ns3:Filename>
+            <ns3:Line>104</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Attach Listener</ns3:Name>
+    <ns3:ThreadID>4</ns3:ThreadID>
+    <ns3:State>RUNNABLE</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace/>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Finalizer</ns3:Name>
+    <ns3:ThreadID>3</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.ref.ReferenceQueue</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>remove</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.ref.ReferenceQueue</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>remove</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.ref.Finalizer$FinalizerThread</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>Reference Handler</ns3:Name>
+    <ns3:ThreadID>2</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.ref.Reference$ReferenceHandler</ns3:ClassName>
+            <ns3:Filename>null</ns3:Filename>
+            <ns3:Line>-1</ns3:Line>
+            <ns3:Method>run</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+<ns3:ThreadInfo>
+    <ns3:Name>main</ns3:Name>
+    <ns3:ThreadID>1</ns3:ThreadID>
+    <ns3:State>WAITING</ns3:State>
+    <ns3:Suspended>false</ns3:Suspended>
+    <ns3:StackTrace>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>-2</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>true</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>java.lang.Object</ns3:ClassName>
+            <ns3:Filename>Object.java</ns3:Filename>
+            <ns3:Line>485</ns3:Line>
+            <ns3:Method>wait</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+        <ns3:StackTraceElement>
+            <ns3:ClassName>com.eibus.soap.Processor</ns3:ClassName>
+            <ns3:Filename>Processor.java</ns3:Filename>
+            <ns3:Line>1388</ns3:Line>
+            <ns3:Method>main</ns3:Method>
+            <ns3:Native>false</ns3:Native>
+        </ns3:StackTraceElement>
+    </ns3:StackTrace>
+</ns3:ThreadInfo>
+                            </ns3:ThreadInfoList>
+                        </ns3:Value>
+                    </JMXCounterResult>
+                </JMXCounterResultList>
+            </JMXCounterResult>
+        </SnapshotData>
+    </SnapshotDataList>
+</SnapshotResult>

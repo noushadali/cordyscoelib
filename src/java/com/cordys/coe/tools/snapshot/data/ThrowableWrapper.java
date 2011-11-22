@@ -6,12 +6,14 @@ import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * This class wraps a throwable in a JAXB compliant way.
  *
  * @author  localpg
  */
+@XmlRootElement(name = "Throwable", namespace = Constants.NS)
 public class ThrowableWrapper
 {
     /**
@@ -29,7 +31,7 @@ public class ThrowableWrapper
     @XmlElementWrapper(name = "StackTrace", namespace = Constants.NS)
     private ArrayList<StackTraceElementWrapper> m_stackTraceElements = new ArrayList<StackTraceElementWrapper>();
     /**
-     * Holds the full stack trace in human readble format.
+     * Holds the full stack trace in human readable format.
      */
     private String m_fullTrace;
     /**

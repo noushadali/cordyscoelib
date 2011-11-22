@@ -3,6 +3,7 @@ package com.cordys.coe.tools.snapshot.data.collector;
 import com.cordys.coe.tools.jmx.MBeanUtils;
 import com.cordys.coe.tools.snapshot.config.JMXCounter;
 import com.cordys.coe.tools.snapshot.data.IJMXDataCollector;
+import com.cordys.coe.tools.snapshot.data.handler.ThreadInfo;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
+import javax.management.openmbean.CompositeData;
 
 /**
  * This class collects the information about the middleware threads that are available.
@@ -52,15 +54,38 @@ public class WorkerThreadCollector
             if (props.containsKey("SOAPConnector") && props.containsKey("MiddlewareWrapper") &&
                     props.containsKey("Dispatcher"))
             {
+            	String dispatcherName = props.get("Dispatcher");
+            	//The result is an escaped Java string.   
+            	
+            	//The \\ are not escaped properly, so we'll compensate
+            	dispatcherName = dispatcherName.replaceAll("\\\\\\\\\\\\\\\\", "\\\\\\\\");
+            	dispatcherName = dispatcherName.replaceAll("\"", "");
+
                 // Found a middle ware pool with a dispatcher.
                 DispatcherInfo di = new DispatcherInfo();
 
+                di.setName(dispatcherName);
                 di.setActiveWorkers(MBeanUtils.getIntAttributeValue(mbsc, on, "ctrv_numActiveWorkers_current"));
                 di.setCurrentWorkers(MBeanUtils.getIntAttributeValue(mbsc, on, "ctrv_currentNumWorkers_current"));
                 di.setIdleWorkers(MBeanUtils.getIntAttributeValue(mbsc, on, "ctrv_numIdleWorkers_current"));
 
                 di.setMinConcurrentWorkers(MBeanUtils.getIntAttributeValue(mbsc, on, "minConcurrentWorkers"));
                 di.setMaxConcurrentWorkers(MBeanUtils.getIntAttributeValue(mbsc, on, "maxConcurrentWorkers"));
+                
+                //Now we need to get the threads that belong to this dispather information.
+                ObjectName threading = new ObjectName("java.lang", "type", "Threading");
+                CompositeData[] threadInfo = (CompositeData[]) mbsc.invoke(threading, "dumpAllThreads", new Object[]{true, true}, new String[]{"boolean", "boolean"});
+                
+                for (CompositeData cd : threadInfo)
+				{
+					//Check to see if this thread belongs to this dispatcher
+					if (((String)cd.get("threadName")).startsWith(dispatcherName + "/Worker"))
+                	{
+                		ThreadInfo ti = new ThreadInfo();
+                		ti.parseData(cd);
+                		di.addThreadInfo(ti);
+                	}
+				}
 
                 retVal.addDispatcherInfo(di);
             }

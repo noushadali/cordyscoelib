@@ -1,9 +1,14 @@
 package com.cordys.coe.tools.snapshot.data.handler;
 
+import com.cordys.coe.tools.snapshot.data.JMXCounterResult;
+import com.cordys.coe.tools.snapshot.data.SnapshotData;
+import com.cordys.coe.tools.snapshot.data.SnapshotResult;
+import com.cordys.coe.tools.snapshot.data.StackTraceElementWrapper;
+import com.cordys.coe.tools.snapshot.data.ThrowableWrapper;
+import com.cordys.coe.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.cordys.coe.util.StringUtils;
 
 /**
  * This facotry class creates a proper data handler.
@@ -22,9 +27,17 @@ public class DataHandlerFactory
         List<Class<?>> retVal = new ArrayList<Class<?>>();
 
         retVal.add(CompositeData.class);
-        retVal.add(StringWrappedValue.class);
         retVal.add(CompositeDataList.class);
+        retVal.add(DumpAllThreads.class);
+        retVal.add(HostPIDInfo.class);
         retVal.add(ObjectArrayList.class);
+        retVal.add(StringWrappedValue.class);
+
+        retVal.add(SnapshotResult.class);
+        retVal.add(SnapshotData.class);
+        retVal.add(ThrowableWrapper.class);
+        retVal.add(StackTraceElementWrapper.class);
+        retVal.add(JMXCounterResult.class);
 
         return retVal;
     }

@@ -32,6 +32,7 @@ import com.cordys.coe.tools.jmx.JMXTestTool;
 import com.cordys.coe.tools.log4j.Log4JViewer;
 import com.cordys.coe.tools.migration.xforms.XFormsMigrationValidator;
 import com.cordys.coe.tools.orgmanager.OrganizationManager;
+import com.cordys.coe.tools.snapshot.SystemSnapshot;
 import com.cordys.coe.tools.testtool.CoeMethodTestTool;
 import com.cordys.coe.tools.wcpproperties.WCPPropertiesEditor;
 import com.cordys.coe.tools.xmlformatter.CoEXMLFormatter;
@@ -80,6 +81,9 @@ public class JarMenu extends JDialog
         bTemp = createSWTStartButton("JMX viewer (SWT)", JMXTestTool.class,
                                      "image/releng_gears.gif");
 
+        alTemp.add(bTemp);
+        
+        bTemp = createSWTStartButton("System Snapshot Grabber (Swing)", SystemSnapshot.class, "jmx.png");
         alTemp.add(bTemp);
 
         // Class finder.

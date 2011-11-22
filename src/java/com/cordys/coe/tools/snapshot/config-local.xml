@@ -10,7 +10,7 @@
 	</ServerList>
 	<ServiceGroupList>
 		<ServiceGroup>
-			<Name>bpm</Name>
+			<Name>.+</Name>
 			<ServiceContainerList>
 				<ServiceContainer>
 					<Name>.+</Name>

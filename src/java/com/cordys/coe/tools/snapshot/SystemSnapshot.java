@@ -9,6 +9,7 @@ import com.cordys.coe.tools.snapshot.data.SnapshotResult;
 import com.cordys.coe.tools.snapshot.data.ThrowableWrapper;
 import com.cordys.coe.tools.snapshot.data.handler.DataHandlerFactory;
 import com.cordys.coe.tools.snapshot.view.ViewDataFactory;
+import com.cordys.coe.util.Pair;
 import com.cordys.coe.util.swing.MessageBoxUtil;
 
 import java.awt.BorderLayout;
@@ -21,11 +22,17 @@ import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -40,10 +47,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
+import javax.swing.ProgressMonitor;
 import javax.swing.UIManager;
 
 import javax.swing.border.TitledBorder;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
@@ -53,7 +63,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -82,21 +94,25 @@ public class SystemSnapshot
      */
     private JTextField m_servers;
     /**
-     * DOCUMENTME.
+     * The response from the snapshot grabber.
      */
     private SnapshotResult m_result;
     /**
-     * DOCUMENTME.
+     * The raw XML result of the JMX counter result object.
      */
     private JTextArea m_rawResult;
     /**
-     * DOCUMENTME.
+     * Holds teh result of all the counters.
      */
     private JTree m_resultTree;
     /**
-     * DOCUMENTME.
+     * Holds the details.
      */
     private JPanel m_detailPanel;
+    /**
+     * Holds the threadpool result panel.
+     */
+    private ThreadPoolPanel m_threadPoolPanel;
 
     /**
      * Launch the application.
@@ -137,6 +153,17 @@ public class SystemSnapshot
     public SystemSnapshot()
     {
         initialize();
+
+        // Create the basic JAXB context for unmarshalling.
+        try
+        {
+            m_context = JAXBContext.newInstance(Config.class);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     /**
@@ -185,8 +212,37 @@ public class SystemSnapshot
                 }
             });
         bGrabSnapshot.setToolTipText("Get snapshot");
-        bGrabSnapshot.setIcon(new ImageIcon(SystemSnapshot.class.getResource("/com/cordys/coe/tools/snapshot/import.gif")));
+        bGrabSnapshot.setIcon(new ImageIcon(SystemSnapshot.class.getResource("/com/cordys/coe/tools/snapshot/download.gif")));
+
+        toolBar.addSeparator();
+
         toolBar.add(bGrabSnapshot);
+
+        toolBar.addSeparator();
+
+        JButton bLoadSnapshot = new JButton("");
+        bLoadSnapshot.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+                    loadSnapshot();
+                }
+            });
+        bLoadSnapshot.setToolTipText("Load saved snapshot");
+        bLoadSnapshot.setIcon(new ImageIcon(SystemSnapshot.class.getResource("/com/cordys/coe/tools/snapshot/lookup_file.png")));
+        toolBar.add(bLoadSnapshot);
+
+        JButton bSaveSnapshot = new JButton("");
+        bSaveSnapshot.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+                    saveSnapshot();
+                }
+            });
+        bSaveSnapshot.setToolTipText("Save saved snapshot");
+        bSaveSnapshot.setIcon(new ImageIcon(SystemSnapshot.class.getResource("/com/cordys/coe/tools/snapshot/save.gif")));
+        toolBar.add(bSaveSnapshot);
 
         JPanel panel = new JPanel();
         frmSnapshotGrabber.getContentPane().add(panel, BorderLayout.CENTER);
@@ -208,6 +264,19 @@ public class SystemSnapshot
 
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         panel.add(tabbedPane, BorderLayout.CENTER);
+
+        tabbedPane.addChangeListener(new ChangeListener()
+            {
+                @Override public void stateChanged(ChangeEvent e)
+                {
+                    JTabbedPane src = (JTabbedPane) e.getSource();
+
+                    if (src.getSelectedIndex() == 2)
+                    {
+                        fillRawXML();
+                    }
+                }
+            });
 
         JPanel panel_2 = new JPanel();
         tabbedPane.addTab("Snapshot results", null, panel_2, null);
@@ -238,6 +307,9 @@ public class SystemSnapshot
         scrollPane.setViewportView(m_resultTree);
         splitPane.setDividerLocation(250);
 
+        m_threadPoolPanel = new ThreadPoolPanel();
+        tabbedPane.addTab("Thread Pools", null, m_threadPoolPanel, null);
+
         JPanel panel_3 = new JPanel();
         tabbedPane.addTab("Raw data", null, panel_3, null);
         panel_3.setLayout(new BorderLayout(0, 0));
@@ -249,6 +321,147 @@ public class SystemSnapshot
         m_rawResult.setFont(new Font("Consolas", Font.PLAIN, 10));
         m_rawResult.setEditable(false);
         scrollPane_2.setViewportView(m_rawResult);
+    }
+
+    /**
+     * This method will save the snapshot result to a file.
+     */
+    protected void saveSnapshot()
+    {
+        JFileChooser fc = new JFileChooser();
+
+        fc.setSelectedFile(new File("snapshot_" + System.currentTimeMillis() + ".snapshot"));
+
+        if (fc.showDialog(frmSnapshotGrabber, "Save") == JFileChooser.APPROVE_OPTION)
+        {
+            FileOutputStream fos = null;
+
+            try
+            {
+                fos = new FileOutputStream(fc.getSelectedFile(), false);
+
+                ZipOutputStream zos = new ZipOutputStream(fos);
+
+                Marshaller m = m_context.createMarshaller();
+                m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+                // First write the used config. Because it is needed to initialize the JAXB context.
+                zos.putNextEntry(new ZipEntry("config.xml"));
+                m.marshal(m_config, zos);
+                zos.closeEntry();
+
+                zos.putNextEntry(new ZipEntry("snapshot.xml"));
+                m.marshal(m_result, zos);
+                zos.closeEntry();
+
+                zos.close();
+            }
+            catch (Exception e)
+            {
+                MessageBoxUtil.showError("Error saving the snapshot result", e);
+            }
+            finally
+            {
+                if (fos != null)
+                {
+                    try
+                    {
+                        fos.close();
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * This method will load a snapshot file from the file system.
+     */
+    public void loadSnapshot()
+    {
+        JFileChooser fc = new JFileChooser();
+
+        fc.setAcceptAllFileFilterUsed(true);
+        fc.setFileFilter(new FileFilter()
+            {
+                @Override public String getDescription()
+                {
+                    return "Snapshot grabber archives";
+                }
+
+                @Override public boolean accept(File f)
+                {
+                    return f.getName().endsWith(".snapshot");
+                }
+            });
+
+        if (fc.showDialog(frmSnapshotGrabber, "Load") == JFileChooser.APPROVE_OPTION)
+        {
+            ZipFile zf = null;
+
+            try
+            {
+                zf = new ZipFile(fc.getSelectedFile());
+
+                ZipEntry entry = zf.getEntry("config.xml");
+
+                // First load the config so that we can reinitialize the JAXB Context properly.
+                Unmarshaller m = m_context.createUnmarshaller();
+
+                m_config = (Config) m.unmarshal(zf.getInputStream(entry));
+
+                // Now recreate the context.
+                createJAXBContextForConfig();
+
+                // Recreate the unmarshaller to include the proper classes.
+                m = m_context.createUnmarshaller();
+
+                // Load the snapshot details.
+                entry = zf.getEntry("snapshot.xml");
+                m_result = (SnapshotResult) m.unmarshal(zf.getInputStream(entry));
+
+                // Show the data
+                updateResultView();
+            }
+            catch (Exception e)
+            {
+                MessageBoxUtil.showError("Error building XML report for the result", e);
+            }
+            finally
+            {
+                if (zf != null)
+                {
+                    try
+                    {
+                        zf.close();
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * DOCUMENTME.
+     *
+     * @throws  Exception      In case of any exceptions
+     * @throws  JAXBException  In case of any exceptions
+     */
+    private void createJAXBContextForConfig()
+                                     throws Exception, JAXBException
+    {
+        List<Class<?>> classes = m_config.getCustomDataHandlers();
+        classes.addAll(DataHandlerFactory.getKnownClasses());
+        classes.add(SnapshotResult.class);
+        classes.add(Config.class);
+
+        m_context = JAXBContext.newInstance(classes.toArray(new Class<?>[0]));
     }
 
     /**
@@ -274,14 +487,17 @@ public class SystemSnapshot
     }
 
     /**
-     * This method will execute the snapshot to get the details of the.
+     * This method will execute the snapshot to get the details from the configured servers.
      */
     public void buildSnapshot()
     {
         try
         {
+            ProgressMonitor pm = new ProgressMonitor(frmSnapshotGrabber, "Getting information from cordys", null, 0,
+                                                     m_config.getServerList().size());
             SystemSnapshotGrabber ssg = new SystemSnapshotGrabber(m_config);
             m_result = ssg.buildSnapshot();
+            pm.close();
 
             updateResultView();
         }
@@ -350,16 +566,10 @@ public class SystemSnapshot
     {
         try
         {
-            m_context = JAXBContext.newInstance(Config.class);
-
             // Load the config.
             m_config = (Config) m_context.createUnmarshaller().unmarshal(new FileInputStream(selectedFile));
 
-            // Recreate the context with all the classes that participate.
-            List<Class<?>> classes = m_config.getCustomDataHandlers();
-            classes.addAll(DataHandlerFactory.getKnownClasses());
-            classes.add(SnapshotResult.class);
-            m_context = JAXBContext.newInstance(classes.toArray(new Class<?>[0]));
+            createJAXBContextForConfig();
 
             // Set the server details.
             StringBuilder sb = new StringBuilder(1024);
@@ -391,37 +601,44 @@ public class SystemSnapshot
      */
     public void updateResultView()
     {
-        // First we do the XML
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        try
-        {
-            Marshaller m = m_context.createMarshaller();
-            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            m.marshal(m_result, baos);
-
-            m_rawResult.setText(baos.toString());
-        }
-        catch (Exception e)
-        {
-            MessageBoxUtil.showError("Error building XML report for the result", e);
-        }
-
         // Update the tree
         DefaultMutableTreeNode tm = new ResultTreeNode(m_result, "Result");
 
-        Map<String, ResultTreeNode> serviceGroups = new LinkedHashMap<String, ResultTreeNode>();
+        // The map is organization - service group - service container.
+        Map<String, Pair<ResultTreeNode, Map<String, ResultTreeNode>>> organizations = new LinkedHashMap<String, Pair<ResultTreeNode, Map<String, ResultTreeNode>>>();
         List<SnapshotData> data = m_result.getSnapshotDataList();
 
         for (SnapshotData snapshot : data)
         {
             ActualServiceContainer asc = snapshot.getActualServiceContainer();
+
+            // Create the organization tree node.
+            Pair<ResultTreeNode, Map<String, ResultTreeNode>> organization = organizations.get(asc.getOrganization());
+            Map<String, ResultTreeNode> serviceGroups = null;
+
+            if (organization == null)
+            {
+                ResultTreeNode orgNode = new ResultTreeNode(asc.getOrganization());
+                serviceGroups = new LinkedHashMap<String, ResultTreeNode>();
+
+                organization = new Pair<ResultTreeNode, Map<String, ResultTreeNode>>(orgNode, serviceGroups);
+                tm.add(orgNode);
+                organizations.put(asc.getOrganization(), organization);
+            }
+            else
+            {
+                serviceGroups = organization.getSecond();
+            }
+
+            // Create the node for the service group.
             ResultTreeNode group = serviceGroups.get(asc.getServiceGroup());
 
             if (group == null)
             {
                 group = new ResultTreeNode(asc.getServiceGroup());
-                tm.add(group);
+
+                organization.getFirst().add(group);
+
                 serviceGroups.put(asc.getServiceGroup(), group);
             }
 
@@ -454,7 +671,31 @@ public class SystemSnapshot
             }
         }
 
+        // The dispatchers have a special treatment.
+        m_threadPoolPanel.updateData(m_result);
+
         m_resultTree.setModel(new DefaultTreeModel(tm));
+    }
+
+    /**
+     * This method fills the raw XML control with the full result.
+     */
+    private void fillRawXML()
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        try
+        {
+            Marshaller m = m_context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m.marshal(m_result, baos);
+
+            m_rawResult.setText(baos.toString());
+        }
+        catch (Exception e)
+        {
+            MessageBoxUtil.showError("Error building XML report for the result", e);
+        }
     }
 
     /**

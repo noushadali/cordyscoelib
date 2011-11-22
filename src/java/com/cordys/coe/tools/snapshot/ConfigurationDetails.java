@@ -39,6 +39,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
 import net.miginfocom.swing.MigLayout;
+import java.awt.Font;
 
 /**
  * Holds the composite that shows the configuration details.
@@ -56,31 +57,31 @@ public class ConfigurationDetails extends JPanel
      */
     private JTree m_tree;
     /**
-     * DOCUMENTME.
+     * Holds the servers from which data will be retrieved.
      */
     private JTable m_serversTable;
     /**
-     * DOCUMENTME.
+     * Holds the domain of the property.
      */
     private JTextField m_domain;
     /**
-     * DOCUMENTME.
+     * Holds teh name of the property to get.
      */
     private JTextField m_property;
     /**
-     * DOCUMENTME.
+     * Holds teh counter type.
      */
     private JTextField m_type;
     /**
-     * DOCUMENTME.
+     * Holds the class name for the data handler.
      */
     private JTextField m_dataHandler;
     /**
-     * DOCUMENTME.
+     * Holds the class name for the data collector.
      */
     private JTextField m_dataCollector;
     /**
-     * DOCUMENTME.
+     * Holds the proeprties for the selected counter.
      */
     private JTable m_counterProperties;
     /**
@@ -215,6 +216,7 @@ public class ConfigurationDetails extends JPanel
         rawPanel.add(scrollPane_1, BorderLayout.CENTER);
 
         m_rawView = new JTextArea();
+        m_rawView.setFont(new Font("Consolas", Font.PLAIN, 10));
         scrollPane_1.setViewportView(m_rawView);
 
         fillFromConfig();
@@ -300,6 +302,8 @@ public class ConfigurationDetails extends JPanel
             Marshaller m = m_context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             m.marshal(m_config, baos);
+
+            m_rawView.setText(baos.toString());
         }
         catch (Exception e)
         {

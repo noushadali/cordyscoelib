@@ -1,3 +1,7 @@
+version 1.1.19 (released 2011-11-24)
+-fix: There was a bug in the XPathhelper.getDateValue(). If 4 digits or more were given for the ms, then the call would produce a weird date. Now all the digits are cut off after the 3rd one.
+-add: Added a tool called SystemSnapshotGrabber
+
 version 1.1.18 (released 2011-07-18)
 -change: Opensourced the Cordys CoE Library
 			

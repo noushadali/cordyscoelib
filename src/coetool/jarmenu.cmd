@@ -35,7 +35,7 @@ set JARMENUCP=%JARMENUCP%;%CD%\bcprov-jdk16-141.jar
 
 rem Otherr jars
 set JARMENUCP=%JARMENUCP%;%CD%\org-netbeans-swing-outline.jar
-set JARMENUCP=%JARMENUCP%;%CD%\mig-layout15-swing.jar
+set JARMENUCP=%JARMENUCP%;%CD%\miglayout15-swing.jar
 
 if NOT "%1"=="-d" goto :Normal
 echo Classpath: %JARMENUCP%

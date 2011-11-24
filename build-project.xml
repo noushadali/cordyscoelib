@@ -179,6 +179,7 @@
 				<include name="bcprov-*.jar" />
 				<include name="org-netbeans-*.jar" />
 				<include name="xbean.jar" />
+				<include name="miglayout15-swing.jar" />
 			</fileset>
 			<fileset dir="${platform.dir}/bin">
 				<include name="eib4java.dll" />

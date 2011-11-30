@@ -22,6 +22,8 @@ import com.eibus.xml.nom.Node;
  * SOAPWrapper class for sending requests to BCP.All XXL Store methods are implemented by this class
  *
  * @author  snarayan
+ * 
+ * @deprecated This class uses the old Find library for XML searching. This is not namespace safe!
  */
 public class XMLStoreWrapper
 {

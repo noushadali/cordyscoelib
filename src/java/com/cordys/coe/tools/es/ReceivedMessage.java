@@ -11,6 +11,7 @@ import com.eibus.xml.nom.Node;
  *
  * @author  pgussow
  */
+@SuppressWarnings("deprecation")
 public class ReceivedMessage
 {
     /**

@@ -1,34 +1,28 @@
 /**
- * © 2003 Cordys R&D B.V. All rights reserved.     The computer program(s) is
- * the proprietary information of Cordys R&D B.V.     and provided under the
- * relevant License Agreement containing restrictions     on use and
- * disclosure. Use is subject to the License Agreement.
+ * © 2003 Cordys R&D B.V. All rights reserved. The computer program(s) is the proprietary information of Cordys R&D B.V. and
+ * provided under the relevant License Agreement containing restrictions on use and disclosure. Use is subject to the License
+ * Agreement.
  */
 package com.cordys.coe.util.cpc;
 
 import com.cordys.coe.util.soap.SOAPWrapper;
-
+import com.cordys.coe.util.xml.nom.XPathHelper;
 import com.eibus.connector.nom.Connector;
-
 import com.eibus.directory.soap.DirectoryException;
 import com.eibus.directory.soap.LDAPDirectory;
-
 import com.eibus.exception.ExceptionGroup;
 import com.eibus.exception.TimeoutException;
-
 import com.eibus.util.spy.Spy;
-
 import com.eibus.xml.nom.Document;
-import com.eibus.xml.nom.Find;
 import com.eibus.xml.nom.Node;
-
+import com.eibus.xml.xpath.XPathMetaInfo;
 import com.novell.ldap.LDAPException;
 
 /**
  * This class contains some utility-methods for CPC.
- *
- * @author  pgussow
- * @author  hvdvlier
+ * 
+ * @author pgussow
+ * @author hvdvlier
  */
 public class Utils
 {
@@ -63,74 +57,66 @@ public class Utils
 
     /**
      * This method deletes all objects based on a template-id.
-     *
-     * @param   sTemplateID  The ID of the template.
-     *
-     * @throws  LDAPException     DOCUMENTME
-     * @throws  ExceptionGroup    DOCUMENTME
-     * @throws  TimeoutException  DOCUMENTME
+     * 
+     * @param sTemplateID The ID of the template.
+     * @throws LDAPException DOCUMENTME
+     * @throws ExceptionGroup DOCUMENTME
+     * @throws TimeoutException DOCUMENTME
      */
-    public static void deleteObjectsByTemplateID(String sTemplateID)
-                                          throws LDAPException, ExceptionGroup, TimeoutException
+    public static void deleteObjectsByTemplateID(String sTemplateID) throws LDAPException, ExceptionGroup, TimeoutException
     {
         deleteObjectsByTemplateID(sTemplateID, null, null);
     }
 
     /**
      * This method deletes all objects based on a template-id.
-     *
-     * @param   sTemplateID    The ID of the template.
-     * @param   sOrganization  The organization to use.
-     * @param   sUser          The organizational user to use.
-     *
-     * @throws  LDAPException     DOCUMENTME
-     * @throws  ExceptionGroup    DOCUMENTME
-     * @throws  TimeoutException  DOCUMENTME
+     * 
+     * @param sTemplateID The ID of the template.
+     * @param sOrganization The organization to use.
+     * @param sUser The organizational user to use.
+     * @throws LDAPException DOCUMENTME
+     * @throws ExceptionGroup DOCUMENTME
+     * @throws TimeoutException DOCUMENTME
      */
-    public static void deleteObjectsByTemplateID(String sTemplateID, String sOrganization,
-                                                 String sUser)
-                                          throws LDAPException, ExceptionGroup, TimeoutException
+    public static void deleteObjectsByTemplateID(String sTemplateID, String sOrganization, String sUser) throws LDAPException,
+            ExceptionGroup, TimeoutException
     {
         deleteObjectsByTemplate("template_id", sTemplateID, null, null);
     }
 
     /**
      * This method deletes all objects based on a template-name.
-     *
-     * @param   sTemplateName  The name of the template.
-     *
-     * @throws  LDAPException     DOCUMENTME
-     * @throws  ExceptionGroup    DOCUMENTME
-     * @throws  TimeoutException  DOCUMENTME
+     * 
+     * @param sTemplateName The name of the template.
+     * @throws LDAPException DOCUMENTME
+     * @throws ExceptionGroup DOCUMENTME
+     * @throws TimeoutException DOCUMENTME
      */
-    public static void deleteObjectsByTemplateName(String sTemplateName)
-                                            throws LDAPException, ExceptionGroup, TimeoutException
+    public static void deleteObjectsByTemplateName(String sTemplateName) throws LDAPException, ExceptionGroup, TimeoutException
     {
         deleteObjectsByTemplateName(sTemplateName, null, null);
     }
 
     /**
      * This method deletes all objects based on a templatename.
-     *
-     * @param   sTemplateName  The name of the template.
-     * @param   sOrganization  The organization to use.
-     * @param   sUser          The organizational user to use.
-     *
-     * @throws  LDAPException     DOCUMENTME
-     * @throws  ExceptionGroup    DOCUMENTME
-     * @throws  TimeoutException  DOCUMENTME
+     * 
+     * @param sTemplateName The name of the template.
+     * @param sOrganization The organization to use.
+     * @param sUser The organizational user to use.
+     * @throws LDAPException DOCUMENTME
+     * @throws ExceptionGroup DOCUMENTME
+     * @throws TimeoutException DOCUMENTME
      */
-    public static void deleteObjectsByTemplateName(String sTemplateName, String sOrganization,
-                                                   String sUser)
-                                            throws LDAPException, ExceptionGroup, TimeoutException
+    public static void deleteObjectsByTemplateName(String sTemplateName, String sOrganization, String sUser)
+            throws LDAPException, ExceptionGroup, TimeoutException
     {
         deleteObjectsByTemplate("template_name", sTemplateName, null, null);
     }
 
     /**
      * DOCUMENTME.
-     *
-     * @param  args  DOCUMENTME
+     * 
+     * @param args DOCUMENTME
      */
     public static void main(String[] args)
     {
@@ -150,19 +136,17 @@ public class Utils
 
     /**
      * This method deletes all objects based on a template.
-     *
-     * @param   sTemplateTag    The templatetag (template_id or template_name).
-     * @param   sTemplateValue  The value of templatetag.
-     * @param   sOrganization   The organization to use.
-     * @param   sUser           The organizational user to use.
-     *
-     * @throws  LDAPException     DOCUMENTME
-     * @throws  ExceptionGroup    DOCUMENTME
-     * @throws  TimeoutException  DOCUMENTME
+     * 
+     * @param sTemplateTag The templatetag (template_id or template_name).
+     * @param sTemplateValue The value of templatetag.
+     * @param sOrganization The organization to use.
+     * @param sUser The organizational user to use.
+     * @throws LDAPException DOCUMENTME
+     * @throws ExceptionGroup DOCUMENTME
+     * @throws TimeoutException DOCUMENTME
      */
-    private static void deleteObjectsByTemplate(String sTemplateTag, String sTemplateValue,
-                                                String sOrganization, String sUser)
-                                         throws LDAPException, ExceptionGroup, TimeoutException
+    private static void deleteObjectsByTemplate(String sTemplateTag, String sTemplateValue, String sOrganization, String sUser)
+            throws LDAPException, ExceptionGroup, TimeoutException
     {
         if (Spy.active)
         {
@@ -209,19 +193,15 @@ public class Utils
             // Get the objects
             iResponse = cCon.sendAndWait(iEnvelope, 60000 * 5);
 
-            int[] aiTuples = Find.match(iResponse,
-                                        "?<" + GETOBJECTSBYTEMPLATE + "Response><tuple>");
-
-            if (Spy.active)
-            {
-                Spy.send(SPY_CATEGORY, "Tuplecount: " + aiTuples.length);
-            }
+            XPathMetaInfo xmi = new XPathMetaInfo();
+            xmi.addNamespaceBinding("ns", GETOBJECTSBYTEMPLATE_NS);
+            int[] aiTuples = XPathHelper.selectNodes(iResponse, "//ns:" + GETOBJECTSBYTEMPLATE + "Response/ns:tuple", xmi);
 
             // Create the delete-messages
             for (int iCount = 0; iCount < aiTuples.length; iCount++)
             {
                 // Find the object id of the template.
-                int iObjectNode = Find.firstMatch(aiTuples[iCount], "?<metadata><object_id>");
+                int iObjectNode = XPathHelper.selectSingleNode(aiTuples[iCount], ".//ns:metadata/ns:object_id", xmi);
 
                 if (iObjectNode != 0)
                 {
@@ -246,9 +226,7 @@ public class Utils
 
                         if (Spy.active)
                         {
-                            Spy.send(SPY_CATEGORY,
-                                     "Response from CoBOC:\n" +
-                                     Node.writeToString(iDelResponse, false));
+                            Spy.send(SPY_CATEGORY, "Response from CoBOC:\n" + Node.writeToString(iDelResponse, false));
                         }
                     }
                     finally
@@ -282,14 +260,12 @@ public class Utils
 
     /**
      * This method returns the connector that can be used to send messages to Cordys.
-     *
-     * @return  The connector to use.
-     *
-     * @throws  ExceptionGroup      DOCUMENTME
-     * @throws  DirectoryException  DOCUMENTME
+     * 
+     * @return The connector to use.
+     * @throws ExceptionGroup DOCUMENTME
+     * @throws DirectoryException DOCUMENTME
      */
-    private static Connector getConnector()
-                                   throws ExceptionGroup, DirectoryException
+    private static Connector getConnector() throws ExceptionGroup, DirectoryException
     {
         Connector cReturn = null;
 

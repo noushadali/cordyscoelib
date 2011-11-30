@@ -6,15 +6,14 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
- * This class is used to standardize namespaces and prefixes as they are used within the CoE lib.
- * This class is the default mapping class when the com.cordys.coe.util.xml.dom.XPathHelper class is
- * used.<br>
+ * This class is used to standardize namespaces and prefixes as they are used within the CoE lib. This class is the default
+ * mapping class when the com.cordys.coe.util.xml.dom.XPathHelper class is used.<br>
  * Proper use of this class:<br>
  * <code>private static String PREFIX = NamespaceConstants.registerPrefix("nspfx",
  * "http://namespaceuri");</code><br>
  * <code>String sXPath = "./" + PREFIX + ":tag/text()";</code>
- *
- * @author  pgussow
+ * 
+ * @author pgussow
  */
 public class NamespaceConstants
 {
@@ -71,10 +70,7 @@ public class NamespaceConstants
             }
             catch (Throwable ignored)
             {
-                // This will throw an exception if the proper interface is not present.
-                Class.forName("org.apache.xml.utils.PrefixResolver");
-                s_cPrefixResolverImpl = Class.forName("com.cordys.coe.util.xml.dom.internal.NamespacePrefixResolver_Jdk14");
-                s_cDOMXPathMetaInfoImpl = Class.forName("com.cordys.coe.util.xml.dom.internal.DOMXPathMetaInfo_Jdk14");
+                throw new IllegalStateException("Unsupported JVM", ignored);
             }
 
             s_nprResolver = (PrefixResolver) s_cPrefixResolverImpl.newInstance();
@@ -87,14 +83,11 @@ public class NamespaceConstants
     }
 
     /**
-     * This method adds a namespace and prefix to the static binding list. This needs to be done
-     * only once.
-     *
-     * @param       sPrefix        The prefix to add.
-     * @param       sNamespaceURI  The namespace for the prefix.
-     *
-     * @deprecated  This method should not be used, since it's not thread safe. Always use the
-     *              registerPrefix method.
+     * This method adds a namespace and prefix to the static binding list. This needs to be done only once.
+     * 
+     * @param sPrefix The prefix to add.
+     * @param sNamespaceURI The namespace for the prefix.
+     * @deprecated This method should not be used, since it's not thread safe. Always use the registerPrefix method.
      */
     public static void addNamespaceBinding(String sPrefix, String sNamespaceURI)
     {
@@ -104,8 +97,8 @@ public class NamespaceConstants
 
     /**
      * This method creates a new prefix resolver with no mappings.
-     *
-     * @return  A new prefix resolver with no mappings.
+     * 
+     * @return A new prefix resolver with no mappings.
      */
     public static DOMXPathMetaInfo createDOMXPathMetaInfo()
     {
@@ -121,8 +114,8 @@ public class NamespaceConstants
 
     /**
      * This method creates a new prefix resolver with no mappings.
-     *
-     * @return  A new prefix resolver with no mappings.
+     * 
+     * @return A new prefix resolver with no mappings.
      */
     public static PrefixResolver createEmptyPrefixResolver()
     {
@@ -138,12 +131,10 @@ public class NamespaceConstants
 
     /**
      * This method returns the namespace for a given prefix.
-     *
-     * @param   sPrefix  The prefix.
-     *
-     * @return  The proper namespace.
-     *
-     * @see     com.cordys.coe.util.xml.dom#getNamespaceForPrefix(java.lang.String)
+     * 
+     * @param sPrefix The prefix.
+     * @return The proper namespace.
+     * @see com.cordys.coe.util.xml.dom#getNamespaceForPrefix(java.lang.String)
      */
     public static String getNamespaceForPrefix(String sPrefix)
     {
@@ -151,12 +142,11 @@ public class NamespaceConstants
     }
 
     /**
-     * This method gets the prefix for the given namespace. If for the namespace no prefix is
-     * registered a new prefix is generated.
-     *
-     * @param   sNamespaceURI  The namespace to find the URI for.
-     *
-     * @return  The prefix for the given namespace.
+     * This method gets the prefix for the given namespace. If for the namespace no prefix is registered a new prefix is
+     * generated.
+     * 
+     * @param sNamespaceURI The namespace to find the URI for.
+     * @return The prefix for the given namespace.
      */
     public static String getPrefix(String sNamespaceURI)
     {
@@ -172,8 +162,8 @@ public class NamespaceConstants
 
     /**
      * This method returns an XPath meta info object with the proper namespace/prefix mappings.
-     *
-     * @return  The XPathMetaInfo to use.
+     * 
+     * @return The XPathMetaInfo to use.
      */
     public static PrefixResolver getPrefixResolver()
     {
@@ -181,12 +171,10 @@ public class NamespaceConstants
     }
 
     /**
-     * This method returns whether or not the given namespace is already registered within the
-     * constant class.
-     *
-     * @param   sNamespace  The namespace to check.
-     *
-     * @return  true if there is already a mapping for the given namespace. Otherwise false.
+     * This method returns whether or not the given namespace is already registered within the constant class.
+     * 
+     * @param sNamespace The namespace to check.
+     * @return true if there is already a mapping for the given namespace. Otherwise false.
      */
     public static boolean isNamespaceRegistered(String sNamespace)
     {
@@ -194,12 +182,10 @@ public class NamespaceConstants
     }
 
     /**
-     * This method returns whether or not the given prefix is already registered within the constant
-     * class.
-     *
-     * @param   sPrefix  The prefix to check.
-     *
-     * @return  true if there is already a mapping for the given prefix. Otherwise false.
+     * This method returns whether or not the given prefix is already registered within the constant class.
+     * 
+     * @param sPrefix The prefix to check.
+     * @return true if there is already a mapping for the given prefix. Otherwise false.
      */
     public static boolean isPrefixRegistered(String sPrefix)
     {
@@ -207,16 +193,14 @@ public class NamespaceConstants
     }
 
     /**
-     * This method will register the namespace using the preferred prefix if it is not already
-     * registered. If the namespace is already registered this method will return the rprefix it was
-     * previously registered with.<br>
-     * Note: You should NEVER use the preferred prefix in your XPaths because this class does not
-     * guarantuee that the preferred prefix will also be the actual prefix in the
-     *
-     * @param   sPreferredPrefix  Holds the preferred prefix.
-     * @param   sNamespaceURI     Holds the namespace.
-     *
-     * @return  The actual prefix to use.
+     * This method will register the namespace using the preferred prefix if it is not already registered. If the namespace is
+     * already registered this method will return the rprefix it was previously registered with.<br>
+     * Note: You should NEVER use the preferred prefix in your XPaths because this class does not guarantuee that the preferred
+     * prefix will also be the actual prefix in the
+     * 
+     * @param sPreferredPrefix Holds the preferred prefix.
+     * @param sNamespaceURI Holds the namespace.
+     * @return The actual prefix to use.
      */
     public static String registerPrefix(String sPreferredPrefix, String sNamespaceURI)
     {
@@ -268,11 +252,10 @@ public class NamespaceConstants
     }
 
     /**
-     * This method adds a namespace and prefix to the static binding list. This needs to be done
-     * only once.
-     *
-     * @param  sPrefix        The prefix to add.
-     * @param  sNamespaceURI  The namespace for the prefix.
+     * This method adds a namespace and prefix to the static binding list. This needs to be done only once.
+     * 
+     * @param sPrefix The prefix to add.
+     * @param sNamespaceURI The namespace for the prefix.
      */
     private static void addNamespacePrefixBinding(String sPrefix, String sNamespaceURI)
     {

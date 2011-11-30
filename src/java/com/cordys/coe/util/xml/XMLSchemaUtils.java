@@ -4,19 +4,18 @@ import com.cordys.coe.util.general.Util;
 
 import com.eibus.xml.nom.Document;
 import com.eibus.xml.nom.Node;
+import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 
 import java.io.File;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.xerces.parsers.DOMParser;
-
 /**
- * This class contains methods that can work on XML documents and schemas. For example there is a
- * method that can validate a piece of XML against a schema.
- *
- * @author  pgussow
+ * This class contains methods that can work on XML documents and schemas. For example there is a method that can validate a piece
+ * of XML against a schema.
+ * 
+ * @author pgussow
  */
 public class XMLSchemaUtils
 {
@@ -51,45 +50,38 @@ public class XMLSchemaUtils
 
     /**
      * Main method. For testing purposes.
-     *
-     * @param  saArgs  the commandline arguments.
+     * 
+     * @param saArgs the commandline arguments.
      */
     public static void main(String[] saArgs)
     {
-        int iReturn = XMLSchemaUtils.validateXMLSchema("c:/temp/XMPInputFileErr.xml",
-                                                       "c:/temp/$pain.001.003.01.xsd", true);
+        int iReturn = XMLSchemaUtils.validateXMLSchema("c:/temp/XMPInputFileErr.xml", "c:/temp/$pain.001.003.01.xsd", true);
         System.out.println(Node.writeToString(iReturn, true));
     }
 
     /**
-     * This method will validate an external XML file against its XSD schema. The returning XML
-     * looks like this:
-     *
+     * This method will validate an external XML file against its XSD schema. The returning XML looks like this:
+     * 
      * <pre>
-       <result>
-         <code></code>
-         <errors>
-           <error>
-             <line></line>
-             <column></column>
-             <message></message>
-            </error>
-         </errors>
-       </result>
+     *        <result>
+     *          <code></code>
+     *          <errors>
+     *            <error>
+     *              <line></line>
+     *              <column></column>
+     *              <message></message>
+     *             </error>
+     *          </errors>
+     *        </result>
      * </pre>
-     *
-     * @param   sXMLFileName          Name plus path of the XML file that will be validated.
-     * @param   sXSDFileName          Name plus path of the XSD schema used to validate the XML file
-     *                                against
-     * @param   bNamespaceInDocument  If true it means that the location of the XSD is specified in
-     *                                the XML document that has to be validated. If false then
-     *                                sXSDFilename must contain the location of the XSD to validate
-     *                                against.
-     *
-     * @return  This method returns a piece of XML.
+     * 
+     * @param sXMLFileName Name plus path of the XML file that will be validated.
+     * @param sXSDFileName Name plus path of the XSD schema used to validate the XML file against
+     * @param bNamespaceInDocument If true it means that the location of the XSD is specified in the XML document that has to be
+     *            validated. If false then sXSDFilename must contain the location of the XSD to validate against.
+     * @return This method returns a piece of XML.
      */
-    public static int validateXMLSchema(String sXMLFileName, String sXSDFileName,
-                                        boolean bNamespaceInDocument)
+    public static int validateXMLSchema(String sXMLFileName, String sXSDFileName, boolean bNamespaceInDocument)
     {
         int iReturn = 0;
         Document dDoc = new Document();
@@ -107,9 +99,8 @@ public class XMLSchemaUtils
         {
             createResult(iReturn, CODE_MISSING_XML_SOURCE_FILE, MESS_MISSING_XML_SOURCE_FILE);
         }
-        else if (!bNamespaceInDocument &&
-                     ((sXSDFileName == null) || (sXSDFileName.length() == 0) || (fXSD == null) ||
-                          !fXSD.exists()))
+        else if (!bNamespaceInDocument
+                && ((sXSDFileName == null) || (sXSDFileName.length() == 0) || (fXSD == null) || !fXSD.exists()))
         {
             createResult(iReturn, CODE_MISSING_XSD_FILE, MESS_MISSING_XSD_FILE);
         }
@@ -123,13 +114,11 @@ public class XMLSchemaUtils
                 parser.setFeature("http://xml.org/sax/features/validation", true);
                 parser.setFeature("http://xml.org/sax/features/namespaces", true);
                 parser.setFeature("http://apache.org/xml/features/validation/schema", true);
-                parser.setFeature("http://apache.org/xml/features/validation/schema-full-checking",
-                                  true);
+                parser.setFeature("http://apache.org/xml/features/validation/schema-full-checking", true);
 
                 if (!bNamespaceInDocument)
                 {
-                    parser.setProperty("http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation",
-                                       sXSDFileName);
+                    parser.setProperty("http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation", sXSDFileName);
                 }
 
                 errors = new ErrorChecker();
@@ -160,8 +149,7 @@ public class XMLSchemaUtils
             }
             catch (Exception e)
             {
-                createResult(iReturn, CODE_GENERAL_EXCEPTION,
-                             "Error validating the XML:\n" + Util.getStackTrace(e));
+                createResult(iReturn, CODE_GENERAL_EXCEPTION, "Error validating the XML:\n" + Util.getStackTrace(e));
             }
         }
 
@@ -170,10 +158,10 @@ public class XMLSchemaUtils
 
     /**
      * This method creates a non-line related error.
-     *
-     * @param  iParent   The parent XML node.
-     * @param  iCode     The resultcode.
-     * @param  sMessage  The detailed message.
+     * 
+     * @param iParent The parent XML node.
+     * @param iCode The resultcode.
+     * @param sMessage The detailed message.
      */
     private static void createResult(int iParent, int iCode, String sMessage)
     {

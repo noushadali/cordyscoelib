@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import org.apache.xerces.parsers.DOMParser;
-
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
@@ -13,6 +11,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.SAXParseException;
+
+import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 
 /**
  * Validate an XML to a Orchestrator template (XSD). TODO: implement a pool of validators.

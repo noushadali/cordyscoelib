@@ -1,36 +1,15 @@
 package com.cordys.coe.tools.es.swt;
 
-import com.cordys.coe.tools.es.ESLogEvent;
-import com.cordys.coe.tools.es.ILogEvent;
-import com.cordys.coe.tools.es.Log4JLogEvent;
-import com.cordys.coe.tools.es.ReceivedMessage;
-import com.cordys.coe.tools.log4j.ILogViewerConfiguration;
-import com.cordys.coe.util.general.Util;
-import com.cordys.coe.util.soap.ISOAPWrapper;
-import com.cordys.coe.util.soap.SOAPWrapper;
-import com.cordys.coe.util.swt.BorderLayout;
-import com.cordys.coe.util.swt.InputBox;
-
-import com.eibus.connector.nom.Connector;
-import com.eibus.connector.nom.SOAPMessageListener;
-
-import com.eibus.xml.nom.Document;
-import com.eibus.xml.nom.Find;
-import com.eibus.xml.nom.Node;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
 import java.text.SimpleDateFormat;
-
 import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -58,6 +37,22 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+
+import com.cordys.coe.tools.es.ESLogEvent;
+import com.cordys.coe.tools.es.ILogEvent;
+import com.cordys.coe.tools.es.Log4JLogEvent;
+import com.cordys.coe.tools.es.ReceivedMessage;
+import com.cordys.coe.tools.log4j.ILogViewerConfiguration;
+import com.cordys.coe.util.general.Util;
+import com.cordys.coe.util.soap.ISOAPWrapper;
+import com.cordys.coe.util.soap.SOAPWrapper;
+import com.cordys.coe.util.swt.BorderLayout;
+import com.cordys.coe.util.swt.InputBox;
+import com.cordys.coe.util.xml.nom.XPathHelper;
+import com.eibus.connector.nom.Connector;
+import com.eibus.connector.nom.SOAPMessageListener;
+import com.eibus.xml.nom.Document;
+import com.eibus.xml.nom.Node;
 
 /**
  * This composite is the base for the Event Service client.
@@ -285,7 +280,7 @@ public class ESCComposite extends Composite
 
             iResponse = m_swSoap.sendAndWait(iEnvelope);
 
-            int[] aiSubjects = Find.match(iResponse, "?<GetAllSubscriptionsResponse><subject>");
+            int[] aiSubjects = XPathHelper.selectNodes(iResponse, "//GetAllSubscriptionsResponse/subject");
 
             for (int iCount = 0; iCount < aiSubjects.length; iCount++)
             {

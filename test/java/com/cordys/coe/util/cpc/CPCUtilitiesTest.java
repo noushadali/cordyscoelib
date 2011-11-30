@@ -42,6 +42,7 @@ public class CPCUtilitiesTest extends TestCase
     /**
      * This method test the concat string method.
      */
+    @SuppressWarnings("deprecation")
     public void testConcatString()
                           throws Exception
     {

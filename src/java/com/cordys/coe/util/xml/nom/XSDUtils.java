@@ -1,23 +1,18 @@
 package com.cordys.coe.util.xml.nom;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import com.cordys.coe.util.CoeLibConnector;
 import com.cordys.coe.util.FileUtils;
 import com.cordys.coe.util.xml.dom.XSDValidator;
 import com.cordys.coe.util.xml.dom.XSDValidatorResult;
-
 import com.eibus.connector.nom.Connector;
-
 import com.eibus.util.system.EIBProperties;
-
 import com.eibus.xml.nom.Document;
-import com.eibus.xml.nom.Find;
 import com.eibus.xml.nom.Node;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import java.util.ArrayList;
 
 /**
  * Provides methods for XSD validation.
@@ -123,7 +118,7 @@ public class XSDUtils
                                       throws Exception
     {
         int instancePropNode = instanceProperties;
-        int iUserDn = Find.firstMatch(instancePropNode, "<instanceProperties><currentOwner>");
+        int iUserDn = XPathHelper.selectSingleNode(instancePropNode, ".//*[local-name()='currentOwner']");
         String userDn = Node.getDataWithDefault(iUserDn, "");
 
         int result = _xsdValidateByTemplate(templateName, userDn, xmlToValidate, version);

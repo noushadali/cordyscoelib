@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.TableItem;
  *
  * @author  pgussow
  */
+@SuppressWarnings("deprecation")
 public class UpdateLDAPCachePanel extends AbstractEventPanel
 {
     /**

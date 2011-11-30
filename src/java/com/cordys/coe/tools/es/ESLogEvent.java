@@ -17,6 +17,7 @@ import java.util.Date;
  *
  * @author  pgussow
  */
+@SuppressWarnings("deprecation")
 public class ESLogEvent
     implements ILogEvent
 {

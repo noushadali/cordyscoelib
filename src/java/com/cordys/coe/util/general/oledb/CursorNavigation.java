@@ -21,6 +21,8 @@ import org.w3c.dom.NodeList;
 
 /**
  * JavaObject for navigating trough a cursor. It only works for OLEDB-compatible cursors.
+ * 
+ * @deprecated This class uses the old Find library for XML searching. This is not namespace safe!
  */
 public class CursorNavigation
 {

@@ -19,6 +19,7 @@ import com.novell.ldap.LDAPException;
  * Created by IntelliJ IDEA. User: pgussow Date: 14-aug-2003 Time: 16:46:11 To change this template
  * use Options | File Templates.
  */
+@SuppressWarnings("deprecation")
 public class LDAPImporter
 {
     /**

@@ -15,6 +15,8 @@ import com.eibus.xml.nom.Node;
  * batch. The configuration-XML looks like this:
  *
  * @author  pgussow
+ * 
+ * @deprecated This class uses the old Find library for XML searching. This is not namespace safe!
  */
 public class BatchExecute
 {

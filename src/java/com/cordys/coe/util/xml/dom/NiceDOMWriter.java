@@ -37,8 +37,7 @@ public class NiceDOMWriter
             catch (Throwable ignored)
             {
                 // This will throw an exception if the proper interface is not present.
-                Class.forName("org.apache.xml.serialize.XMLSerializer");
-                cNiceDOMWriterImpl = Class.forName("com.cordys.coe.util.xml.dom.internal.NiceDOMWriter_Jdk14");
+                throw new IllegalStateException("Cannot find proper interface!", ignored);
             }
 
             s_mImplMethod = cNiceDOMWriterImpl.getDeclaredMethod("write", Node.class,

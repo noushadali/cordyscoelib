@@ -16,6 +16,7 @@ import com.eibus.xml.nom.Node;
  *
  * @author  mpoyhone
  */
+@SuppressWarnings("deprecation")
 public class SoapConnection
 {
     /**

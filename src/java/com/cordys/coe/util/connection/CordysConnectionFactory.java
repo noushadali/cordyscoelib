@@ -1,9 +1,7 @@
 package com.cordys.coe.util.connection;
 
 import com.cordys.coe.util.config.IConfiguration;
-import com.cordys.coe.util.config.INativeConfiguration;
 import com.cordys.coe.util.config.IWebGatewayConfiguration;
-import com.cordys.coe.util.connection.impl.NativeConnection;
 import com.cordys.coe.util.connection.impl.WebGatewayConnection;
 
 /**
@@ -56,11 +54,6 @@ public class CordysConnectionFactory
         {
             IWebGatewayConfiguration wgc = (IWebGatewayConfiguration) cConfig;
             ccReturn = new WebGatewayConnection(wgc, bCheckSoapFault, bConnect);
-        }
-        else if (cConfig instanceof INativeConfiguration)
-        {
-            INativeConfiguration nc = (INativeConfiguration) cConfig;
-            ccReturn = new NativeConnection(nc, bCheckSoapFault);
         }
         else
         {

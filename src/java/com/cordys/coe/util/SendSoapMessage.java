@@ -23,6 +23,8 @@ import java.util.Date;
  * This class can be used to send soap messages from the command prompt.
  *
  * @author  tveldhui, pgussow
+ * 
+ * @deprecated This class uses the old Find pattern instead of proper XPaths
  */
 public class SendSoapMessage
 {

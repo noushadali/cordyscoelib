@@ -253,6 +253,8 @@ public class ServerRuntimeLocalizableException extends RuntimeException
         m_srMessage = srMessage;
         m_aoParameters = aoParameters;
     }
+    
+    
 
     /**
      * This method sets the preferred locale for this exception object.

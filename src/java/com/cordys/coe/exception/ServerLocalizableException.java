@@ -68,7 +68,7 @@ public class ServerLocalizableException extends Exception
     public ServerLocalizableException(String sFaultActor, IStringResource srMessage,
                                       Object... aoParameters)
     {
-        this((Throwable) null, (String) null, srMessage, aoParameters);
+        this((Throwable) null, sFaultActor, srMessage, aoParameters);
     }
 
     /**

@@ -1,21 +1,16 @@
 package com.cordys.coe.util.soap;
 
+import java.util.ArrayList;
+
 import com.cordys.coe.util.general.Util;
 import com.cordys.coe.util.xml.NamespaceDefinitions;
 import com.cordys.coe.util.xml.nom.NamespaceConstants;
 import com.cordys.coe.util.xml.nom.XPathHelper;
-
 import com.eibus.connector.nom.Connector;
-
 import com.eibus.util.spy.Spy;
-
 import com.eibus.xml.nom.Document;
-import com.eibus.xml.nom.Find;
 import com.eibus.xml.nom.Node;
-
 import com.novell.ldap.LDAPException;
-
-import java.util.ArrayList;
 
 /**
  * This class is a wrapper around creation and sending soap-messages. All requests and responses are added to an
@@ -178,7 +173,7 @@ public class SOAPWrapper
 
         if (iNewHeader != 0)
         {
-            int iTmp = Find.firstMatch(iNewHeader, "?<user>");
+            int iTmp = XPathHelper.selectSingleNode(iNewHeader, "//*[local-name()='user']");
 
             if (iTmp != 0)
             {

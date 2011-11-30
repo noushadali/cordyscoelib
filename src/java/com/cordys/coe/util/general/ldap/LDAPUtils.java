@@ -6,15 +6,21 @@
  */
 package com.cordys.coe.util.general.ldap;
 
-import com.eibus.xml.nom.Document;
-import com.eibus.xml.nom.Find;
-import com.eibus.xml.nom.Node;
-
-import com.novell.ldap.*;
-
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Vector;
+
+import com.cordys.coe.util.xml.nom.XPathHelper;
+import com.eibus.xml.nom.Document;
+import com.eibus.xml.nom.Node;
+import com.novell.ldap.LDAPAttribute;
+import com.novell.ldap.LDAPAttributeSet;
+import com.novell.ldap.LDAPConnection;
+import com.novell.ldap.LDAPEntry;
+import com.novell.ldap.LDAPException;
+import com.novell.ldap.LDAPModification;
+import com.novell.ldap.LDAPSearchConstraints;
+import com.novell.ldap.LDAPSearchResults;
 
 /**
  * This class contains static methods for use on LDAPEntries.
@@ -326,7 +332,7 @@ public class LDAPUtils
 
         // Find the identification for this entry
         String sDN = eRoot.getDN();
-        int iNode = Find.firstMatch(iEntryNode, "fChild<cn><string>");
+        int iNode = XPathHelper.selectSingleNode(iEntryNode, "./*[local-name()='cn']/*[local-name()='string']");
 
         if ((iNode != 0) && (Node.getDataWithDefault(iNode, "").length() > 0))
         {
@@ -343,7 +349,7 @@ public class LDAPUtils
                         !(Node.getName(iCurrentChild).equals("entry")))
                 {
                     String sName = Node.getName(iCurrentChild);
-                    int[] aiValues = Find.match(iCurrentChild, "fChild<string>");
+                    int[] aiValues = XPathHelper.selectNodes(iCurrentChild, "./*[local-name()='string']");
                     String[] saValues = new String[aiValues.length];
 
                     for (int iCount = 0; iCount < aiValues.length; iCount++)

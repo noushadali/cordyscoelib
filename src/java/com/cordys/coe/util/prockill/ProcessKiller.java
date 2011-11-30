@@ -21,6 +21,8 @@ import com.eibus.xml.nom.Node;
  * <exename>.
  *
  * @author  pgussow
+ * 
+ * @deprecated This class uses the old Find library for XML searching. This is not namespace safe!
  */
 public class ProcessKiller
 {

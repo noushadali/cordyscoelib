@@ -96,7 +96,7 @@ public class SoapHelpers
 
         try
         {
-            ldLdapDirectory = new LDAPDirectory();
+            ldLdapDirectory = LDAPDirectory.getDefaultInstance();
 
             if (sOrganization != null)
             {

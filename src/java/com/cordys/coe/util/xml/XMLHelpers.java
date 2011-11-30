@@ -1,36 +1,32 @@
 package com.cordys.coe.util.xml;
 
-import com.eibus.xml.nom.Document;
-import com.eibus.xml.nom.Find;
-import com.eibus.xml.nom.Node;
-import com.eibus.xml.nom.XMLException;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.cordys.coe.util.xml.nom.XPathHelper;
+import com.eibus.xml.nom.Document;
+import com.eibus.xml.nom.Node;
+import com.eibus.xml.nom.XMLException;
+
 /**
  * Helper methods for XML structure manipulation.
- *
- * @author  mpoyhone
+ * 
+ * @author mpoyhone
  */
 public class XMLHelpers
 {
     /**
      * An utility method for creating XML elements in the given path.
-     *
-     * @param   saPath        Path of XML elements names.
-     * @param   xParentNode   Root node under which the path is the be created.
-     * @param   bUseExisting  If true, existing nodes are used (if found). Otherwise new nodes are
-     *                        always created.
-     *
-     * @return  Last XML element of the created path.
-     *
-     * @throws  IllegalArgumentException  Thrown if the creation failed.
+     * 
+     * @param saPath Path of XML elements names.
+     * @param xParentNode Root node under which the path is the be created.
+     * @param bUseExisting If true, existing nodes are used (if found). Otherwise new nodes are always created.
+     * @return Last XML element of the created path.
+     * @throws IllegalArgumentException Thrown if the creation failed.
      */
-    public static int createPath(String[] saPath, int xParentNode, boolean bUseExisting)
-                          throws IllegalArgumentException
+    public static int createPath(String[] saPath, int xParentNode, boolean bUseExisting) throws IllegalArgumentException
     {
         if (saPath == null)
         {
@@ -42,11 +38,11 @@ public class XMLHelpers
         for (int i = 0; i < saPath.length; i++)
         {
             String sElem = saPath[i];
-            int xNode = (bUseExisting ? Find.firstMatch(xCurrent, "<><" + sElem + ">") : 0);
+            int xNode = (bUseExisting ? XPathHelper.selectSingleNode(xCurrent, "./*[local-name()='" + sElem + "']") : 0);
 
             if (xNode == 0)
             {
-                xNode = Node.createElement(sElem, xCurrent);
+                xNode = Node.createElementWithParentNS(sElem, null, xCurrent);
             }
 
             // Simulate recursion.
@@ -57,14 +53,12 @@ public class XMLHelpers
     }
 
     /**
-     * Returns XML namespace prefix from the given XML node. The returned value will contain a colon
-     * at the end (e.g. SOAP:) if the prefix was found or an it will be empty string if the prefix
-     * was not set.
-     *
-     * @param   iNode          XML node.
-     * @param   sNamespaceUri  Namespace URI of the prefix to be searched.
-     *
-     * @return  The namespace prefix.
+     * Returns XML namespace prefix from the given XML node. The returned value will contain a colon at the end (e.g. SOAP:) if
+     * the prefix was found or an it will be empty string if the prefix was not set.
+     * 
+     * @param iNode XML node.
+     * @param sNamespaceUri Namespace URI of the prefix to be searched.
+     * @return The namespace prefix.
      */
     public static String getNamespacePrefix(int iNode, String sNamespaceUri)
     {
@@ -110,12 +104,10 @@ public class XMLHelpers
 
     /**
      * Returns the XML element name without namespace prefix (if any was specified).
-     *
-     * @param       iNode  Input XML node.
-     *
-     * @return      The XML element name.
-     *
-     * @deprecated  Use Node.getLocaname() instead.
+     * 
+     * @param iNode Input XML node.
+     * @return The XML element name.
+     * @deprecated Use Node.getLocaname() instead.
      */
     public static String getNameWithoutPrefix(int iNode)
     {
@@ -142,17 +134,14 @@ public class XMLHelpers
     }
 
     /**
-     * Parses the XPath expression in a string array containing the XPath elements. The expressiong
-     * must be a simple /a/b/c for and it cannot contain any wild-cards or attributes.
-     *
-     * @param   sPath  Path to be parsed.
-     *
-     * @return  The XPath expression in a string array.
-     *
-     * @throws  IllegalArgumentException  Thrown if the parsing failed.
+     * Parses the XPath expression in a string array containing the XPath elements. The expressiong must be a simple /a/b/c for
+     * and it cannot contain any wild-cards or attributes.
+     * 
+     * @param sPath Path to be parsed.
+     * @return The XPath expression in a string array.
+     * @throws IllegalArgumentException Thrown if the parsing failed.
      */
-    public static String[] parsePath(String sPath)
-                              throws IllegalArgumentException
+    public static String[] parsePath(String sPath) throws IllegalArgumentException
     {
         if (sPath.indexOf("//") >= 0)
         {
@@ -187,14 +176,13 @@ public class XMLHelpers
     }
 
     /**
-     * Clones an XML node to the destination document. If the node document and the destination
-     * document are different the node is first converted into binary format and then read into the
-     * destination document. This method also copies the node's children.
-     *
-     * @param   dDestDoc  The document that will contain the returned node.
-     * @param   iNode     The node to be cloned.
-     *
-     * @return  The cloned node.
+     * Clones an XML node to the destination document. If the node document and the destination document are different the node is
+     * first converted into binary format and then read into the destination document. This method also copies the node's
+     * children.
+     * 
+     * @param dDestDoc The document that will contain the returned node.
+     * @param iNode The node to be cloned.
+     * @return The cloned node.
      */
     public static int safeCloneNode(Document dDestDoc, int iNode)
     {
@@ -215,11 +203,10 @@ public class XMLHelpers
     }
 
     /**
-     * Sets the data element in an existing node. If the data element does not exists, it is
-     * created.
-     *
-     * @param  iNode      The XML node in question.
-     * @param  sNodeText  Value of the data element to be set.
+     * Sets the data element in an existing node. If the data element does not exists, it is created.
+     * 
+     * @param iNode The XML node in question.
+     * @param sNodeText Value of the data element to be set.
      */
     public static void setNodeText(int iNode, String sNodeText)
     {

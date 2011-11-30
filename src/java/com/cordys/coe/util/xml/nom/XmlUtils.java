@@ -5,7 +5,6 @@ import com.cordys.coe.util.FileUtils;
 import com.eibus.util.system.EIBProperties;
 
 import com.eibus.xml.nom.Document;
-import com.eibus.xml.nom.Find;
 import com.eibus.xml.nom.Node;
 import com.eibus.xml.xpath.NodeSet;
 import com.eibus.xml.xpath.ResultNode;
@@ -263,7 +262,7 @@ public class XmlUtils
         String xsltStr = Node.writeToString(aXSLT, false);
         XSLT xslt = XSLT.parseFromString(xsltStr);
 
-        return xslt.xslStrTransform(xml, null);
+        return xslt.xslTransformToString(xml);
     }
 
     /**
@@ -300,7 +299,7 @@ public class XmlUtils
                                          throws Exception
     {
         XSLT xslt = getXsltFromFile(filenameXSLT);
-        return xslt.xslStrTransform(xml, null);
+        return xslt.xslTransformToString(xml);
     }
 
     /**
@@ -336,7 +335,7 @@ public class XmlUtils
     {
         String xsltStr = Node.writeToString(aXSLT, false);
         XSLT xslt = XSLT.parseFromString(xsltStr);
-        int resultNode = xslt.xslTransform(xml, null);
+        int resultNode = xslt.xslTransform(xml);
 
         return resultNode;
     }
@@ -375,7 +374,7 @@ public class XmlUtils
                                    throws Exception
     {
         XSLT xslt = getXsltFromFile(filenameXSLT);
-        return xslt.xslTransform(xml, null);
+        return xslt.xslTransform(xml);
     }
 
     /**
@@ -419,7 +418,7 @@ public class XmlUtils
                          throws SecurityException, NoSuchMethodException, IllegalArgumentException,
                                 IllegalAccessException, InvocationTargetException
     {
-        int[] xpathNodes = Find.match(xpaths, "<><xpath>");
+        int[] xpathNodes = XPathHelper.selectNodes(xpaths, "./*[local-name()='xpath']");
         Object[] xpathResultArr = new Object[xpathNodes.length];
 
         for (int i = 0; i < xpathNodes.length; i++)

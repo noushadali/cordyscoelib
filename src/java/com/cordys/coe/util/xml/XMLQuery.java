@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
  *
  * @author  mpoyhone
  */
+@SuppressWarnings("deprecation")
 public class XMLQuery
 {
     /**

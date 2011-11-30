@@ -6,7 +6,7 @@ import java.util.Map;
 import org.w3c.dom.Node;
 
 /**
- * Holds the Jdk14 implementation.
+ * Holds the Jdk15 implementation.
  *
  * @author  pgussow
  */

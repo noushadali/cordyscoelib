@@ -14,6 +14,7 @@ import com.eibus.xml.nom.Find;
  *
  * @author mpoyhone
  */
+@SuppressWarnings("deprecation")
 public class SoapEnvelopeInfoTest extends NomTestCase
 {
     /**

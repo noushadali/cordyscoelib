@@ -23,6 +23,8 @@ import java.util.jar.*;
  * DOCUMENTME.
  *
  * @author  tveldhui
+ * 
+ * @deprecated This class uses the old Find library for XML searching. This is not namespace safe!
  */
 public class CheckClassPath
 {

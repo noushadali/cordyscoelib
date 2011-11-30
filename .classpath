@@ -13,13 +13,9 @@
 	<classpathentry kind="lib" path="platform/ext/ldap.jar"/>
 	<classpathentry kind="lib" path="platform/components/managementlib/managementlib.jar"/>
 	<classpathentry kind="lib" path="platform/components/basicutil/basicutil.jar"/>
-	<classpathentry kind="lib" path="platform/ext/xercesImpl.jar"/>
-	<classpathentry kind="lib" path="platform/components/tiger/tiger.jar"/>
 	<classpathentry kind="lib" path="platform/components/wsappserver/wsappserver.jar"/>
-	<classpathentry kind="lib" path="platform/components/javacallconn/javaconn.jar"/>
 	<classpathentry kind="lib" path="lib/org-netbeans-swing-outline.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar" sourcepath="D:/Software/JavaLibs/logging-log4j-1.2.13/src/java"/>
-	<classpathentry kind="lib" path="platform/ext/xalan.jar"/>
 	<classpathentry kind="lib" path="lib/xbean.jar"/>
 	<classpathentry kind="lib" path="platform/ext/wsdl4j.jar"/>
 	<classpathentry kind="lib" path="lib/miglayout15-swing.jar"/>
@@ -34,7 +30,6 @@
 	<classpathentry kind="lib" path="sdk/lib/ant/ant.jar"/>
 	<classpathentry kind="lib" path="lib/commons-httpclient-3.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-httpclient-contrib-3.0.jar"/>
-	<classpathentry kind="lib" path="platform/orc/cpc.jar"/>
 	<classpathentry kind="lib" path="platform/components/eibxml/eibxml.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

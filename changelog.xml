@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document>
+<?xml version="1.0" encoding="UTF-8"?><document>
     <properties>
         <title>Cordys CoE Library Changelog</title>
         <author email="pgussow@cordys.com">Phillip Gussow</author>
@@ -13,6 +12,10 @@
     </template>
     <body>
         <release description="Development release" version="@NEXT@">
+				</release>
+<release date="2011-11-30" description="Development release" version="1.2.1">
+        	<action dev="pgussow" type="change">Migrated to BOP4. Removed the ISVP, because the main focus is the coelib.jar. Marked all classes deprecated that are using the Find class.</action>
+        	<action dev="pgussow" type="change">Made the WsappsQueryManager use generics.</action>
 				</release>
 <release date="2011-11-24" description="Development release" version="1.1.19">
             <action dev="pgussow" type="fix">There was a bug in the XPathhelper.getDateValue(). If 4 digits or more were given for the ms, then the call would produce a weird date. Now all the digits are cut off after the 3rd one.</action>

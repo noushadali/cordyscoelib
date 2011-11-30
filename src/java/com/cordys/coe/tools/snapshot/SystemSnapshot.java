@@ -113,6 +113,14 @@ public class SystemSnapshot
      * Holds the threadpool result panel.
      */
     private ThreadPoolPanel m_threadPoolPanel;
+    /**
+     * Holds the memory panel details.
+     */
+    private MemoryPanel m_memoryPanel;
+    /**
+     * Holds the DB Connection pool panel details.
+     */
+    private DBConnectionPoolPanel m_dbPoolPanel;
 
     /**
      * Launch the application.
@@ -302,6 +310,12 @@ public class SystemSnapshot
         m_threadPoolPanel = new ThreadPoolPanel();
         tabbedPane.addTab("Thread Pools", null, m_threadPoolPanel, null);
 
+        m_memoryPanel = new MemoryPanel();
+        tabbedPane.addTab("Memory Pools", null, m_memoryPanel, null);
+
+        m_dbPoolPanel = new DBConnectionPoolPanel();
+        tabbedPane.addTab("DB Connection Pools", null, m_dbPoolPanel, null);
+
         JPanel panel_3 = new JPanel();
         tabbedPane.addTab("Raw data", null, panel_3, null);
         panel_3.setLayout(new BorderLayout(0, 0));
@@ -387,7 +401,7 @@ public class SystemSnapshot
             @Override
             public boolean accept(File f)
             {
-                return f.getName().endsWith(".snapshot");
+                return f.getName().endsWith(".snapshot") || f.isDirectory();
             }
         });
 
@@ -541,7 +555,7 @@ public class SystemSnapshot
             @Override
             public boolean accept(File f)
             {
-                return f.getName().endsWith(".xml");
+                return f.getName().endsWith(".xml") || f.isDirectory();
             }
         });
 
@@ -668,6 +682,8 @@ public class SystemSnapshot
 
         // The dispatchers have a special treatment.
         m_threadPoolPanel.updateData(m_result);
+        m_memoryPanel.updateData(m_result);
+        m_dbPoolPanel.updateData(m_result);
 
         m_resultTree.setModel(new DefaultTreeModel(tm));
     }

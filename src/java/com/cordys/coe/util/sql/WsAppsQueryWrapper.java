@@ -1,12 +1,12 @@
 /**
- * (c) 2007 Cordys R&D B.V. All rights reserved. The computer program(s) is the
- * proprietary information of Cordys B.V. and provided under the relevant
- * License Agreement containing restrictions on use and disclosure. Use is
- * subject to the License Agreement.
+ * (c) 2007 Cordys R&D B.V. All rights reserved. The computer program(s) is the proprietary information of Cordys B.V. and
+ * provided under the relevant License Agreement containing restrictions on use and disclosure. Use is subject to the License
+ * Agreement.
  */
 package com.cordys.coe.util.sql;
 
 import com.cordys.cpc.bsf.busobject.BusObject;
+import com.cordys.cpc.bsf.busobject.BusObjectIterator;
 import com.cordys.cpc.bsf.busobject.QueryObject;
 import com.cordys.cpc.bsf.busobject.QueryParameter;
 
@@ -19,71 +19,76 @@ import java.util.List;
 
 /**
  * WsAppServer query additions for the com.cordys.coe.util.sql.SqlQueryWrapper.
- *
- * <p>One use case for this is creating a query for a search, next and previous method which have a number of optional
- * search critia. In this example name and address search criteria are optional:</p>
- *
+ * <p>
+ * One use case for this is creating a query for a search, next and previous method which have a number of optional search critia.
+ * In this example name and address search criteria are optional:
+ * </p>
+ * 
  * <pre>
-    private static WsAppsQueryWrapper createSearchQuery(String sLastQueryName,
-                                                        String sName,
-                                                        String sAddress,
-                                                        boolean bIsPrevious)
-    {
-        WsAppsQueryWrapper qw = new WsAppsQueryWrapper();
-        qw.select("*").from("ACCOUNTS");
-        if (sName != null && sName.length() > 0)
-        {
-            qw.where("NAME like :NAME");
-            qw.addParameter("NAME", "ACCOUNTS.NAME", "%" + sName + "%");
-        }
-        if (sAddress != null && sAddress.length() > 0)
-        {
-            qw.where("ADDRESS like :ADDRESS");
-            qw.addParameter("ADDRESS", "ACCOUNTS.ADDRESS", "%" + sAddress + "%");
-        }
-        if (sLastQueryName != null) {
-            qw.where("NAME", ! bIsPrevious ? "&gt;" : "&lt;", ":LAST_NAME", false);
-            qw.addParameter("LAST_NAME", "ACCOUNTS.NAME", sLastQueryName);
-        }
-        if (! bIsPrevious) {
-            qw.orderBy("NAME asc");
-        } else {
-            qw.orderBy("NAME desc");
-        }
-        return qw;
-    }
+ * private static WsAppsQueryWrapper createSearchQuery(String sLastQueryName, String sName, String sAddress, boolean bIsPrevious)
+ * {
+ *     WsAppsQueryWrapper qw = new WsAppsQueryWrapper();
+ *     qw.select(&quot;*&quot;).from(&quot;ACCOUNTS&quot;);
+ *     if (sName != null &amp;&amp; sName.length() &gt; 0)
+ *     {
+ *         qw.where(&quot;NAME like :NAME&quot;);
+ *         qw.addParameter(&quot;NAME&quot;, &quot;ACCOUNTS.NAME&quot;, &quot;%&quot; + sName + &quot;%&quot;);
+ *     }
+ *     if (sAddress != null &amp;&amp; sAddress.length() &gt; 0)
+ *     {
+ *         qw.where(&quot;ADDRESS like :ADDRESS&quot;);
+ *         qw.addParameter(&quot;ADDRESS&quot;, &quot;ACCOUNTS.ADDRESS&quot;, &quot;%&quot; + sAddress + &quot;%&quot;);
+ *     }
+ *     if (sLastQueryName != null)
+ *     {
+ *         qw.where(&quot;NAME&quot;, !bIsPrevious ? &quot;&gt;&quot; : &quot;&lt;&quot;, &quot;:LAST_NAME&quot;, false);
+ *         qw.addParameter(&quot;LAST_NAME&quot;, &quot;ACCOUNTS.NAME&quot;, sLastQueryName);
+ *     }
+ *     if (!bIsPrevious)
+ *     {
+ *         qw.orderBy(&quot;NAME asc&quot;);
+ *     }
+ *     else
+ *     {
+ *         qw.orderBy(&quot;NAME desc&quot;);
+ *     }
+ *     return qw;
+ * }
  * </pre>
- *
- * <p>The search method calls this like:</p>
- *
+ * <p>
+ * The search method calls this like:
+ * </p>
+ * 
  * <pre>
-    WsAppsQueryWrapper qw = createSearchQuery(null, sName, sAddress, false);
-    QueryObject query = qw.createQueryObject();
-    query.setResultClass(Account.class);
-    return query.getObjects();
+ * WsAppsQueryWrapper qw = createSearchQuery(null, sName, sAddress, false);
+ * QueryObject query = qw.createQueryObject();
+ * query.setResultClass(Account.class);
+ * return query.getObjects();
  * </pre>
- *
- * <p>The search next method calls this like:</p>
- *
+ * <p>
+ * The search next method calls this like:
+ * </p>
+ * 
  * <pre>
-    WsAppsQueryWrapper qw = createSearchQuery(sLastQueryName, sName, sAddress, false);
-    QueryObject query = qw.createQueryObject();
-    query.setResultClass(Account.class);
-    return query.getObjects();
+ * WsAppsQueryWrapper qw = createSearchQuery(sLastQueryName, sName, sAddress, false);
+ * QueryObject query = qw.createQueryObject();
+ * query.setResultClass(Account.class);
+ * return query.getObjects();
  * </pre>
- *
- * <p>The search previous method calls this like:</p>
- *
+ * <p>
+ * The search previous method calls this like:
+ * </p>
+ * 
  * <pre>
-    WsAppsQueryWrapper qw = createSearchQuery(sLastQueryName, sName, sAddress, true);
-    QueryObject query = qw.createQueryObject();
-    query.setResultClass(Account.class);
-    return query.getObjects();
+ * WsAppsQueryWrapper qw = createSearchQuery(sLastQueryName, sName, sAddress, true);
+ * QueryObject query = qw.createQueryObject();
+ * query.setResultClass(Account.class);
+ * return query.getObjects();
  * </pre>
- *
- * @author  mpoyhone
+ * 
+ * @author mpoyhone
  */
-public class WsAppsQueryWrapper extends SqlQueryWrapper
+public class WsAppsQueryWrapper<T extends BusObject> extends SqlQueryWrapper
 {
     /**
      * Holds the result field mapping that should be applied.
@@ -96,7 +101,7 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
     /**
      * Result class which is set into the create QueryObject.
      */
-    protected Class<? extends BusObject> m_resultClass;
+    protected Class<T> m_resultClass;
     /**
      * Holds whether or not a result mapping should be set when the Query object is created.
      */
@@ -115,47 +120,46 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
 
     /**
      * Constructor for WsAppsQueryWrapper.
-     *
-     * @param  resultClass  Result class which is set into the create QueryObject.
+     * 
+     * @param resultClass Result class which is set into the create QueryObject.
      */
-    public WsAppsQueryWrapper(Class<? extends BusObject> resultClass)
+    public WsAppsQueryWrapper(Class<T> resultClass)
     {
         this(resultClass, false);
     }
 
     /**
      * Constructor for WsAppsQueryWrapper.
-     *
-     * @param  resultClass      Result class which is set into the create QueryObject.
-     * @param  returnTransient  If <code>true</code> returned objects are marked as transient.
+     * 
+     * @param resultClass Result class which is set into the create QueryObject.
+     * @param returnTransient If <code>true</code> returned objects are marked as transient.
      */
-    public WsAppsQueryWrapper(Class<? extends BusObject> resultClass, boolean returnTransient)
+    public WsAppsQueryWrapper(Class<T> resultClass, boolean returnTransient)
     {
         this(resultClass, returnTransient, -1, null);
     }
 
     /**
      * Constructor for WsAppsQueryWrapper.
-     *
-     * @param  resultClass      Result class which is set into the create QueryObject.
-     * @param  returnTransient  If <code>true</code> returned objects are marked as transient.
-     * @param  resultMapping    The result mapping that should be used.
+     * 
+     * @param resultClass Result class which is set into the create QueryObject.
+     * @param returnTransient If <code>true</code> returned objects are marked as transient.
+     * @param resultMapping The result mapping that should be used.
      */
-    public WsAppsQueryWrapper(Class<? extends BusObject> resultClass, boolean returnTransient, int resultMapping)
+    public WsAppsQueryWrapper(Class<T> resultClass, boolean returnTransient, int resultMapping)
     {
         this(resultClass, returnTransient, resultMapping, null);
     }
 
     /**
      * Constructor for WsAppsQueryWrapper.
-     *
-     * @param  resultClass      Result class which is set into the create QueryObject.
-     * @param  returnTransient  If <code>true</code> returned objects are marked as transient.
-     * @param  resultMapping    The result mapping that should be used.
-     * @param  fieldMapping     The field mapping for the result mapping.
+     * 
+     * @param resultClass Result class which is set into the create QueryObject.
+     * @param returnTransient If <code>true</code> returned objects are marked as transient.
+     * @param resultMapping The result mapping that should be used.
+     * @param fieldMapping The field mapping for the result mapping.
      */
-    public WsAppsQueryWrapper(Class<? extends BusObject> resultClass, boolean returnTransient, int resultMapping,
-                              String[][] fieldMapping)
+    public WsAppsQueryWrapper(Class<T> resultClass, boolean returnTransient, int resultMapping, String[][] fieldMapping)
     {
         m_resultClass = resultClass;
         m_returnTransient = returnTransient;
@@ -165,8 +169,8 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
 
     /**
      * Adds a parameter to the query.
-     *
-     * @param  qpParam  Query parameter object.
+     * 
+     * @param qpParam Query parameter object.
      */
     public void addParameter(QueryParameter qpParam)
     {
@@ -175,10 +179,10 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
 
     /**
      * Adds a parameter to the query. The type is determined by the value type.
-     *
-     * @param  sParamName  Parameter name.
-     * @param  sFieldType  Parameter field type.
-     * @param  sValue      Parameter value.
+     * 
+     * @param sParamName Parameter name.
+     * @param sFieldType Parameter field type.
+     * @param sValue Parameter value.
      */
     public void addParameter(String sParamName, String sFieldType, String sValue)
     {
@@ -187,10 +191,10 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
 
     /**
      * Adds a parameter to the query. The type is determined by the value type.
-     *
-     * @param  sParamName  Parameter name.
-     * @param  sFieldType  Parameter field type.
-     * @param  iValue      Parameter value.
+     * 
+     * @param sParamName Parameter name.
+     * @param sFieldType Parameter field type.
+     * @param iValue Parameter value.
      */
     public void addParameter(String sParamName, String sFieldType, Integer iValue)
     {
@@ -199,10 +203,10 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
 
     /**
      * Adds a parameter to the query. The type is determined by the value type.
-     *
-     * @param  sParamName  Parameter name.
-     * @param  sFieldType  Parameter field type.
-     * @param  lValue      Parameter value.
+     * 
+     * @param sParamName Parameter name.
+     * @param sFieldType Parameter field type.
+     * @param lValue Parameter value.
      */
     public void addParameter(String sParamName, String sFieldType, Long lValue)
     {
@@ -211,10 +215,10 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
 
     /**
      * Adds a parameter to the query. The type is determined by the value type.
-     *
-     * @param  sParamName  Parameter name.
-     * @param  sFieldType  Parameter field type.
-     * @param  dValue      Parameter value.
+     * 
+     * @param sParamName Parameter name.
+     * @param sFieldType Parameter field type.
+     * @param dValue Parameter value.
      */
     public void addParameter(String sParamName, String sFieldType, Double dValue)
     {
@@ -223,10 +227,10 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
 
     /**
      * Adds a parameter to the query. The type is determined by the value type.
-     *
-     * @param  sParamName  Parameter name.
-     * @param  sFieldType  Parameter field type.
-     * @param  dValue      Parameter value.
+     * 
+     * @param sParamName Parameter name.
+     * @param sFieldType Parameter field type.
+     * @param dValue Parameter value.
      */
     public void addParameter(String sParamName, String sFieldType, Date dValue)
     {
@@ -235,10 +239,10 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
 
     /**
      * Adds a parameter to the query. The type is determined by the value type.
-     *
-     * @param  sParamName  Parameter name.
-     * @param  sFieldType  Parameter field type.
-     * @param  bdValue     Parameter value.
+     * 
+     * @param sParamName Parameter name.
+     * @param sFieldType Parameter field type.
+     * @param bdValue Parameter value.
      */
     public void addParameter(String sParamName, String sFieldType, BigDecimal bdValue)
     {
@@ -247,11 +251,11 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
 
     /**
      * Adds a parameter to the query.
-     *
-     * @param  sParamName  Parameter name.
-     * @param  sFieldType  Parameter field type.
-     * @param  iValueType  Parameter value type. These are PARAM_* constants from the QueryObject class.
-     * @param  oValue      Parameter value.
+     * 
+     * @param sParamName Parameter name.
+     * @param sFieldType Parameter field type.
+     * @param iValueType Parameter value type. These are PARAM_* constants from the QueryObject class.
+     * @param oValue Parameter value.
      */
     public void addParameter(String sParamName, String sFieldType, int iValueType, Object oValue)
     {
@@ -260,8 +264,8 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
 
     /**
      * Adds the parameters to the WsAppServer query object.
-     *
-     * @param  qoQuery  Query object.
+     * 
+     * @param qoQuery Query object.
      */
     public void addParametersToQuery(QueryObject qoQuery)
     {
@@ -269,15 +273,15 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
         {
             QueryParameter qpParam = iIter.next();
 
-            qoQuery.addParameter(qpParam.getParameterName(), qpParam.getColumnName(), qpParam.getType(),
-                                 qpParam.getValue());
+            qoQuery.addParameter(qpParam.getParameterName(), qpParam.getColumnName(), qpParam.getType(), qpParam.getValue());
         }
     }
 
     /**
-     * @see  com.cordys.coe.util.sql.SqlQueryWrapper#clear()
+     * @see com.cordys.coe.util.sql.SqlQueryWrapper#clear()
      */
-    @Override public void clear()
+    @Override
+    public void clear()
     {
         super.clear();
 
@@ -286,8 +290,8 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
 
     /**
      * Creates a new QueryObject from the contents of this object.
-     *
-     * @return  WsAppServer New QueryObject
+     * 
+     * @return WsAppServer New QueryObject
      */
     public QueryObject createQueryObject()
     {
@@ -309,14 +313,34 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
         {
             q.setResultMapping(m_resultMapping, m_fieldMapping);
         }
-
         return q;
     }
 
     /**
+     * This method executes the getObjects method and returns the bus object iterator.
+     * 
+     * @return The bus object iterator.
+     */
+    public BusObjectIterator<T> getObjects()
+    {
+        return createQueryObject().getObjects();
+    }
+
+    /**
+     * This method executes the query and returns the object.
+     * 
+     * @return The object that is the result of the query
+     */
+    @SuppressWarnings("unchecked")
+    public T getObject()
+    {
+        return (T) createQueryObject().getObject();
+    }
+
+    /**
      * Same as toString(true) but adds the parameters to the end of the string. This is intended for debug messages.
-     *
-     * @return  Debug version of this query.
+     * 
+     * @return Debug version of this query.
      */
     public String toDebugString()
     {
@@ -325,10 +349,9 @@ public class WsAppsQueryWrapper extends SqlQueryWrapper
 
     /**
      * Same as toString() but adds the parameters to the end of the string. This is intended for debug messages.
-     *
-     * @param   bPretty  Pretty-print flag.
-     *
-     * @return  Debug version of this query.
+     * 
+     * @param bPretty Pretty-print flag.
+     * @return Debug version of this query.
      */
     public String toDebugString(boolean bPretty)
     {

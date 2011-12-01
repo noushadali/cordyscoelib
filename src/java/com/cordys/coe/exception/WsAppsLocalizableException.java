@@ -3,6 +3,7 @@ package com.cordys.coe.exception;
 import com.cordys.cpc.bsf.busobject.exception.ILocalizableException;
 
 import com.eibus.localization.IStringResource;
+import javax.xml.namespace.QName;
 
 /**
  * This class functions the same as the LocalizableException class, but it also implements the
@@ -104,5 +105,15 @@ public class WsAppsLocalizableException extends ServerLocalizableException
     @Override public Object[] getMessageParameters()
     {
         return super.getMessageParameters();
+    }
+
+    @Override
+    public void setFaultCode(QName qname) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public QName getFaultCode() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

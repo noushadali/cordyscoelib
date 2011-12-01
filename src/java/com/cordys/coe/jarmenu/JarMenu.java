@@ -1,5 +1,5 @@
 /**
- * © 2003 Cordys R&D B.V. All rights reserved.     The computer program(s) is
+ *  2003 Cordys R&D B.V. All rights reserved.     The computer program(s) is
  * the proprietary information of Cordys R&D B.V.     and provided under the
  * relevant License Agreement containing restrictions     on use and
  * disclosure. Use is subject to the License Agreement.

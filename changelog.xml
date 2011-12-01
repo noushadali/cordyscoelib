@@ -12,6 +12,8 @@
     </template>
     <body>
         <release description="Development release" version="@NEXT@">
+        	<action dev="pgussow" type="change">Changed the XPathHelper to explicitly clean up the result sets from XPath.</action>
+        	<action dev="pgussow" type="change">Finalized UI for editing the configuration.</action>
 				</release>
 <release date="2011-11-30" description="Development release" version="1.2.1">
         	<action dev="pgussow" type="change">Migrated to BOP4. Removed the ISVP, because the main focus is the coelib.jar. Marked all classes deprecated that are using the Find class.</action>

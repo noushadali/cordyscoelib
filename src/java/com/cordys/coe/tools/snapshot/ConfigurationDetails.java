@@ -1,30 +1,13 @@
 package com.cordys.coe.tools.snapshot;
 
-import com.cordys.coe.tools.snapshot.config.Config;
-import com.cordys.coe.tools.snapshot.config.JMXCounter;
-import com.cordys.coe.tools.snapshot.config.Property;
-import com.cordys.coe.tools.snapshot.config.Server;
-import com.cordys.coe.tools.snapshot.config.ServiceContainer;
-import com.cordys.coe.tools.snapshot.config.ServiceGroup;
-import com.cordys.coe.util.StringUtils;
-import com.cordys.coe.util.swing.MessageBoxUtil;
-
 import java.awt.BorderLayout;
 import java.awt.Font;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import java.io.ByteArrayOutputStream;
-
-import java.lang.reflect.Method;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -39,32 +22,30 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
-import javax.swing.SwingConstants;
-
 import javax.swing.border.TitledBorder;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-
 import javax.swing.table.DefaultTableModel;
-
-import javax.swing.text.JTextComponent;
-
 import javax.swing.tree.DefaultMutableTreeNode;
-
+import javax.swing.tree.TreePath;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
 import net.miginfocom.swing.MigLayout;
 
+import com.cordys.coe.tools.snapshot.config.Config;
+import com.cordys.coe.tools.snapshot.config.JMXCounter;
+import com.cordys.coe.tools.snapshot.config.Server;
+import com.cordys.coe.tools.snapshot.config.ServiceContainer;
+import com.cordys.coe.tools.snapshot.config.ServiceGroup;
+import com.cordys.coe.util.swing.MessageBoxUtil;
+
 /**
  * Holds the composite that shows the configuration details.
- * 
- * @author localpg
+ *
+ * @author  localpg
  */
 public class ConfigurationDetails extends JPanel
 {
@@ -80,30 +61,6 @@ public class ConfigurationDetails extends JPanel
      * Holds the servers from which data will be retrieved.
      */
     private JTable m_serversTable;
-    /**
-     * Holds the domain of the property.
-     */
-    private JTextField m_domain;
-    /**
-     * Holds teh name of the property to get.
-     */
-    private JTextField m_property;
-    /**
-     * Holds teh counter type.
-     */
-    private JTextField m_type;
-    /**
-     * Holds the class name for the data handler.
-     */
-    private JTextField m_dataHandler;
-    /**
-     * Holds the class name for the data collector.
-     */
-    private JTextField m_dataCollector;
-    /**
-     * Holds the properties for the selected counter.
-     */
-    private JTable m_counterProperties;
     /**
      * Holds teh raw configuration XML.
      */
@@ -126,10 +83,15 @@ public class ConfigurationDetails extends JPanel
     private boolean m_dirty = false;
 
     /**
+     * Holds teh details for the selected item in the tree.
+     */
+    private JPanel m_detailsPanel;
+
+    /**
      * Create the panel.
-     * 
-     * @param config The configuration that be displayed.
-     * @param context The JAXB context.
+     *
+     * @param  config   The configuration that be displayed.
+     * @param  context  The JAXB context.
      */
     public ConfigurationDetails(Config config, JAXBContext context)
     {
@@ -142,17 +104,18 @@ public class ConfigurationDetails extends JPanel
         add(scrollPane, BorderLayout.CENTER);
 
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e)
+        tabbedPane.addChangeListener(new ChangeListener()
             {
-                JTabbedPane src = (JTabbedPane) e.getSource();
-
-                if (src.getSelectedIndex() == 1)
+                public void stateChanged(ChangeEvent e)
                 {
-                    fillRawXML();
+                    JTabbedPane src = (JTabbedPane) e.getSource();
+
+                    if (src.getSelectedIndex() == 1)
+                    {
+                        fillRawXML();
+                    }
                 }
-            }
-        });
+            });
         scrollPane.setViewportView(tabbedPane);
 
         JPanel panel = new JPanel();
@@ -160,7 +123,8 @@ public class ConfigurationDetails extends JPanel
         panel.setLayout(new BorderLayout(0, 0));
 
         JPanel panel_4 = new JPanel();
-        panel_4.setBorder(new TitledBorder(null, " Logon details ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panel_4.setBorder(new TitledBorder(null, " Logon details ", TitledBorder.LEADING, TitledBorder.TOP, null,
+                                           null));
         panel.add(panel_4, BorderLayout.NORTH);
         panel_4.setLayout(new MigLayout("", "[][grow]", "[][]"));
 
@@ -197,56 +161,10 @@ public class ConfigurationDetails extends JPanel
         JSplitPane splitPane = new JSplitPane();
         panel_1.add(splitPane, BorderLayout.CENTER);
 
-        JScrollPane scrollPane_3 = new JScrollPane();
-        splitPane.setRightComponent(scrollPane_3);
+        m_detailsPanel = new JPanel();
+        m_detailsPanel.setLayout(new BorderLayout());
 
-        JPanel panel_3 = new JPanel();
-        panel_3.setBorder(new TitledBorder(null, " JMX Counter details ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        scrollPane_3.setViewportView(panel_3);
-        panel_3.setLayout(new MigLayout("", "[][grow]", "[][][][][][grow]"));
-
-        JLabel lblName = new JLabel("Domain:");
-        lblName.setHorizontalAlignment(SwingConstants.TRAILING);
-        panel_3.add(lblName, "cell 0 0,alignx trailing");
-
-        m_domain = new JTextField();
-        panel_3.add(m_domain, "cell 1 0,growx");
-        m_domain.setColumns(10);
-
-        JLabel lblProperty = new JLabel("Property:");
-        panel_3.add(lblProperty, "cell 0 1,alignx trailing");
-
-        m_property = new JTextField();
-        panel_3.add(m_property, "cell 1 1,growx");
-        m_property.setColumns(10);
-
-        JLabel lblType = new JLabel("Type:");
-        panel_3.add(lblType, "cell 0 2,alignx trailing");
-
-        m_type = new JTextField();
-        panel_3.add(m_type, "cell 1 2,growx");
-        m_type.setColumns(10);
-
-        JLabel lblDataHandler = new JLabel("Data handler:");
-        panel_3.add(lblDataHandler, "cell 0 3,alignx trailing");
-
-        m_dataHandler = new JTextField();
-        panel_3.add(m_dataHandler, "cell 1 3,growx");
-        m_dataHandler.setColumns(10);
-
-        JLabel lblDataCollector = new JLabel("Data collector:");
-        panel_3.add(lblDataCollector, "cell 0 4,alignx trailing");
-
-        m_dataCollector = new JTextField();
-        panel_3.add(m_dataCollector, "cell 1 4,growx");
-        m_dataCollector.setColumns(10);
-
-        JScrollPane scrollPane_2 = new JScrollPane();
-        panel_3.add(scrollPane_2, "cell 0 5 2 1,grow");
-
-        m_counterProperties = new JTable();
-        m_counterProperties.setFillsViewportHeight(true);
-        scrollPane_2.setViewportView(m_counterProperties);
+        splitPane.setRightComponent(m_detailsPanel);
 
         JPanel panel_2 = new JPanel();
         splitPane.setLeftComponent(panel_2);
@@ -260,12 +178,13 @@ public class ConfigurationDetails extends JPanel
         }
 
         m_tree = new JTree(m_root);
-        m_tree.addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e)
+        m_tree.addTreeSelectionListener(new TreeSelectionListener()
             {
-                showCounterDetails(e);
-            }
-        });
+                public void valueChanged(TreeSelectionEvent e)
+                {
+                    showCounterDetails(e);
+                }
+            });
         panel_2.add(m_tree, BorderLayout.CENTER);
         splitPane.setDividerLocation(250);
         splitPane_1.setDividerLocation(100);
@@ -307,35 +226,49 @@ public class ConfigurationDetails extends JPanel
 
     /**
      * This method shows the details of the selected JMX counter.
-     * 
-     * @param e The tree selection event that occurred.
+     *
+     * @param  e  The tree selection event that occurred.
      */
     public void showCounterDetails(TreeSelectionEvent e)
     {
         DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) m_tree.getSelectionPath().getLastPathComponent();
         Object userObject = dmtn.getUserObject();
 
+        JPanel detailPanel = new JPanel();
+
         if (userObject instanceof JMXCounter)
         {
             JMXCounter counter = (JMXCounter) userObject;
-
-            m_domain.setText(counter.getDomain());
-            m_property.setText(counter.getProperty());
-            m_type.setText(counter.getCounterType().name());
-
-            m_dataHandler.setText(counter.getDataHandler());
-            m_dataCollector.setText(counter.getDataCollector());
-
-            List<Property> properties = counter.getNamePropertyList();
-            m_counterProperties.setModel(new PropertiesTableModel(properties));
+            detailPanel = new JMXCounterPanel(counter, this);
         }
+        else if (userObject instanceof ServiceGroup)
+        {
+            ServiceGroup sg = (ServiceGroup) userObject;
+            detailPanel = new ServiceGroupPanel(sg, this);
+        }
+        else if (userObject instanceof ServiceContainer)
+        {
+            ServiceContainer sc = (ServiceContainer) userObject;
+            detailPanel = new ServiceContainerPanel(sc, this);
+        }
+
+        m_detailsPanel.removeAll();
+
+        if (detailPanel != null)
+        {
+            JScrollPane m_detailScrollPane = new JScrollPane();
+            m_detailScrollPane.setViewportView(detailPanel);
+            m_detailsPanel.add(m_detailScrollPane, BorderLayout.CENTER);
+        }
+
+        m_detailsPanel.revalidate();
     }
 
     /**
      * This method creates all the tree nodes.
-     * 
-     * @param m_root The root node.
-     * @param serviceGroupList The service groups that are
+     *
+     * @param  m_root            The root node.
+     * @param  serviceGroupList  The service groups that are
      */
     private void createTreeNodes(DefaultMutableTreeNode m_root, ArrayList<ServiceGroup> serviceGroupList)
     {
@@ -377,8 +310,8 @@ public class ConfigurationDetails extends JPanel
         m_username.setText(m_config.getUsername());
         m_password.setText(m_config.getPassword());
 
-        m_username.addInputMethodListener(new BoundInputListener(m_username, m_config, "Username"));
-        m_password.addInputMethodListener(new BoundInputListener(m_password, m_config, "Password"));
+        m_username.addInputMethodListener(new BoundInputListener(this, m_username, m_config, "Username"));
+        m_password.addInputMethodListener(new BoundInputListener(this, m_password, m_config, "Password"));
 
         ArrayList<Server> servers = new ArrayList<Server>();
 
@@ -391,13 +324,14 @@ public class ConfigurationDetails extends JPanel
 
         // Now add the popup menu for the 2 tables.
         new TablePopup("server", m_serversTable);
-        new TablePopup("JMX property", m_counterProperties);
+
+        new TreePopupHandler(m_tree);
     }
 
     /**
      * This method gets whether or not the configuration was changed.
-     * 
-     * @return Whether or not the configuration was changed.
+     *
+     * @return  Whether or not the configuration was changed.
      */
     public boolean isDirty()
     {
@@ -406,8 +340,8 @@ public class ConfigurationDetails extends JPanel
 
     /**
      * Gets the config that was used.
-     * 
-     * @return The configuration object used.
+     *
+     * @return  The configuration object used.
      */
     public Config getConfig()
     {
@@ -415,137 +349,11 @@ public class ConfigurationDetails extends JPanel
     }
 
     /**
-     * This class is used to bind the input to a certain setter of an object.
+     * This method lets the panel know that something has changed.
      */
-    private final class BoundInputListener implements InputMethodListener
+    public void setDirty()
     {
-        /**
-         * Holds the wrapped text component.
-         */
-        private JTextComponent m_component;
-        /**
-         * Holds the bean to apply the setter to.
-         */
-        private Object m_bean;
-        /**
-         * Holds the name of the setter to call.
-         */
-        private String m_property;
-        /**
-         * Holds the type for the setter.
-         */
-        private Class<?> m_parameter;
-        /**
-         * Holds the actual method that should be invoked.
-         */
-        private Method m_setterMethod;
-        /**
-         * Holds the getter method that should be invoked.
-         */
-        private Method m_getterMethod;
-
-        /**
-         * Instantiates a new bound input listener.
-         * 
-         * @param component The component to bind the bean to.
-         * @param bean The actual bean to set the changed value to.
-         * @param setter The name of the setter to call.
-         */
-        public BoundInputListener(JTextComponent component, Object bean, String setter)
-        {
-            this(component, bean, setter, String.class);
-        }
-
-        /**
-         * Instantiates a new bound input listener.
-         * 
-         * @param component The component to bind the bean to.
-         * @param bean The actual bean to set the changed value to.
-         * @param property The name of the setter to call.
-         * @param parameter The type of the parameter for the setter.
-         */
-        public BoundInputListener(JTextComponent component, Object bean, String property, Class<?> parameter)
-        {
-            m_component = component;
-            m_bean = bean;
-            m_property = property;
-            m_parameter = parameter;
-
-            // Find the method.
-            try
-            {
-                m_setterMethod = bean.getClass().getMethod("set" + property, parameter);
-                m_getterMethod = bean.getClass().getMethod("get" + property);
-            }
-            catch (Exception e)
-            {
-                throw new IllegalArgumentException("Could not find method " + property, e);
-            }
-
-            m_component.getDocument().addDocumentListener(new DocumentListener() {
-                @Override
-                public void removeUpdate(DocumentEvent e)
-                {
-                    inputMethodTextChanged(null);
-                }
-
-                @Override
-                public void insertUpdate(DocumentEvent e)
-                {
-                    inputMethodTextChanged(null);
-                }
-
-                @Override
-                public void changedUpdate(DocumentEvent e)
-                {
-                    inputMethodTextChanged(null);
-                }
-            });
-        }
-
-        /**
-         * @see java.awt.event.InputMethodListener#caretPositionChanged(java.awt.event.InputMethodEvent)
-         */
-        public void caretPositionChanged(InputMethodEvent event)
-        {
-        }
-
-        /**
-         * @see java.awt.event.InputMethodListener#inputMethodTextChanged(java.awt.event.InputMethodEvent)
-         */
-        public void inputMethodTextChanged(InputMethodEvent event)
-        {
-            String tmp = m_component.getText();
-
-            if ((m_bean != null) && StringUtils.isSet(tmp))
-            {
-                try
-                {
-                    Object value = tmp;
-
-                    if (m_parameter == Integer.class)
-                    {
-                        value = Integer.parseInt(tmp);
-                    }
-                    else if (m_parameter == Long.class)
-                    {
-                        value = Long.parseLong(tmp);
-                    }
-
-                    Object currentValue = m_getterMethod.invoke(m_bean);
-
-                    if (!value.equals(currentValue))
-                    {
-                        m_setterMethod.invoke(m_bean, value);
-                        m_dirty = true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    MessageBoxUtil.showError("Error calling the method " + m_property + " on object " + m_bean, e);
-                }
-            }
-        }
+        m_dirty = true;
     }
 
     /**
@@ -560,8 +368,8 @@ public class ConfigurationDetails extends JPanel
 
         /**
          * Creates a new ServerTableModel object.
-         * 
-         * @param servers The servers to display.
+         *
+         * @param  servers  The servers to display.
          */
         public ServerTableModel(ArrayList<Server> servers)
         {
@@ -570,10 +378,16 @@ public class ConfigurationDetails extends JPanel
         }
 
         /**
-         * @see javax.swing.table.DefaultTableModel#getValueAt(int, int)
+         * Gets the value at.
+         *
+         * @param   row     the row
+         * @param   column  the column
+         *
+         * @return  the value at
+         *
+         * @see     javax.swing.table.DefaultTableModel#getValueAt(int, int)
          */
-        @Override
-        public Object getValueAt(int row, int column)
+        @Override public Object getValueAt(int row, int column)
         {
             Object retVal = null;
 
@@ -596,19 +410,30 @@ public class ConfigurationDetails extends JPanel
         }
 
         /**
-         * @see javax.swing.table.DefaultTableModel#isCellEditable(int, int)
+         * Checks if is cell editable.
+         *
+         * @param   row     the row
+         * @param   column  the column
+         *
+         * @return  true, if is cell editable
+         *
+         * @see     javax.swing.table.DefaultTableModel#isCellEditable(int, int)
          */
-        @Override
-        public boolean isCellEditable(int row, int column)
+        @Override public boolean isCellEditable(int row, int column)
         {
             return true;
         }
 
         /**
-         * @see javax.swing.table.DefaultTableModel#setValueAt(java.lang.Object, int, int)
+         * Sets the value at.
+         *
+         * @param  aValue  the a value
+         * @param  row     the row
+         * @param  column  the column
+         *
+         * @see    javax.swing.table.DefaultTableModel#setValueAt(java.lang.Object, int, int)
          */
-        @Override
-        public void setValueAt(Object aValue, int row, int column)
+        @Override public void setValueAt(Object aValue, int row, int column)
         {
             Server s = m_servers.get(row);
 
@@ -642,10 +467,14 @@ public class ConfigurationDetails extends JPanel
         }
 
         /**
-         * @see javax.swing.table.DefaultTableModel#insertRow(int, java.util.Vector)
+         * Insert row.
+         *
+         * @param  row      the row
+         * @param  rowData  the row data
+         *
+         * @see    javax.swing.table.DefaultTableModel#insertRow(int, java.util.Vector)
          */
-        @Override
-        public void insertRow(int row, @SuppressWarnings("rawtypes") Vector rowData)
+        @Override public void insertRow(int row, @SuppressWarnings("rawtypes") Vector rowData)
         {
             Server e = new Server();
             e.setPort(1099);
@@ -656,10 +485,13 @@ public class ConfigurationDetails extends JPanel
         }
 
         /**
-         * @see javax.swing.table.DefaultTableModel#removeRow(int)
+         * Removes the row.
+         *
+         * @param  row  the row
+         *
+         * @see    javax.swing.table.DefaultTableModel#removeRow(int)
          */
-        @Override
-        public void removeRow(int row)
+        @Override public void removeRow(int row)
         {
             m_servers.remove(row);
 
@@ -668,196 +500,164 @@ public class ConfigurationDetails extends JPanel
     }
 
     /**
-     * Table model to wrap the JMX counter properties.
+     * This class holds the popup menu for the Tree.
      */
-    public class PropertiesTableModel extends DefaultTableModel
+    private class TreePopupHandler
     {
         /**
-         * Holds the properties that should be displayed.
+         * Holds the tree on which this popup menu should work.
          */
-        private List<Property> m_properties;
+        private JTree m_tree;
+        /**
+         * Holds the popup menu for the root level.
+         */
+        private JPopupMenu m_rootMenu;
+        /**
+         * Holds the popup menu for the service group level.
+         */
+        private JPopupMenu m_serviceGroup;
+        /**
+         * Holds the popup menu for the service container level.
+         */
+        private JPopupMenu m_serviceContainer;
+        /**
+         * Holds the popup menu for the JMX counter level.
+         */
+        private JPopupMenu m_jmxCounter;
 
         /**
-         * Creates a new PropertiesTableModel object.
-         * 
-         * @param properties The servers to display.
+         * Instantiates a new tree popup.
+         *
+         * @param  tree  the tree
          */
-        public PropertiesTableModel(List<Property> properties)
+        public TreePopupHandler(JTree tree)
         {
-            super(new String[] { "Key", "Value" }, properties.size());
-            m_properties = properties;
-        }
+            m_tree = tree;
 
-        /**
-         * @see javax.swing.table.DefaultTableModel#getValueAt(int, int)
-         */
-        @Override
-        public Object getValueAt(int row, int column)
-        {
-            Object retVal = null;
+            // Create the popup menus as needed.
+            m_rootMenu = new JPopupMenu("Service Groups");
+            m_serviceGroup = new JPopupMenu("Service Group");
+            m_serviceContainer = new JPopupMenu("Service Container");
+            m_jmxCounter = new JPopupMenu("JMX Counter");
 
-            if (row < m_properties.size())
-            {
-                Property s = m_properties.get(row);
+            createRootMenu();
 
-                switch (column)
+            m_tree.addMouseListener(new MouseAdapter()
                 {
-                    case 0:
-                        retVal = s.getKey();
-                        break;
-
-                    case 1:
-                        retVal = s.getValue();
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            return retVal;
-        }
-
-        /**
-         * @see javax.swing.table.DefaultTableModel#setValueAt(java.lang.Object, int, int)
-         */
-        @Override
-        public void setValueAt(Object aValue, int row, int column)
-        {
-            Property s = m_properties.get(row);
-
-            switch (column)
-            {
-                case 0:
-                    s.setKey((String) aValue);
-                    break;
-
-                case 1:
-                    s.setValue((String) aValue);
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        /**
-         * @see javax.swing.table.DefaultTableModel#isCellEditable(int, int)
-         */
-        @Override
-        public boolean isCellEditable(int row, int column)
-        {
-            return true;
-        }
-
-        /**
-         * @see javax.swing.table.DefaultTableModel#insertRow(int, java.util.Vector)
-         */
-        @Override
-        public void insertRow(int row, @SuppressWarnings("rawtypes") Vector rowData)
-        {
-            m_properties.add(new Property());
-
-            super.insertRow(row, rowData);
-        }
-
-        /**
-         * @see javax.swing.table.DefaultTableModel#removeRow(int)
-         */
-        @Override
-        public void removeRow(int row)
-        {
-            m_properties.remove(row);
-
-            super.removeRow(row);
-        }
-    }
-
-    /**
-     * This class wraps a popup menu for a table.
-     */
-    private static class TablePopup extends JPopupMenu
-    {
-        /**
-         * Holds the table that is wrapped.
-         */
-        private JTable m_table;
-
-        /**
-         * Creates the popup menu for the given table.
-         * 
-         * @param type The type name.
-         * @param table The table that is being wrapped.
-         */
-        public TablePopup(String type, JTable table)
-        {
-            super(type);
-            m_table = table;
-
-            JMenuItem miInsert = new JMenuItem("Insert new " + type);
-            miInsert.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    DefaultTableModel dtm = (DefaultTableModel) m_table.getModel();
-                    int selectedRow = m_table.getSelectedRow();
-
-                    if (selectedRow == -1)
+                    @Override public void mousePressed(MouseEvent e)
                     {
-                        selectedRow = 0;
+                        showPopup(e);
                     }
 
-                    dtm.insertRow(selectedRow, new Vector<Object>());
-                }
-            });
-            add(miInsert);
-
-            JMenuItem miDelete = new JMenuItem("Delete " + type);
-            miDelete.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    DefaultTableModel dtm = (DefaultTableModel) m_table.getModel();
-                    int selectedRow = m_table.getSelectedRow();
-
-                    if (selectedRow != -1)
+                    @Override public void mouseReleased(MouseEvent e)
                     {
-                        dtm.removeRow(selectedRow);
+                        showPopup(e);
                     }
-                }
-            });
-            add(miDelete);
 
-            m_table.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e)
-                {
-                    showPopup(e);
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e)
-                {
-                    showPopup(e);
-                }
-
-                private void showPopup(MouseEvent e)
-                {
-                    if (e.isPopupTrigger() && (m_table.getModel() != null))
+                    private void showPopup(MouseEvent e)
                     {
-                        JTable source = (JTable) e.getSource();
-                        int row = source.rowAtPoint(e.getPoint());
-                        int column = source.columnAtPoint(e.getPoint());
-
-                        if (!source.isRowSelected(row))
+                        if (e.isPopupTrigger() && (m_tree.getModel() != null))
                         {
-                            source.changeSelection(row, column, false, false);
-                        }
+                            TreePath path = m_tree.getPathForLocation(e.getX(), e.getY());
 
-                        TablePopup.this.show(m_table, e.getX(), e.getY());
+                            if (path != null)
+                            {
+                                m_tree.setSelectionPath(path);
+                            }
+                            else
+                            {
+                                return;
+                            }
+
+                            // Now add the proper items
+                            DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+                                                              m_tree.getLastSelectedPathComponent();
+
+                            JPopupMenu menuToShow = null;
+
+                            switch (node.getLevel())
+                            {
+                                case 0:
+                                    menuToShow = m_rootMenu;
+                                    break;
+
+                                case 1:
+                                    menuToShow = m_serviceGroup;
+                                    break;
+
+                                case 2:
+                                    menuToShow = m_serviceContainer;
+                                    break;
+
+                                case 3:
+                                    menuToShow = m_jmxCounter;
+                                    break;
+                            }
+
+                            if (menuToShow != null)
+                            {
+                                menuToShow.show(m_tree, e.getX(), e.getY());
+                            }
+                        }
                     }
-                }
-            });
+                });
+        }
+
+        /**
+         * This method creates the popup menu for the root.
+         */
+        private void createRootMenu()
+        {
+            JMenuItem mi = new JMenuItem("New service group");
+            mi.addActionListener(new ActionListener()
+                {
+                    @Override public void actionPerformed(ActionEvent e)
+                    {
+                        addNewServiceGroup();
+                    }
+                });
+            m_rootMenu.add(mi);
+
+            mi = new JMenuItem("Delete all service groups");
+            mi.addActionListener(new ActionListener()
+                {
+                    @Override public void actionPerformed(ActionEvent e)
+                    {
+                        if (MessageBoxUtil.showConfirmation("Are you sure you want to delete all defined service groups?"))
+                        {
+                            DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode)
+                                                                  m_tree.getLastSelectedPathComponent();
+                            ConfigurationDetails.this.m_config.clearServiceGroupList();
+                            
+                            while (treeNode.getChildCount() > 0)
+                            {
+                                removeChild((DefaultMutableTreeNode) treeNode.getFirstChild());
+                            }
+                            
+                        }
+                    }
+
+                    /**
+                     * @param firstChild
+                     */
+                    private void removeChild(DefaultMutableTreeNode firstChild)
+                    {
+                        while (firstChild.getChildCount() > 0)
+                        {
+                            removeChild((DefaultMutableTreeNode) firstChild.getChildAt(0));
+                        }
+                        
+                        firstChild.removeFromParent();
+                    }
+                });
+            m_rootMenu.add(mi);
+        }
+
+        /**
+         * Adds the new service group.
+         */
+        protected void addNewServiceGroup()
+        {
         }
     }
 }

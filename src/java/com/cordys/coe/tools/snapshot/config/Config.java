@@ -163,6 +163,14 @@ public class Config
 
         return retVal;
     }
+    
+    /**
+     * This method deletes all service groups.
+     */
+    public void clearServiceGroupList()
+    {
+        m_serviceGroups.clear();
+    }
 
     /**
      * Main method.
@@ -224,4 +232,5 @@ public class Config
             e.printStackTrace();
         }
     }
+
 }

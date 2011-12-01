@@ -6,17 +6,32 @@ import com.cordys.coe.tools.snapshot.config.Property;
 import com.cordys.coe.tools.snapshot.config.Server;
 import com.cordys.coe.tools.snapshot.config.ServiceContainer;
 import com.cordys.coe.tools.snapshot.config.ServiceGroup;
+import com.cordys.coe.util.StringUtils;
 import com.cordys.coe.util.swing.MessageBoxUtil;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import java.io.ByteArrayOutputStream;
 
+import java.lang.reflect.Method;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -28,10 +43,16 @@ import javax.swing.SwingConstants;
 
 import javax.swing.border.TitledBorder;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
 import javax.swing.table.DefaultTableModel;
+
+import javax.swing.text.JTextComponent;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -39,12 +60,11 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
 import net.miginfocom.swing.MigLayout;
-import java.awt.Font;
 
 /**
  * Holds the composite that shows the configuration details.
- *
- * @author  localpg
+ * 
+ * @author localpg
  */
 public class ConfigurationDetails extends JPanel
 {
@@ -81,7 +101,7 @@ public class ConfigurationDetails extends JPanel
      */
     private JTextField m_dataCollector;
     /**
-     * Holds the proeprties for the selected counter.
+     * Holds the properties for the selected counter.
      */
     private JTable m_counterProperties;
     /**
@@ -92,12 +112,24 @@ public class ConfigurationDetails extends JPanel
      * Holds teh JAXB context.
      */
     private JAXBContext m_context;
+    /**
+     * Holds teh username to connect.
+     */
+    private JTextField m_username;
+    /**
+     * Holds teh JMX password for the connection.
+     */
+    private JPasswordField m_password;
+    /**
+     * Holds whether or not anything was changed in the configuration.
+     */
+    private boolean m_dirty = false;
 
     /**
      * Create the panel.
-     *
-     * @param  config   The configuration that be displayed.
-     * @param  context  The JAXB context.
+     * 
+     * @param config The configuration that be displayed.
+     * @param context The JAXB context.
      */
     public ConfigurationDetails(Config config, JAXBContext context)
     {
@@ -110,20 +142,51 @@ public class ConfigurationDetails extends JPanel
         add(scrollPane, BorderLayout.CENTER);
 
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        tabbedPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e)
+            {
+                JTabbedPane src = (JTabbedPane) e.getSource();
+
+                if (src.getSelectedIndex() == 1)
+                {
+                    fillRawXML();
+                }
+            }
+        });
         scrollPane.setViewportView(tabbedPane);
 
         JPanel panel = new JPanel();
         tabbedPane.addTab("Configuration details", null, panel, null);
         panel.setLayout(new BorderLayout(0, 0));
 
+        JPanel panel_4 = new JPanel();
+        panel_4.setBorder(new TitledBorder(null, " Logon details ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panel.add(panel_4, BorderLayout.NORTH);
+        panel_4.setLayout(new MigLayout("", "[][grow]", "[][]"));
+
+        JLabel lblUsername = new JLabel("Username:");
+        panel_4.add(lblUsername, "cell 0 0,alignx trailing");
+
+        m_username = new JTextField();
+
+        panel_4.add(m_username, "cell 1 0,growx");
+        m_username.setColumns(10);
+
+        JLabel lblPassword = new JLabel("Password:");
+        panel_4.add(lblPassword, "cell 0 1,alignx trailing");
+
+        m_password = new JPasswordField();
+        panel_4.add(m_password, "cell 1 1,growx");
+
         JSplitPane splitPane_1 = new JSplitPane();
         splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
-        panel.add(splitPane_1);
+        panel.add(splitPane_1, BorderLayout.CENTER);
 
         JScrollPane scrollPane_4 = new JScrollPane();
         splitPane_1.setLeftComponent(scrollPane_4);
 
         m_serversTable = new JTable();
+        m_serversTable.setFillsViewportHeight(true);
 
         scrollPane_4.setViewportView(m_serversTable);
 
@@ -138,8 +201,7 @@ public class ConfigurationDetails extends JPanel
         splitPane.setRightComponent(scrollPane_3);
 
         JPanel panel_3 = new JPanel();
-        panel_3.setBorder(new TitledBorder(null, " JMX Counter details ", TitledBorder.LEADING, TitledBorder.TOP, null,
-                                           null));
+        panel_3.setBorder(new TitledBorder(null, " JMX Counter details ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         scrollPane_3.setViewportView(panel_3);
         panel_3.setLayout(new MigLayout("", "[][grow]", "[][][][][][grow]"));
 
@@ -183,6 +245,7 @@ public class ConfigurationDetails extends JPanel
         panel_3.add(scrollPane_2, "cell 0 5 2 1,grow");
 
         m_counterProperties = new JTable();
+        m_counterProperties.setFillsViewportHeight(true);
         scrollPane_2.setViewportView(m_counterProperties);
 
         JPanel panel_2 = new JPanel();
@@ -197,13 +260,12 @@ public class ConfigurationDetails extends JPanel
         }
 
         m_tree = new JTree(m_root);
-        m_tree.addTreeSelectionListener(new TreeSelectionListener()
+        m_tree.addTreeSelectionListener(new TreeSelectionListener() {
+            public void valueChanged(TreeSelectionEvent e)
             {
-                public void valueChanged(TreeSelectionEvent e)
-                {
-                    showCounterDetails(e);
-                }
-            });
+                showCounterDetails(e);
+            }
+        });
         panel_2.add(m_tree, BorderLayout.CENTER);
         splitPane.setDividerLocation(250);
         splitPane_1.setDividerLocation(100);
@@ -223,9 +285,30 @@ public class ConfigurationDetails extends JPanel
     }
 
     /**
+     * This method fills the raw XML of the confifguration.
+     */
+    protected void fillRawXML()
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        try
+        {
+            Marshaller m = m_context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m.marshal(m_config, baos);
+
+            m_rawView.setText(baos.toString());
+        }
+        catch (Exception e)
+        {
+            MessageBoxUtil.showError("Error getting raw data", e);
+        }
+    }
+
+    /**
      * This method shows the details of the selected JMX counter.
-     *
-     * @param  e  The tree selection event that occurred.
+     * 
+     * @param e The tree selection event that occurred.
      */
     public void showCounterDetails(TreeSelectionEvent e)
     {
@@ -250,9 +333,9 @@ public class ConfigurationDetails extends JPanel
 
     /**
      * This method creates all the tree nodes.
-     *
-     * @param  m_root            The root node.
-     * @param  serviceGroupList  The service groups that are
+     * 
+     * @param m_root The root node.
+     * @param serviceGroupList The service groups that are
      */
     private void createTreeNodes(DefaultMutableTreeNode m_root, ArrayList<ServiceGroup> serviceGroupList)
     {
@@ -286,6 +369,17 @@ public class ConfigurationDetails extends JPanel
      */
     private void fillFromConfig()
     {
+        if (m_config == null)
+        {
+            m_config = new Config();
+        }
+
+        m_username.setText(m_config.getUsername());
+        m_password.setText(m_config.getPassword());
+
+        m_username.addInputMethodListener(new BoundInputListener(m_username, m_config, "Username"));
+        m_password.addInputMethodListener(new BoundInputListener(m_password, m_config, "Password"));
+
         ArrayList<Server> servers = new ArrayList<Server>();
 
         if (m_config != null)
@@ -295,19 +389,162 @@ public class ConfigurationDetails extends JPanel
 
         m_serversTable.setModel(new ServerTableModel(servers));
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // Now add the popup menu for the 2 tables.
+        new TablePopup("server", m_serversTable);
+        new TablePopup("JMX property", m_counterProperties);
+    }
 
-        try
+    /**
+     * This method gets whether or not the configuration was changed.
+     * 
+     * @return Whether or not the configuration was changed.
+     */
+    public boolean isDirty()
+    {
+        return m_dirty;
+    }
+
+    /**
+     * Gets the config that was used.
+     * 
+     * @return The configuration object used.
+     */
+    public Config getConfig()
+    {
+        return m_config;
+    }
+
+    /**
+     * This class is used to bind the input to a certain setter of an object.
+     */
+    private final class BoundInputListener implements InputMethodListener
+    {
+        /**
+         * Holds the wrapped text component.
+         */
+        private JTextComponent m_component;
+        /**
+         * Holds the bean to apply the setter to.
+         */
+        private Object m_bean;
+        /**
+         * Holds the name of the setter to call.
+         */
+        private String m_property;
+        /**
+         * Holds the type for the setter.
+         */
+        private Class<?> m_parameter;
+        /**
+         * Holds the actual method that should be invoked.
+         */
+        private Method m_setterMethod;
+        /**
+         * Holds the getter method that should be invoked.
+         */
+        private Method m_getterMethod;
+
+        /**
+         * Instantiates a new bound input listener.
+         * 
+         * @param component The component to bind the bean to.
+         * @param bean The actual bean to set the changed value to.
+         * @param setter The name of the setter to call.
+         */
+        public BoundInputListener(JTextComponent component, Object bean, String setter)
         {
-            Marshaller m = m_context.createMarshaller();
-            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            m.marshal(m_config, baos);
-
-            m_rawView.setText(baos.toString());
+            this(component, bean, setter, String.class);
         }
-        catch (Exception e)
+
+        /**
+         * Instantiates a new bound input listener.
+         * 
+         * @param component The component to bind the bean to.
+         * @param bean The actual bean to set the changed value to.
+         * @param property The name of the setter to call.
+         * @param parameter The type of the parameter for the setter.
+         */
+        public BoundInputListener(JTextComponent component, Object bean, String property, Class<?> parameter)
         {
-            MessageBoxUtil.showError("Error getting raw data", e);
+            m_component = component;
+            m_bean = bean;
+            m_property = property;
+            m_parameter = parameter;
+
+            // Find the method.
+            try
+            {
+                m_setterMethod = bean.getClass().getMethod("set" + property, parameter);
+                m_getterMethod = bean.getClass().getMethod("get" + property);
+            }
+            catch (Exception e)
+            {
+                throw new IllegalArgumentException("Could not find method " + property, e);
+            }
+
+            m_component.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void removeUpdate(DocumentEvent e)
+                {
+                    inputMethodTextChanged(null);
+                }
+
+                @Override
+                public void insertUpdate(DocumentEvent e)
+                {
+                    inputMethodTextChanged(null);
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e)
+                {
+                    inputMethodTextChanged(null);
+                }
+            });
+        }
+
+        /**
+         * @see java.awt.event.InputMethodListener#caretPositionChanged(java.awt.event.InputMethodEvent)
+         */
+        public void caretPositionChanged(InputMethodEvent event)
+        {
+        }
+
+        /**
+         * @see java.awt.event.InputMethodListener#inputMethodTextChanged(java.awt.event.InputMethodEvent)
+         */
+        public void inputMethodTextChanged(InputMethodEvent event)
+        {
+            String tmp = m_component.getText();
+
+            if ((m_bean != null) && StringUtils.isSet(tmp))
+            {
+                try
+                {
+                    Object value = tmp;
+
+                    if (m_parameter == Integer.class)
+                    {
+                        value = Integer.parseInt(tmp);
+                    }
+                    else if (m_parameter == Long.class)
+                    {
+                        value = Long.parseLong(tmp);
+                    }
+
+                    Object currentValue = m_getterMethod.invoke(m_bean);
+
+                    if (!value.equals(currentValue))
+                    {
+                        m_setterMethod.invoke(m_bean, value);
+                        m_dirty = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBoxUtil.showError("Error calling the method " + m_property + " on object " + m_bean, e);
+                }
+            }
         }
     }
 
@@ -323,8 +560,8 @@ public class ConfigurationDetails extends JPanel
 
         /**
          * Creates a new ServerTableModel object.
-         *
-         * @param  servers  The servers to display.
+         * 
+         * @param servers The servers to display.
          */
         public ServerTableModel(ArrayList<Server> servers)
         {
@@ -333,9 +570,10 @@ public class ConfigurationDetails extends JPanel
         }
 
         /**
-         * @see  javax.swing.table.DefaultTableModel#getValueAt(int, int)
+         * @see javax.swing.table.DefaultTableModel#getValueAt(int, int)
          */
-        @Override public Object getValueAt(int row, int column)
+        @Override
+        public Object getValueAt(int row, int column)
         {
             Object retVal = null;
 
@@ -356,6 +594,77 @@ public class ConfigurationDetails extends JPanel
             }
             return retVal;
         }
+
+        /**
+         * @see javax.swing.table.DefaultTableModel#isCellEditable(int, int)
+         */
+        @Override
+        public boolean isCellEditable(int row, int column)
+        {
+            return true;
+        }
+
+        /**
+         * @see javax.swing.table.DefaultTableModel#setValueAt(java.lang.Object, int, int)
+         */
+        @Override
+        public void setValueAt(Object aValue, int row, int column)
+        {
+            Server s = m_servers.get(row);
+
+            switch (column)
+            {
+                case 0:
+                    s.setName((String) aValue);
+                    break;
+
+                case 1:
+                    if (aValue instanceof String)
+                    {
+                        try
+                        {
+                            s.setPort(Integer.parseInt((String) aValue));
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBoxUtil.showError("Value must be a valid integer", e);
+                        }
+                    }
+                    else if (aValue instanceof Integer)
+                    {
+                        s.setPort((Integer) aValue);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        /**
+         * @see javax.swing.table.DefaultTableModel#insertRow(int, java.util.Vector)
+         */
+        @Override
+        public void insertRow(int row, @SuppressWarnings("rawtypes") Vector rowData)
+        {
+            Server e = new Server();
+            e.setPort(1099);
+
+            m_servers.add(e);
+
+            super.insertRow(row, rowData);
+        }
+
+        /**
+         * @see javax.swing.table.DefaultTableModel#removeRow(int)
+         */
+        @Override
+        public void removeRow(int row)
+        {
+            m_servers.remove(row);
+
+            super.removeRow(row);
+        }
     }
 
     /**
@@ -370,8 +679,8 @@ public class ConfigurationDetails extends JPanel
 
         /**
          * Creates a new PropertiesTableModel object.
-         *
-         * @param  properties  The servers to display.
+         * 
+         * @param properties The servers to display.
          */
         public PropertiesTableModel(List<Property> properties)
         {
@@ -380,28 +689,175 @@ public class ConfigurationDetails extends JPanel
         }
 
         /**
-         * @see  javax.swing.table.DefaultTableModel#getValueAt(int, int)
+         * @see javax.swing.table.DefaultTableModel#getValueAt(int, int)
          */
-        @Override public Object getValueAt(int row, int column)
+        @Override
+        public Object getValueAt(int row, int column)
         {
             Object retVal = null;
 
+            if (row < m_properties.size())
+            {
+                Property s = m_properties.get(row);
+
+                switch (column)
+                {
+                    case 0:
+                        retVal = s.getKey();
+                        break;
+
+                    case 1:
+                        retVal = s.getValue();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            return retVal;
+        }
+
+        /**
+         * @see javax.swing.table.DefaultTableModel#setValueAt(java.lang.Object, int, int)
+         */
+        @Override
+        public void setValueAt(Object aValue, int row, int column)
+        {
             Property s = m_properties.get(row);
 
             switch (column)
             {
                 case 0:
-                    retVal = s.getKey();
+                    s.setKey((String) aValue);
                     break;
 
                 case 1:
-                    retVal = s.getValue();
+                    s.setValue((String) aValue);
                     break;
 
                 default:
                     break;
             }
-            return retVal;
+        }
+
+        /**
+         * @see javax.swing.table.DefaultTableModel#isCellEditable(int, int)
+         */
+        @Override
+        public boolean isCellEditable(int row, int column)
+        {
+            return true;
+        }
+
+        /**
+         * @see javax.swing.table.DefaultTableModel#insertRow(int, java.util.Vector)
+         */
+        @Override
+        public void insertRow(int row, @SuppressWarnings("rawtypes") Vector rowData)
+        {
+            m_properties.add(new Property());
+
+            super.insertRow(row, rowData);
+        }
+
+        /**
+         * @see javax.swing.table.DefaultTableModel#removeRow(int)
+         */
+        @Override
+        public void removeRow(int row)
+        {
+            m_properties.remove(row);
+
+            super.removeRow(row);
+        }
+    }
+
+    /**
+     * This class wraps a popup menu for a table.
+     */
+    private static class TablePopup extends JPopupMenu
+    {
+        /**
+         * Holds the table that is wrapped.
+         */
+        private JTable m_table;
+
+        /**
+         * Creates the popup menu for the given table.
+         * 
+         * @param type The type name.
+         * @param table The table that is being wrapped.
+         */
+        public TablePopup(String type, JTable table)
+        {
+            super(type);
+            m_table = table;
+
+            JMenuItem miInsert = new JMenuItem("Insert new " + type);
+            miInsert.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    DefaultTableModel dtm = (DefaultTableModel) m_table.getModel();
+                    int selectedRow = m_table.getSelectedRow();
+
+                    if (selectedRow == -1)
+                    {
+                        selectedRow = 0;
+                    }
+
+                    dtm.insertRow(selectedRow, new Vector<Object>());
+                }
+            });
+            add(miInsert);
+
+            JMenuItem miDelete = new JMenuItem("Delete " + type);
+            miDelete.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    DefaultTableModel dtm = (DefaultTableModel) m_table.getModel();
+                    int selectedRow = m_table.getSelectedRow();
+
+                    if (selectedRow != -1)
+                    {
+                        dtm.removeRow(selectedRow);
+                    }
+                }
+            });
+            add(miDelete);
+
+            m_table.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e)
+                {
+                    showPopup(e);
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e)
+                {
+                    showPopup(e);
+                }
+
+                private void showPopup(MouseEvent e)
+                {
+                    if (e.isPopupTrigger() && (m_table.getModel() != null))
+                    {
+                        JTable source = (JTable) e.getSource();
+                        int row = source.rowAtPoint(e.getPoint());
+                        int column = source.columnAtPoint(e.getPoint());
+
+                        if (!source.isRowSelected(row))
+                        {
+                            source.changeSelection(row, column, false, false);
+                        }
+
+                        TablePopup.this.show(m_table, e.getX(), e.getY());
+                    }
+                }
+            });
         }
     }
 }

@@ -121,6 +121,10 @@ public class SystemSnapshot
      * Holds the DB Connection pool panel details.
      */
     private DBConnectionPoolPanel m_dbPoolPanel;
+    /**
+     * Holds the name of the configuration file that was loaded.
+     */
+    private String m_configFile;
 
     /**
      * Launch the application.
@@ -272,7 +276,7 @@ public class SystemSnapshot
             {
                 JTabbedPane src = (JTabbedPane) e.getSource();
 
-                if (src.getSelectedIndex() == 2)
+                if (src.getSelectedIndex() == 4)
                 {
                     fillRawXML();
                 }
@@ -455,7 +459,7 @@ public class SystemSnapshot
     }
 
     /**
-     * DOCUMENTME.
+     * This method creates the proper JAXB context based on the currently active configuration.
      * 
      * @throws Exception In case of any exceptions
      * @throws JAXBException In case of any exceptions
@@ -477,7 +481,7 @@ public class SystemSnapshot
     {
         m_detailPanel.removeAll();
 
-        if (m_resultTree.getSelectionPath() != null && m_resultTree.getSelectionPath().getLastPathComponent() != null)
+        if ((m_resultTree.getSelectionPath() != null) && (m_resultTree.getSelectionPath().getLastPathComponent() != null))
         {
             ResultTreeNode rtn = (ResultTreeNode) m_resultTree.getSelectionPath().getLastPathComponent();
             Object uo = rtn.getUserObject();
@@ -521,9 +525,37 @@ public class SystemSnapshot
      */
     public void showConfigurationDetails()
     {
-        ConfigurationDetailsDlg cdd = new ConfigurationDetailsDlg(frmSnapshotGrabber, true, m_config, m_context);
+        boolean isNew = false;
 
-        cdd.setVisible(true);
+        if (m_config == null)
+        {
+            if (MessageBoxUtil
+                    .showConfirmation("You have not yet loaded a configuration. Do you want to create a default configuration?"))
+            {
+                // Load the default one
+                try
+                {
+                    m_config = (Config) m_context.createUnmarshaller().unmarshal(
+                            SystemSnapshot.class.getResourceAsStream("config-default.xml"));
+
+                    createJAXBContextForConfig();
+
+                    isNew = true;
+                }
+                catch (Exception e)
+                {
+                    MessageBoxUtil.showError("Error loading default configuration", e);
+                }
+            }
+        }
+
+        if (m_config != null)
+        {
+            ConfigurationDetailsDlg cdd = new ConfigurationDetailsDlg(frmSnapshotGrabber, true, m_config, m_context,
+                    m_configFile, isNew);
+
+            cdd.setVisible(true);
+        }
     }
 
     /**
@@ -576,6 +608,8 @@ public class SystemSnapshot
     {
         try
         {
+            m_configFile = selectedFile.getCanonicalPath();
+
             // Load the config.
             m_config = (Config) m_context.createUnmarshaller().unmarshal(new FileInputStream(selectedFile));
 

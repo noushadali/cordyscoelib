@@ -10,8 +10,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This class wraps the service group details.
- *
- * @author  localpg
+ * 
+ * @author localpg
  */
 @XmlType(propOrder = { "name", "organization", "m_serviceContainers" })
 public class ServiceGroup
@@ -33,8 +33,8 @@ public class ServiceGroup
 
     /**
      * This method gets the organization in which the service group is running.
-     *
-     * @return  The organization in which the service group is running.
+     * 
+     * @return The organization in which the service group is running.
      */
     @XmlElement(name = "Organization", namespace = Constants.NS)
     public String getOrganization()
@@ -44,8 +44,8 @@ public class ServiceGroup
 
     /**
      * This method sets the organization in which the service group is running.
-     *
-     * @param  organization  The organization in which the service group is running.
+     * 
+     * @param organization The organization in which the service group is running.
      */
     public void setOrganization(String organization)
     {
@@ -54,8 +54,8 @@ public class ServiceGroup
 
     /**
      * This method gets the name of the service group to monitor.
-     *
-     * @return  The name of the service group to monitor.
+     * 
+     * @return The name of the service group to monitor.
      */
     @XmlElement(name = "Name", namespace = Constants.NS)
     public String getName()
@@ -65,8 +65,8 @@ public class ServiceGroup
 
     /**
      * This method sets the name of the service group to monitor.
-     *
-     * @param  name  The name of the service group to monitor.
+     * 
+     * @param name The name of the service group to monitor.
      */
     public void setName(String name)
     {
@@ -75,8 +75,8 @@ public class ServiceGroup
 
     /**
      * This method returns the service containers to include in the dump.
-     *
-     * @return  The service containers to include in the dump.
+     * 
+     * @return The service containers to include in the dump.
      */
     public ArrayList<ServiceContainer> getServiceContainerList()
     {
@@ -85,8 +85,8 @@ public class ServiceGroup
 
     /**
      * This method adds the given service container.
-     *
-     * @param  serviceContainer  The service container to add.
+     * 
+     * @param serviceContainer The service container to add.
      */
     public void addServiceContainer(ServiceContainer serviceContainer)
     {
@@ -94,10 +94,19 @@ public class ServiceGroup
     }
 
     /**
-     * @see  java.lang.Object#toString()
+     * @see java.lang.Object#toString()
      */
-    @Override public String toString()
+    @Override
+    public String toString()
     {
         return getName();
+    }
+
+    /**
+     * This method clears all currently active service containers.
+     */
+    public void clearServiceContainerList()
+    {
+        m_serviceContainers.clear();
     }
 }

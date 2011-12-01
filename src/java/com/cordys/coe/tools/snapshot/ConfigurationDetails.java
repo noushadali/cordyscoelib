@@ -1,12 +1,23 @@
 package com.cordys.coe.tools.snapshot;
 
+import com.cordys.coe.tools.snapshot.config.Config;
+import com.cordys.coe.tools.snapshot.config.EJMXCounterType;
+import com.cordys.coe.tools.snapshot.config.JMXCounter;
+import com.cordys.coe.tools.snapshot.config.Server;
+import com.cordys.coe.tools.snapshot.config.ServiceContainer;
+import com.cordys.coe.tools.snapshot.config.ServiceGroup;
+import com.cordys.coe.util.swing.MessageBoxUtil;
+
 import java.awt.BorderLayout;
 import java.awt.Font;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import java.io.ByteArrayOutputStream;
+
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -22,30 +33,30 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+
 import javax.swing.border.TitledBorder;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+
 import javax.swing.table.DefaultTableModel;
+
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
 import net.miginfocom.swing.MigLayout;
 
-import com.cordys.coe.tools.snapshot.config.Config;
-import com.cordys.coe.tools.snapshot.config.JMXCounter;
-import com.cordys.coe.tools.snapshot.config.Server;
-import com.cordys.coe.tools.snapshot.config.ServiceContainer;
-import com.cordys.coe.tools.snapshot.config.ServiceGroup;
-import com.cordys.coe.util.swing.MessageBoxUtil;
-
 /**
  * Holds the composite that shows the configuration details.
- *
- * @author  localpg
+ * 
+ * @author localpg
  */
 public class ConfigurationDetails extends JPanel
 {
@@ -89,9 +100,9 @@ public class ConfigurationDetails extends JPanel
 
     /**
      * Create the panel.
-     *
-     * @param  config   The configuration that be displayed.
-     * @param  context  The JAXB context.
+     * 
+     * @param config The configuration that be displayed.
+     * @param context The JAXB context.
      */
     public ConfigurationDetails(Config config, JAXBContext context)
     {
@@ -104,18 +115,17 @@ public class ConfigurationDetails extends JPanel
         add(scrollPane, BorderLayout.CENTER);
 
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.addChangeListener(new ChangeListener()
+        tabbedPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e)
             {
-                public void stateChanged(ChangeEvent e)
-                {
-                    JTabbedPane src = (JTabbedPane) e.getSource();
+                JTabbedPane src = (JTabbedPane) e.getSource();
 
-                    if (src.getSelectedIndex() == 1)
-                    {
-                        fillRawXML();
-                    }
+                if (src.getSelectedIndex() == 1)
+                {
+                    fillRawXML();
                 }
-            });
+            }
+        });
         scrollPane.setViewportView(tabbedPane);
 
         JPanel panel = new JPanel();
@@ -123,8 +133,7 @@ public class ConfigurationDetails extends JPanel
         panel.setLayout(new BorderLayout(0, 0));
 
         JPanel panel_4 = new JPanel();
-        panel_4.setBorder(new TitledBorder(null, " Logon details ", TitledBorder.LEADING, TitledBorder.TOP, null,
-                                           null));
+        panel_4.setBorder(new TitledBorder(null, " Logon details ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel.add(panel_4, BorderLayout.NORTH);
         panel_4.setLayout(new MigLayout("", "[][grow]", "[][]"));
 
@@ -178,13 +187,12 @@ public class ConfigurationDetails extends JPanel
         }
 
         m_tree = new JTree(m_root);
-        m_tree.addTreeSelectionListener(new TreeSelectionListener()
+        m_tree.addTreeSelectionListener(new TreeSelectionListener() {
+            public void valueChanged(TreeSelectionEvent e)
             {
-                public void valueChanged(TreeSelectionEvent e)
-                {
-                    showCounterDetails(e);
-                }
-            });
+                showCounterDetails(e);
+            }
+        });
         panel_2.add(m_tree, BorderLayout.CENTER);
         splitPane.setDividerLocation(250);
         splitPane_1.setDividerLocation(100);
@@ -226,49 +234,55 @@ public class ConfigurationDetails extends JPanel
 
     /**
      * This method shows the details of the selected JMX counter.
-     *
-     * @param  e  The tree selection event that occurred.
+     * 
+     * @param e The tree selection event that occurred.
      */
     public void showCounterDetails(TreeSelectionEvent e)
     {
-        DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) m_tree.getSelectionPath().getLastPathComponent();
-        Object userObject = dmtn.getUserObject();
+        TreePath path = m_tree.getSelectionPath();
 
-        JPanel detailPanel = new JPanel();
-
-        if (userObject instanceof JMXCounter)
+        if (path != null)
         {
-            JMXCounter counter = (JMXCounter) userObject;
-            detailPanel = new JMXCounterPanel(counter, this);
-        }
-        else if (userObject instanceof ServiceGroup)
-        {
-            ServiceGroup sg = (ServiceGroup) userObject;
-            detailPanel = new ServiceGroupPanel(sg, this);
-        }
-        else if (userObject instanceof ServiceContainer)
-        {
-            ServiceContainer sc = (ServiceContainer) userObject;
-            detailPanel = new ServiceContainerPanel(sc, this);
-        }
+            DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) path.getLastPathComponent();
 
-        m_detailsPanel.removeAll();
+            Object userObject = dmtn.getUserObject();
 
-        if (detailPanel != null)
-        {
-            JScrollPane m_detailScrollPane = new JScrollPane();
-            m_detailScrollPane.setViewportView(detailPanel);
-            m_detailsPanel.add(m_detailScrollPane, BorderLayout.CENTER);
+            JPanel detailPanel = new JPanel();
+
+            if (userObject instanceof JMXCounter)
+            {
+                JMXCounter counter = (JMXCounter) userObject;
+                detailPanel = new JMXCounterPanel(counter, this);
+            }
+            else if (userObject instanceof ServiceGroup)
+            {
+                ServiceGroup sg = (ServiceGroup) userObject;
+                detailPanel = new ServiceGroupPanel(sg, this);
+            }
+            else if (userObject instanceof ServiceContainer)
+            {
+                ServiceContainer sc = (ServiceContainer) userObject;
+                detailPanel = new ServiceContainerPanel(sc, this);
+            }
+
+            m_detailsPanel.removeAll();
+
+            if (detailPanel != null)
+            {
+                JScrollPane m_detailScrollPane = new JScrollPane();
+                m_detailScrollPane.setViewportView(detailPanel);
+                m_detailsPanel.add(m_detailScrollPane, BorderLayout.CENTER);
+            }
+
+            m_detailsPanel.revalidate();
         }
-
-        m_detailsPanel.revalidate();
     }
 
     /**
      * This method creates all the tree nodes.
-     *
-     * @param  m_root            The root node.
-     * @param  serviceGroupList  The service groups that are
+     * 
+     * @param m_root The root node.
+     * @param serviceGroupList The service groups that are
      */
     private void createTreeNodes(DefaultMutableTreeNode m_root, ArrayList<ServiceGroup> serviceGroupList)
     {
@@ -330,8 +344,8 @@ public class ConfigurationDetails extends JPanel
 
     /**
      * This method gets whether or not the configuration was changed.
-     *
-     * @return  Whether or not the configuration was changed.
+     * 
+     * @return Whether or not the configuration was changed.
      */
     public boolean isDirty()
     {
@@ -340,8 +354,8 @@ public class ConfigurationDetails extends JPanel
 
     /**
      * Gets the config that was used.
-     *
-     * @return  The configuration object used.
+     * 
+     * @return The configuration object used.
      */
     public Config getConfig()
     {
@@ -368,8 +382,8 @@ public class ConfigurationDetails extends JPanel
 
         /**
          * Creates a new ServerTableModel object.
-         *
-         * @param  servers  The servers to display.
+         * 
+         * @param servers The servers to display.
          */
         public ServerTableModel(ArrayList<Server> servers)
         {
@@ -379,15 +393,14 @@ public class ConfigurationDetails extends JPanel
 
         /**
          * Gets the value at.
-         *
-         * @param   row     the row
-         * @param   column  the column
-         *
-         * @return  the value at
-         *
-         * @see     javax.swing.table.DefaultTableModel#getValueAt(int, int)
+         * 
+         * @param row the row
+         * @param column the column
+         * @return the value at
+         * @see javax.swing.table.DefaultTableModel#getValueAt(int, int)
          */
-        @Override public Object getValueAt(int row, int column)
+        @Override
+        public Object getValueAt(int row, int column)
         {
             Object retVal = null;
 
@@ -411,29 +424,28 @@ public class ConfigurationDetails extends JPanel
 
         /**
          * Checks if is cell editable.
-         *
-         * @param   row     the row
-         * @param   column  the column
-         *
-         * @return  true, if is cell editable
-         *
-         * @see     javax.swing.table.DefaultTableModel#isCellEditable(int, int)
+         * 
+         * @param row the row
+         * @param column the column
+         * @return true, if is cell editable
+         * @see javax.swing.table.DefaultTableModel#isCellEditable(int, int)
          */
-        @Override public boolean isCellEditable(int row, int column)
+        @Override
+        public boolean isCellEditable(int row, int column)
         {
             return true;
         }
 
         /**
          * Sets the value at.
-         *
-         * @param  aValue  the a value
-         * @param  row     the row
-         * @param  column  the column
-         *
-         * @see    javax.swing.table.DefaultTableModel#setValueAt(java.lang.Object, int, int)
+         * 
+         * @param aValue the a value
+         * @param row the row
+         * @param column the column
+         * @see javax.swing.table.DefaultTableModel#setValueAt(java.lang.Object, int, int)
          */
-        @Override public void setValueAt(Object aValue, int row, int column)
+        @Override
+        public void setValueAt(Object aValue, int row, int column)
         {
             Server s = m_servers.get(row);
 
@@ -468,13 +480,13 @@ public class ConfigurationDetails extends JPanel
 
         /**
          * Insert row.
-         *
-         * @param  row      the row
-         * @param  rowData  the row data
-         *
-         * @see    javax.swing.table.DefaultTableModel#insertRow(int, java.util.Vector)
+         * 
+         * @param row the row
+         * @param rowData the row data
+         * @see javax.swing.table.DefaultTableModel#insertRow(int, java.util.Vector)
          */
-        @Override public void insertRow(int row, @SuppressWarnings("rawtypes") Vector rowData)
+        @Override
+        public void insertRow(int row, @SuppressWarnings("rawtypes") Vector rowData)
         {
             Server e = new Server();
             e.setPort(1099);
@@ -486,12 +498,12 @@ public class ConfigurationDetails extends JPanel
 
         /**
          * Removes the row.
-         *
-         * @param  row  the row
-         *
-         * @see    javax.swing.table.DefaultTableModel#removeRow(int)
+         * 
+         * @param row the row
+         * @see javax.swing.table.DefaultTableModel#removeRow(int)
          */
-        @Override public void removeRow(int row)
+        @Override
+        public void removeRow(int row)
         {
             m_servers.remove(row);
 
@@ -527,8 +539,8 @@ public class ConfigurationDetails extends JPanel
 
         /**
          * Instantiates a new tree popup.
-         *
-         * @param  tree  the tree
+         * 
+         * @param tree the tree
          */
         public TreePopupHandler(JTree tree)
         {
@@ -541,66 +553,200 @@ public class ConfigurationDetails extends JPanel
             m_jmxCounter = new JPopupMenu("JMX Counter");
 
             createRootMenu();
+            createServiceGroupMenu();
+            createServiceContainerMenu();
+            createJMXCounterMenu();
 
-            m_tree.addMouseListener(new MouseAdapter()
+            m_tree.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e)
                 {
-                    @Override public void mousePressed(MouseEvent e)
-                    {
-                        showPopup(e);
-                    }
+                    showPopup(e);
+                }
 
-                    @Override public void mouseReleased(MouseEvent e)
-                    {
-                        showPopup(e);
-                    }
+                @Override
+                public void mouseReleased(MouseEvent e)
+                {
+                    showPopup(e);
+                }
 
-                    private void showPopup(MouseEvent e)
+                private void showPopup(MouseEvent e)
+                {
+                    if (e.isPopupTrigger() && (m_tree.getModel() != null))
                     {
-                        if (e.isPopupTrigger() && (m_tree.getModel() != null))
+                        TreePath path = m_tree.getPathForLocation(e.getX(), e.getY());
+
+                        if (path != null)
                         {
-                            TreePath path = m_tree.getPathForLocation(e.getX(), e.getY());
+                            m_tree.setSelectionPath(path);
+                        }
+                        else
+                        {
+                            return;
+                        }
 
-                            if (path != null)
-                            {
-                                m_tree.setSelectionPath(path);
-                            }
-                            else
-                            {
-                                return;
-                            }
+                        // Now add the proper items
+                        DefaultMutableTreeNode node = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
 
-                            // Now add the proper items
-                            DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-                                                              m_tree.getLastSelectedPathComponent();
+                        JPopupMenu menuToShow = null;
 
-                            JPopupMenu menuToShow = null;
+                        switch (node.getLevel())
+                        {
+                            case 0:
+                                menuToShow = m_rootMenu;
+                                break;
 
-                            switch (node.getLevel())
-                            {
-                                case 0:
-                                    menuToShow = m_rootMenu;
-                                    break;
+                            case 1:
+                                menuToShow = m_serviceGroup;
+                                break;
 
-                                case 1:
-                                    menuToShow = m_serviceGroup;
-                                    break;
+                            case 2:
+                                menuToShow = m_serviceContainer;
+                                break;
 
-                                case 2:
-                                    menuToShow = m_serviceContainer;
-                                    break;
+                            case 3:
+                                menuToShow = m_jmxCounter;
+                                break;
+                        }
 
-                                case 3:
-                                    menuToShow = m_jmxCounter;
-                                    break;
-                            }
-
-                            if (menuToShow != null)
-                            {
-                                menuToShow.show(m_tree, e.getX(), e.getY());
-                            }
+                        if (menuToShow != null)
+                        {
+                            menuToShow.show(m_tree, e.getX(), e.getY());
                         }
                     }
-                });
+                }
+            });
+        }
+
+        /**
+         * Creates the context menu for the JMX counters.
+         */
+        private void createJMXCounterMenu()
+        {
+            JMenuItem mi = new JMenuItem("Delete");
+            mi.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
+                    
+                    DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
+                    dtm.removeNodeFromParent(treeNode);
+                    
+                    m_tree.revalidate();
+                }
+            });
+            m_jmxCounter.add(mi);
+        }
+
+        /**
+         * Creates the context menu for the service containers.
+         */
+        private void createServiceContainerMenu()
+        {
+            JMenuItem mi = new JMenuItem("New JMX counter");
+            mi.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    addNewJMXCounter();
+                }
+            });
+            m_serviceContainer.add(mi);
+            
+            mi = new JMenuItem("Delete");
+            mi.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
+                    
+                    DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
+                    dtm.removeNodeFromParent(treeNode);
+                    
+                    m_tree.revalidate();
+                }
+            });
+            m_serviceContainer.add(mi);
+
+            mi = new JMenuItem("Delete all JMX counters");
+            mi.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    if (MessageBoxUtil.showConfirmation("Are you sure you want to delete all defined JMX Counters?"))
+                    {
+                        DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
+                        ServiceContainer sc = (ServiceContainer) treeNode.getUserObject();
+                        sc.clearJMXCounterList();
+
+                        DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
+
+                        while (treeNode.getChildCount() > 0)
+                        {
+                            dtm.removeNodeFromParent((MutableTreeNode) treeNode.getFirstChild());
+                        }
+
+                        m_tree.revalidate();
+                    }
+                }
+            });
+            m_serviceContainer.add(mi);
+        }
+
+        /**
+         * This method creates the popup menu for the root.
+         */
+        private void createServiceGroupMenu()
+        {
+            JMenuItem mi = new JMenuItem("New service container");
+            mi.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    addNewServiceContainer();
+                }
+            });
+            m_serviceGroup.add(mi);
+            
+            mi = new JMenuItem("Delete");
+            mi.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
+                    
+                    DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
+                    dtm.removeNodeFromParent(treeNode);
+                    
+                    m_tree.revalidate();
+                }
+            });
+            m_serviceGroup.add(mi);
+
+            mi = new JMenuItem("Delete all service containers");
+            mi.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    if (MessageBoxUtil.showConfirmation("Are you sure you want to delete all defined service containers?"))
+                    {
+                        DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
+                        ServiceGroup sg = (ServiceGroup) treeNode.getUserObject();
+                        sg.clearServiceContainerList();
+
+                        DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
+
+                        while (treeNode.getChildCount() > 0)
+                        {
+                            dtm.removeNodeFromParent((MutableTreeNode) treeNode.getFirstChild());
+                        }
+
+                        m_tree.revalidate();
+                    }
+                }
+            });
+            m_serviceGroup.add(mi);
         }
 
         /**
@@ -609,47 +755,36 @@ public class ConfigurationDetails extends JPanel
         private void createRootMenu()
         {
             JMenuItem mi = new JMenuItem("New service group");
-            mi.addActionListener(new ActionListener()
+            mi.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
                 {
-                    @Override public void actionPerformed(ActionEvent e)
-                    {
-                        addNewServiceGroup();
-                    }
-                });
+                    addNewServiceGroup();
+                }
+            });
             m_rootMenu.add(mi);
 
             mi = new JMenuItem("Delete all service groups");
-            mi.addActionListener(new ActionListener()
+            mi.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
                 {
-                    @Override public void actionPerformed(ActionEvent e)
+                    if (MessageBoxUtil.showConfirmation("Are you sure you want to delete all defined service groups?"))
                     {
-                        if (MessageBoxUtil.showConfirmation("Are you sure you want to delete all defined service groups?"))
-                        {
-                            DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode)
-                                                                  m_tree.getLastSelectedPathComponent();
-                            ConfigurationDetails.this.m_config.clearServiceGroupList();
-                            
-                            while (treeNode.getChildCount() > 0)
-                            {
-                                removeChild((DefaultMutableTreeNode) treeNode.getFirstChild());
-                            }
-                            
-                        }
-                    }
+                        DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
+                        ConfigurationDetails.this.m_config.clearServiceGroupList();
 
-                    /**
-                     * @param firstChild
-                     */
-                    private void removeChild(DefaultMutableTreeNode firstChild)
-                    {
-                        while (firstChild.getChildCount() > 0)
+                        DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
+
+                        while (treeNode.getChildCount() > 0)
                         {
-                            removeChild((DefaultMutableTreeNode) firstChild.getChildAt(0));
+                            dtm.removeNodeFromParent((MutableTreeNode) treeNode.getFirstChild());
                         }
-                        
-                        firstChild.removeFromParent();
+
+                        m_tree.revalidate();
                     }
-                });
+                }
+            });
             m_rootMenu.add(mi);
         }
 
@@ -658,6 +793,60 @@ public class ConfigurationDetails extends JPanel
          */
         protected void addNewServiceGroup()
         {
+            ServiceGroup sg = new ServiceGroup();
+            sg.setName("New");
+            m_config.addServiceGroup(sg);
+
+            DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
+
+            DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(sg);
+            treeNode.add(newChild);
+
+            DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
+
+            dtm.reload(treeNode);
+        }
+
+        /**
+         * Adds the new service container.
+         */
+        protected void addNewServiceContainer()
+        {
+            DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
+            ServiceGroup sg = (ServiceGroup) treeNode.getUserObject();
+
+            ServiceContainer sc = new ServiceContainer();
+            sc.setName("New Container");
+
+            sg.addServiceContainer(sc);
+
+            DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(sc);
+            treeNode.add(newChild);
+
+            DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
+
+            dtm.reload(treeNode);
+        }
+        
+        /**
+         * Adds the new JMX counter.
+         */
+        protected void addNewJMXCounter()
+        {
+            DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
+            ServiceContainer sc = (ServiceContainer) treeNode.getUserObject();
+
+            JMXCounter jmxCounter = new JMXCounter();
+            jmxCounter.setDomain("com.cordys");
+            jmxCounter.setCounterType(EJMXCounterType.ATTRIBUTE);
+            sc.addJMXCounter(jmxCounter);
+
+            DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(jmxCounter);
+            treeNode.add(newChild);
+
+            DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
+
+            dtm.reload(treeNode);
         }
     }
 }

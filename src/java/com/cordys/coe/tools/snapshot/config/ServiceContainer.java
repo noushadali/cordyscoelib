@@ -10,8 +10,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Wraps the configuration for the service containers.
- *
- * @author  localpg
+ * 
+ * @author localpg
  */
 @XmlType(propOrder = { "name", "jmxUrl", "m_jmxCounters" })
 public class ServiceContainer
@@ -33,8 +33,8 @@ public class ServiceContainer
 
     /**
      * This method gets the JMX url to use for connecting to the container.
-     *
-     * @return  The JMX url to use for connecting to the container.
+     * 
+     * @return The JMX url to use for connecting to the container.
      */
     @XmlElement(name = "JmxURL", namespace = Constants.NS)
     public String getJmxUrl()
@@ -44,8 +44,8 @@ public class ServiceContainer
 
     /**
      * This method sets the JMX url to use for connecting to the container.
-     *
-     * @param  jmxURL  The JMX url to use for connecting to the container.
+     * 
+     * @param jmxURL The JMX url to use for connecting to the container.
      */
     public void setJmxUrl(String jmxURL)
     {
@@ -54,8 +54,8 @@ public class ServiceContainer
 
     /**
      * This method gets the name of the service container to watch.
-     *
-     * @return  The name of the service container to watch.
+     * 
+     * @return The name of the service container to watch.
      */
     @XmlElement(name = "Name", namespace = Constants.NS)
     public String getName()
@@ -65,8 +65,8 @@ public class ServiceContainer
 
     /**
      * This method sets the name of the service container to watch.
-     *
-     * @param  name  The name of the service container to watch.
+     * 
+     * @param name The name of the service container to watch.
      */
     public void setName(String name)
     {
@@ -75,8 +75,8 @@ public class ServiceContainer
 
     /**
      * This method returns the JMX counters to include in the dump.
-     *
-     * @return  The JMX counters to include in the dump.
+     * 
+     * @return The JMX counters to include in the dump.
      */
     public ArrayList<JMXCounter> getJMXCounterList()
     {
@@ -85,8 +85,8 @@ public class ServiceContainer
 
     /**
      * This method adds the given JMX counter.
-     *
-     * @param  jmxCounter  The JMX counter to add.
+     * 
+     * @param jmxCounter The JMX counter to add.
      */
     public void addJMXCounter(JMXCounter jmxCounter)
     {
@@ -94,10 +94,19 @@ public class ServiceContainer
     }
 
     /**
-     * @see  java.lang.Object#toString()
+     * @see java.lang.Object#toString()
      */
-    @Override public String toString()
+    @Override
+    public String toString()
     {
         return getName();
+    }
+
+    /**
+     * This method clears the currently defined JMX counters.
+     */
+    public void clearJMXCounterList()
+    {
+        m_jmxCounters.clear();
     }
 }

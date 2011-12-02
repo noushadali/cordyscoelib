@@ -555,6 +555,8 @@ public class SystemSnapshot
                     m_configFile, isNew);
 
             cdd.setVisible(true);
+
+            displayConfigDetails();
         }
     }
 
@@ -615,29 +617,37 @@ public class SystemSnapshot
 
             createJAXBContextForConfig();
 
-            // Set the server details.
-            StringBuilder sb = new StringBuilder(1024);
-            ArrayList<Server> servers = m_config.getServerList();
-            boolean first = true;
-
-            for (Server server : servers)
-            {
-                if (!first)
-                {
-                    sb.append("; ");
-                }
-                else
-                {
-                    first = false;
-                }
-                sb.append(server.toString());
-            }
-            m_servers.setText(sb.toString());
+            displayConfigDetails();
         }
         catch (Exception e)
         {
             MessageBoxUtil.showError("Error loading configuration", e);
         }
+    }
+
+    /**
+     * This method displays the configuration details of the loaded config.
+     */
+    private void displayConfigDetails()
+    {
+        // Set the server details.
+        StringBuilder sb = new StringBuilder(1024);
+        ArrayList<Server> servers = m_config.getServerList();
+        boolean first = true;
+
+        for (Server server : servers)
+        {
+            if (!first)
+            {
+                sb.append("; ");
+            }
+            else
+            {
+                first = false;
+            }
+            sb.append(server.toString());
+        }
+        m_servers.setText(sb.toString());
     }
 
     /**

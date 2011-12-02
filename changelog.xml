@@ -13,16 +13,17 @@
     </template>
     <body>
         <release description="Development release" version="@NEXT@">
-				</release>
-<release date="2011-12-02" description="Development release" version="1.2.2">
+        	<action dev="pgussow" type="add">Added the dynamic XPath methods to the XPathHelper class. These methods clean up the underlying XPath object explicitly, thus improving memory usage.</action>
+		</release>
+		<release date="2011-12-02" description="Development release" version="1.2.2">
         	<action dev="pgussow" type="change">Changed the XPathHelper to explicitly clean up the result sets from XPath.</action>
         	<action dev="pgussow" type="change">Finalized UI for editing the configuration.</action>
-				</release>
-<release date="2011-11-30" description="Development release" version="1.2.1">
+		</release>
+		<release date="2011-11-30" description="Development release" version="1.2.1">
         	<action dev="pgussow" type="change">Migrated to BOP4. Removed the ISVP, because the main focus is the coelib.jar. Marked all classes deprecated that are using the Find class.</action>
         	<action dev="pgussow" type="change">Made the WsappsQueryManager use generics.</action>
-				</release>
-<release date="2011-11-24" description="Development release" version="1.1.19">
+		</release>
+		<release date="2011-11-24" description="Development release" version="1.1.19">
             <action dev="pgussow" type="fix">There was a bug in the XPathhelper.getDateValue(). If 4 digits or more were given for the ms, then the call would produce a weird date. Now all the digits are cut off after the 3rd one.</action>
             <action dev="pgussow" type="add">Added a tool called SystemSnapshotGrabber</action>
         </release>

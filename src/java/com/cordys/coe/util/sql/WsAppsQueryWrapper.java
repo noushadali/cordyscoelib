@@ -101,7 +101,7 @@ public class WsAppsQueryWrapper<T extends BusObject> extends SqlQueryWrapper
     /**
      * Result class which is set into the create QueryObject.
      */
-    protected Class<T> m_resultClass;
+    protected Class<? extends T> m_resultClass;
     /**
      * Holds whether or not a result mapping should be set when the Query object is created.
      */
@@ -123,7 +123,7 @@ public class WsAppsQueryWrapper<T extends BusObject> extends SqlQueryWrapper
      * 
      * @param resultClass Result class which is set into the create QueryObject.
      */
-    public WsAppsQueryWrapper(Class<T> resultClass)
+    public WsAppsQueryWrapper(Class<? extends T> resultClass)
     {
         this(resultClass, false);
     }
@@ -134,7 +134,7 @@ public class WsAppsQueryWrapper<T extends BusObject> extends SqlQueryWrapper
      * @param resultClass Result class which is set into the create QueryObject.
      * @param returnTransient If <code>true</code> returned objects are marked as transient.
      */
-    public WsAppsQueryWrapper(Class<T> resultClass, boolean returnTransient)
+    public WsAppsQueryWrapper(Class<? extends T> resultClass, boolean returnTransient)
     {
         this(resultClass, returnTransient, -1, null);
     }
@@ -146,7 +146,7 @@ public class WsAppsQueryWrapper<T extends BusObject> extends SqlQueryWrapper
      * @param returnTransient If <code>true</code> returned objects are marked as transient.
      * @param resultMapping The result mapping that should be used.
      */
-    public WsAppsQueryWrapper(Class<T> resultClass, boolean returnTransient, int resultMapping)
+    public WsAppsQueryWrapper(Class<? extends T> resultClass, boolean returnTransient, int resultMapping)
     {
         this(resultClass, returnTransient, resultMapping, null);
     }
@@ -159,7 +159,7 @@ public class WsAppsQueryWrapper<T extends BusObject> extends SqlQueryWrapper
      * @param resultMapping The result mapping that should be used.
      * @param fieldMapping The field mapping for the result mapping.
      */
-    public WsAppsQueryWrapper(Class<T> resultClass, boolean returnTransient, int resultMapping, String[][] fieldMapping)
+    public WsAppsQueryWrapper(Class<? extends T> resultClass, boolean returnTransient, int resultMapping, String[][] fieldMapping)
     {
         m_resultClass = resultClass;
         m_returnTransient = returnTransient;

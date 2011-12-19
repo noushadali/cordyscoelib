@@ -1,3 +1,7 @@
+version 1.2.3 (released )
+-add: Added the dynamic XPath methods to the XPathHelper class. These methods clean up the underlying XPath object explicitly, thus improving memory usage.
+-fix: Fixed some Generics things with the WsAppsQueryWrapper
+			
 version 1.2.2 (released 2011-12-02)
 -change: Changed the XPathHelper to explicitly clean up the result sets from XPath.
 -change: Finalized UI for editing the configuration.

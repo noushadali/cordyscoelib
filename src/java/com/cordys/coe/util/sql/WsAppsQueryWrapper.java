@@ -7,6 +7,7 @@ package com.cordys.coe.util.sql;
 
 import com.cordys.cpc.bsf.busobject.BusObject;
 import com.cordys.cpc.bsf.busobject.BusObjectIterator;
+import com.cordys.cpc.bsf.busobject.BusObjectManager;
 import com.cordys.cpc.bsf.busobject.QueryObject;
 import com.cordys.cpc.bsf.busobject.QueryParameter;
 
@@ -327,6 +328,17 @@ public class WsAppsQueryWrapper<T extends BusObject> extends SqlQueryWrapper
     }
 
     /**
+     * This method executes the getObjects method and returns the bus object iterator.
+     * 
+     * @param bom The BusObjectManager to use.
+     * @return The bus object iterator.
+     */
+    public BusObjectIterator<T> getObjects(BusObjectManager bom)
+    {
+        return createQueryObject().getObjects(bom);
+    }
+
+    /**
      * This method executes the query and returns the object.
      * 
      * @return The object that is the result of the query
@@ -335,6 +347,18 @@ public class WsAppsQueryWrapper<T extends BusObject> extends SqlQueryWrapper
     public T getObject()
     {
         return (T) createQueryObject().getObject();
+    }
+
+    /**
+     * This method executes the query and returns the object.
+     * 
+     * @param bom he BusObjectManager to use.
+     * @return The object that is the result of the query
+     */
+    @SuppressWarnings("unchecked")
+    public T getObject(BusObjectManager bom)
+    {
+        return (T) createQueryObject().getObject(bom);
     }
 
     /**

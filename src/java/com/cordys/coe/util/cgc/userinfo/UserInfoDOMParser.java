@@ -2,12 +2,9 @@ package com.cordys.coe.util.cgc.userinfo;
 
 import com.cordys.coe.util.cgc.CordysGatewayClientException;
 import com.cordys.coe.util.cgc.message.CGCMessages;
-import com.cordys.coe.util.exceptions.XMLWrapperException;
 import com.cordys.coe.util.xml.dom.NamespaceConstants;
 import com.cordys.coe.util.xml.dom.XMLHelper;
 import com.cordys.coe.util.xml.dom.XPathHelper;
-
-import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -47,7 +44,7 @@ class UserInfoDOMParser
      *
      * @return  The parsed UserInfo.
      *
-     * @throws  CordysGatewayClientException  DOCUMENTME
+     * @throws  CordysGatewayClientException  In case of any exceptions
      */
     public static IUserInfo parse(Element eGetUserDetailsResponse)
                            throws CordysGatewayClientException
@@ -65,7 +62,7 @@ class UserInfoDOMParser
      *
      * @return  The user info object.
      *
-     * @throws  CordysGatewayClientException  DOCUMENTME
+     * @throws  CordysGatewayClientException  In case of any exceptions
      */
     public IUserInfo parse()
                     throws CordysGatewayClientException
@@ -75,13 +72,11 @@ class UserInfoDOMParser
         try
         {
             Node nUser = XPathHelper.prSelectSingleNode(m_eGetUserDetailsResponse,
-                                                        "./" + PRE_LDAP + ":old/" + PRE_LDAP +
-                                                        ":user");
+                                                        "./" + PRE_LDAP + ":old/" + PRE_LDAP + ":user");
 
             if (nUser == null)
             {
-                throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_USERINFO_XPATH,
-                                                       "/old/user");
+                throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_USERINFO_XPATH, "/old/user");
             }
 
             // Get the authenticated user.
@@ -89,8 +84,7 @@ class UserInfoDOMParser
 
             if (sTemp.length() == 0)
             {
-                throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_USERINFO_XPATH,
-                                                       "authuserdn/text()");
+                throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_USERINFO_XPATH, "authuserdn/text()");
             }
             uiReturn.setAuthenticatedUser(sTemp);
 
@@ -99,15 +93,12 @@ class UserInfoDOMParser
 
             if (sTemp.length() == 0)
             {
-                throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_USERINFO_XPATH,
-                                                       "description/text()");
+                throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_USERINFO_XPATH, "description/text()");
             }
             uiReturn.setDescription(sTemp);
 
             // Now parse the organizations.
-            NodeList nlOrganizations = XPathHelper.prSelectNodeList(nUser,
-                                                                    "./" + PRE_LDAP +
-                                                                    ":organization");
+            NodeList nlOrganizations = XPathHelper.prSelectNodeList(nUser, "./" + PRE_LDAP + ":organization");
 
             for (int iCount = 0; iCount < nlOrganizations.getLength(); iCount++)
             {
@@ -137,19 +128,15 @@ class UserInfoDOMParser
      *
      * @return  The wrapper around the organizational information.
      *
-     * @throws  XMLWrapperException           DOCUMENTME
-     * @throws  CordysGatewayClientException  DOCUMENTME
-     * @throws  TransformerException          DOCUMENTME
+     * @throws  Exception  In case of any exceptions
      */
     private IOrganizationInfo parseOrganization(Element eOrganization)
-                                         throws XMLWrapperException, CordysGatewayClientException,
-                                                TransformerException
+                                         throws Exception
     {
         IOrganizationInfo oiReturn = new OrganizationInfoImpl();
 
         // Check for the default organization.
-        if (eOrganization.hasAttribute("default") &&
-                "true".equals(eOrganization.getAttribute("default")))
+        if (eOrganization.hasAttribute("default") && "true".equals(eOrganization.getAttribute("default")))
         {
             oiReturn.setDefaultOrganization(true);
         }
@@ -159,8 +146,7 @@ class UserInfoDOMParser
 
         if (sTemp.length() == 0)
         {
-            throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_USERINFO_XPATH,
-                                                   "organization/dn/text()");
+            throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_USERINFO_XPATH, "organization/dn/text()");
         }
 
         oiReturn.setDN(sTemp);
@@ -177,9 +163,8 @@ class UserInfoDOMParser
         oiReturn.setDescription(sTemp);
 
         // Get the DN of the organizational user.
-        sTemp = XMLHelper.prGetData(eOrganization,
-                                    "./" + PRE_LDAP + ":organizationaluser/" + PRE_LDAP +
-                                    ":dn/text()", "");
+        sTemp = XMLHelper.prGetData(eOrganization, "./" + PRE_LDAP + ":organizationaluser/" + PRE_LDAP + ":dn/text()",
+                                    "");
 
         if (sTemp.length() == 0)
         {
@@ -203,8 +188,7 @@ class UserInfoDOMParser
         }
 
         // Parse the toolbars
-        NodeList nlToolbars = XPathHelper.prSelectNodeList(eOrganization,
-                                                           "./" + PRE_LDAP + ":toolbar");
+        NodeList nlToolbars = XPathHelper.prSelectNodeList(eOrganization, "./" + PRE_LDAP + ":toolbar");
 
         for (int iCount = 0; iCount < nlToolbars.getLength(); iCount++)
         {
@@ -241,13 +225,10 @@ class UserInfoDOMParser
      *
      * @return  The role info.
      *
-     * @throws  XMLWrapperException           DOCUMENTME
-     * @throws  CordysGatewayClientException  DOCUMENTME
-     * @throws  TransformerException          DOCUMENTME
+     * @throws  Exception  In case of any exceptions
      */
     private IRoleInfo parseRole(Element eRole)
-                         throws XMLWrapperException, CordysGatewayClientException,
-                                TransformerException
+                         throws Exception
     {
         IRoleInfo riReturn = new RoleInfoImpl();
 
@@ -259,7 +240,7 @@ class UserInfoDOMParser
 
         if (sTemp.length() == 0)
         {
-            //We'll use the cn as description
+            // We'll use the cn as description
             sTemp = riReturn.getRoleDN().substring(3, riReturn.getRoleDN().indexOf(',', 4) - 1);
         }
 

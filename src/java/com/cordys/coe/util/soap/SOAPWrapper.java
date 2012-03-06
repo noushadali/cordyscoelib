@@ -1,16 +1,21 @@
 package com.cordys.coe.util.soap;
 
-import java.util.ArrayList;
-
 import com.cordys.coe.util.general.Util;
 import com.cordys.coe.util.xml.NamespaceDefinitions;
 import com.cordys.coe.util.xml.nom.NamespaceConstants;
 import com.cordys.coe.util.xml.nom.XPathHelper;
+
 import com.eibus.connector.nom.Connector;
-import com.eibus.util.spy.Spy;
+
+import com.eibus.util.logger.CordysLogger;
+
 import com.eibus.xml.nom.Document;
 import com.eibus.xml.nom.Node;
+import com.eibus.xml.xpath.XPathMetaInfo;
+
 import com.novell.ldap.LDAPException;
+
+import java.util.ArrayList;
 
 /**
  * This class is a wrapper around creation and sending soap-messages. All requests and responses are added to an
@@ -22,9 +27,23 @@ public class SOAPWrapper
     implements ISOAPWrapper
 {
     /**
+     * Holds the logger to use.
+     */
+    private static final CordysLogger LOG = CordysLogger.getCordysLogger(SOAPWrapper.class);
+    /**
      * Holds the name of the default connector that will be used.
      */
     private static final String DEFAULT_CONNECTOR_NAME = "Anonymous Connector";
+    /**
+     * Holds the namespace prefix mapping that is used for all XPaths in the SOAP wrapper.
+     */
+    private static XPathMetaInfo s_xmi = new XPathMetaInfo();
+
+    static
+    {
+        s_xmi.addNamespaceBinding("soap", NamespaceDefinitions.XMLNS_SOAP_1_1);
+    }
+
     /**
      * This arraylist holds all nodes that are created through this class.
      */
@@ -464,16 +483,16 @@ public class SOAPWrapper
             }
 
             // Send the actual message
-            if (Spy.active)
+            if (LOG.isDebugEnabled())
             {
-                log("Sending message:\n" + Node.writeToString(iRealEnvelope, true));
+                LOG.debug("Sending message:\n" + Node.writeToString(iRealEnvelope, true));
             }
 
             iReturn = cConnector.sendAndWait(iRealEnvelope, lTimeOut);
 
-            if (Spy.active)
+            if (LOG.isDebugEnabled())
             {
-                log("Response received: " + Node.writeToString(iReturn, true));
+                LOG.debug("Response received: " + Node.writeToString(iReturn, true));
             }
 
             // Add the response to the XMLGarbagecollector
@@ -488,7 +507,7 @@ public class SOAPWrapper
         // Check for SOAP:faults
         if (bCheckFault == true)
         {
-            int iError = SoapFaultInfo.findSoapFaultNode(iReturn);
+            int iError = XPathHelper.selectSingleNode(iReturn, "//soap:Body/soap:Fault", s_xmi);
 
             if (iError != 0)
             {
@@ -576,18 +595,5 @@ public class SOAPWrapper
         dDoc.createTextElement("SOAP:detail", sPrefix + "\nJavaException:\n" + sStackTrace, iReturn);
 
         return iReturn;
-    }
-
-    /**
-     * This method logs a message to System.out.
-     *
-     * @param  sMessage  The message to log
-     */
-    private void log(String sMessage)
-    {
-        if (Spy.isActive())
-        {
-            Spy.send("SOAP-WRAPPER", sMessage);
-        }
     }
 }

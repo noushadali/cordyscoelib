@@ -13,6 +13,7 @@
 	</template>
 	<body>
         <release description="Stable release" version="@NEXT@">
+          <action dev="pgussow" type="fix">Fixed a problem in the SOAP wrapper when detecting a SOAP fault.</action>
         </release>
 		<release description="Stable release" version="1.2.3">
 			<action dev="pgussow" type="add">Added the dynamic XPath methods to the XPathHelper class. These methods clean up the underlying XPath object explicitly, thus improving memory usage.</action>

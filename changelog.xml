@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document>
+<?xml version="1.0" encoding="UTF-8"?><document>
 	<properties>
 		<title>Cordys CoE Library Changelog</title>
 		<author email="pgussow@cordys.com">Phillip Gussow</author>
@@ -12,7 +11,9 @@
 		</release>
 	</template>
 	<body>
-        <release description="Stable release" version="@NEXT@">
+        <release description="Development release" version="@NEXT@">
+				</release>
+<release date="2012-03-08" description="Stable release" version="1.2.4">
           <action dev="pgussow" type="fix">Fixed a problem in the SOAP wrapper when detecting a SOAP fault.</action>
         </release>
 		<release description="Stable release" version="1.2.3">

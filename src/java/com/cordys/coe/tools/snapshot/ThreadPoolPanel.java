@@ -79,7 +79,7 @@ public class ThreadPoolPanel extends JPanel
                                                         "Dispatcher", "Status"
                                                     })
             {
-                boolean[] columnEditables = new boolean[] { false, false, false, false };
+                boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false, false };
 
                 @Override public boolean isCellEditable(int row, int column)
                 {
@@ -280,35 +280,44 @@ public class ThreadPoolPanel extends JPanel
         {
             ListSelectionModel lsm = null;
 
+            int row = -1;
+
             if (m_comp instanceof JTable)
             {
-                lsm = ((JTable) m_comp).getSelectionModel();
+                JTable tbl = (JTable) m_comp;
+                row = tbl.getSelectedRow();
+                lsm = tbl.getSelectionModel();
             }
             else if (m_comp instanceof JList)
             {
-                lsm = ((JList) m_comp).getSelectionModel();
+                JList list = (JList) m_comp;
+                row = list.getSelectedIndex();
+                lsm = list.getSelectionModel();
             }
 
             if (e.getSource() == lsm)
             {
-                // Column selection changed
-                int first = e.getFirstIndex();
-
                 if (m_comp == m_allThreads)
                 {
                     DefaultTableModel dtm = (DefaultTableModel) m_allThreads.getModel();
-                    DispatcherInfo di = (DispatcherInfo) dtm.getValueAt(first, 3);
+                    DefaultListModel dlm = (DefaultListModel) m_threads.getModel();
+                    
+                    //Clean the selection.
+                    dlm.removeAllElements();
+                    m_threadInfoDetails.setText("");
 
-                    if (di != null)
+                    if (row > -1)
                     {
-                        DefaultListModel dlm = (DefaultListModel) m_threads.getModel();
-                        dlm.removeAllElements();
+                        DispatcherInfo di = (DispatcherInfo) dtm.getValueAt(row, 3);
 
-                        List<ThreadInfo> threads = di.getThreadInfoList();
-
-                        for (ThreadInfo ti : threads)
+                        if (di != null)
                         {
-                            dlm.addElement(ti);
+                            List<ThreadInfo> threads = di.getThreadInfoList();
+
+                            for (ThreadInfo ti : threads)
+                            {
+                                dlm.addElement(ti);
+                            }
                         }
                     }
                 }
@@ -320,6 +329,11 @@ public class ThreadPoolPanel extends JPanel
                     {
                         ThreadInfo ti = (ThreadInfo) value;
                         m_threadInfoDetails.setText(ti.getStackTrace());
+                        m_threadInfoDetails.setCaretPosition(0);
+                    }
+                    else
+                    {
+                    	m_threadInfoDetails.setText("");
                     }
                 }
             }

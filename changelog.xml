@@ -12,6 +12,7 @@
 	</template>
 	<body>
         <release description="Development release" version="@NEXT@">
+		<action dev="pgussow" type="fix">Fixes to the snapshot grabber.</action>
 				</release>
 <release date="2012-03-08" description="Stable release" version="1.2.4">
           <action dev="pgussow" type="fix">Fixed a problem in the SOAP wrapper when detecting a SOAP fault.</action>

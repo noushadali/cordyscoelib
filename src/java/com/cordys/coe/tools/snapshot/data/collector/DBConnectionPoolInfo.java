@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * This class contains the information for the DB connection pool information.
- * 
- * @author localpg
+ *
+ * @author  localpg
  */
 @XmlRootElement(name = "DBPoolResult", namespace = Constants.NS)
 public class DBConnectionPoolInfo
@@ -62,8 +62,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method gets the write connection usage.
-     * 
-     * @return The write connection usage.
+     *
+     * @return  The write connection usage.
      */
     @XmlElement(name = "WriteUsage", namespace = Constants.NS)
     public Usage getWriteUsage()
@@ -73,8 +73,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method sets the write connection usage.
-     * 
-     * @param writeUsage The write connection usage.
+     *
+     * @param  writeUsage  The write connection usage.
      */
     public void setWriteUsage(Usage writeUsage)
     {
@@ -83,8 +83,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method gets the read connection usage.
-     * 
-     * @return The read connection usage.
+     *
+     * @return  The read connection usage.
      */
     @XmlElement(name = "ReadUsage", namespace = Constants.NS)
     public Usage getReadUsage()
@@ -94,8 +94,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method sets the read connection usage.
-     * 
-     * @param readUsage The read connection usage.
+     *
+     * @param  readUsage  The read connection usage.
      */
     public void setReadUsage(Usage readUsage)
     {
@@ -104,8 +104,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method gets the write connection waiting times.
-     * 
-     * @return The write connection waiting times.
+     *
+     * @return  The write connection waiting times.
      */
     @XmlElement(name = "WriteWaitTime", namespace = Constants.NS)
     public WaitTime getWriteWaitTime()
@@ -115,8 +115,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method sets the write connection waiting times.
-     * 
-     * @param writeWaitTime The write connection waiting times.
+     *
+     * @param  writeWaitTime  The write connection waiting times.
      */
     public void setWriteWaitTime(WaitTime writeWaitTime)
     {
@@ -125,8 +125,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method gets the read connection waiting times.
-     * 
-     * @return The read connection waiting times.
+     *
+     * @return  The read connection waiting times.
      */
     @XmlElement(name = "ReadWaitTime", namespace = Constants.NS)
     public WaitTime getReadWaitTime()
@@ -136,8 +136,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method sets the read connection waiting times.
-     * 
-     * @param readWaitTime The read connection waiting times.
+     *
+     * @param  readWaitTime  The read connection waiting times.
      */
     public void setReadWaitTime(WaitTime readWaitTime)
     {
@@ -146,8 +146,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method gets the current number of active write connections.
-     * 
-     * @return The current number of active write connections.
+     *
+     * @return  The current number of active write connections.
      */
     @XmlElement(name = "ActiveWrite", namespace = Constants.NS)
     public int getActiveWrite()
@@ -157,8 +157,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method sets the current number of active write connections.
-     * 
-     * @param activeWrite The current number of active write connections.
+     *
+     * @param  activeWrite  The current number of active write connections.
      */
     public void setActiveWrite(int activeWrite)
     {
@@ -167,8 +167,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method gets the maximum configured write connections.
-     * 
-     * @return The maximum configured write connections.
+     *
+     * @return  The maximum configured write connections.
      */
     @XmlElement(name = "MaximumWrite", namespace = Constants.NS)
     public int getMaximumWrite()
@@ -178,8 +178,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method sets the maximum configured write connections.
-     * 
-     * @param maxWrite The maximum configured write connections.
+     *
+     * @param  maxWrite  The maximum configured write connections.
      */
     public void setMaximumWrite(int maxWrite)
     {
@@ -188,8 +188,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method gets the minimum configured write connections.
-     * 
-     * @return The minimum configured write connections.
+     *
+     * @return  The minimum configured write connections.
      */
     @XmlElement(name = "MinimumWrite", namespace = Constants.NS)
     public int getMinimumWrite()
@@ -199,8 +199,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method sets the minimum configured write connections.
-     * 
-     * @param mimWrite The minimum configured write connections.
+     *
+     * @param  mimWrite  The minimum configured write connections.
      */
     public void setMinimumWrite(int mimWrite)
     {
@@ -209,8 +209,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method gets the current number of active read connections.
-     * 
-     * @return The current number of active read connections.
+     *
+     * @return  The current number of active read connections.
      */
     @XmlElement(name = "ActiveRead", namespace = Constants.NS)
     public int getActiveRead()
@@ -220,8 +220,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method sets the current number of active read connections.
-     * 
-     * @param activeRead The current number of active read connections.
+     *
+     * @param  activeRead  The current number of active read connections.
      */
     public void setActiveRead(int activeRead)
     {
@@ -230,8 +230,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method gets the maximum configured read connections.
-     * 
-     * @return The maximum configured read connections.
+     *
+     * @return  The maximum configured read connections.
      */
     @XmlElement(name = "MaximumRead", namespace = Constants.NS)
     public int getMaximumRead()
@@ -241,8 +241,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method sets the maximum configured read connections.
-     * 
-     * @param maxRead The maximum configured read connections.
+     *
+     * @param  maxRead  The maximum configured read connections.
      */
     public void setMaximumRead(int maxRead)
     {
@@ -251,8 +251,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method gets the minimum configured read connections.
-     * 
-     * @return The minimum configured read connections.
+     *
+     * @return  The minimum configured read connections.
      */
     @XmlElement(name = "MinimumRead", namespace = Constants.NS)
     public int getMinimumRead()
@@ -262,8 +262,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method sets the minimum configured read connections.
-     * 
-     * @param mimRead The minimum configured read connections.
+     *
+     * @param  mimRead  The minimum configured read connections.
      */
     public void setMinimumRead(int mimRead)
     {
@@ -272,8 +272,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method gets the name of the connection pool.
-     * 
-     * @return The name of the connection pool.
+     *
+     * @return  The name of the connection pool.
      */
     @XmlElement(name = "Name", namespace = Constants.NS)
     public String getName()
@@ -283,8 +283,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method sets the name of the connection pool.
-     * 
-     * @param name The name of the connection pool.
+     *
+     * @param  name  The name of the connection pool.
      */
     public void setName(String name)
     {
@@ -292,18 +292,17 @@ public class DBConnectionPoolInfo
     }
 
     /**
-     * @see java.lang.Object#toString()
+     * @see  java.lang.Object#toString()
      */
-    @Override
-    public String toString()
+    @Override public String toString()
     {
         return m_name;
     }
 
     /**
      * This method returns the summary for the read connections.
-     * 
-     * @return The summary for the read connections.
+     *
+     * @return  The summary for the read connections.
      */
     public String getReadSummary()
     {
@@ -314,8 +313,8 @@ public class DBConnectionPoolInfo
 
     /**
      * This method returns the summary for the write connections.
-     * 
-     * @return The summary for the write connections.
+     *
+     * @return  The summary for the write connections.
      */
     public String getWriteSummary()
     {
@@ -349,11 +348,38 @@ public class DBConnectionPoolInfo
          * Holds the maximum waiting time.
          */
         private long m_maximum;
+        /**
+         * Holds the number of occurrences since the counter was reset.
+         */
+        private long m_numOfOccurrencesSinceReset;
+        /**
+         * Holds the total occurrences since the value was reset.
+         */
+        private long m_totalValueSinceReset;
+        /**
+         * Holds the standard deviation.
+         */
+        private long m_valueStdDev;
+
+        /**
+         * @see  java.lang.Object#toString()
+         */
+        @Override public String toString()
+        {
+            StringBuilder sb = new StringBuilder(1024);
+
+            sb.append("Occurences: ").append(m_numOfOccurrencesSinceReset);
+
+            // Average, min and max wait times
+            sb.append(" - Avg: ").append(m_average).append("; Min ").append(m_minimum).append("; Max ").append(m_maximum);
+
+            return sb.toString();
+        }
 
         /**
          * This method gets the maximum waiting time.
-         * 
-         * @return The maximum waiting time.
+         *
+         * @return  The maximum waiting time.
          */
         @XmlElement(name = "Maximum", namespace = Constants.NS)
         public long getMaximum()
@@ -363,8 +389,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method sets the maximum waiting time.
-         * 
-         * @param maximum The maximum waiting time.
+         *
+         * @param  maximum  The maximum waiting time.
          */
         public void setMaximum(long maximum)
         {
@@ -373,8 +399,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method gets the minimum waiting time.
-         * 
-         * @return The minimum waiting time.
+         *
+         * @return  The minimum waiting time.
          */
         @XmlElement(name = "Minimum", namespace = Constants.NS)
         public long getMinimum()
@@ -384,8 +410,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method sets the minimum waiting time.
-         * 
-         * @param minimum The minimum waiting time.
+         *
+         * @param  minimum  The minimum waiting time.
          */
         public void setMinimum(long minimum)
         {
@@ -394,8 +420,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method gets the number of events per second.
-         * 
-         * @return The number of events per second.
+         *
+         * @return  The number of events per second.
          */
         @XmlElement(name = "EventsPerSecond", namespace = Constants.NS)
         public long getEventsPerSecond()
@@ -405,8 +431,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method sets the number of events per second.
-         * 
-         * @param eventsPerSecond The number of events per second.
+         *
+         * @param  eventsPerSecond  The number of events per second.
          */
         public void setEventsPerSecond(long eventsPerSecond)
         {
@@ -415,8 +441,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method gets the current waiting time.
-         * 
-         * @return The current waiting time.
+         *
+         * @return  The current waiting time.
          */
         @XmlElement(name = "Current", namespace = Constants.NS)
         public long getCurrent()
@@ -426,8 +452,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method sets the current waiting time.
-         * 
-         * @param current The current waiting time.
+         *
+         * @param  current  The current waiting time.
          */
         public void setCurrent(long current)
         {
@@ -436,8 +462,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method gets the average waiting time.
-         * 
-         * @return The average waiting time.
+         *
+         * @return  The average waiting time.
          */
         @XmlElement(name = "Average", namespace = Constants.NS)
         public long getAverage()
@@ -447,8 +473,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method sets the average waiting time.
-         * 
-         * @param average The average waiting time.
+         *
+         * @param  average  The average waiting time.
          */
         public void setAverage(long average)
         {
@@ -456,10 +482,74 @@ public class DBConnectionPoolInfo
         }
 
         /**
+         * This method gets the number of occurrences since the counter was reset.
+         *
+         * @return  The number of occurrences since the counter was reset.
+         */
+        @XmlElement(name = "NumOfOccurrencesSinceReset", namespace = Constants.NS)
+        public long getNumOfOccurrencesSinceReset()
+        {
+            return m_numOfOccurrencesSinceReset;
+        }
+
+        /**
+         * This method sets the number of occurrences since the counter was reset.
+         *
+         * @param  numOfOccurrencesSinceReset  The number of occurrences since the counter was reset.
+         */
+        public void setNumOfOccurrencesSinceReset(long numOfOccurrencesSinceReset)
+        {
+            m_numOfOccurrencesSinceReset = numOfOccurrencesSinceReset;
+        }
+
+        /**
+         * This method gets the total occurrences since the value was reset.
+         *
+         * @return  The total occurrences since the value was reset.
+         */
+        @XmlElement(name = "TotalValueSinceReset", namespace = Constants.NS)
+        public long getTotalValueSinceReset()
+        {
+            return m_totalValueSinceReset;
+        }
+
+        /**
+         * This method sets the total occurrences since the value was reset.
+         *
+         * @param  totalValueSinceReset  The total occurrences since the value was reset.
+         */
+        public void setTotalValueSinceReset(long totalValueSinceReset)
+        {
+            m_totalValueSinceReset = totalValueSinceReset;
+        }
+
+        /**
+         * This method gets the standard deviation.
+         *
+         * @return  The standard deviation.
+         */
+        @XmlElement(name = "ValueStdDev", namespace = Constants.NS)
+        public long getValueStdDev()
+        {
+            return m_valueStdDev;
+        }
+
+        /**
+         * This method sets the standard deviation.
+         *
+         * @param  valueStdDev  The standard deviation.
+         */
+        public void setValueStdDev(long valueStdDev)
+        {
+            m_valueStdDev = valueStdDev;
+        }
+
+        /**
          * Gets a new instance of the Usage report based on the composite data.
-         * 
-         * @param cd the data to use as a source.
-         * @return The new instance.
+         *
+         * @param   cd  the data to use as a source.
+         *
+         * @return  The new instance.
          */
         public static WaitTime getInstance(CompositeData cd)
         {
@@ -470,6 +560,20 @@ public class DBConnectionPoolInfo
             retVal.m_eventsPerSecond = (Integer) cd.get("eventsPerSecond");
             retVal.m_maximum = (Long) cd.get("maxValue");
             retVal.m_minimum = (Long) cd.get("minValue");
+
+            try
+            {
+                // New BOP4.1 fields
+                retVal.m_numOfOccurrencesSinceReset = (Long) cd.get("numOfOccurrencesSinceReset");
+                retVal.m_totalValueSinceReset = (Long) cd.get("totalValueSinceReset");
+
+                // Cordys has a typo in the field
+                retVal.m_valueStdDev = (Long) cd.get("vlaueStdDev");
+            }
+            catch (Throwable t)
+            {
+                // Ignore them
+            }
 
             return retVal;
         }
@@ -503,8 +607,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method gets the maximum waiting time.
-         * 
-         * @return The maximum waiting time.
+         *
+         * @return  The maximum waiting time.
          */
         @XmlElement(name = "Maximum", namespace = Constants.NS)
         public long getMaximum()
@@ -514,8 +618,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method sets the maximum waiting time.
-         * 
-         * @param maximum The maximum waiting time.
+         *
+         * @param  maximum  The maximum waiting time.
          */
         public void setMaximum(long maximum)
         {
@@ -524,8 +628,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method gets the minimum waiting time.
-         * 
-         * @return The minimum waiting time.
+         *
+         * @return  The minimum waiting time.
          */
         @XmlElement(name = "Minimum", namespace = Constants.NS)
         public long getMinimum()
@@ -535,8 +639,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method sets the minimum waiting time.
-         * 
-         * @param minimum The minimum waiting time.
+         *
+         * @param  minimum  The minimum waiting time.
          */
         public void setMinimum(long minimum)
         {
@@ -545,8 +649,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method gets the number of events per second.
-         * 
-         * @return The number of events per second.
+         *
+         * @return  The number of events per second.
          */
         @XmlElement(name = "EventsPerSecond", namespace = Constants.NS)
         public long getEventsPerSecond()
@@ -556,8 +660,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method sets the number of events per second.
-         * 
-         * @param eventsPerSecond The number of events per second.
+         *
+         * @param  eventsPerSecond  The number of events per second.
          */
         public void setEventsPerSecond(long eventsPerSecond)
         {
@@ -566,8 +670,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method gets the current waiting time.
-         * 
-         * @return The current waiting time.
+         *
+         * @return  The current waiting time.
          */
         @XmlElement(name = "Current", namespace = Constants.NS)
         public long getCurrent()
@@ -577,8 +681,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method sets the current waiting time.
-         * 
-         * @param current The current waiting time.
+         *
+         * @param  current  The current waiting time.
          */
         public void setCurrent(long current)
         {
@@ -587,8 +691,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method gets the average waiting time.
-         * 
-         * @return The average waiting time.
+         *
+         * @return  The average waiting time.
          */
         @XmlElement(name = "Average", namespace = Constants.NS)
         public long getAverage()
@@ -598,8 +702,8 @@ public class DBConnectionPoolInfo
 
         /**
          * This method sets the average waiting time.
-         * 
-         * @param average The average waiting time.
+         *
+         * @param  average  The average waiting time.
          */
         public void setAverage(long average)
         {
@@ -608,9 +712,10 @@ public class DBConnectionPoolInfo
 
         /**
          * Gets a new instance of the Usage report based on the composite data.
-         * 
-         * @param cd the data to use as a source.
-         * @return The new instance.
+         *
+         * @param   cd  the data to use as a source.
+         *
+         * @return  The new instance.
          */
         public static Usage getInstance(CompositeData cd)
         {

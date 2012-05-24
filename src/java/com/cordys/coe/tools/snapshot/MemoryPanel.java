@@ -37,8 +37,8 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * This class will display the memory statistics of all the results.
- * 
- * @author localpg
+ *
+ * @author  localpg
  */
 public class MemoryPanel extends JPanel
 {
@@ -64,57 +64,65 @@ public class MemoryPanel extends JPanel
         m_table = new JTable();
         m_table.getSelectionModel().addListSelectionListener(new SelectionListener(m_table));
 
-        m_table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Service Group", "Service Container",
-                "Organization", "Heap", "Non Heap" }));
+        m_table.setModel(new DefaultTableModel(new Object[][] {},
+                                               new String[]
+                                               {
+                                                   "Service Group", "Service Container", "Organization", "Heap",
+                                                   "Non Heap"
+                                               }));
         m_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        m_table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-            /**
-             * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object,
-             *      boolean, boolean, int, int)
-             */
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-                    int row, int column)
-            {
-                row = table.convertRowIndexToModel(row);
+        m_table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
+                                   {
+                                       /**
+                                        * @see  javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable,
+                                        *       java.lang.Object, boolean, boolean, int, int)
+                                        */
+                                       @Override public Component getTableCellRendererComponent(JTable table,
+                                                                                                Object value,
+                                                                                                boolean isSelected,
+                                                                                                boolean hasFocus,
+                                                                                                int row, int column)
+                                       {
+                                           row = table.convertRowIndexToModel(row);
 
-                MemoryResult di = (MemoryResult) table.getModel().getValueAt(row, 3);
-                MemoryDetail md = null;
+                                           MemoryResult di = (MemoryResult) table.getModel().getValueAt(row, 3);
+                                           MemoryDetail md = null;
 
-                if (column == 3)
-                {
-                    md = di.getHeap();
-                }
-                else if (column == 4)
-                {
-                    md = di.getNonHeap();
-                }
+                                           if (column == 3)
+                                           {
+                                               md = di.getHeap();
+                                           }
+                                           else if (column == 4)
+                                           {
+                                               md = di.getNonHeap();
+                                           }
 
-                if (md != null)
-                {
-                    int percentage = md.getPercentage();
+                                           if (md != null)
+                                           {
+                                               int percentage = md.getPercentage();
 
-                    if (percentage < 70)
-                    {
-                        setBackground(Color.GREEN);
-                    }
-                    else if (percentage < 90)
-                    {
-                        setBackground(Color.ORANGE);
-                    }
-                    else
-                    {
-                        setBackground(Color.RED);
-                    }
-                }
-                else
-                {
-                    setBackground(null);
-                }
+                                               if (percentage < 70)
+                                               {
+                                                   setBackground(Color.GREEN);
+                                               }
+                                               else if (percentage < 90)
+                                               {
+                                                   setBackground(Color.ORANGE);
+                                               }
+                                               else
+                                               {
+                                                   setBackground(Color.RED);
+                                               }
+                                           }
+                                           else
+                                           {
+                                               setBackground(null);
+                                           }
 
-                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            }
-        });
+                                           return super.getTableCellRendererComponent(table, value, isSelected,
+                                                                                      hasFocus, row, column);
+                                       }
+                                   });
         scrollPane.setViewportView(m_table);
 
         m_details = new JPanel();
@@ -125,8 +133,8 @@ public class MemoryPanel extends JPanel
 
     /**
      * This method updates the panel with the information from the Workerthread collector result.
-     * 
-     * @param sr The snapshot result that should be displayed.
+     *
+     * @param  sr  The snapshot result that should be displayed.
      */
     public void updateData(SnapshotResult sr)
     {
@@ -156,8 +164,11 @@ public class MemoryPanel extends JPanel
 
                         // Create the data for the row.
 
-                        Object[] rowData = new Object[] { asc.getServiceGroup(), asc.getServiceContainer(),
-                                asc.getOrganization(), mr, mr.getNonHeap() };
+                        Object[] rowData = new Object[]
+                                           {
+                                               asc.getServiceGroup(), asc.getServiceContainer(), asc.getOrganization(),
+                                               mr, mr.getNonHeap()
+                                           };
                         dtm.addRow(rowData);
                     }
                 }
@@ -167,10 +178,11 @@ public class MemoryPanel extends JPanel
 
     /**
      * The row selection listener used.
-     * 
-     * @author localpg
+     *
+     * @author  localpg
      */
-    public class SelectionListener implements ListSelectionListener
+    public class SelectionListener
+        implements ListSelectionListener
     {
         /**
          * The table to listen to.
@@ -179,8 +191,8 @@ public class MemoryPanel extends JPanel
 
         /**
          * It is necessary to keep the table since it is not possible to determine the table from the event's source.
-         * 
-         * @param table The table to listen to.
+         *
+         * @param  table  The table to listen to.
          */
         SelectionListener(JComponent table)
         {
@@ -189,58 +201,67 @@ public class MemoryPanel extends JPanel
 
         /**
          * When the selection has changed.
-         * 
-         * @param e The change event.
+         *
+         * @param  e  The change event.
          */
         public void valueChanged(ListSelectionEvent e)
         {
             ListSelectionModel lsm = null;
 
+            int selectedRow = -1;
+
             if (m_comp instanceof JTable)
             {
-                lsm = ((JTable) m_comp).getSelectionModel();
+                JTable tbl = (JTable) m_comp;
+                selectedRow = tbl.getSelectedRow();
+                lsm = tbl.getSelectionModel();
             }
             else if (m_comp instanceof JList)
             {
-                lsm = ((JList) m_comp).getSelectionModel();
+                JList list = (JList) m_comp;
+                selectedRow = list.getSelectedIndex();
+                lsm = list.getSelectionModel();
             }
 
             if (e.getSource() == lsm)
             {
                 // Column selection changed
-                int first = e.getFirstIndex();
-
                 if (m_comp == m_table)
                 {
+                    m_details.removeAll();
+
                     DefaultTableModel dtm = (DefaultTableModel) m_table.getModel();
-                    MemoryResult mr = (MemoryResult) dtm.getValueAt(first, 3);
 
-                    if (mr != null)
+                    if (selectedRow > -1)
                     {
-                        m_details.removeAll();
+                        MemoryResult mr = (MemoryResult) dtm.getValueAt(selectedRow, 3);
 
-                        // Create the labels and the text
-                        List<MemoryDetail> details = mr.getMemoryDetailList();
-
-                        int row = 0;
-
-                        for (MemoryDetail md : details)
+                        if (mr != null)
                         {
-                            JLabel lblCodeCache = new JLabel(md.getName() + ":");
-                            lblCodeCache.setHorizontalAlignment(SwingConstants.TRAILING);
-                            m_details.add(lblCodeCache, "cell 0 " + row + ",alignx trailing");
+                            // Create the labels and the text
+                            List<MemoryDetail> details = mr.getMemoryDetailList();
 
-                            JTextField textField = new JTextField();
-                            m_details.add(textField, "cell 1 " + row + ",growx");
-                            textField.setColumns(10);
-                            textField.setEditable(false);
-                            textField.setText(md.toString());
+                            int row = 0;
 
-                            row++;
+                            for (MemoryDetail md : details)
+                            {
+                                JLabel lblCodeCache = new JLabel(md.getName() + ":");
+                                lblCodeCache.setHorizontalAlignment(SwingConstants.TRAILING);
+                                m_details.add(lblCodeCache, "cell 0 " + row + ",alignx trailing");
+
+                                JTextField textField = new JTextField();
+                                m_details.add(textField, "cell 1 " + row + ",growx");
+                                textField.setColumns(10);
+                                textField.setEditable(false);
+                                textField.setText(md.toString());
+
+                                row++;
+                            }
+
                         }
-
-                        m_details.revalidate();
                     }
+                    
+                    m_details.revalidate();
                 }
             }
         }

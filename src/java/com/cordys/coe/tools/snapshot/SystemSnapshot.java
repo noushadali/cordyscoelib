@@ -70,10 +70,10 @@ import javax.xml.bind.Unmarshaller;
 import net.miginfocom.swing.MigLayout;
 
 /**
- * This tool can be used to get a snapshot of a running system. The point is to get (also in a cluster) thread dumps and counter
- * information from all the running JVMs so that you can later on analyze this information.
- * 
- * @author pgussow
+ * This tool can be used to get a snapshot of a running system. The point is to get (also in a cluster) thread dumps and
+ * counter information from all the running JVMs so that you can later on analyze this information.
+ *
+ * @author  pgussow
  */
 public class SystemSnapshot
 {
@@ -128,8 +128,8 @@ public class SystemSnapshot
 
     /**
      * Launch the application.
-     * 
-     * @param args The commandline arguments.
+     *
+     * @param  args  The commandline arguments.
      */
     public static void main(String[] args)
     {
@@ -142,20 +142,21 @@ public class SystemSnapshot
             e.printStackTrace();
         }
 
-        EventQueue.invokeLater(new Runnable() {
-            public void run()
+        EventQueue.invokeLater(new Runnable()
             {
-                try
+                public void run()
                 {
-                    SystemSnapshot window = new SystemSnapshot();
-                    window.frmSnapshotGrabber.setVisible(true);
+                    try
+                    {
+                        SystemSnapshot window = new SystemSnapshot();
+                        window.frmSnapshotGrabber.setVisible(true);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        });
+            });
     }
 
     /**
@@ -191,34 +192,37 @@ public class SystemSnapshot
         frmSnapshotGrabber.getContentPane().add(toolBar, BorderLayout.NORTH);
 
         JButton bOpen = new JButton("");
-        bOpen.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
+        bOpen.addActionListener(new ActionListener()
             {
-                openConfiguration();
-            }
-        });
+                public void actionPerformed(ActionEvent e)
+                {
+                    openConfiguration();
+                }
+            });
         bOpen.setToolTipText("Open shapshot grabber configuration file");
         bOpen.setIcon(new ImageIcon(SystemSnapshot.class.getResource("/com/cordys/coe/tools/snapshot/open.gif")));
         toolBar.add(bOpen);
 
         JButton bConfigDetails = new JButton("");
-        bConfigDetails.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
+        bConfigDetails.addActionListener(new ActionListener()
             {
-                showConfigurationDetails();
-            }
-        });
+                public void actionPerformed(ActionEvent e)
+                {
+                    showConfigurationDetails();
+                }
+            });
         bConfigDetails.setToolTipText("Show configuration details");
         bConfigDetails.setIcon(new ImageIcon(SystemSnapshot.class.getResource("/com/cordys/coe/tools/snapshot/properties.gif")));
         toolBar.add(bConfigDetails);
 
         JButton bGrabSnapshot = new JButton("");
-        bGrabSnapshot.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
+        bGrabSnapshot.addActionListener(new ActionListener()
             {
-                buildSnapshot();
-            }
-        });
+                public void actionPerformed(ActionEvent e)
+                {
+                    buildSnapshot();
+                }
+            });
         bGrabSnapshot.setToolTipText("Get snapshot");
         bGrabSnapshot.setIcon(new ImageIcon(SystemSnapshot.class.getResource("/com/cordys/coe/tools/snapshot/download.gif")));
 
@@ -229,23 +233,25 @@ public class SystemSnapshot
         toolBar.addSeparator();
 
         JButton bLoadSnapshot = new JButton("");
-        bLoadSnapshot.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
+        bLoadSnapshot.addActionListener(new ActionListener()
             {
-                loadSnapshot();
-            }
-        });
+                public void actionPerformed(ActionEvent e)
+                {
+                    loadSnapshot();
+                }
+            });
         bLoadSnapshot.setToolTipText("Load saved snapshot");
         bLoadSnapshot.setIcon(new ImageIcon(SystemSnapshot.class.getResource("/com/cordys/coe/tools/snapshot/lookup_file.png")));
         toolBar.add(bLoadSnapshot);
 
         JButton bSaveSnapshot = new JButton("");
-        bSaveSnapshot.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
+        bSaveSnapshot.addActionListener(new ActionListener()
             {
-                saveSnapshot();
-            }
-        });
+                public void actionPerformed(ActionEvent e)
+                {
+                    saveSnapshot();
+                }
+            });
         bSaveSnapshot.setToolTipText("Save saved snapshot");
         bSaveSnapshot.setIcon(new ImageIcon(SystemSnapshot.class.getResource("/com/cordys/coe/tools/snapshot/save.gif")));
         toolBar.add(bSaveSnapshot);
@@ -255,7 +261,8 @@ public class SystemSnapshot
         panel.setLayout(new BorderLayout(0, 0));
 
         JPanel panel_1 = new JPanel();
-        panel_1.setBorder(new TitledBorder(null, " Configuration details ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panel_1.setBorder(new TitledBorder(null, " Configuration details ", TitledBorder.LEADING, TitledBorder.TOP,
+                                           null, null));
         panel.add(panel_1, BorderLayout.NORTH);
         panel_1.setLayout(new MigLayout("", "[41px][grow,fill]", "[20px]"));
 
@@ -270,18 +277,18 @@ public class SystemSnapshot
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         panel.add(tabbedPane, BorderLayout.CENTER);
 
-        tabbedPane.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e)
+        tabbedPane.addChangeListener(new ChangeListener()
             {
-                JTabbedPane src = (JTabbedPane) e.getSource();
-
-                if (src.getSelectedIndex() == 4)
+                @Override public void stateChanged(ChangeEvent e)
                 {
-                    fillRawXML();
+                    JTabbedPane src = (JTabbedPane) e.getSource();
+
+                    if (src.getSelectedIndex() == 4)
+                    {
+                        fillRawXML();
+                    }
                 }
-            }
-        });
+            });
 
         JPanel panel_2 = new JPanel();
         tabbedPane.addTab("Snapshot results", null, panel_2, null);
@@ -302,12 +309,13 @@ public class SystemSnapshot
         splitPane.setLeftComponent(scrollPane);
 
         m_resultTree = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode("Results")));
-        m_resultTree.addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e)
+        m_resultTree.addTreeSelectionListener(new TreeSelectionListener()
             {
-                displayProperData();
-            }
-        });
+                public void valueChanged(TreeSelectionEvent e)
+                {
+                    displayProperData();
+                }
+            });
         scrollPane.setViewportView(m_resultTree);
         splitPane.setDividerLocation(250);
 
@@ -395,19 +403,18 @@ public class SystemSnapshot
         JFileChooser fc = new JFileChooser();
 
         fc.setAcceptAllFileFilterUsed(true);
-        fc.setFileFilter(new FileFilter() {
-            @Override
-            public String getDescription()
+        fc.setFileFilter(new FileFilter()
             {
-                return "Snapshot grabber archives";
-            }
+                @Override public String getDescription()
+                {
+                    return "Snapshot grabber archives";
+                }
 
-            @Override
-            public boolean accept(File f)
-            {
-                return f.getName().endsWith(".snapshot") || f.isDirectory();
-            }
-        });
+                @Override public boolean accept(File f)
+                {
+                    return f.getName().endsWith(".snapshot") || f.isDirectory();
+                }
+            });
 
         if (fc.showDialog(frmSnapshotGrabber, "Load") == JFileChooser.APPROVE_OPTION)
         {
@@ -460,11 +467,12 @@ public class SystemSnapshot
 
     /**
      * This method creates the proper JAXB context based on the currently active configuration.
-     * 
-     * @throws Exception In case of any exceptions
-     * @throws JAXBException In case of any exceptions
+     *
+     * @throws  Exception      In case of any exceptions
+     * @throws  JAXBException  In case of any exceptions
      */
-    private void createJAXBContextForConfig() throws Exception, JAXBException
+    private void createJAXBContextForConfig()
+                                     throws Exception, JAXBException
     {
         List<Class<?>> classes = m_config.getCustomDataHandlers();
         classes.addAll(DataHandlerFactory.getKnownClasses());
@@ -481,18 +489,24 @@ public class SystemSnapshot
     {
         m_detailPanel.removeAll();
 
-        if ((m_resultTree.getSelectionPath() != null) && (m_resultTree.getSelectionPath().getLastPathComponent() != null))
+        if ((m_resultTree.getSelectionPath() != null) &&
+                (m_resultTree.getSelectionPath().getLastPathComponent() != null))
         {
-            ResultTreeNode rtn = (ResultTreeNode) m_resultTree.getSelectionPath().getLastPathComponent();
-            Object uo = rtn.getUserObject();
+            Object lpc = m_resultTree.getSelectionPath().getLastPathComponent();
 
-            if (uo instanceof Object[])
+            if (lpc instanceof ResultTreeNode)
             {
-                Object[] tmp = (Object[]) uo;
-                JMXCounter counter = (JMXCounter) tmp[0];
-                Object data = tmp[1];
+                ResultTreeNode rtn = (ResultTreeNode) lpc;
+                Object uo = rtn.getUserObject();
 
-                m_detailPanel.add(ViewDataFactory.createComponent(data, counter, m_context), BorderLayout.CENTER);
+                if (uo instanceof Object[])
+                {
+                    Object[] tmp = (Object[]) uo;
+                    JMXCounter counter = (JMXCounter) tmp[0];
+                    Object data = tmp[1];
+
+                    m_detailPanel.add(ViewDataFactory.createComponent(data, counter, m_context), BorderLayout.CENTER);
+                }
             }
         }
 
@@ -506,8 +520,8 @@ public class SystemSnapshot
     {
         try
         {
-            ProgressMonitor pm = new ProgressMonitor(frmSnapshotGrabber, "Getting information from cordys", null, 0, m_config
-                    .getServerList().size());
+            ProgressMonitor pm = new ProgressMonitor(frmSnapshotGrabber, "Getting information from cordys", null, 0,
+                                                     m_config.getServerList().size());
             SystemSnapshotGrabber ssg = new SystemSnapshotGrabber(m_config);
             m_result = ssg.buildSnapshot();
             pm.close();
@@ -529,14 +543,13 @@ public class SystemSnapshot
 
         if (m_config == null)
         {
-            if (MessageBoxUtil
-                    .showConfirmation("You have not yet loaded a configuration. Do you want to create a default configuration?"))
+            if (MessageBoxUtil.showConfirmation("You have not yet loaded a configuration. Do you want to create a default configuration?"))
             {
                 // Load the default one
                 try
                 {
-                    m_config = (Config) m_context.createUnmarshaller().unmarshal(
-                            SystemSnapshot.class.getResourceAsStream("config-default.xml"));
+                    m_config = (Config) m_context.createUnmarshaller().unmarshal(SystemSnapshot.class
+                                                                                 .getResourceAsStream("config-default.xml"));
 
                     createJAXBContextForConfig();
 
@@ -552,7 +565,7 @@ public class SystemSnapshot
         if (m_config != null)
         {
             ConfigurationDetailsDlg cdd = new ConfigurationDetailsDlg(frmSnapshotGrabber, true, m_config, m_context,
-                    m_configFile, isNew);
+                                                                      m_configFile, isNew);
 
             cdd.setVisible(true);
 
@@ -579,19 +592,18 @@ public class SystemSnapshot
 
         fc.setAcceptAllFileFilterUsed(true);
 
-        fc.setFileFilter(new FileFilter() {
-            @Override
-            public String getDescription()
+        fc.setFileFilter(new FileFilter()
             {
-                return "XML files (*.xml)";
-            }
+                @Override public String getDescription()
+                {
+                    return "XML files (*.xml)";
+                }
 
-            @Override
-            public boolean accept(File f)
-            {
-                return f.getName().endsWith(".xml") || f.isDirectory();
-            }
-        });
+                @Override public boolean accept(File f)
+                {
+                    return f.getName().endsWith(".xml") || f.isDirectory();
+                }
+            });
 
         int response = fc.showDialog(frmSnapshotGrabber, "Open");
 
@@ -603,8 +615,8 @@ public class SystemSnapshot
 
     /**
      * This method will load the file that is passed on.
-     * 
-     * @param selectedFile The file that should be loaded.
+     *
+     * @param  selectedFile  The file that should be loaded.
      */
     private void loadConfigurationFile(File selectedFile)
     {
@@ -718,7 +730,8 @@ public class SystemSnapshot
                 {
                     Object value = values.get(counter);
 
-                    ResultTreeNode counterResult = new ResultTreeNode(new Object[] { counter, value }, counter.toString());
+                    ResultTreeNode counterResult = new ResultTreeNode(new Object[] { counter, value },
+                                                                      counter.toString());
                     valuesNode.add(counterResult);
                 }
             }
@@ -765,8 +778,8 @@ public class SystemSnapshot
 
         /**
          * Creates a new ResultTreeNode object.
-         * 
-         * @param title The title for the node.
+         *
+         * @param  title  The title for the node.
          */
         public ResultTreeNode(String title)
         {
@@ -775,9 +788,9 @@ public class SystemSnapshot
 
         /**
          * Creates a new ResultTreeNode object.
-         * 
-         * @param userObject The result object.
-         * @param title The title for the node.
+         *
+         * @param  userObject  The result object.
+         * @param  title       The title for the node.
          */
         public ResultTreeNode(Object userObject, String title)
         {
@@ -786,10 +799,10 @@ public class SystemSnapshot
 
         /**
          * Creates a new ResultTreeNode object.
-         * 
-         * @param userObject The result object.
-         * @param title The title for the node.
-         * @param allowsChildren Whether or not the node can have children.
+         *
+         * @param  userObject      The result object.
+         * @param  title           The title for the node.
+         * @param  allowsChildren  Whether or not the node can have children.
          */
         public ResultTreeNode(Object userObject, String title, boolean allowsChildren)
         {
@@ -798,10 +811,9 @@ public class SystemSnapshot
         }
 
         /**
-         * @see javax.swing.tree.DefaultMutableTreeNode#toString()
+         * @see  javax.swing.tree.DefaultMutableTreeNode#toString()
          */
-        @Override
-        public String toString()
+        @Override public String toString()
         {
             return m_title;
         }

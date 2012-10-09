@@ -25,8 +25,8 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * This dialog can add a new listener to the viewer.
- *
- * @author  pgussow
+ * 
+ * @author pgussow
  */
 public class NewListenerDlg extends Dialog
 {
@@ -85,8 +85,8 @@ public class NewListenerDlg extends Dialog
 
     /**
      * Create the dialog.
-     *
-     * @param  parentShell
+     * 
+     * @param parentShell
      */
     public NewListenerDlg(Shell parentShell)
     {
@@ -95,8 +95,8 @@ public class NewListenerDlg extends Dialog
 
     /**
      * This method gets the name for the listener.
-     *
-     * @return  The name for the listener.
+     * 
+     * @return The name for the listener.
      */
     public String getListenerName()
     {
@@ -105,8 +105,8 @@ public class NewListenerDlg extends Dialog
 
     /**
      * This method gets the name of the panel in which the events should be shown.
-     *
-     * @return  The name of the panel in which the events should be shown.
+     * 
+     * @return The name of the panel in which the events should be shown.
      */
     public String getLogName()
     {
@@ -115,8 +115,8 @@ public class NewListenerDlg extends Dialog
 
     /**
      * This method gets the entered port number.
-     *
-     * @return  The entered port number.
+     * 
+     * @return The entered port number.
      */
     public int getPortnumber()
     {
@@ -125,8 +125,8 @@ public class NewListenerDlg extends Dialog
 
     /**
      * This method gets the name of the server in case a HUB appender should be used.
-     *
-     * @return  The name of the server in case a HUB appender should be used.
+     * 
+     * @return The name of the server in case a HUB appender should be used.
      */
     public String getHostName()
     {
@@ -135,8 +135,8 @@ public class NewListenerDlg extends Dialog
 
     /**
      * This method gets whether or not a HUB appender should be used.
-     *
-     * @return  Whether or not a HUB appender should be used.
+     * 
+     * @return Whether or not a HUB appender should be used.
      */
     public boolean useHUBAppender()
     {
@@ -145,8 +145,8 @@ public class NewListenerDlg extends Dialog
 
     /**
      * This method sets the default value for the port number.
-     *
-     * @param  iPortnumber  The default portnumber.
+     * 
+     * @param iPortnumber The default portnumber.
      */
     public void setDefaultPortNumber(int iPortnumber)
     {
@@ -155,8 +155,8 @@ public class NewListenerDlg extends Dialog
 
     /**
      * This method sets the panel options.
-     *
-     * @param  saPanels  The list of current panels.
+     * 
+     * @param saPanels The list of current panels.
      */
     public void setPanelOptions(String[] saPanels)
     {
@@ -165,10 +165,11 @@ public class NewListenerDlg extends Dialog
 
     /**
      * This method configures the dialog.
-     *
-     * @param  sNewShell  The new shell.
+     * 
+     * @param sNewShell The new shell.
      */
-    @Override protected void configureShell(Shell sNewShell)
+    @Override
+    protected void configureShell(Shell sNewShell)
     {
         super.configureShell(sNewShell);
         sNewShell.setText("Add a new Log4J listener");
@@ -177,10 +178,11 @@ public class NewListenerDlg extends Dialog
 
     /**
      * Create contents of the button bar.
-     *
-     * @param  cParent  The parent composite.
+     * 
+     * @param cParent The parent composite.
      */
-    @Override protected void createButtonsForButtonBar(Composite cParent)
+    @Override
+    protected void createButtonsForButtonBar(Composite cParent)
     {
         createButton(cParent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
         createButton(cParent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
@@ -188,12 +190,12 @@ public class NewListenerDlg extends Dialog
 
     /**
      * Create contents of the dialog.
-     *
-     * @param   cParent  The parent composite.
-     *
-     * @return  The control for this dialog.
+     * 
+     * @param cParent The parent composite.
+     * @return The control for this dialog.
      */
-    @Override protected Control createDialogArea(Composite cParent)
+    @Override
+    protected Control createDialogArea(Composite cParent)
     {
         Composite container = (Composite) super.createDialogArea(cParent);
         container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -207,92 +209,93 @@ public class NewListenerDlg extends Dialog
         final GridData gridData = new GridData(SWT.FILL, SWT.TOP, true, true);
         gridData.widthHint = 373;
         m_gDetails.setLayoutData(gridData);
-        
-                m_lblHostName = new Label(m_gDetails, SWT.NONE);
-                m_lblHostName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-                m_lblHostName.setText("Host name:");
-        
-                m_tHostName = new Text(m_gDetails, SWT.BORDER);
-                m_tHostName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-        
-                final Label portNumberLabel = new Label(m_gDetails, SWT.NONE);
-                portNumberLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
-                portNumberLabel.setText("Port number:");
-        
-                m_tPortNumber = new Text(m_gDetails, SWT.BORDER);
-                m_tPortNumber.addModifyListener(new ModifyListener()
-                    {
-                        public void modifyText(final ModifyEvent e)
-                        {
-                            m_tName.setText(m_tPortNumber.getText());
-                        }
-                    });
-                m_tPortNumber.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-                
-                        //
-                        m_tPortNumber.setText("" + m_iDefaultPortNumber);
-                        m_tPortNumber.forceFocus();
-                
-                        final Label nameLabel = new Label(m_gDetails, SWT.NONE);
-                        nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
-                        nameLabel.setText("Name:");
-        
-                m_tName = new Text(m_gDetails, SWT.BORDER);
-                m_tName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-        
-                final Label addEventsToLabel = new Label(m_gDetails, SWT.NONE);
-                addEventsToLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
-                addEventsToLabel.setText("Add events to panel:");
-        
-                m_cbPanels = new Combo(m_gDetails, SWT.NONE);
-                m_cbPanels.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-                m_cbPanels.setItems(m_saPanels);
-                m_cbPanels.add("<New Panel>");
-                m_cbPanels.select(0);
-        new Label(m_gDetails, SWT.NONE);
-        
-                m_cUseHUB = new Button(m_gDetails, SWT.CHECK);
-                m_cUseHUB.addSelectionListener(new SelectionAdapter()
-                    {
-                        @Override public void widgetSelected(SelectionEvent e)
-                        {
-                            MessageBoxUtil.showConfirmation("Value changed: " + m_cUseHUB.getSelection());
 
-                            if (m_cUseHUB.getSelection())
-                            {
-                                m_tHostName.setVisible(true);
-                                m_lblHostName.setVisible(true);
-                            }
-                            else
-                            {
-                                m_tHostName.setVisible(false);
-                                m_lblHostName.setVisible(false);
-                            }
-                            
-                            m_gDetails.pack();
-                        }
-                    });
-                m_cUseHUB.setText("Use HUB appender");
+        m_lblHostName = new Label(m_gDetails, SWT.NONE);
+        m_lblHostName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        m_lblHostName.setText("Host name:");
+
+        m_tHostName = new Text(m_gDetails, SWT.BORDER);
+        m_tHostName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
+        final Label portNumberLabel = new Label(m_gDetails, SWT.NONE);
+        portNumberLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+        portNumberLabel.setText("Port number:");
+
+        m_tPortNumber = new Text(m_gDetails, SWT.BORDER);
+        m_tPortNumber.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e)
+            {
+                if (m_tName != null)
+                {
+                    m_tName.setText(m_tPortNumber.getText());
+                }
+            }
+        });
+        m_tPortNumber.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+        final Label nameLabel = new Label(m_gDetails, SWT.NONE);
+        nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+        nameLabel.setText("Name:");
+
+        m_tName = new Text(m_gDetails, SWT.BORDER);
+        m_tName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+        final Label addEventsToLabel = new Label(m_gDetails, SWT.NONE);
+        addEventsToLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+        addEventsToLabel.setText("Add events to panel:");
+
+        //
+        m_tPortNumber.setText("" + m_iDefaultPortNumber);
+        m_tPortNumber.forceFocus();
+
+        m_cbPanels = new Combo(m_gDetails, SWT.NONE);
+        m_cbPanels.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+        m_cbPanels.setItems(m_saPanels);
+        m_cbPanels.add("<New Panel>");
+        m_cbPanels.select(0);
+        new Label(m_gDetails, SWT.NONE);
+
+        m_cUseHUB = new Button(m_gDetails, SWT.CHECK);
+        m_cUseHUB.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e)
+            {
+                if (m_cUseHUB.getSelection())
+                {
+                    m_tHostName.setVisible(true);
+                    m_lblHostName.setVisible(true);
+                }
+                else
+                {
+                    m_tHostName.setVisible(false);
+                    m_lblHostName.setVisible(false);
+                }
+            }
+        });
+        m_cUseHUB.setText("Use HUB appender");
+        m_cUseHUB.setSelection(false);
 
         return container;
     }
 
     /**
      * Return the initial size of the dialog.
-     *
-     * @return  The initial size for the dialog.
+     * 
+     * @return The initial size for the dialog.
      */
-    @Override protected Point getInitialSize()
+    @Override
+    protected Point getInitialSize()
     {
         return new Point(440, 318);
     }
 
     /**
      * This method stores the values in the local member variables.
-     *
-     * @see  org.eclipse.jface.dialogs.Dialog#okPressed()
+     * 
+     * @see org.eclipse.jface.dialogs.Dialog#okPressed()
      */
-    @Override protected void okPressed()
+    @Override
+    protected void okPressed()
     {
         // Store the values in a local member
         try

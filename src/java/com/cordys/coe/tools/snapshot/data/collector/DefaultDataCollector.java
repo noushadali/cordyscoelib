@@ -19,17 +19,17 @@ import javax.management.ObjectName;
 
 /**
  * This class is the default way for collecting the data from JMX.
- *
- * @author  localpg
+ * 
+ * @author localpg
  */
-public class DefaultDataCollector
-    implements IJMXDataCollector
+public class DefaultDataCollector implements IJMXDataCollector
 {
     /**
-     * @see  com.cordys.coe.tools.snapshot.data.IJMXDataCollector#collectData(javax.management.MBeanServerConnection, com.cordys.coe.tools.snapshot.config.JMXCounter)
+     * @see com.cordys.coe.tools.snapshot.data.IJMXDataCollector#collectData(javax.management.MBeanServerConnection,
+     *      com.cordys.coe.tools.snapshot.config.JMXCounter)
      */
-    @Override public Object collectData(MBeanServerConnection mbsc, JMXCounter jmxCounter)
-                                 throws Exception
+    @Override
+    public Object collectData(MBeanServerConnection mbsc, JMXCounter jmxCounter) throws Exception
     {
         Object retVal = null;
 
@@ -56,6 +56,10 @@ public class DefaultDataCollector
 
                     retVal = getOperationValue(mbsc, jmxCounter, objectName, mbeanInfo);
                     break;
+
+                case CUSTOM:
+                    retVal = jmxCounter.createCollector().collectData(mbsc, jmxCounter);
+                    break;
             }
         }
 
@@ -64,19 +68,16 @@ public class DefaultDataCollector
 
     /**
      * This method executes the configured operation and gets the response object.
-     *
-     * @param   mbsc        The JMX connection to use.
-     * @param   jmxCounter  The definition of the JMX counter.
-     * @param   objectName  The name of the object.
-     * @param   mbeanInfo   The information about the attribute.
-     *
-     * @return  The parsed response object based on the value of the attribute.
-     *
-     * @throws  Exception  In case of any exceptions
+     * 
+     * @param mbsc The JMX connection to use.
+     * @param jmxCounter The definition of the JMX counter.
+     * @param objectName The name of the object.
+     * @param mbeanInfo The information about the attribute.
+     * @return The parsed response object based on the value of the attribute.
+     * @throws Exception In case of any exceptions
      */
-    private Object getOperationValue(MBeanServerConnection mbsc, JMXCounter jmxCounter, ObjectName objectName,
-                                     MBeanInfo mbeanInfo)
-                              throws Exception
+    private Object getOperationValue(MBeanServerConnection mbsc, JMXCounter jmxCounter, ObjectName objectName, MBeanInfo mbeanInfo)
+            throws Exception
     {
         Object retVal = null;
 
@@ -96,16 +97,15 @@ public class DefaultDataCollector
 
                 if (parameterConfiguredValues.size() != parameterValues.length)
                 {
-                    throw new Exception("Operation " + methodName +
-                                        " doe not have enough parameter values. Should be " + parameterValues.length +
-                                        " parameter values available instead of " + parameterConfiguredValues.size());
+                    throw new Exception("Operation " + methodName + " doe not have enough parameter values. Should be "
+                            + parameterValues.length + " parameter values available instead of "
+                            + parameterConfiguredValues.size());
                 }
 
                 for (int count = 0; count < paramInfos.length; count++)
                 {
-                    parameterValues[count] = MBeanUtils.getParameterValue(paramInfos[count],
-                                                                          parameterConfiguredValues.get(count)
-                                                                          .getValue());
+                    parameterValues[count] = MBeanUtils.getParameterValue(paramInfos[count], parameterConfiguredValues.get(count)
+                            .getValue());
                 }
 
                 // Do the actual invoke of the method.
@@ -140,19 +140,16 @@ public class DefaultDataCollector
 
     /**
      * This method gets the data from a JMX attribute.
-     *
-     * @param   mbsc        The JMX connection to use.
-     * @param   jmxCounter  The definition of the JMX counter.
-     * @param   objectName  The name of the object.
-     * @param   mbeanInfo   The information about the attribute.
-     *
-     * @return  The parsed response object based on the value of the attribute.
-     *
-     * @throws  Exception  In case of any exceptions
+     * 
+     * @param mbsc The JMX connection to use.
+     * @param jmxCounter The definition of the JMX counter.
+     * @param objectName The name of the object.
+     * @param mbeanInfo The information about the attribute.
+     * @return The parsed response object based on the value of the attribute.
+     * @throws Exception In case of any exceptions
      */
-    private Object getAttributeValue(MBeanServerConnection mbsc, JMXCounter jmxCounter, ObjectName objectName,
-                                     MBeanInfo mbeanInfo)
-                              throws Exception
+    private Object getAttributeValue(MBeanServerConnection mbsc, JMXCounter jmxCounter, ObjectName objectName, MBeanInfo mbeanInfo)
+            throws Exception
     {
         Object retVal = null;
 
@@ -177,9 +174,10 @@ public class DefaultDataCollector
     }
 
     /**
-     * @see  com.cordys.coe.tools.snapshot.data.IJMXDataCollector#getResultClasses()
+     * @see com.cordys.coe.tools.snapshot.data.IJMXDataCollector#getResultClasses()
      */
-    @Override public List<Class<?>> getResultClasses()
+    @Override
+    public List<Class<?>> getResultClasses()
     {
         // No need to fill it. Already covered by the DatahandlerFactory.
         return new ArrayList<Class<?>>();

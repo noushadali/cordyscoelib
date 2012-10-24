@@ -54,6 +54,28 @@ public class CmdLine
      * Holds the output from stdout.
      */
     private String m_sStdOut = "";
+    /** Holds whether or not StdIn stream should be closed immediately after creation of the process. */
+    private boolean m_closeStdIn;
+
+    /**
+     * This method gets whether or not StdIn stream should be closed immediately after creation of the process.
+     * 
+     * @return Whether or not StdIn stream should be closed immediately after creation of the process.
+     */
+    public boolean getCloseStdIn()
+    {
+        return m_closeStdIn;
+    }
+
+    /**
+     * This method sets whether or not StdIn stream should be closed immediately after creation of the process.
+     * 
+     * @param closeStdIn Whether or not StdIn stream should be closed immediately after creation of the process.
+     */
+    public void setCloseStdIn(boolean closeStdIn)
+    {
+        m_closeStdIn = closeStdIn;
+    }
 
     /**
      * Creates a new CmdLine object. The parameter should be the name of the executable WITHOUT the arguments. Arguments
@@ -126,7 +148,21 @@ public class CmdLine
     public int execute()
                 throws CmdLineException
     {
-        return startProcess().waitFor(false);
+        RunningProcess proc = startProcess();
+        
+        if (m_closeStdIn)
+        {
+            try
+            {
+                proc.getProcess().getOutputStream().close();
+            }
+            catch (IOException e)
+            {
+                //Ignore exception
+            }
+        }
+        
+        return proc.waitFor(false);
     }
 
     /**

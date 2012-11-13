@@ -59,15 +59,13 @@ set CLASSPATH=
 
 set ANT_CP=%BF_SDK_HOME%\lib\ant\ant-launcher.jar
 set ANT_CP=%ANT_CP%;%JAVA_HOME%\lib\tools.jar
+set ANT_CP=%ANT_CP%;%BF_PLATFORM_HOME%\cordyscp.jar
 
 set LIBS=%BF_SDK_HOME%\lib\ant
 set LIBS=%LIBS%;%BF_SVN_HOME%
 set LIBS=%LIBS%;%BF_SDK_HOME%\lib
 set LIBS=%LIBS%;%BF_SDK_HOME%\lib\commons
 set LIBS=%LIBS%;%BF_SDK_HOME%\lib\libs-coboc2
-set LIBS=%LIBS%;%BF_PLATFORM_HOME%\int
-set LIBS=%LIBS%;%BF_PLATFORM_HOME%\ext
-set LIBS=%LIBS%;%BF_PLATFORM_HOME%\orc
 
 "%JAVA_HOME%\bin\java.exe" -Xmx512M -Dfile.encoding=UTF-8 "-Dsdk.real.dir=%BF_SDK_HOME%" "-Dplatform.real.dir=%BF_PLATFORM_HOME%" "-Dsvn.lib.home=%BF_SVN_LIB_DIR%" -cp "%ANT_CP%" org.apache.tools.ant.launch.Launcher -lib "%LIBS%" %*
 set RETVAL=%ERRORLEVEL%

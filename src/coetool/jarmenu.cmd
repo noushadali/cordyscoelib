@@ -1,7 +1,19 @@
 @echo off
-set PATH=%CD%;C:\WINDOWS\system32
-
 set JAVA_OPTIONS=-Xmx1024M
+
+set OS_ARCH=32
+rem Detect 64/32 bit OS automatically
+Set RegQry=HKLM\Hardware\Description\System\CentralProcessor\0
+REG.exe Query %RegQry% > checkOS.txt
+Find /i "x86" < CheckOS.txt > StringCheck.txt
+ 
+If %ERRORLEVEL% == 0 (
+    set OS_ARCH=32
+) ELSE (
+    set OS_ARCH=64
+)
+
+set PATH=%CD%;%CD%\swt\%OS_ARCH%bit;%CD%\platform\%OS_ARCH%bit;C:\WINDOWS\system32
 
 set JARMENUCP=%CD%\jcom.jar
 set JARMENUCP=%JARMENUCP%;%CD%\coelib.jar
@@ -11,7 +23,7 @@ set JARMENUCP=%JARMENUCP%;%CD%\xbean.jar
 
 rem Eclipse SWT libs
 set JARMENUCP=%JARMENUCP%;%CD%\org.eclipse.core.commands_3.2.0.I20060605-1400.jar
-set JARMENUCP=%JARMENUCP%;%CD%\org.eclipse.swt.win32.win32.x86_3.2.0.v3232m.jar
+set JARMENUCP=%JARMENUCP%;%CD%\swt\%OS_ARCH%bit\swt.jar
 set JARMENUCP=%JARMENUCP%;%CD%\org.eclipse.core.runtime_3.2.0.v20060603.jar
 set JARMENUCP=%JARMENUCP%;%CD%\org.eclipse.jface_3.2.0.I20060605-1400.jar
 set JARMENUCP=%JARMENUCP%;%CD%\org.eclipse.equinox.common_3.2.0.v20060603.jar
@@ -42,11 +54,11 @@ echo Classpath: %JARMENUCP%
 echo Current directory: %CD%
 echo Path: %PATH%
 echo Full command: java.exe -cp "%JARMENUCP%" %JAVA_OPTIONS% com.cordys.coe.jarmenu.JarMenu
-java.exe -cp "%JARMENUCP%" %JAVA_OPTIONS% com.cordys.coe.jarmenu.JarMenu
+%JAVA_HOME%\bin\java.exe -cp "%JARMENUCP%" %JAVA_OPTIONS% com.cordys.coe.jarmenu.JarMenu
 pause
 goto :Finished
 
 :Normal
-start javaw.exe -cp "%JARMENUCP%" %JAVA_OPTIONS% com.cordys.coe.jarmenu.JarMenu
+start %JAVA_HOME%\bin\javaw.exe -cp "%JARMENUCP%" %JAVA_OPTIONS% com.cordys.coe.jarmenu.JarMenu
 
 :Finished

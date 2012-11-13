@@ -164,6 +164,13 @@
 	>
 		<property name="build.coetool" value="${build.dir}/coetool" />
 		<mkdir dir="${build.coetool}" />
+        <mkdir dir="${build.coetool}/swt" />
+        <mkdir dir="${build.coetool}/swt/32bit" />
+        <mkdir dir="${build.coetool}/swt/64bit" />
+        <mkdir dir="${build.coetool}/platform" />
+        <mkdir dir="${build.coetool}/platform/32bit" />
+        <mkdir dir="${build.coetool}/platform/64bit" />
+		
 		<copy todir="${build.coetool}" flatten="true">
 			<fileset dir="${build.jar}">
 				<include name="*.jar" />
@@ -173,22 +180,12 @@
 			</fileset>
 			<fileset dir="${lib.dir}">
 				<include name="log4j*.jar" />
-				<include name="swt-*.dll" />
 				<include name="org.eclipse*.jar" />
 				<include name="commons-*.jar" />
 				<include name="bcprov-*.jar" />
 				<include name="org-netbeans-*.jar" />
 				<include name="xbean.jar" />
 				<include name="miglayout15-swing.jar" />
-			</fileset>
-			<fileset dir="${platform.dir}/bin">
-				<include name="eib4java.dll" />
-				<include name="eibxml.dll" />
-				<include name="jniForCpp.dll" />
-				<include name="XmlForJava.dll" />
-				<include name="eibxmlsec.dll" />
-				<include name="jniForCpp.dll" />
-				<include name="js32.dll" />
 			</fileset>
 			<fileset dir="${platform.dir}/components">
 				<include name="esbclient/esbclient.jar" />
@@ -198,6 +195,38 @@
 				<include name="managementlib/managementlib.jar" />
 			</fileset>
 		</copy>
+        <copy todir="${build.coetool}/platform/32bit" flatten="true">
+            <fileset dir="${lib.dir}/platform/32bit">
+                <include name="eib4java.dll" />
+                <include name="eibxml.dll" />
+                <include name="jniForCpp.dll" />
+                <include name="XmlForJava.dll" />
+                <include name="eibxmlsec.dll" />
+                <include name="jniForCpp.dll" />
+                <include name="js32.dll" />
+            </fileset>
+        </copy>
+        <copy todir="${build.coetool}/platform/64bit" flatten="true">
+            <fileset dir="${lib.dir}/platform/64bit">
+                <include name="eib4java.dll" />
+                <include name="eibxml.dll" />
+                <include name="jniForCpp.dll" />
+                <include name="XmlForJava.dll" />
+                <include name="eibxmlsec.dll" />
+                <include name="jniForCpp.dll" />
+                <include name="js32.dll" />
+            </fileset>
+        </copy>
+		<copy todir="${build.coetool}/swt/32bit" flatten="true">
+            <fileset dir="${lib.dir}/swt/32bit">
+                <include name="*" />
+            </fileset>
+        </copy>
+		<copy todir="${build.coetool}/swt/64bit" flatten="true">
+            <fileset dir="${lib.dir}/swt/64bit">
+                <include name="*" />
+            </fileset>
+        </copy>
 	</target>
 	
 	<target name="_isv"

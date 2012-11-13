@@ -33,6 +33,7 @@ import org.apache.commons.httpclient.NTCredentials;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthPolicy;
 import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
@@ -1088,6 +1089,13 @@ public abstract class CordysGatewayClientBase
                 {
                     hmpMethodParams.setSoTimeout((int) m_ccConfiguration.getNetworkTimeout());
                 }
+                // Cookies (saml artifact cookies) need not be set when SAML assertion is included in
+                // the SOAP Header. For all the requests which use this class if it is SSO login, then SAML
+                // assertion will be included in the SOAP Header. So the following line will make sure that
+                // it does not use cookies. This is required because with a hotfix delivered by Cordys - which
+                // will be included in BOP 4.2, if the cookies are sent along with the SAML assertion, the 
+                // soap request fails.
+                hmpMethodParams.setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
             }
 
             try

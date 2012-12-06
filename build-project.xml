@@ -278,4 +278,9 @@
 	<!--Target for copying resources from build to distribution -->
 	<target name="copy-dist" depends="copy-docs,copy-javadocs,copy-isv,copy-testreports,createsourcezip,copy-dist-coelib,_create-build-info">
 	</target>
+	
+    <target name="cobertura-report">
+        <!-- No need for cobertura -->
+    </target>
+
 </project>

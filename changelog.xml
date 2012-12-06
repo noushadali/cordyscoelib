@@ -13,11 +13,11 @@
 	</template>
 	<body>
         <release description="Development release" version="@NEXT@">
-        <action dev="pgussow" type="fix">Fixes to the snapshot grabber.</action>
-        <action dev="pgussow" type="add">Added 64 bits SWT binaries.</action>
-        <action dev="pgussow" type="fix">Applied patch from Saketh on SAML cookie problem in the gateway client.</action>
-				</release>
-<release date="2012-03-08" description="Stable release" version="1.2.4">
+          <action dev="pgussow" type="fix">Fixes to the snapshot grabber.</action>
+          <action dev="pgussow" type="add">Added 64 bits SWT binaries.</action>
+          <action dev="pgussow" type="fix">Applied patch from Saketh on SAML cookie problem in the gateway client.</action>
+		</release>
+        <release date="2012-03-08" description="Stable release" version="1.2.4">
           <action dev="pgussow" type="fix">Fixed a problem in the SOAP wrapper when detecting a SOAP fault.</action>
         </release>
 		<release description="Stable release" version="1.2.3">

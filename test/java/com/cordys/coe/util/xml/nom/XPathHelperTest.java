@@ -6,13 +6,13 @@
  */
 package com.cordys.coe.util.xml.nom;
 
-import com.cordys.coe.util.test.junit.NomTestCase;
+import java.util.Date;
 
+import com.cordys.coe.util.FileUtils;
+import com.cordys.coe.util.test.junit.NomTestCase;
 import com.eibus.xml.nom.Node;
 import com.eibus.xml.xpath.XPath;
 import com.eibus.xml.xpath.XPathMetaInfo;
-
-import java.util.Date;
 
 /**
  * Test cases for the XPathHelper class.
@@ -61,6 +61,39 @@ public class XPathHelperTest extends NomTestCase
     public void testGetStringValueIntStringBoolean()
     {
         // fail("Not yet implemented");
+    }
+    
+    /**
+     * Test set string value.
+     * 
+     * @throws Exception the exception
+     */
+    public void testSetStringValue() throws Exception
+    {
+        String xml = FileUtils.readTextResourceContents("setstringvalue.xml", XPathHelperTest.class);
+        int root = parse(xml);
+        
+        boolean tmp = false;
+
+        //Using the /text()
+        tmp = XPathHelper.setStringValue(root, "//*[local-name()='tag_no_ns']/text()", "ChangedValue");
+        if (tmp == true)
+        {
+            fail("NOM does not support the /text() variant for setting!");
+        }
+        
+        //Implicitly using the text()
+        tmp = XPathHelper.setStringValue(root, "//tag_no_ns", "ChangedValue");
+        if (tmp == false)
+        {
+            fail("Setting failed!");
+        }
+
+        assertEquals("Change value is not correctly read back.", true, "ChangedValue".equals(XPathHelper.getStringValue(root, "//tag_no_ns")));
+        
+        //Using a non-existent tag.
+        tmp = XPathHelper.setStringValue(root, "//nonsense_tag/text()", "ChangedValue");
+        assertEquals("When no tag was found the method should return false.", false, tmp);
     }
 
     /**

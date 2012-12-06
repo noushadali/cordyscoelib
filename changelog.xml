@@ -13,6 +13,10 @@
 	</template>
 	<body>
         <release description="Development release" version="@NEXT@">
+          <action dev="pgussow" type="fix">Fixed a bug in the XPathHelper class for DOM. It would return the wrong data when using the getStringValue() without an XPath ending with /text().</action>
+          <action dev="pgussow" type="add">Added APIs to also have the setStringValue operations.</action>
+				</release>
+<release date="2012-12-06" description="Development release" version="1.2.5">
           <action dev="pgussow" type="fix">Fixes to the snapshot grabber.</action>
           <action dev="pgussow" type="add">Added 64 bits SWT binaries.</action>
           <action dev="pgussow" type="fix">Applied patch from Saketh on SAML cookie problem in the gateway client.</action>

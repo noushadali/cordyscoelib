@@ -1,8 +1,11 @@
 package com.cordys.coe.util.xml.nom;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.cordys.coe.util.DateUtil;
 import com.cordys.coe.util.StringUtils;
-
 import com.eibus.xml.nom.Node;
 import com.eibus.xml.nom.NodeType;
 import com.eibus.xml.xpath.NodeSet;
@@ -10,10 +13,6 @@ import com.eibus.xml.xpath.ResultNode;
 import com.eibus.xml.xpath.XPath;
 import com.eibus.xml.xpath.XPathMetaInfo;
 import com.eibus.xml.xpath.XPathResult;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * This class contains helper methods for NOM XPaths.
@@ -1815,6 +1814,124 @@ public class XPathHelper
                 nsResult.delete();
             }
         }
+    }
+
+    /**
+     * This method sets the string value for the given XPath. If the resulting node is a text node then it's value is set. If the
+     * result is an element all child text nodes are removed and a single text node is added with the given value.
+     * 
+     * @param context the context node to execute the XPath on.
+     * @param xPath the xpath to execute.
+     * @param value The ne value for the tag.
+     * @return true if the tag was found and a new value was set. Otherwise false.
+     * @throws TransformerException In case of any exceptions.
+     */
+    public static boolean setStringValue(int context, String xPath, String value)
+    {
+        return setStringValue(context, xPath, NamespaceConstants.getXPathMetaInfo(), value);
+    }
+
+    /**
+     * This method sets the string value for the given XPath. If the resulting node is a text node then it's value is set. If the
+     * result is an element all child text nodes are removed and a single text node is added with the given value.
+     * 
+     * @param context the context node to execute the XPath on.
+     * @param xPath the xpath to execute.
+     * @param xmi the namespace prefix resolver to use.
+     * @param value The ne value for the tag.
+     * @return true if the tag was found and a new value was set. Otherwise false.
+     * @throws TransformerException In case of any exceptions.
+     */
+    public static boolean setStringValue(int context, String xPath, XPathMetaInfo xmi, String value)
+    {
+        boolean retVal = false;
+
+        int result = selectSingleNode(context, xPath, xmi);
+
+        if (result != 0)
+        {
+            // Check if it is a text node.
+            if (Node.getType(result) == NodeType.CDATA || Node.getType(result) == NodeType.DATA)
+            {
+                Node.setData(result, value);
+                retVal = true;
+            }
+            else if (Node.getType(result) == NodeType.ELEMENT)
+            {
+                while (Node.getFirstChild(result) != 0)
+                {
+                    Node.delete(Node.getFirstChild(result));
+                }
+
+                Node.getDocument(result).createText(value, result);
+                retVal = true;
+            }
+            else
+            {
+                // Unknown node.
+            }
+        }
+
+        return retVal;
+    }
+    
+    /**
+     * This method sets the string value for the given XPath. If the resulting node is a text node then it's value is set. If the
+     * result is an element all child text nodes are removed and a single text node is added with the given value.
+     * 
+     * @param context the context node to execute the XPath on.
+     * @param xPath the xpath to execute.
+     * @param value The ne value for the tag.
+     * @return true if the tag was found and a new value was set. Otherwise false.
+     * @throws TransformerException In case of any exceptions.
+     */
+    public static boolean setStringValueDynamic(int context, String xPath, String value)
+    {
+        return setStringValueDynamic(context, xPath, null, value);
+    }
+
+    /**
+     * This method sets the string value for the given XPath. If the resulting node is a text node then it's value is set. If the
+     * result is an element all child text nodes are removed and a single text node is added with the given value.
+     * 
+     * @param context the context node to execute the XPath on.
+     * @param xPath the xpath to execute.
+     * @param xmi the namespace prefix resolver to use.
+     * @param value The ne value for the tag.
+     * @return true if the tag was found and a new value was set. Otherwise false.
+     * @throws TransformerException In case of any exceptions.
+     */
+    public static boolean setStringValueDynamic(int context, String xPath, XPathMetaInfo xmi, String value)
+    {
+        boolean retVal = false;
+
+        int result = selectSingleNodeDynamic(context, xPath, xmi);
+
+        if (result != 0)
+        {
+            // Check if it is a text node.
+            if (Node.getType(result) == NodeType.CDATA || Node.getType(result) == NodeType.DATA)
+            {
+                Node.setData(result, value);
+                retVal = true;
+            }
+            else if (Node.getType(result) == NodeType.ELEMENT)
+            {
+                while (Node.getFirstChild(result) != 0)
+                {
+                    Node.delete(Node.getFirstChild(result));
+                }
+
+                Node.getDocument(result).createText(value, result);
+                retVal = true;
+            }
+            else
+            {
+                // Unknown node.
+            }
+        }
+
+        return retVal;
     }
 
     /**

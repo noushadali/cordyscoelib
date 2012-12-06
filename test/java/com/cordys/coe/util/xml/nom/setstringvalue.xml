@@ -1,0 +1,10 @@
+<ns:test xmlns:ns="http://ns1">
+  <ns:tag1><![CDATA[My CDATA text]]></ns:tag1>
+  <tag_no_ns>My default namespace tag</tag_no_ns>
+  <ns:othertag xmlns:ns="http://ns2">
+    <ns:tag2>My
+    Weird
+    Value
+    </ns:tag2>
+  </ns:othertag>
+</ns:test>

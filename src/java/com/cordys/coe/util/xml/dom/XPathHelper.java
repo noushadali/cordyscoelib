@@ -18,62 +18,39 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.w3c.dom.traversal.NodeIterator;
 
 /**
  * This helper is written to be compatible with Java 1.4.2 AND Java 1.5.0.
- *
- * @author  pgussow
+ * 
+ * @author pgussow
  */
 public class XPathHelper
 {
-    /**
-     * Holds the method for executing the selectNodeIterator method.
-     */
+    /** Holds the method for executing the selectNodeIterator method. */
     private static Method s_mSelectNodeIterator;
-    /**
-     * Holds the method for executing the selectSingleNode method.
-     */
+    /** Holds the method for executing the selectSingleNode method. */
     private static Method s_mSelectSingleNode;
-    /**
-     * Holds the method for executing the selectSingleNode method.
-     */
+    /** Holds the method for executing the selectSingleNode method. */
     private static Method s_mSelectSingleNodeNamespace;
-    /**
-     * Holds the method for executing the selectNodeList method.
-     */
+    /** Holds the method for executing the selectNodeList method. */
     private static Method s_mSelectNodeList;
-    /**
-     * Holds the signature for three methods.
-     */
+    /** Holds the signature for three methods. */
     private static Class<?>[] caMethodSignature = { Node.class, String.class };
-    /**
-     * Holds the signature for three methods.
-     */
+    /** Holds the signature for three methods. */
     private static Class<?>[] caMethodSignatureNamespace = { Node.class, String.class, Node.class };
-    /**
-     * Holds the eval method.
-     */
+    /** Holds the eval method. */
     private static Method s_mEval;
-    /**
-     * Holds the constructor to create an OutputFormat object.
-     */
+    /** Holds the constructor to create an OutputFormat object. */
     private static Constructor<?> s_cOutputFormat;
-    /**
-     * Holds the method OutputFormat.setIdent().
-     */
+    /** Holds the method OutputFormat.setIdent(). */
     private static Method s_mOFSetIndent;
-    /**
-     * Holds the method OutputFormat.setIdenting().
-     */
+    /** Holds the method OutputFormat.setIdenting(). */
     private static Method s_mOFSetIndenting;
-    /**
-     * Holds the constructor to create the XMLSerializer.
-     */
+    /** Holds the constructor to create the XMLSerializer. */
     private static Constructor<?> s_cXMLSerializer;
-    /**
-     * Holds the method serialize.
-     */
+    /** Holds the method serialize. */
     private static Method s_mXSSerialize;
 
     static
@@ -135,11 +112,9 @@ public class XPathHelper
             s_mSelectNodeIterator = cXPathApiClass.getDeclaredMethod("selectNodeIterator", caMethodSignature);
             s_mSelectSingleNode = cXPathApiClass.getDeclaredMethod("selectSingleNode", caMethodSignature);
             s_mSelectNodeList = cXPathApiClass.getDeclaredMethod("selectNodeList", caMethodSignature);
-            s_mSelectSingleNodeNamespace = cXPathApiClass.getDeclaredMethod("selectSingleNode",
-                                                                            caMethodSignatureNamespace);
+            s_mSelectSingleNodeNamespace = cXPathApiClass.getDeclaredMethod("selectSingleNode", caMethodSignatureNamespace);
 
-            s_mEval = cXPathApiClass.getDeclaredMethod("eval",
-                                                       new Class[] { Node.class, String.class, cPrefixResolver });
+            s_mEval = cXPathApiClass.getDeclaredMethod("eval", new Class[] { Node.class, String.class, cPrefixResolver });
         }
         catch (Throwable e)
         {
@@ -150,11 +125,10 @@ public class XPathHelper
 
     /**
      * This method returns the first node that matches the given XPath expression.
-     *
-     * @param   eRoot  The root node.
-     * @param   sPath  The XPath to execute.
-     *
-     * @return  The first node that matches the XPath.
+     * 
+     * @param eRoot The root node.
+     * @param sPath The XPath to execute.
+     * @return The first node that matches the XPath.
      */
     public static Node firstMatch(Element eRoot, String sPath)
     {
@@ -171,37 +145,30 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the boolean value for the given XPath. This version return the boolean value for XPath
-     * expressions that evaluate to a node, attribute or a boolean value (e.g. "boolean(.)"). This version returns only
-     * the first match.<br>
+     * This method returns the boolean value for the given XPath. This version return the boolean value for XPath expressions that
+     * evaluate to a node, attribute or a boolean value (e.g. "boolean(.)"). This version returns only the first match.<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     *
-     * @return  The boolean value.
-     *
-     * @throws  TransformerException  In case of any XPath exceptions.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @return The boolean value.
+     * @throws TransformerException In case of any XPath exceptions.
      */
-    public static boolean getBooleanValue(Node nContextNode, String sXPath)
-                                   throws TransformerException
+    public static boolean getBooleanValue(Node nContextNode, String sXPath) throws TransformerException
     {
         return getBooleanValue(nContextNode, sXPath, NamespaceConstants.getPrefixResolver(), false, false);
     }
 
     /**
      * This method returns the boolean value for the given XPath.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   bMandatory    Whether or not the field is mandatory.
-     *
-     * @return  The boolean value. If the value is not found and bMandatory is false the default value is false.
-     *
-     * @throws  TransformerException  If the value cannot be found and bMandatory is true.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param bMandatory Whether or not the field is mandatory.
+     * @return The boolean value. If the value is not found and bMandatory is false the default value is false.
+     * @throws TransformerException If the value cannot be found and bMandatory is true.
      */
-    public static boolean getBooleanValue(Node nContextNode, String sXPath, boolean bMandatory)
-                                   throws TransformerException
+    public static boolean getBooleanValue(Node nContextNode, String sXPath, boolean bMandatory) throws TransformerException
     {
         boolean bReturn = false;
 
@@ -220,62 +187,53 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the boolean value for the given XPath. This version return the boolean value for XPath
-     * expressions that evaluate to a node, attribute or a boolean value (e.g. "boolean(.)"). This version returns only
-     * the first match.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     *
-     * @return  The boolean value.
-     *
-     * @throws  TransformerException  In case of any XPath exceptions.
+     * This method returns the boolean value for the given XPath. This version return the boolean value for XPath expressions that
+     * evaluate to a node, attribute or a boolean value (e.g. "boolean(.)"). This version returns only the first match.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @return The boolean value.
+     * @throws TransformerException In case of any XPath exceptions.
      */
     public static boolean getBooleanValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo)
-                                   throws TransformerException
+            throws TransformerException
     {
         return getBooleanValue(nContextNode, sXPath, xmiPathInfo, false, false);
     }
 
     /**
-     * This method returns the boolean value for the given XPath. This version return the boolean value for XPath
-     * expressions that evaluate to a node, attribute or a boolean value (e.g. "boolean(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     * @param   bDefault      The default value to return if there was nothing found.
-     *
-     * @return  The boolean value.
-     *
-     * @throws  TransformerException  In case of any XPath exceptions.
+     * This method returns the boolean value for the given XPath. This version return the boolean value for XPath expressions that
+     * evaluate to a node, attribute or a boolean value (e.g. "boolean(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bDefault The default value to return if there was nothing found.
+     * @return The boolean value.
+     * @throws TransformerException In case of any XPath exceptions.
      */
-    public static boolean getBooleanValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo,
-                                          boolean bDefault)
-                                   throws TransformerException
+    public static boolean getBooleanValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo, boolean bDefault)
+            throws TransformerException
     {
         return getBooleanValue(nContextNode, sXPath, xmiPathInfo, false, bDefault);
     }
 
     /**
-     * This method returns the boolean value for the given XPath. This version return the boolean value for XPath
-     * expressions that evaluate to a node, attribute or a boolean value (e.g. "number(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   prPathInfo    Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches   If <code>false</code> and there are multiple matches, only the first one is returned.
-     *                        Otherwise the results are concatenated together.
-     * @param   bDefault      The default value to return if there was nothing found.
-     *
-     * @return  The boolean value.
-     *
-     * @throws  TransformerException  In case of any XPath exceptions.
+     * This method returns the boolean value for the given XPath. This version return the boolean value for XPath expressions that
+     * evaluate to a node, attribute or a boolean value (e.g. "number(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param prPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @param bDefault The default value to return if there was nothing found.
+     * @return The boolean value.
+     * @throws TransformerException In case of any XPath exceptions.
      */
-    public static boolean getBooleanValue(Node nContextNode, String sXPath, PrefixResolver prPathInfo,
-                                          boolean bAllMatches, boolean bDefault)
-                                   throws TransformerException
+    public static boolean getBooleanValue(Node nContextNode, String sXPath, PrefixResolver prPathInfo, boolean bAllMatches,
+            boolean bDefault) throws TransformerException
     {
         boolean bReturn = bDefault;
 
@@ -287,37 +245,30 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the Date value for the given XPath. This version return the Date value for XPath expressions
-     * that evaluate to a node, attribute or a Date value (e.g. "Date(.)"). This version returns only the first match.
-     * <br>
+     * This method returns the Date value for the given XPath. This version return the Date value for XPath expressions that
+     * evaluate to a node, attribute or a Date value (e.g. "Date(.)"). This version returns only the first match. <br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     *
-     * @return  The date value.
-     *
-     * @throws  TransformerException
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @return The date value.
+     * @throws TransformerException
      */
-    public static Date getDateValue(Node nContextNode, String sXPath)
-                             throws TransformerException
+    public static Date getDateValue(Node nContextNode, String sXPath) throws TransformerException
     {
         return getDateValue(nContextNode, sXPath, NamespaceConstants.getPrefixResolver(), false, null);
     }
 
     /**
      * This method returns the Dateeger value for the given XPath.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   bMandatory    Whether or not the field is mandatory.
-     *
-     * @return  The Dateeger value. If the value is not found and bMandatory is false the default value is false.
-     *
-     * @throws  TransformerException  If the value cannot be found and bMandatory is true.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param bMandatory Whether or not the field is mandatory.
+     * @return The Dateeger value. If the value is not found and bMandatory is false the default value is false.
+     * @throws TransformerException If the value cannot be found and bMandatory is true.
      */
-    public static Date getDateValue(Node nContextNode, String sXPath, boolean bMandatory)
-                             throws TransformerException
+    public static Date getDateValue(Node nContextNode, String sXPath, boolean bMandatory) throws TransformerException
     {
         Date dReturn = null;
 
@@ -337,99 +288,86 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the Date value for the given XPath. This version return the Date value for XPath expressions
-     * that evaluate to a node, attribute or a Date value (e.g. "Date(.)"). This version returns only the first match.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     *
-     * @return  The date value.
-     *
-     * @throws  TransformerException
+     * This method returns the Date value for the given XPath. This version return the Date value for XPath expressions that
+     * evaluate to a node, attribute or a Date value (e.g. "Date(.)"). This version returns only the first match.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @return The date value.
+     * @throws TransformerException
      */
-    public static Date getDateValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo)
-                             throws TransformerException
+    public static Date getDateValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo) throws TransformerException
     {
         return getDateValue(nContextNode, sXPath, xmiPathInfo, false, null);
     }
 
     /**
-     * This method returns the Date value for the given XPath. This version return the Date value for XPath expressions
-     * that evaluate to a node, attribute or a Date value (e.g. "Date(.)").<br>
+     * This method returns the Date value for the given XPath. This version return the Date value for XPath expressions that
+     * evaluate to a node, attribute or a Date value (e.g. "Date(.)").<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   dDefault      The default value to return if there was nothing found.
-     *
-     * @return  The date value.
-     *
-     * @throws  TransformerException
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param dDefault The default value to return if there was nothing found.
+     * @return The date value.
+     * @throws TransformerException
      */
-    public static Date getDateValue(Node nContextNode, String sXPath, Date dDefault)
-                             throws TransformerException
+    public static Date getDateValue(Node nContextNode, String sXPath, Date dDefault) throws TransformerException
     {
         return getDateValue(nContextNode, sXPath, NamespaceConstants.getPrefixResolver(), false, dDefault);
     }
 
     /**
-     * This method returns the Date value for the given XPath. This version return the Date value for XPath expressions
-     * that evaluate to a node, attribute or a Date value (e.g. "Date(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sPath         The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches   If <code>false</code> and there are multiple matches, only the first one is returned.
-     *                        Otherwise the results are concatenated together.
-     *
-     * @return  The date value.
-     *
-     * @throws  TransformerException
+     * This method returns the Date value for the given XPath. This version return the Date value for XPath expressions that
+     * evaluate to a node, attribute or a Date value (e.g. "Date(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @return The date value.
+     * @throws TransformerException
      */
     public static Date getDateValue(Node nContextNode, String sPath, PrefixResolver xmiPathInfo, boolean bAllMatches)
-                             throws TransformerException
+            throws TransformerException
     {
         return getDateValue(nContextNode, sPath, xmiPathInfo, bAllMatches, null);
     }
 
     /**
-     * This method returns the Date value for the given XPath. This version return the Date value for XPath expressions
-     * that evaluate to a node, attribute or a Date value (e.g. "Date(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     * @param   dDefault      The default value to return if there was nothing found.
-     *
-     * @return  The date value.
-     *
-     * @throws  TransformerException
+     * This method returns the Date value for the given XPath. This version return the Date value for XPath expressions that
+     * evaluate to a node, attribute or a Date value (e.g. "Date(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param dDefault The default value to return if there was nothing found.
+     * @return The date value.
+     * @throws TransformerException
      */
     public static Date getDateValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo, Date dDefault)
-                             throws TransformerException
+            throws TransformerException
     {
         return getDateValue(nContextNode, sXPath, xmiPathInfo, false, dDefault);
     }
 
     /**
-     * This method returns the Date value for the given XPath. This version return the Date value for XPath expressions
-     * that evaluate to a node, attribute or a Date value (e.g. "number(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   prPathInfo    Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches   If <code>false</code> and there are multiple matches, only the first one is returned.
-     *                        Otherwise the results are concatenated together.
-     * @param   dDefault      The default value to return if there was nothing found.
-     *
-     * @return  The date value.
-     *
-     * @throws  TransformerException
+     * This method returns the Date value for the given XPath. This version return the Date value for XPath expressions that
+     * evaluate to a node, attribute or a Date value (e.g. "number(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param prPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @param dDefault The default value to return if there was nothing found.
+     * @return The date value.
+     * @throws TransformerException
      */
     public static Date getDateValue(Node nContextNode, String sXPath, PrefixResolver prPathInfo, boolean bAllMatches,
-                                    Date dDefault)
-                             throws TransformerException
+            Date dDefault) throws TransformerException
     {
         Date dReturn = dDefault;
 
@@ -441,36 +379,30 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
-     * that evaluate to a node, attribute or a int value (e.g. "int(.)"). This version returns only the first match.<br>
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions that
+     * evaluate to a node, attribute or a int value (e.g. "int(.)"). This version returns only the first match.<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     *
-     * @return  The int value.
-     *
-     * @throws  TransformerException
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @return The int value.
+     * @throws TransformerException
      */
-    public static int getIntegerValue(Node nContextNode, String sXPath)
-                               throws TransformerException
+    public static int getIntegerValue(Node nContextNode, String sXPath) throws TransformerException
     {
         return getIntegerValue(nContextNode, sXPath, NamespaceConstants.getPrefixResolver(), false, -1);
     }
 
     /**
      * This method returns the integer value for the given XPath.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   bMandatory    Whether or not the field is mandatory.
-     *
-     * @return  The integer value. If the value is not found and bMandatory is false the default value is false.
-     *
-     * @throws  TransformerException  If the value cannot be found and bMandatory is true.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param bMandatory Whether or not the field is mandatory.
+     * @return The integer value. If the value is not found and bMandatory is false the default value is false.
+     * @throws TransformerException If the value cannot be found and bMandatory is true.
      */
-    public static int getIntegerValue(Node nContextNode, String sXPath, boolean bMandatory)
-                               throws TransformerException
+    public static int getIntegerValue(Node nContextNode, String sXPath, boolean bMandatory) throws TransformerException
     {
         int iReturn = -1;
 
@@ -497,99 +429,86 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
-     * that evaluate to a node, attribute or a int value (e.g. "int(.)"). This version returns only the first match.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     *
-     * @return  The int value.
-     *
-     * @throws  TransformerException
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions that
+     * evaluate to a node, attribute or a int value (e.g. "int(.)"). This version returns only the first match.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @return The int value.
+     * @throws TransformerException
      */
-    public static int getIntegerValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo)
-                               throws TransformerException
+    public static int getIntegerValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo) throws TransformerException
     {
         return getIntegerValue(nContextNode, sXPath, xmiPathInfo, false, -1);
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
-     * that evaluate to a node, attribute or a int value (e.g. "int(.)").<br>
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions that
+     * evaluate to a node, attribute or a int value (e.g. "int(.)").<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   iDefault      The default value to return if there was nothing found.
-     *
-     * @return  The int value.
-     *
-     * @throws  TransformerException
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The int value.
+     * @throws TransformerException
      */
-    public static int getIntegerValue(Node nContextNode, String sXPath, int iDefault)
-                               throws TransformerException
+    public static int getIntegerValue(Node nContextNode, String sXPath, int iDefault) throws TransformerException
     {
         return getIntegerValue(nContextNode, sXPath, NamespaceConstants.getPrefixResolver(), false, iDefault);
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
-     * that evaluate to a node, attribute or a int value (e.g. "int(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sPath         The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches   If <code>false</code> and there are multiple matches, only the first one is returned.
-     *                        Otherwise the results are concatenated together.
-     *
-     * @return  The int value.
-     *
-     * @throws  TransformerException
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions that
+     * evaluate to a node, attribute or a int value (e.g. "int(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @return The int value.
+     * @throws TransformerException
      */
     public static int getIntegerValue(Node nContextNode, String sPath, PrefixResolver xmiPathInfo, boolean bAllMatches)
-                               throws TransformerException
+            throws TransformerException
     {
         return getIntegerValue(nContextNode, sPath, xmiPathInfo, bAllMatches, -1);
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
-     * that evaluate to a node, attribute or a int value (e.g. "int(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     * @param   iDefault      The default value to return if there was nothing found.
-     *
-     * @return  The int value.
-     *
-     * @throws  TransformerException
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions that
+     * evaluate to a node, attribute or a int value (e.g. "int(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The int value.
+     * @throws TransformerException
      */
     public static int getIntegerValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo, int iDefault)
-                               throws TransformerException
+            throws TransformerException
     {
         return getIntegerValue(nContextNode, sXPath, xmiPathInfo, false, iDefault);
     }
 
     /**
-     * This method returns the int value for the given XPath. This version return the int value for XPath expressions
-     * that evaluate to a node, attribute or a int value (e.g. "number(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   prPathInfo    Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches   If <code>false</code> and there are multiple matches, only the first one is returned.
-     *                        Otherwise the results are concatenated together.
-     * @param   iDefault      The default value to return if there was nothing found.
-     *
-     * @return  The int value.
-     *
-     * @throws  TransformerException
+     * This method returns the int value for the given XPath. This version return the int value for XPath expressions that
+     * evaluate to a node, attribute or a int value (e.g. "number(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param prPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The int value.
+     * @throws TransformerException
      */
     public static int getIntegerValue(Node nContextNode, String sXPath, PrefixResolver prPathInfo, boolean bAllMatches,
-                                      int iDefault)
-                               throws TransformerException
+            int iDefault) throws TransformerException
     {
         int iReturn = iDefault;
 
@@ -601,37 +520,30 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the long value for the given XPath. This version return the long value for XPath expressions
-     * that evaluate to a node, attribute or a long value (e.g. "long(.)"). This version returns only the first match.
-     * <br>
+     * This method returns the long value for the given XPath. This version return the long value for XPath expressions that
+     * evaluate to a node, attribute or a long value (e.g. "long(.)"). This version returns only the first match. <br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     *
-     * @return  The long value.
-     *
-     * @throws  TransformerException
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @return The long value.
+     * @throws TransformerException
      */
-    public static long getLongValue(Node nContextNode, String sXPath)
-                             throws TransformerException
+    public static long getLongValue(Node nContextNode, String sXPath) throws TransformerException
     {
         return getLongValue(nContextNode, sXPath, NamespaceConstants.getPrefixResolver(), false, -1);
     }
 
     /**
      * This method returns the long value for the given XPath.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   bMandatory    Whether or not the field is mandatory.
-     *
-     * @return  The long value. If the value is not found and bMandatory is false the default value is false.
-     *
-     * @throws  TransformerException  If the value cannot be found and bMandatory is true.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param bMandatory Whether or not the field is mandatory.
+     * @return The long value. If the value is not found and bMandatory is false the default value is false.
+     * @throws TransformerException If the value cannot be found and bMandatory is true.
      */
-    public static long getLongValue(Node nContextNode, String sXPath, boolean bMandatory)
-                             throws TransformerException
+    public static long getLongValue(Node nContextNode, String sXPath, boolean bMandatory) throws TransformerException
     {
         long lReturn = -1;
 
@@ -658,99 +570,86 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the long value for the given XPath. This version return the long value for XPath expressions
-     * that evaluate to a node, attribute or a long value (e.g. "long(.)"). This version returns only the first match.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     *
-     * @return  The long value.
-     *
-     * @throws  TransformerException
+     * This method returns the long value for the given XPath. This version return the long value for XPath expressions that
+     * evaluate to a node, attribute or a long value (e.g. "long(.)"). This version returns only the first match.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @return The long value.
+     * @throws TransformerException
      */
-    public static long getLongValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo)
-                             throws TransformerException
+    public static long getLongValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo) throws TransformerException
     {
         return getLongValue(nContextNode, sXPath, xmiPathInfo, false, -1);
     }
 
     /**
-     * This method returns the long value for the given XPath. This version return the long value for XPath expressions
-     * that evaluate to a node, attribute or a long value (e.g. "long(.)").<br>
+     * This method returns the long value for the given XPath. This version return the long value for XPath expressions that
+     * evaluate to a node, attribute or a long value (e.g. "long(.)").<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   iDefault      The default value to return if there was nothing found.
-     *
-     * @return  The long value.
-     *
-     * @throws  TransformerException
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The long value.
+     * @throws TransformerException
      */
-    public static long getLongValue(Node nContextNode, String sXPath, long iDefault)
-                             throws TransformerException
+    public static long getLongValue(Node nContextNode, String sXPath, long iDefault) throws TransformerException
     {
         return getLongValue(nContextNode, sXPath, NamespaceConstants.getPrefixResolver(), false, iDefault);
     }
 
     /**
-     * This method returns the long value for the given XPath. This version return the long value for XPath expressions
-     * that evaluate to a node, attribute or a long value (e.g. "long(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sPath         The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches   If <code>false</code> and there are multiple matches, only the first one is returned.
-     *                        Otherwise the results are concatenated together.
-     *
-     * @return  The long value.
-     *
-     * @throws  TransformerException
+     * This method returns the long value for the given XPath. This version return the long value for XPath expressions that
+     * evaluate to a node, attribute or a long value (e.g. "long(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @return The long value.
+     * @throws TransformerException
      */
     public static long getLongValue(Node nContextNode, String sPath, PrefixResolver xmiPathInfo, boolean bAllMatches)
-                             throws TransformerException
+            throws TransformerException
     {
         return getLongValue(nContextNode, sPath, xmiPathInfo, bAllMatches, -1);
     }
 
     /**
-     * This method returns the long value for the given XPath. This version return the long value for XPath expressions
-     * that evaluate to a node, attribute or a long value (e.g. "long(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     * @param   iDefault      The default value to return if there was nothing found.
-     *
-     * @return  The long value.
-     *
-     * @throws  TransformerException
+     * This method returns the long value for the given XPath. This version return the long value for XPath expressions that
+     * evaluate to a node, attribute or a long value (e.g. "long(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The long value.
+     * @throws TransformerException
      */
     public static long getLongValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo, long iDefault)
-                             throws TransformerException
+            throws TransformerException
     {
         return getLongValue(nContextNode, sXPath, xmiPathInfo, false, iDefault);
     }
 
     /**
-     * This method returns the long value for the given XPath. This version return the long value for XPath expressions
-     * that evaluate to a node, attribute or a long value (e.g. "number(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   prPathInfo    Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches   If <code>false</code> and there are multiple matches, only the first one is returned.
-     *                        Otherwise the results are concatenated together.
-     * @param   iDefault      The default value to return if there was nothing found.
-     *
-     * @return  The long value.
-     *
-     * @throws  TransformerException
+     * This method returns the long value for the given XPath. This version return the long value for XPath expressions that
+     * evaluate to a node, attribute or a long value (e.g. "number(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param prPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The long value.
+     * @throws TransformerException
      */
     public static long getLongValue(Node nContextNode, String sXPath, PrefixResolver prPathInfo, boolean bAllMatches,
-                                    long iDefault)
-                             throws TransformerException
+            long iDefault) throws TransformerException
     {
         long lReturn = iDefault;
 
@@ -762,37 +661,91 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string value for XPath
-     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)"). This version returns only
-     * the first match.<br>
-     * As a prefix resolver it uses the one from the NamespaceConstants class.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     *
-     * @return  The string value.
-     *
-     * @throws  TransformerException
+     * This method sets the string value for the given XPath. If the resulting node is a text node then it's value is set. If the
+     * result is an element all child text nodes are removed and a single text node is added with the given value.
+     * 
+     * @param context the context node to execute the XPath on.
+     * @param xPath the xpath to execute.
+     * @param value The ne value for the tag.
+     * @return true if the tag was found and a new value was set. Otherwise false.
+     * @throws TransformerException In case of any exceptions.
      */
-    public static String getStringValue(Node nContextNode, String sXPath)
-                                 throws TransformerException
+    public static boolean setStringValue(Node context, String xPath, String value) throws TransformerException
+    {
+        return setStringValue(context, xPath, null, value);
+    }
+
+    /**
+     * This method sets the string value for the given XPath. If the resulting node is a text node then it's value is set. If the
+     * result is an element all child text nodes are removed and a single text node is added with the given value.
+     * 
+     * @param context the context node to execute the XPath on.
+     * @param xPath the xpath to execute.
+     * @param xmi the namespace prefix resolver to use.
+     * @param value The ne value for the tag.
+     * @return true if the tag was found and a new value was set. Otherwise false.
+     * @throws TransformerException In case of any exceptions.
+     */
+    public static boolean setStringValue(Node context, String xPath, PrefixResolver xmi, String value)
+            throws TransformerException
+    {
+        boolean retVal = false;
+
+        Node result = selectSingleNode(context, xPath, xmi);
+
+        if (result != null)
+        {
+            // Check if it is a text node.
+            if (result.getNodeType() == Node.CDATA_SECTION_NODE || result.getNodeType() == Node.TEXT_NODE)
+            {
+                result.setNodeValue(value);
+                retVal = true;
+            }
+            else if (result.getNodeType() == Node.ELEMENT_NODE)
+            {
+                while (result.hasChildNodes())
+                {
+                    result.removeChild(result.getFirstChild());
+                }
+
+                Text newText = result.getOwnerDocument().createTextNode(value);
+                result.appendChild(newText);
+                retVal = true;
+            }
+            else
+            {
+                // Unknown node.
+            }
+        }
+
+        return retVal;
+    }
+
+    /**
+     * This method returns the string value for the given XPath. This version return the string value for XPath expressions that
+     * evaluate to a node, attribute or a string value (e.g. "string(.)"). This version returns only the first match.<br>
+     * As a prefix resolver it uses the one from the NamespaceConstants class.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @return The string value.
+     * @throws TransformerException
+     */
+    public static String getStringValue(Node nContextNode, String sXPath) throws TransformerException
     {
         return getStringValue(nContextNode, sXPath, NamespaceConstants.getPrefixResolver(), false, null);
     }
 
     /**
      * This method returns the string value for the given XPath.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   bMandatory    Whether or not the field is mandatory.
-     *
-     * @return  The string value.
-     *
-     * @throws  TransformerException  If the value cannot be found and bMandatory is true.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param bMandatory Whether or not the field is mandatory.
+     * @return The string value.
+     * @throws TransformerException If the value cannot be found and bMandatory is true.
      */
-    public static String getStringValue(Node nContextNode, String sXPath, boolean bMandatory)
-                                 throws TransformerException
+    public static String getStringValue(Node nContextNode, String sXPath, boolean bMandatory) throws TransformerException
     {
         String sReturn = null;
 
@@ -811,8 +764,7 @@ public class XPathHelper
                     break;
 
                 case Node.ELEMENT_NODE:
-                    sReturn = getStringValue(nContextNode, "./text()", NamespaceConstants.getPrefixResolver(), true,
-                                             "");
+                    sReturn = getStringValue(nContextNode, "./text()", NamespaceConstants.getPrefixResolver(), true, "");
                     break;
             }
         }
@@ -826,102 +778,86 @@ public class XPathHelper
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string value for XPath
-     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)"). This version returns only
-     * the first match.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     *
-     * @return  The string value.
-     *
-     * @throws  TransformerException
+     * This method returns the string value for the given XPath. This version return the string value for XPath expressions that
+     * evaluate to a node, attribute or a string value (e.g. "string(.)"). This version returns only the first match.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @return The string value.
+     * @throws TransformerException
      */
-    public static String getStringValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo)
-                                 throws TransformerException
+    public static String getStringValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo) throws TransformerException
     {
         return getStringValue(nContextNode, sXPath, xmiPathInfo, false, null);
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string value for XPath
-     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)").<br>
+     * This method returns the string value for the given XPath. This version return the string value for XPath expressions that
+     * evaluate to a node, attribute or a string value (e.g. "string(.)").<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   sDefault      The default value to return if there was nothing found.
-     *
-     * @return  The string value.
-     *
-     * @throws  TransformerException
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param sDefault The default value to return if there was nothing found.
+     * @return The string value.
+     * @throws TransformerException
      */
-    public static String getStringValue(Node nContextNode, String sXPath, String sDefault)
-                                 throws TransformerException
+    public static String getStringValue(Node nContextNode, String sXPath, String sDefault) throws TransformerException
     {
         return getStringValue(nContextNode, sXPath, NamespaceConstants.getPrefixResolver(), false, sDefault);
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string value for XPath
-     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sPath         The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches   If <code>false</code> and there are multiple matches, only the first one is returned.
-     *                        Otherwise the results are concatenated together.
-     *
-     * @return  The string value.
-     *
-     * @throws  TransformerException
+     * This method returns the string value for the given XPath. This version return the string value for XPath expressions that
+     * evaluate to a node, attribute or a string value (e.g. "string(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @return The string value.
+     * @throws TransformerException
      */
-    public static String getStringValue(Node nContextNode, String sPath, PrefixResolver xmiPathInfo,
-                                        boolean bAllMatches)
-                                 throws TransformerException
+    public static String getStringValue(Node nContextNode, String sPath, PrefixResolver xmiPathInfo, boolean bAllMatches)
+            throws TransformerException
     {
         return getStringValue(nContextNode, sPath, xmiPathInfo, bAllMatches, null);
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string value for XPath
-     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   xmiPathInfo   Extra XPath information, e.g. namespace mappings
-     * @param   sDefault      The default value to return if there was nothing found.
-     *
-     * @return  The string value.
-     *
-     * @throws  TransformerException
+     * This method returns the string value for the given XPath. This version return the string value for XPath expressions that
+     * evaluate to a node, attribute or a string value (e.g. "string(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param sDefault The default value to return if there was nothing found.
+     * @return The string value.
+     * @throws TransformerException
      */
-    public static String getStringValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo,
-                                        String sDefault)
-                                 throws TransformerException
+    public static String getStringValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo, String sDefault)
+            throws TransformerException
     {
         return getStringValue(nContextNode, sXPath, xmiPathInfo, false, sDefault);
     }
 
     /**
-     * This method returns the string value for the given XPath. This version return the string value for XPath
-     * expressions that evaluate to a node, attribute or a string value (e.g. "string(.)").
-     *
-     * @param   nContextNode  The node to operate on.
-     * @param   sXPath        The XPath to execute.
-     * @param   prPathInfo    Extra XPath information, e.g. namespace mappings
-     * @param   bAllMatches   If <code>false</code> and there are multiple matches, only the first one is returned.
-     *                        Otherwise the results are concatenated together.
-     * @param   sDefault      The default value to return if there was nothing found.
-     *
-     * @return  The string value.
-     *
-     * @throws  TransformerException
+     * This method returns the string value for the given XPath. This version return the string value for XPath expressions that
+     * evaluate to a node, attribute or a string value (e.g. "string(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param prPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @param sDefault The default value to return if there was nothing found.
+     * @return The string value.
+     * @throws TransformerException
      */
-    public static String getStringValue(Node nContextNode, String sXPath, PrefixResolver prPathInfo,
-                                        boolean bAllMatches, String sDefault)
-                                 throws TransformerException
+    public static String getStringValue(Node nContextNode, String sXPath, PrefixResolver prPathInfo, boolean bAllMatches,
+            String sDefault) throws TransformerException
     {
         String sReturn = sDefault;
 
@@ -940,7 +876,7 @@ public class XPathHelper
                     break;
 
                 case Node.ELEMENT_NODE:
-                    sReturn = getStringValue(nContextNode, "./text()", prPathInfo, bAllMatches, sDefault);
+                    sReturn = getStringValue(nResult, "./text()", prPathInfo, bAllMatches, sDefault);
                     break;
             }
         }
@@ -950,11 +886,10 @@ public class XPathHelper
 
     /**
      * This method returns an array of nodes that match the passed on criteria.
-     *
-     * @param   eRoot  The root element.
-     * @param   sPath  The XPath to execute.
-     *
-     * @return  The array of nodes.
+     * 
+     * @param eRoot The root element.
+     * @param sPath The XPath to execute.
+     * @return The array of nodes.
      */
     public static Node[] match(Element eRoot, String sPath)
     {
@@ -978,34 +913,27 @@ public class XPathHelper
     }
 
     /**
-     * Use an XPath string to select a nodelist. XPath namespace prefixes are resolved using the NamespaceConstants
-     * class.
-     *
-     * @param   nContextNode  The node to start searching from.
-     * @param   sXPath        A valid XPath string.
-     *
-     * @return  A NodeIterator, should never be null.
-     *
-     * @throws  TransformerException
+     * Use an XPath string to select a nodelist. XPath namespace prefixes are resolved using the NamespaceConstants class.
+     * 
+     * @param nContextNode The node to start searching from.
+     * @param sXPath A valid XPath string.
+     * @return A NodeIterator, should never be null.
+     * @throws TransformerException
      */
-    public static NodeList prSelectNodeList(Node nContextNode, String sXPath)
-                                     throws TransformerException
+    public static NodeList prSelectNodeList(Node nContextNode, String sXPath) throws TransformerException
     {
         return selectNodeList(nContextNode, sXPath, NamespaceConstants.getPrefixResolver());
     }
 
     /**
      * Use an XPath string to select a single node. namespace prefixes are resolved using the NamespaceConstants class.
-     *
-     * @param   nContextNode  The node to start searching from.
-     * @param   sXPath        A valid XPath string.
-     *
-     * @return  The first node found that matches the XPath, or null.
-     *
-     * @throws  TransformerException
+     * 
+     * @param nContextNode The node to start searching from.
+     * @param sXPath A valid XPath string.
+     * @return The first node found that matches the XPath, or null.
+     * @throws TransformerException
      */
-    public static Node prSelectSingleNode(Node nContextNode, String sXPath)
-                                   throws TransformerException
+    public static Node prSelectSingleNode(Node nContextNode, String sXPath) throws TransformerException
     {
         Node nReturn = null;
 
@@ -1021,16 +949,13 @@ public class XPathHelper
 
     /**
      * Use an XPath string to select a nodelist. XPath namespace prefixes are resolved from the contextNode.
-     *
-     * @param   nContextNode  The node to start searching from.
-     * @param   sXPath        A valid XPath string.
-     *
-     * @return  A NodeIterator, should never be null.
-     *
-     * @throws  TransformerException
+     * 
+     * @param nContextNode The node to start searching from.
+     * @param sXPath A valid XPath string.
+     * @return A NodeIterator, should never be null.
+     * @throws TransformerException
      */
-    public static NodeIterator selectNodeIterator(Node nContextNode, String sXPath)
-                                           throws TransformerException
+    public static NodeIterator selectNodeIterator(Node nContextNode, String sXPath) throws TransformerException
     {
         try
         {
@@ -1044,16 +969,13 @@ public class XPathHelper
 
     /**
      * Use an XPath string to select a nodelist. XPath namespace prefixes are resolved from the contextNode.
-     *
-     * @param   nContextNode  The node to start searching from.
-     * @param   sXPath        A valid XPath string.
-     *
-     * @return  A NodeIterator, should never be null.
-     *
-     * @throws  TransformerException
+     * 
+     * @param nContextNode The node to start searching from.
+     * @param sXPath A valid XPath string.
+     * @return A NodeIterator, should never be null.
+     * @throws TransformerException
      */
-    public static NodeList selectNodeList(Node nContextNode, String sXPath)
-                                   throws TransformerException
+    public static NodeList selectNodeList(Node nContextNode, String sXPath) throws TransformerException
     {
         try
         {
@@ -1067,17 +989,15 @@ public class XPathHelper
 
     /**
      * This method returns the list of nodes based on the given prefix resolver.
-     *
-     * @param   nContextNode  The context node.
-     * @param   sXPath        THe XPath expression.
-     * @param   prResolver    The prefix resolver to use.
-     *
-     * @return  The list of nodes.
-     *
-     * @throws  TransformerException  In case of any exceptions.
+     * 
+     * @param nContextNode The context node.
+     * @param sXPath THe XPath expression.
+     * @param prResolver The prefix resolver to use.
+     * @return The list of nodes.
+     * @throws TransformerException In case of any exceptions.
      */
     public static NodeList selectNodeList(Node nContextNode, String sXPath, PrefixResolver prResolver)
-                                   throws TransformerException
+            throws TransformerException
     {
         NodeList nlReturn = null;
 
@@ -1100,18 +1020,15 @@ public class XPathHelper
     }
 
     /**
-     * Use an XPath string to select a single node. XPath namespace prefixes are resolved from the context node, which
-     * may not be what you want (see the next method).
-     *
-     * @param   nContextNode  The node to start searching from.
-     * @param   sXPath        A valid XPath string.
-     *
-     * @return  The first node found that matches the XPath, or null.
-     *
-     * @throws  TransformerException
+     * Use an XPath string to select a single node. XPath namespace prefixes are resolved from the context node, which may not be
+     * what you want (see the next method).
+     * 
+     * @param nContextNode The node to start searching from.
+     * @param sXPath A valid XPath string.
+     * @return The first node found that matches the XPath, or null.
+     * @throws TransformerException
      */
-    public static Node selectSingleNode(Node nContextNode, String sXPath)
-                                 throws TransformerException
+    public static Node selectSingleNode(Node nContextNode, String sXPath) throws TransformerException
     {
         try
         {
@@ -1125,17 +1042,14 @@ public class XPathHelper
 
     /**
      * Use an XPath string to select a single node. namespace prefixes are resolved using the NamespaceConstants class.
-     *
-     * @param   nContextNode  The node to start searching from.
-     * @param   sXPath        A valid XPath string.
-     * @param   prResolver    The prefix resolver to use.
-     *
-     * @return  The first node found that matches the XPath, or null.
-     *
-     * @throws  TransformerException
+     * 
+     * @param nContextNode The node to start searching from.
+     * @param sXPath A valid XPath string.
+     * @param prResolver The prefix resolver to use.
+     * @return The first node found that matches the XPath, or null.
+     * @throws TransformerException
      */
-    public static Node selectSingleNode(Node nContextNode, String sXPath, PrefixResolver prResolver)
-                                 throws TransformerException
+    public static Node selectSingleNode(Node nContextNode, String sXPath, PrefixResolver prResolver) throws TransformerException
     {
         Node nReturn = null;
 
@@ -1150,24 +1064,20 @@ public class XPathHelper
     }
 
     /**
-     * Use an XPath string to select a single node. XPath namespace prefixes are resolved from the context node, which
-     * may not be what you want (see the next method).
-     *
-     * @param   nContextNode    The node to start searching from.
-     * @param   sXPath          A valid XPath string.
-     * @param   nNamespaceNode  The node containing the namespace declarations.
-     *
-     * @return  The first node found that matches the XPath, or null.
-     *
-     * @throws  TransformerException
+     * Use an XPath string to select a single node. XPath namespace prefixes are resolved from the context node, which may not be
+     * what you want (see the next method).
+     * 
+     * @param nContextNode The node to start searching from.
+     * @param sXPath A valid XPath string.
+     * @param nNamespaceNode The node containing the namespace declarations.
+     * @return The first node found that matches the XPath, or null.
+     * @throws TransformerException
      */
-    public static Node selectSingleNode(Node nContextNode, String sXPath, Node nNamespaceNode)
-                                 throws TransformerException
+    public static Node selectSingleNode(Node nContextNode, String sXPath, Node nNamespaceNode) throws TransformerException
     {
         try
         {
-            return (Node) s_mSelectSingleNodeNamespace.invoke(null,
-                                                              new Object[] { nContextNode, sXPath, nNamespaceNode });
+            return (Node) s_mSelectSingleNodeNamespace.invoke(null, new Object[] { nContextNode, sXPath, nNamespaceNode });
         }
         catch (Exception e)
         {
@@ -1177,10 +1087,9 @@ public class XPathHelper
 
     /**
      * This method writes the XML into a nicely formatted string.
-     *
-     * @param   eRoot  The root element.
-     *
-     * @return  The nicely formatted string.
+     * 
+     * @param eRoot The root element.
+     * @return The nicely formatted string.
      */
     public static String writePretty(Element eRoot)
     {
@@ -1193,9 +1102,9 @@ public class XPathHelper
 
     /**
      * This method writes the XML into a nicely formatted string.
-     *
-     * @param  eRoot     The root element.
-     * @param  osOutput  The stream to write the data to.
+     * 
+     * @param eRoot The root element.
+     * @param osOutput The stream to write the data to.
      */
     public static void writePretty(Element eRoot, OutputStream osOutput)
     {

@@ -20,6 +20,8 @@ set JARMENUCP=%JARMENUCP%;%CD%\coelib.jar
 set JARMENUCP=%JARMENUCP%;%CD%\coelib-full.jar
 set JARMENUCP=%JARMENUCP%;%CD%\log4j-1.2.15.jar
 set JARMENUCP=%JARMENUCP%;%CD%\xbean.jar
+set JARMENUCP=%JARMENUCP%;%CD%\wsdl4j.jar
+set JARMENUCP=%JARMENUCP%;%CD%\qname.jar
 
 rem Eclipse SWT libs
 set JARMENUCP=%JARMENUCP%;%CD%\org.eclipse.core.commands_3.2.0.I20060605-1400.jar
@@ -36,13 +38,16 @@ set JARMENUCP=%JARMENUCP%;%CD%\basicutil.jar
 set JARMENUCP=%JARMENUCP%;%CD%\managementlib.jar
 
 rem Apache commons libs
-set JARMENUCP=%JARMENUCP%;%CD%\commons-codec-1.3.jar
+set JARMENUCP=%JARMENUCP%;%CD%\commons-codec-1.6.jar
 set JARMENUCP=%JARMENUCP%;%CD%\commons-collections-3.2.jar
 set JARMENUCP=%JARMENUCP%;%CD%\commons-configuration-1.3.jar
-set JARMENUCP=%JARMENUCP%;%CD%\commons-httpclient-3.0.1.jar
-set JARMENUCP=%JARMENUCP%;%CD%\commons-httpclient-contrib-3.0.jar
+set JARMENUCP=%JARMENUCP%;%CD%\fluent-hc-4.2.2.jar
+set JARMENUCP=%JARMENUCP%;%CD%\httpclient-4.2.2.jar
+set JARMENUCP=%JARMENUCP%;%CD%\httpclient-cache-4.2.2.jar
+set JARMENUCP=%JARMENUCP%;%CD%\httpcore-4.2.2.jar
+set JARMENUCP=%JARMENUCP%;%CD%\httpmime-4.2.2.jar
 set JARMENUCP=%JARMENUCP%;%CD%\commons-lang-2.2.jar
-set JARMENUCP=%JARMENUCP%;%CD%\commons-logging.jar
+set JARMENUCP=%JARMENUCP%;%CD%\commons-logging-1.1.1.jar
 set JARMENUCP=%JARMENUCP%;%CD%\bcprov-jdk16-141.jar
 
 rem Otherr jars

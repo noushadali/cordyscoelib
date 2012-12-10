@@ -186,6 +186,8 @@
 				<include name="org-netbeans-*.jar" />
 				<include name="xbean.jar" />
 				<include name="miglayout15-swing.jar" />
+				<include name="http*.jar" />
+				<include name="fluent-hc-*.jar" />
 			</fileset>
 			<fileset dir="${platform.dir}/components">
 				<include name="esbclient/esbclient.jar" />
@@ -194,6 +196,10 @@
 				<include name="basicutil/basicutil.jar" />
 				<include name="managementlib/managementlib.jar" />
 			</fileset>
+			<fileset dir="${platform.dir}/ext">
+                <include name="wsdl4j.jar" />
+                <include name="qname.jar" />
+            </fileset>
 		</copy>
         <copy todir="${build.coetool}/platform/32bit" flatten="true">
             <fileset dir="${lib.dir}/platform/32bit">

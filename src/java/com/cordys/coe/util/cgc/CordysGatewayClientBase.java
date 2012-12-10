@@ -1,6 +1,39 @@
 package com.cordys.coe.util.cgc;
 
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.http.Consts;
+import org.apache.http.HttpException;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.NTCredentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.auth.params.AuthPNames;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.params.AuthPolicy;
+import org.apache.http.client.params.ClientPNames;
+import org.apache.http.client.params.CookiePolicy;
+import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.conn.routing.HttpRoute;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
+
 import com.cordys.coe.util.IPoolWorker;
+import com.cordys.coe.util.StringUtils;
 import com.cordys.coe.util.TokenPool;
 import com.cordys.coe.util.cgc.config.IAuthenticationConfiguration;
 import com.cordys.coe.util.cgc.config.ICGCConfiguration;
@@ -15,46 +48,17 @@ import com.cordys.coe.util.cgc.serverwatcher.ServerWatcherSoapService;
 import com.cordys.coe.util.cgc.ssl.AuthSSLProtocolSocketFactory;
 import com.cordys.coe.util.cgc.userinfo.IUserInfo;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
-import java.net.URLEncoder;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.httpclient.HostConfiguration;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
-import org.apache.commons.httpclient.NTCredentials;
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.httpclient.auth.AuthPolicy;
-import org.apache.commons.httpclient.auth.AuthScope;
-import org.apache.commons.httpclient.cookie.CookiePolicy;
-import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
-import org.apache.commons.httpclient.params.HttpMethodParams;
-import org.apache.commons.httpclient.protocol.Protocol;
-
-import org.apache.log4j.Logger;
-
 /**
- * This class can be used to communicate with the Cordys Web Gateway. It supports 3 types of
- * authentication: - Basic - NTLM - Certificates. This class is thread safe. This means that
- * multiple threads can use the same instance of this object to call methods on the Cordys server.
- * If you need to connect under multiple users you need to make an instance per user.<br>
+ * This class can be used to communicate with the Cordys Web Gateway. It supports 3 types of authentication: - Basic - NTLM -
+ * Certificates. This class is thread safe. This means that multiple threads can use the same instance of this object to call
+ * methods on the Cordys server. If you need to connect under multiple users you need to make an instance per user.<br>
  * Example code for NTLM: <code>String sUser = "pgussow"; String sPassword = "password"; String
  * sServer = "srv-nl-ces20"; String sDomain = "NTDOM"; int iPort = 80; ICordysGatewayClient cgc =
  * new CordysGatewayClient(sUser, sPassword, sServer, iPort, sDomain); cgc.connect();</code>
- *
- * @author  pgussow
+ * 
+ * @author pgussow
  */
-public abstract class CordysGatewayClientBase
-    implements ICordysGatewayClientBase
+public abstract class CordysGatewayClientBase implements ICordysGatewayClientBase
 {
     /**
      * Holds the logger to use for this class.
@@ -63,63 +67,55 @@ public abstract class CordysGatewayClientBase
     /**
      * This holds the base template for calling a Cordy soap method.
      */
-    protected static final byte[] BASE_SOAP_REQUEST = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-                                                       "<SOAP:Body/></SOAP:Envelope>").getBytes();
+    protected static final byte[] BASE_SOAP_REQUEST = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+            + "<SOAP:Body/></SOAP:Envelope>").getBytes();
     /**
      * This holds the GetUserDetails request.
      */
-    protected static final byte[] XML_GET_USER_DETAILS = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-                                                          "<SOAP:Body>" +
-                                                          "<GetUserDetails xmlns=\"http://schemas.cordys.com/1.1/ldap\"/>" +
-                                                          "</SOAP:Body></SOAP:Envelope>")
-                                                         .getBytes();
+    protected static final byte[] XML_GET_USER_DETAILS = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+            + "<SOAP:Body>" + "<GetUserDetails xmlns=\"http://schemas.cordys.com/1.1/ldap\"/>" + "</SOAP:Body></SOAP:Envelope>")
+            .getBytes();
     /**
      * This holds the logon request.
      */
-    protected static final byte[] XML_AUTHENTICATE = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-                                                      "<SOAP:Body>" +
-                                                      "<Authenticate xmlns=\"http://schemas.cordys.com/1.0/webgateway\"/>" +
-                                                      "</SOAP:Body></SOAP:Envelope>").getBytes();
+    protected static final byte[] XML_AUTHENTICATE = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+            + "<SOAP:Body>" + "<Authenticate xmlns=\"http://schemas.cordys.com/1.0/webgateway\"/>"
+            + "</SOAP:Body></SOAP:Envelope>").getBytes();
     /**
      * This holds the request to get a SAML token.
      */
-    protected static final byte[] XML_SSO_LOGIN = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-                                                   "<SOAP:Header><wsse:Security xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">" +
-                                                   "<wsse:UsernameToken xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">" +
-                                                   "<wsse:Username></wsse:Username>" +
-                                                   "<wsse:Password></wsse:Password>" +
-                                                   "</wsse:UsernameToken>" +
-                                                   "</wsse:Security></SOAP:Header>" +
-                                                   "<SOAP:Body>" +
-                                                   "<samlp:Request xmlns:samlp=\"urn:oasis:names:tc:SAML:1.0:protocol\" MajorVersion=\"1\" MinorVersion=\"1\" IssueInstant=\"\" RequestID=\"\"><samlp:AuthenticationQuery>" +
-                                                   "<saml:Subject xmlns:saml=\"urn:oasis:names:tc:SAML:1.0:assertion\">" +
-                                                   "<saml:NameIdentifier Format=\"urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified\"></saml:NameIdentifier>" +
-                                                   "</saml:Subject></samlp:AuthenticationQuery></samlp:Request>" +
-                                                   "</SOAP:Body></SOAP:Envelope>").getBytes();
+    protected static final byte[] XML_SSO_LOGIN = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+            + "<SOAP:Header><wsse:Security xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">"
+            + "<wsse:UsernameToken xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">"
+            + "<wsse:Username></wsse:Username>"
+            + "<wsse:Password></wsse:Password>"
+            + "</wsse:UsernameToken>"
+            + "</wsse:Security></SOAP:Header>"
+            + "<SOAP:Body>"
+            + "<samlp:Request xmlns:samlp=\"urn:oasis:names:tc:SAML:1.0:protocol\" MajorVersion=\"1\" MinorVersion=\"1\" IssueInstant=\"\" RequestID=\"\"><samlp:AuthenticationQuery>"
+            + "<saml:Subject xmlns:saml=\"urn:oasis:names:tc:SAML:1.0:assertion\">"
+            + "<saml:NameIdentifier Format=\"urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified\"></saml:NameIdentifier>"
+            + "</saml:Subject></samlp:AuthenticationQuery></samlp:Request>" + "</SOAP:Body></SOAP:Envelope>").getBytes();
     /**
      * This holds the request for executing LDAP searches.
      */
-    protected static final byte[] XML_SEARCH_LDAP = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP:Body>" +
-                                                     "<SearchLDAP xmlns=\"http://schemas.cordys.com/1.0/ldap\">" +
-                                                     "<dn/><scope/><filter/><sort>ascending</sort><returnValues>true</returnValues>" +
-                                                     "</SearchLDAP></SOAP:Body></SOAP:Envelope>")
-                                                    .getBytes();
+    protected static final byte[] XML_SEARCH_LDAP = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP:Body>"
+            + "<SearchLDAP xmlns=\"http://schemas.cordys.com/1.0/ldap\">"
+            + "<dn/><scope/><filter/><sort>ascending</sort><returnValues>true</returnValues>"
+            + "</SearchLDAP></SOAP:Body></SOAP:Envelope>").getBytes();
     /**
      * This holds the request for reading a single LDAP entry.
      */
-    protected static final byte[] XML_GET_LDAP_OBJECT = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP:Body>" +
-                                                         "<GetLDAPObject xmlns=\"http://schemas.cordys.com/1.0/ldap\">" +
-                                                         "<dn/>" +
-                                                         "</GetLDAPObject></SOAP:Body></SOAP:Envelope>")
-                                                        .getBytes();
+    protected static final byte[] XML_GET_LDAP_OBJECT = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP:Body>"
+            + "<GetLDAPObject xmlns=\"http://schemas.cordys.com/1.0/ldap\">"
+            + "<dn/>"
+            + "</GetLDAPObject></SOAP:Body></SOAP:Envelope>").getBytes();
     /**
      * This holds the request for updating a single LDAP entry.
      */
-    protected static final byte[] XML_UPDATE_LDAP = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP:Body>" +
-                                                     "<Update xmlns=\"http://schemas.cordys.com/1.0/ldap\">" +
-                                                     "<tuple/>" +
-                                                     "</Update></SOAP:Body></SOAP:Envelope>")
-                                                    .getBytes();
+    protected static final byte[] XML_UPDATE_LDAP = ("<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP:Body>"
+            + "<Update xmlns=\"http://schemas.cordys.com/1.0/ldap\">" + "<tuple/>" + "</Update></SOAP:Body></SOAP:Envelope>")
+            .getBytes();
     /**
      * Contains the name of the SOAP action header.
      */
@@ -137,44 +133,30 @@ public abstract class CordysGatewayClientBase
      */
     protected static final String AUTHENTICATION_GATEWAY = "com.eibus.web.soap.Authenticate.wcp";
     /**
-     * Idicates whether or not the gateway is connected.
+     * Indicates whether or not the gateway is connected.
      */
     protected boolean m_bConnected = false;
     /**
      * Holds the HTTP client.
      */
-    protected HttpClient m_hcClient;
-    /**
-     * Holds the host configuration.
-     */
-    protected HostConfiguration m_hcHostConfiguration;
+    protected DefaultHttpClient m_hcClient;
     /**
      * Holds the tokens for calls to the backend.
      */
     protected TokenPool m_oRequestTokens = null;
     /**
-     * Holds the protocol for HTTPS.
-     */
-    protected Protocol m_pHTTPSProtocol = null;
-    /**
      * Holds the organization.
      */
     protected String m_sOrganization = null;
     /**
-     * Holds the server watcher. This object is responsible for monitoring the server to make sure
-     * it is still running. It depends on how this class is created whether or not is is being used.
+     * Holds the server watcher. This object is responsible for monitoring the server to make sure it is still running. It depends
+     * on how this class is created whether or not is is being used.
      */
     protected ServerWatcher m_swWatcher = null;
     /**
      * This class contains the authentication details for the current client.
      */
     private IAuthenticationConfiguration m_acAuthenticationDetails;
-    /**
-     * If true login is sent with every request, otherwise it is sent only when the server requests
-     * it first (server will send a reply with error code unauthorized and in the second request we
-     * set the login credentials.
-     */
-    private boolean m_bAuthenticationPreemptive = false;
     /**
      * Holds the configuration for this Cordys Gateway Client.
      */
@@ -183,18 +165,20 @@ public abstract class CordysGatewayClientBase
      * Holds the user information.
      */
     private IUserInfo m_uiUserInfo;
+    /** Holds the scheme that shouldbe used for this connection. */
+    private SchemeRegistry m_schemeRegistry;
+    /** Holds the proxy server to use for the connection. */
+    private HttpHost m_proxy;
 
     /**
      * Constructor.
-     *
-     * @param   acAuthentication  The authentication details for connecting to the web gateway.
-     * @param   ccConfiguration   The CGC configuration.
-     *
-     * @throws  CordysGatewayClientException  In case of any configuration exceptions.
+     * 
+     * @param acAuthentication The authentication details for connecting to the web gateway.
+     * @param ccConfiguration The CGC configuration.
+     * @throws CordysGatewayClientException In case of any configuration exceptions.
      */
-    protected CordysGatewayClientBase(IAuthenticationConfiguration acAuthentication,
-                                      ICGCConfiguration ccConfiguration)
-                               throws CordysGatewayClientException
+    protected CordysGatewayClientBase(IAuthenticationConfiguration acAuthentication, ICGCConfiguration ccConfiguration)
+            throws CordysGatewayClientException
     {
         m_acAuthenticationDetails = acAuthentication;
         m_ccConfiguration = ccConfiguration;
@@ -208,8 +192,8 @@ public abstract class CordysGatewayClientBase
         m_ccConfiguration.validate();
 
         // When using client certificate logins you must use SSL as well.
-        if ((ccConfiguration.isSSL() == false) &&
-                IClientCertificateAuthentication.class.isAssignableFrom(acAuthentication.getClass()))
+        if ((ccConfiguration.isSSL() == false)
+                && IClientCertificateAuthentication.class.isAssignableFrom(acAuthentication.getClass()))
         {
             throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_MUST_BE_SSL);
         }
@@ -217,8 +201,7 @@ public abstract class CordysGatewayClientBase
         // Create the worker pool.
         m_oRequestTokens = new TokenPool(ccConfiguration.getMaxConcurrentCalls());
 
-        // Already create the Apache HTTP Client host configuration.
-        m_hcHostConfiguration = new HostConfiguration();
+        m_schemeRegistry = new SchemeRegistry();
 
         // If needed configure the SSL.
         if (ccConfiguration.isSSL() == true)
@@ -236,27 +219,23 @@ public abstract class CordysGatewayClientBase
                 ccaClientCertificate = (IClientCertificateAuthentication) acAuthentication;
             }
 
-            AuthSSLProtocolSocketFactory psfFactory = new AuthSSLProtocolSocketFactory(cgcSSLConfig,
-                                                                                       ccaClientCertificate);
+            AuthSSLProtocolSocketFactory psfFactory = AuthSSLProtocolSocketFactory
+                    .getInstance(cgcSSLConfig, ccaClientCertificate);
 
-            m_pHTTPSProtocol = new Protocol("https", psfFactory, ccConfiguration.getPort());
-            Protocol.registerProtocol("https", m_pHTTPSProtocol);
-
-            m_hcHostConfiguration.setHost(ccConfiguration.getHost(), ccConfiguration.getPort(),
-                                          m_pHTTPSProtocol);
+            Scheme https = new Scheme("https", ccConfiguration.getPort(), psfFactory);
+            m_schemeRegistry.register(https);
         }
         else
         {
             // Standard HTTP traffic.
-            m_hcHostConfiguration.setHost(ccConfiguration.getHost(), ccConfiguration.getPort(),
-                                          "http");
+            Scheme http = new Scheme("http", 80, PlainSocketFactory.getSocketFactory());
+            m_schemeRegistry.register(http);
         }
 
         // If a proxy server is defined configure it.
         if (ccConfiguration.isProxyServerSet())
         {
-            m_hcHostConfiguration.setProxy(ccConfiguration.getProxyHost(),
-                                           ccConfiguration.getProxyPort());
+            m_proxy = new HttpHost(ccConfiguration.getProxyHost(), ccConfiguration.getProxyPort());
         }
 
         // Create the server watcher if needed.
@@ -264,22 +243,21 @@ public abstract class CordysGatewayClientBase
         {
             if (getLogger().isDebugEnabled())
             {
-                getLogger().debug("Going to create the server watcher for " +
-                                  ccConfiguration.getHost() + ":" + ccConfiguration.getPort() +
-                                  " with an interval of " +
-                                  ccConfiguration.getServerWatcherPollInterval() + "ms.");
+                getLogger().debug(
+                        "Going to create the server watcher for " + ccConfiguration.getHost() + ":" + ccConfiguration.getPort()
+                                + " with an interval of " + ccConfiguration.getServerWatcherPollInterval() + "ms.");
             }
 
             m_swWatcher = new ServerWatcher(ccConfiguration.getHost(), ccConfiguration.getPort(),
-                                            ccConfiguration.getServerWatcherPollInterval());
+                    ccConfiguration.getServerWatcherPollInterval());
             m_swWatcher.start();
         }
     }
 
     /**
      * This method adds the passed on service to be watched each interval of this watcher thread.
-     *
-     * @param  swssService  the soap service to watch.
+     * 
+     * @param swssService the soap service to watch.
      */
     public void addSoapServiceToWatch(ServerWatcherSoapService swssService)
     {
@@ -291,12 +269,10 @@ public abstract class CordysGatewayClientBase
 
     /**
      * Connect to Cordys via cordys gateway.
-     *
-     * @throws  CordysGatewayClientException  Exception something is wrong TODO: bedenk wat mooie
-     *                                        excepties
+     * 
+     * @throws CordysGatewayClientException Exception something is wrong TODO: bedenk wat mooie excepties
      */
-    public void connect()
-                 throws CordysGatewayClientException
+    public void connect() throws CordysGatewayClientException
     {
         if (m_hcClient != null)
         {
@@ -305,67 +281,74 @@ public abstract class CordysGatewayClientBase
 
         try
         {
-            // Create the multi threaded pool.
-            HttpConnectionManagerParams hcmp = new HttpConnectionManagerParams();
-            hcmp.setDefaultMaxConnectionsPerHost(m_ccConfiguration.getMaxConnectionsPerHost());
-
-            if (m_ccConfiguration.getNetworkTimeout() > 0)
-            {
-                hcmp.setConnectionTimeout((int) m_ccConfiguration.getNetworkTimeout());
-            }
-
-            MultiThreadedHttpConnectionManager mthcmManager = new MultiThreadedHttpConnectionManager();
-            mthcmManager.setParams(hcmp);
+            // Create the connection pooling manager to allow only x connections per host.
+            PoolingClientConnectionManager pccm = new PoolingClientConnectionManager();
+            HttpRoute hr = new HttpRoute(new HttpHost(m_ccConfiguration.getHost(), m_ccConfiguration.getPort()));
+            pccm.setMaxPerRoute(hr, m_ccConfiguration.getMaxConnectionsPerHost());
 
             // Create the actual HTTP client.
-            m_hcClient = new HttpClient(mthcmManager);
-            m_hcClient.setHostConfiguration(m_hcHostConfiguration);
+            m_hcClient = new DefaultHttpClient(pccm);
+
+            // Set the configured timeout
+            if (m_ccConfiguration.getNetworkTimeout() > 0)
+            {
+                HttpConnectionParams.setConnectionTimeout(m_hcClient.getParams(), (int) m_ccConfiguration.getNetworkTimeout());
+            }
+
+            // Add the proxy server if configured
+            if (m_proxy != null)
+            {
+                m_hcClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, m_proxy);
+
+                // If the proxy requires authentication
+                if (StringUtils.isSet(m_ccConfiguration.getProxyUsername()))
+                {
+                    UsernamePasswordCredentials upc = new UsernamePasswordCredentials(m_ccConfiguration.getProxyUsername(),
+                            m_ccConfiguration.getProxyPassword());
+                    m_hcClient.getCredentialsProvider().setCredentials(
+                            new AuthScope(m_ccConfiguration.getProxyHost(), m_ccConfiguration.getPort()), upc);
+                }
+            }
+
+            List<String> authPrefs = new ArrayList<String>(3);
+
+            authPrefs.add(AuthPolicy.BASIC);
+            authPrefs.add(AuthPolicy.DIGEST);
+            authPrefs.add(AuthPolicy.NTLM);
+
+            m_hcClient.getParams().setParameter(AuthPNames.TARGET_AUTH_PREF, authPrefs);
+
+            // Set the character set to use for the credentials.
+            m_hcClient.getParams().setParameter(AuthPNames.CREDENTIAL_CHARSET, "UTF-8");
+
+            // Cookies (saml artifact cookies) need not be set when SAML assertion is included in
+            // the SOAP Header. For all the requests which use this class if it is SSO login, then SAML
+            // assertion will be included in the SOAP Header. So the following line will make sure that
+            // it does not use cookies. This is required because with a hotfix delivered by Cordys - which
+            // will be included in BOP 4.2, if the cookies are sent along with the SAML assertion, the
+            // soap request fails.
+            m_hcClient.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.IGNORE_COOKIES);
 
             // Create the proper credentials.
             if (INTLMAuthentication.class.isAssignableFrom(m_acAuthenticationDetails.getClass()))
             {
                 INTLMAuthentication naNTLM = (INTLMAuthentication) m_acAuthenticationDetails;
 
-                NTCredentials ncCredentials = new NTCredentials(naNTLM.getUsername(),
-                                                                naNTLM.getPassword(),
-                                                                m_ccConfiguration.getHost(),
-                                                                naNTLM.getDomain());
+                NTCredentials ncCredentials = new NTCredentials(naNTLM.getUsername(), naNTLM.getPassword(),
+                        m_ccConfiguration.getHost(), naNTLM.getDomain());
 
-                m_hcClient.getState().setCredentials(new AuthScope(m_ccConfiguration.getHost(),
-                                                                   m_ccConfiguration.getPort()),
-                                                     ncCredentials);
+                m_hcClient.getCredentialsProvider().setCredentials(AuthScope.ANY, ncCredentials);
             }
-            else if (ICordysCustomAuthentication.class.isAssignableFrom(m_acAuthenticationDetails
-                                                                            .getClass()))
+            else if (ICordysCustomAuthentication.class.isAssignableFrom(m_acAuthenticationDetails.getClass()))
             {
                 // Nothing needs to be done, because the authentication will be done differently.
             }
-            else if (IUsernamePasswordAuthentication.class.isAssignableFrom(m_acAuthenticationDetails
-                                                                                .getClass()))
+            else if (IUsernamePasswordAuthentication.class.isAssignableFrom(m_acAuthenticationDetails.getClass()))
             {
-                IUsernamePasswordAuthentication upa = (IUsernamePasswordAuthentication)
-                                                          m_acAuthenticationDetails;
+                IUsernamePasswordAuthentication upa = (IUsernamePasswordAuthentication) m_acAuthenticationDetails;
 
-                UsernamePasswordCredentials upcCredentials = new UsernamePasswordCredentials(upa.getUsername(),
-                                                                                             upa.getPassword());
-                m_hcClient.getState().setCredentials(new AuthScope(m_ccConfiguration.getHost(),
-                                                                   m_ccConfiguration.getPort()),
-                                                     upcCredentials);
-
-                // Move NTLM authentication as last, because it is being tried first
-                // event if basic authentication is being used.
-                List<String> authPrefs = new ArrayList<String>(3);
-
-                if (m_bAuthenticationPreemptive)
-                {
-                    m_hcClient.getParams().setAuthenticationPreemptive(true);
-                }
-
-                authPrefs.add(AuthPolicy.BASIC);
-                authPrefs.add(AuthPolicy.DIGEST);
-                authPrefs.add(AuthPolicy.NTLM);
-
-                m_hcClient.getParams().setParameter(AuthPolicy.AUTH_SCHEME_PRIORITY, authPrefs);
+                UsernamePasswordCredentials upcCredentials = new UsernamePasswordCredentials(upa.getUsername(), upa.getPassword());
+                m_hcClient.getCredentialsProvider().setCredentials(AuthScope.ANY, upcCredentials);
             }
 
             // Send the message to Cordys.
@@ -379,8 +362,7 @@ public abstract class CordysGatewayClientBase
         }
         catch (Exception ex)
         {
-            throw new CordysGatewayClientException(ex, CGCMessages.CGC_CONNECT, getHost(),
-                                                   getPort());
+            throw new CordysGatewayClientException(ex, CGCMessages.CGC_CONNECT, getHost(), getPort());
         }
     }
 
@@ -395,8 +377,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the authentication details.
-     *
-     * @return  The authentication details.
+     * 
+     * @return The authentication details.
      */
     public IAuthenticationConfiguration getAuthenticationDetails()
     {
@@ -405,8 +387,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the configuration details.
-     *
-     * @return  The configuration details.
+     * 
+     * @return The configuration details.
      */
     public ICGCConfiguration getConfiguration()
     {
@@ -415,8 +397,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the NT domain to use.
-     *
-     * @return  The NT domain to use.
+     * 
+     * @return The NT domain to use.
      */
     public String getDomain()
     {
@@ -433,8 +415,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the url of the Cordys gateway.
-     *
-     * @return  The url of the Cordys gateway.
+     * 
+     * @return The url of the Cordys gateway.
      */
     public String getGatewayURL()
     {
@@ -443,8 +425,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the hostname of the cordys gateway.
-     *
-     * @return  The hostname of the cordys gateway.
+     * 
+     * @return The hostname of the cordys gateway.
      */
     public String getHost()
     {
@@ -453,8 +435,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the Logger for this class.
-     *
-     * @return  The Logger for this class.
+     * 
+     * @return The Logger for this class.
      */
     public Logger getLogger()
     {
@@ -463,8 +445,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * Returns the flag indicating if a login request is sent when the connection is opened.
-     *
-     * @return  If <code>true</code>, a login request is sent.
+     * 
+     * @return If <code>true</code>, a login request is sent.
      */
     public boolean getLoginToCordysOnConnect()
     {
@@ -473,11 +455,9 @@ public abstract class CordysGatewayClientBase
 
     /**
      * Get a list of organisations for this user.
-     *
-     * @return      Returns the logonInfo - organisations as an array of strings.
-     *
-     * @deprecated  This method has never been implemented and will be removed. Use getuserInfo
-     *              instead.
+     * 
+     * @return Returns the logonInfo - organisations as an array of strings.
+     * @deprecated This method has never been implemented and will be removed. Use getuserInfo instead.
      */
     public ArrayList<String> getLogonInfoOrganisations()
     {
@@ -486,13 +466,10 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method returns the list of roles this user has in a certain organization.
-     *
-     * @param       aOrganisation  The organization.
-     *
-     * @return      Returns the logonInfo - roles.
-     *
-     * @deprecated  This method has never been implemented and will be removed. Use getuserInfo
-     *              instead.
+     * 
+     * @param aOrganisation The organization.
+     * @return Returns the logonInfo - roles.
+     * @deprecated This method has never been implemented and will be removed. Use getuserInfo instead.
      */
     public ArrayList<String> getLogonInfoRoles(String aOrganisation)
     {
@@ -501,8 +478,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * Returns the network TCP/IP timeout to be used for requests.
-     *
-     * @return  Network timeout.
+     * 
+     * @return Network timeout.
      */
     public long getNetworkTimeout()
     {
@@ -511,18 +488,16 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the password to use..
-     *
-     * @return  The password to use..
+     * 
+     * @return The password to use..
      */
     public String getPassword()
     {
         String sReturn = null;
 
-        if (IUsernamePasswordAuthentication.class.isAssignableFrom(m_acAuthenticationDetails
-                                                                       .getClass()))
+        if (IUsernamePasswordAuthentication.class.isAssignableFrom(m_acAuthenticationDetails.getClass()))
         {
-            IUsernamePasswordAuthentication na = (IUsernamePasswordAuthentication)
-                                                     m_acAuthenticationDetails;
+            IUsernamePasswordAuthentication na = (IUsernamePasswordAuthentication) m_acAuthenticationDetails;
             sReturn = na.getPassword();
         }
 
@@ -531,8 +506,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the port where the Cordys web gateway is running.
-     *
-     * @return  The port where the Cordys web gateway is running.
+     * 
+     * @return The port where the Cordys web gateway is running.
      */
     public int getPort()
     {
@@ -541,8 +516,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the proxy host to use.
-     *
-     * @return  The proxy host to use.
+     * 
+     * @return The proxy host to use.
      */
     public String getProxyHost()
     {
@@ -551,8 +526,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the proxy port to use.
-     *
-     * @return  The proxy port to use.
+     * 
+     * @return The proxy port to use.
      */
     public int getProxyPort()
     {
@@ -561,8 +536,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the timeout to use.
-     *
-     * @return  The timeout to use.
+     * 
+     * @return The timeout to use.
      */
     public long getTimeout()
     {
@@ -571,8 +546,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the information about the current user.
-     *
-     * @return  The information about the current user.
+     * 
+     * @return The information about the current user.
      */
     public IUserInfo getUserInfo()
     {
@@ -592,18 +567,16 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the username to use.
-     *
-     * @return  The username to use.
+     * 
+     * @return The username to use.
      */
     public String getUsername()
     {
         String sReturn = null;
 
-        if (IUsernamePasswordAuthentication.class.isAssignableFrom(m_acAuthenticationDetails
-                                                                       .getClass()))
+        if (IUsernamePasswordAuthentication.class.isAssignableFrom(m_acAuthenticationDetails.getClass()))
         {
-            IUsernamePasswordAuthentication na = (IUsernamePasswordAuthentication)
-                                                     m_acAuthenticationDetails;
+            IUsernamePasswordAuthentication na = (IUsernamePasswordAuthentication) m_acAuthenticationDetails;
             sReturn = na.getUsername();
         }
 
@@ -612,10 +585,9 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets the WCP session ID to use.
-     *
-     * @return  The WCP session ID to use.
-     *
-     * @see     com.cordys.coe.util.cgc.ICordysGatewayClientBase#getWCPSessionID()
+     * 
+     * @return The WCP session ID to use.
+     * @see com.cordys.coe.util.cgc.ICordysGatewayClientBase#getWCPSessionID()
      */
     public String getWCPSessionID()
     {
@@ -623,8 +595,7 @@ public abstract class CordysGatewayClientBase
 
         if (ICordysCustomAuthentication.class.isAssignableFrom(m_acAuthenticationDetails.getClass()))
         {
-            ICordysCustomAuthentication cca = (ICordysCustomAuthentication)
-                                                  m_acAuthenticationDetails;
+            ICordysCustomAuthentication cca = (ICordysCustomAuthentication) m_acAuthenticationDetails;
             sReturn = cca.getWCPSessionID();
         }
 
@@ -633,15 +604,12 @@ public abstract class CordysGatewayClientBase
 
     /**
      * Check if the logged on user has a certain cordys role.
-     *
-     * @param   sRoleDN  The role to check for
-     *
-     * @return  true if the role is assigned to the logged on user
-     *
-     * @throws  CordysGatewayClientException  In case the user information is not available.
+     * 
+     * @param sRoleDN The role to check for
+     * @return true if the role is assigned to the logged on user
+     * @throws CordysGatewayClientException In case the user information is not available.
      */
-    public boolean hasRole(String sRoleDN)
-                    throws CordysGatewayClientException
+    public boolean hasRole(String sRoleDN) throws CordysGatewayClientException
     {
         if (m_uiUserInfo == null)
         {
@@ -653,8 +621,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets whether or not the gateway checks the responses for soap faults.
-     *
-     * @return  Whether or not the gateway checks the responses for soap faults.
+     * 
+     * @return Whether or not the gateway checks the responses for soap faults.
      */
     public boolean isCheckingForFaults()
     {
@@ -663,8 +631,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * Test if we have an open connection to cordys.
-     *
-     * @return  true if connected
+     * 
+     * @return true if connected
      */
     public boolean isConnected()
     {
@@ -673,8 +641,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method gets whether or not this connection uses SSL.
-     *
-     * @return  Whether or not this connection uses SSL.
+     * 
+     * @return Whether or not this connection uses SSL.
      */
     public boolean isSSL()
     {
@@ -683,8 +651,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method sets wether or not the gateway checks the responses for soap faults.
-     *
-     * @param  bCheckForFaults  Whether or not the gateway checks the responses for soap faults.
+     * 
+     * @param bCheckForFaults Whether or not the gateway checks the responses for soap faults.
      */
     public void setCheckForFaults(boolean bCheckForFaults)
     {
@@ -693,8 +661,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method sets the NT domain to use.
-     *
-     * @param  sNTDomain  The NT domain to use.
+     * 
+     * @param sNTDomain The NT domain to use.
      */
     public void setDomain(String sNTDomain)
     {
@@ -707,8 +675,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method sets the url of the Cordys gateway.
-     *
-     * @param  sGatewayURL  The url of the Cordys gateway.
+     * 
+     * @param sGatewayURL The url of the Cordys gateway.
      */
     public void setGatewayURL(String sGatewayURL)
     {
@@ -717,8 +685,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method sets the hostname of the cordys gateway.
-     *
-     * @param  sHost  The hostname of the cordys gateway.
+     * 
+     * @param sHost The hostname of the cordys gateway.
      */
     public void setHost(String sHost)
     {
@@ -727,8 +695,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * Sets the flag indicating if a login request is sent when the connection is opened.
-     *
-     * @param  bValue  If <code>true</code>, a login request is sent.
+     * 
+     * @param bValue If <code>true</code>, a login request is sent.
      */
     public void setLoginToCordysOnConnect(boolean bValue)
     {
@@ -736,10 +704,9 @@ public abstract class CordysGatewayClientBase
     }
 
     /**
-     * Sets the network TCP/IP timeout to be used for requests. This is separate from the Cordys
-     * timeout URL parameter.
-     *
-     * @param  lValue  Network timeout value (-1 means infinite wait).
+     * Sets the network TCP/IP timeout to be used for requests. This is separate from the Cordys timeout URL parameter.
+     * 
+     * @param lValue Network timeout value (-1 means infinite wait).
      */
     public void setNetworkTimeout(long lValue)
     {
@@ -748,8 +715,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method sets the organization to use for this gateway.
-     *
-     * @param  sOrganization  The new organization.
+     * 
+     * @param sOrganization The new organization.
      */
     public void setOrganization(String sOrganization)
     {
@@ -758,23 +725,22 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method sets the password to use..
-     *
-     * @param  sPassword  The password to use..
+     * 
+     * @param sPassword The password to use..
      */
     public void setPassword(String sPassword)
     {
         if (m_acAuthenticationDetails instanceof IUsernamePasswordAuthentication)
         {
-            IUsernamePasswordAuthentication upa = (IUsernamePasswordAuthentication)
-                                                      m_acAuthenticationDetails;
+            IUsernamePasswordAuthentication upa = (IUsernamePasswordAuthentication) m_acAuthenticationDetails;
             upa.setPassword(sPassword);
         }
     }
 
     /**
      * This method sets the port where the Cordys web gateway is running.
-     *
-     * @param  iPort  The port where the Cordys web gateway is running.
+     * 
+     * @param iPort The port where the Cordys web gateway is running.
      */
     public void setPort(int iPort)
     {
@@ -783,8 +749,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method sets the proxy host to use.
-     *
-     * @param  sProxyHost  The proxy host to use.
+     * 
+     * @param sProxyHost The proxy host to use.
      */
     public void setProxyHost(String sProxyHost)
     {
@@ -793,8 +759,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method sets the proxy port to use.
-     *
-     * @param  iProxyPort  The proxy port to use.
+     * 
+     * @param iProxyPort The proxy port to use.
      */
     public void setProxyPort(int iProxyPort)
     {
@@ -802,10 +768,10 @@ public abstract class CordysGatewayClientBase
     }
 
     /**
-     * This method sets the interval in which the server watcher will check if the webserver is
-     * still available. If this CGC is created without a server watcher this call has no effect.
-     *
-     * @param  lServerWatcherPollInterval  The new poll interval.
+     * This method sets the interval in which the server watcher will check if the webserver is still available. If this CGC is
+     * created without a server watcher this call has no effect.
+     * 
+     * @param lServerWatcherPollInterval The new poll interval.
      */
     public void setServerWatcherPollInterval(long lServerWatcherPollInterval)
     {
@@ -818,8 +784,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method sets the time to wait between asking the server watcher if the server is alive.
-     *
-     * @param  lSleepTime  The new sleep time.
+     * 
+     * @param lSleepTime The new sleep time.
      */
     public void setSleepTimeBetweenServerWacther(long lSleepTime)
     {
@@ -828,8 +794,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method sets wether or not this connection uses SSL.
-     *
-     * @param  bSsl  Whether or not this connection uses SSL.
+     * 
+     * @param bSsl Whether or not this connection uses SSL.
      */
     public void setSSL(boolean bSsl)
     {
@@ -838,8 +804,8 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method sets the timeout to use.
-     *
-     * @param  lTimeout  The timeout to use.
+     * 
+     * @param lTimeout The timeout to use.
      */
     public void setTimeout(long lTimeout)
     {
@@ -848,74 +814,60 @@ public abstract class CordysGatewayClientBase
 
     /**
      * This method sets the username to use.
-     *
-     * @param  sUsername  The username to use.
+     * 
+     * @param sUsername The username to use.
      */
     public void setUsername(String sUsername)
     {
         if (m_acAuthenticationDetails instanceof IUsernamePasswordAuthentication)
         {
-            IUsernamePasswordAuthentication upa = (IUsernamePasswordAuthentication)
-                                                      m_acAuthenticationDetails;
+            IUsernamePasswordAuthentication upa = (IUsernamePasswordAuthentication) m_acAuthenticationDetails;
             upa.setUsername(sUsername);
         }
     }
 
     /**
      * This method sets the WCP session ID to use.
-     *
-     * @param  sWCPSessionID  The WCP session ID to use.
-     *
-     * @see    com.cordys.coe.util.cgc.ICordysGatewayClientBase#setWCPSessionID(java.lang.String)
+     * 
+     * @param sWCPSessionID The WCP session ID to use.
+     * @see com.cordys.coe.util.cgc.ICordysGatewayClientBase#setWCPSessionID(java.lang.String)
      */
     public void setWCPSessionID(String sWCPSessionID)
     {
         if (ICordysCustomAuthentication.class.isAssignableFrom(m_acAuthenticationDetails.getClass()))
         {
-            ICordysCustomAuthentication cca = (ICordysCustomAuthentication)
-                                                  m_acAuthenticationDetails;
+            ICordysCustomAuthentication cca = (ICordysCustomAuthentication) m_acAuthenticationDetails;
             cca.setWCPSessionID(sWCPSessionID);
         }
     }
 
     /**
-     * This method is called when the HTTP response code is set to 500. All servers that are
-     * basic-profile compliant will return error code 500 in case of a SOAP fault. The base
-     * structure is:<br>
-     * If the response was not valid XML this method will do nothing and expect the calling method
-     * to throw an HTTPException.
-     *
-     * @param   sHTTPResponse  The response from the web server.
-     * @param   sRequestXML    The request XML (used for filling the exception object with enough
-     *                         information).
-     *
-     * @throws  CordysSOAPException  When a SOAP fault has occurred.
+     * This method is called when the HTTP response code is set to 500. All servers that are basic-profile compliant will return
+     * error code 500 in case of a SOAP fault. The base structure is:<br>
+     * If the response was not valid XML this method will do nothing and expect the calling method to throw an HTTPException.
+     * 
+     * @param sHTTPResponse The response from the web server.
+     * @param sRequestXML The request XML (used for filling the exception object with enough information).
+     * @throws CordysSOAPException When a SOAP fault has occurred.
      */
-    protected abstract void checkForAndThrowCordysSOAPException(String sHTTPResponse,
-                                                                String sRequestXML)
-                                                         throws CordysSOAPException;
+    protected abstract void checkForAndThrowCordysSOAPException(String sHTTPResponse, String sRequestXML)
+            throws CordysSOAPException;
 
     /**
      * Sends a login message to the gateway.
-     *
-     * @throws  CordysGatewayClientException  Thrown if the operation failed.
+     * 
+     * @throws CordysGatewayClientException Thrown if the operation failed.
      */
-    protected abstract void sendLoginMessage()
-                                      throws CordysGatewayClientException;
+    protected abstract void sendLoginMessage() throws CordysGatewayClientException;
 
     /**
      * Finalizer, clean up resources. Note : not sure if we need it for now
-     *
-     * @throws  Throwable  Thrown by the suport class.
+     * 
+     * @throws Throwable Thrown by the suport class.
      */
-    @Override protected void finalize()
-                               throws Throwable
+    @Override
+    protected void finalize() throws Throwable
     {
-        if (m_hcHostConfiguration != null)
-        {
-            m_hcHostConfiguration = null;
-        }
-
         if (m_hcClient != null)
         {
             m_hcClient = null;
@@ -926,29 +878,25 @@ public abstract class CordysGatewayClientBase
 
     /**
      * Send a soap message to cordys.
-     *
-     * @param   sRequestXML           The soap request as string
-     * @param   lTimeout              The timeout to use.
-     * @param   bBlockIfServerIsDown  If this is true then the call will block indefinately untill
-     *                                the server is back online.
-     * @param   mExtraHeaders         Contains optional HTTP headers to be added to the request. Can
-     *                                be <code>null</code>.
-     * @param   sGatewayURL           The actual URL to which the request should be send.
-     * @param   sOrganization         Organization to which the request is to be sent.
-     * @param   sReceiver             The DN of the receiving SOAP processor.
-     *
-     * @return  The resulting PostMethod. NOTE: The callee is responsible for calling the
-     *          PostMethod.releaseConnection() when it's finished.
-     *
-     * @throws  CordysGatewayClientException  Thrown if the request failed.
+     * 
+     * @param sRequestXML The soap request as string
+     * @param lTimeout The timeout to use.
+     * @param bBlockIfServerIsDown If this is true then the call will block indefinately untill the server is back online.
+     * @param mExtraHeaders Contains optional HTTP headers to be added to the request. Can be <code>null</code>.
+     * @param sGatewayURL The actual URL to which the request should be send.
+     * @param sOrganization Organization to which the request is to be sent.
+     * @param sReceiver The DN of the receiving SOAP processor.
+     * @return The resulting HttpPost. NOTE: The callee is responsible for calling the PostMethod.releaseConnection() when it's
+     *         finished.
+     * @throws CordysGatewayClientException Thrown if the request failed.
      */
-    protected PostMethod requestFromCordys(String sRequestXML, long lTimeout,
-                                           boolean bBlockIfServerIsDown,
-                                           Map<String, String> mExtraHeaders, String sGatewayURL,
-                                           String sOrganization, String sReceiver)
-                                    throws CordysGatewayClientException
+    protected String requestFromCordys(String sRequestXML, long lTimeout, boolean bBlockIfServerIsDown,
+            Map<String, String> mExtraHeaders, String sGatewayURL, String sOrganization, String sReceiver)
+            throws CordysGatewayClientException
     {
-        if (m_hcHostConfiguration == null)
+        String retVal = null;
+
+        if (m_hcClient == null)
         {
             throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_NOT_CONNECTED);
         }
@@ -966,7 +914,8 @@ public abstract class CordysGatewayClientBase
                 {
                     if (getLogger().isInfoEnabled())
                     {
-                        getLogger().info("Server watcher indicates that the server is not running. Waiting for the server to come back online.");
+                        getLogger()
+                                .info("Server watcher indicates that the server is not running. Waiting for the server to come back online.");
                     }
                     bFirst = false;
                 }
@@ -995,15 +944,11 @@ public abstract class CordysGatewayClientBase
         }
 
         // Now send the actual request.
-        PostMethod pmReturn = new PostMethod();
         IPoolWorker oToken = null;
 
         try
         {
             oToken = m_oRequestTokens.getWorker();
-
-            ByteArrayInputStream isSoapRequest = new ByteArrayInputStream(sRequestXML.getBytes());
-            pmReturn.setRequestEntity(new InputStreamRequestEntity(isSoapRequest));
 
             // pmReturn.setRequestContentLength(aInputSoapRequest.length());
             String sActualURL = sGatewayURL;
@@ -1011,48 +956,46 @@ public abstract class CordysGatewayClientBase
 
             if ((sOrganization != null) && (sOrganization.length() > 0))
             {
-                sActualURL += (((!bHasQuery) ? "?" : "&") + "organization=" +
-                               URLEncoder.encode(sOrganization, "UTF8"));
+                sActualURL += (((!bHasQuery) ? "?" : "&") + "organization=" + URLEncoder.encode(sOrganization, "UTF8"));
                 bHasQuery = true;
             }
 
             if (lTimeout > 0)
             {
-                sActualURL += (((!bHasQuery) ? "?" : "&") + "timeout=" +
-                               URLEncoder.encode(String.valueOf(lTimeout), "UTF8"));
+                sActualURL += (((!bHasQuery) ? "?" : "&") + "timeout=" + URLEncoder.encode(String.valueOf(lTimeout), "UTF8"));
                 bHasQuery = true;
             }
 
             if ((sReceiver != null) && (sReceiver.length() > 0))
             {
-                sActualURL += (((!bHasQuery) ? "?" : "&") + "receiver=" +
-                               URLEncoder.encode(sReceiver, "UTF8"));
+                sActualURL += (((!bHasQuery) ? "?" : "&") + "receiver=" + URLEncoder.encode(sReceiver, "UTF8"));
                 bHasQuery = true;
             }
 
             // Add the WCP session if needed
-            if (ICordysCustomAuthentication.class.isAssignableFrom(m_acAuthenticationDetails
-                                                                       .getClass()))
+            if (ICordysCustomAuthentication.class.isAssignableFrom(m_acAuthenticationDetails.getClass()))
             {
-                ICordysCustomAuthentication cca = (ICordysCustomAuthentication)
-                                                      m_acAuthenticationDetails;
+                ICordysCustomAuthentication cca = (ICordysCustomAuthentication) m_acAuthenticationDetails;
 
                 if ((cca.getWCPSessionID() != null) && (cca.getWCPSessionID().length() > 0))
                 {
-                    sActualURL += (((!bHasQuery) ? "?" : "&") + "wcp-session=" +
-                                   URLEncoder.encode(getWCPSessionID(), "UTF8"));
+                    sActualURL += (((!bHasQuery) ? "?" : "&") + "wcp-session=" + URLEncoder.encode(getWCPSessionID(), "UTF8"));
                     bHasQuery = true;
                 }
             }
 
-            pmReturn.setPath(sActualURL);
+            // Create the Post method
+            HttpPost pmReturn = new HttpPost(m_schemeRegistry.getSchemeNames().get(0) + "://" + m_ccConfiguration.getHost() + ":"
+                    + m_ccConfiguration.getPort() + sActualURL);
+
+            // Set the payload.
+            StringEntity entity = new StringEntity(sRequestXML, ContentType.create("text/xml", Consts.UTF_8));
+            pmReturn.setEntity(entity);
 
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug("Posting to url " + sActualURL);
             }
-
-            pmReturn.setRequestHeader(HTTP_CONTENTYPE_HEADER, SOAP_CONTENTYPE_UTF_8);
 
             if (mExtraHeaders != null)
             {
@@ -1065,43 +1008,20 @@ public abstract class CordysGatewayClientBase
                     {
                         if (getLogger().isDebugEnabled())
                         {
-                            getLogger().debug("Adding an HTTP header '" + sName + ": " + sValue +
-                                              "'");
+                            getLogger().debug("Adding an HTTP header '" + sName + ": " + sValue + "'");
                         }
 
-                        pmReturn.addRequestHeader(sName, sValue);
+                        pmReturn.addHeader(sName, sValue);
                     }
                 }
             }
 
-            HttpMethodParams hmpMethodParams = pmReturn.getParams();
-
-            if (hmpMethodParams != null)
-            {
-                String sCredCharset = hmpMethodParams.getCredentialCharset();
-
-                if ((sCredCharset == null) || (sCredCharset.length() == 0))
-                {
-                    hmpMethodParams.setCredentialCharset("UTF-8");
-                }
-
-                if (m_ccConfiguration.getNetworkTimeout() > 0)
-                {
-                    hmpMethodParams.setSoTimeout((int) m_ccConfiguration.getNetworkTimeout());
-                }
-                // Cookies (saml artifact cookies) need not be set when SAML assertion is included in
-                // the SOAP Header. For all the requests which use this class if it is SSO login, then SAML
-                // assertion will be included in the SOAP Header. So the following line will make sure that
-                // it does not use cookies. This is required because with a hotfix delivered by Cordys - which
-                // will be included in BOP 4.2, if the cookies are sent along with the SAML assertion, the 
-                // soap request fails.
-                hmpMethodParams.setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
-            }
-
+            HttpResponse response = null;
             try
             {
                 long lStart = System.currentTimeMillis();
-                int iResp = m_hcClient.executeMethod(m_hcHostConfiguration, pmReturn);
+                response = m_hcClient.execute(pmReturn);
+
                 long lEnd = System.currentTimeMillis();
 
                 if (getLogger().isDebugEnabled())
@@ -1109,46 +1029,46 @@ public abstract class CordysGatewayClientBase
                     getLogger().debug("Request took " + (lEnd - lStart) + " miliseconds.");
                 }
 
+                // Read the response data. This can be done only once.
+                retVal = EntityUtils.toString(response.getEntity());
+
                 if (getLogger().isDebugEnabled())
                 {
-                    String sResponse = pmReturn.getResponseBodyAsString();
-
-                    if (!getLogger().isDebugEnabled())
-                    {
-                        sResponse = sResponse.replaceAll("\n", " ");
-                    }
-
-                    getLogger().debug("Response: " + sResponse);
+                    getLogger().debug("Response: " + retVal.replace("\n", " "));
                 }
 
                 // From C3 if a SOAP:Fault has occurred we will get a HTTP error code 500
                 // so we need to check for that and make sure a proper CordysSOAPException.
                 // The C3 Soap faults contain more information then the C2 exceptions.
-                if (iResp != 200)
+                if (response.getStatusLine().getStatusCode() != 200)
                 {
-                    if (iResp == 500)
+                    if (response.getStatusLine().getStatusCode() == 500)
                     {
-                        checkForAndThrowCordysSOAPException(pmReturn.getResponseBodyAsString(),
-                                                            sRequestXML);
+                        checkForAndThrowCordysSOAPException(retVal, sRequestXML);
                     }
 
-                    throw new HttpException("Wrong responsecode: " + iResp + "\n" +
-                                            pmReturn.getResponseBodyAsString());
+                    throw new HttpException("Wrong responsecode: " + response.getStatusLine().getStatusCode() + "\n" + retVal);
                 }
             }
             catch (IOException ioe)
             {
                 throw new CordysGatewayClientException(ioe, CGCMessages.CGC_ERROR_HTTP_ERROR);
             }
+            finally
+            {
+                if (response != null && response.getEntity() != null)
+                {
+                    EntityUtils.consumeQuietly(response.getEntity());
+                }
+            }
         }
         catch (Exception e)
         {
-            pmReturn.releaseConnection();
-
             if (e instanceof CordysGatewayClientException)
             {
                 throw (CordysGatewayClientException) e;
             }
+
             throw new CordysGatewayClientException(e, CGCMessages.CGC_ERROR_SENDING_REQUEST);
         }
         finally
@@ -1159,13 +1079,13 @@ public abstract class CordysGatewayClientBase
             }
         }
 
-        return pmReturn;
+        return retVal;
     }
 
     /**
      * This method sets the user info for this object.
-     *
-     * @param  uiUserInfo  The user info for this object.
+     * 
+     * @param uiUserInfo The user info for this object.
      */
     protected void setUserInfo(IUserInfo uiUserInfo)
     {

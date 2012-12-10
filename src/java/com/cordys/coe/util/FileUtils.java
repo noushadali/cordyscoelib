@@ -1254,6 +1254,7 @@ public class FileUtils
 
             switch (sCallbackResult)
             {
+                case CONTINUE:
                 case SKIP:
                     continue;
 

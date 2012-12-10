@@ -1,10 +1,10 @@
 package com.cordys.coe.util.exceptions;
 
-import com.cordys.coe.util.cgc.CordysSOAPException;
-
 import java.io.IOException;
 
-import org.apache.commons.httpclient.HttpException;
+import org.apache.http.HttpException;
+
+import com.cordys.coe.util.cgc.CordysSOAPException;
 
 /**
  * This class is used by the XML to channel the exceptions. The different errorcodes are defined

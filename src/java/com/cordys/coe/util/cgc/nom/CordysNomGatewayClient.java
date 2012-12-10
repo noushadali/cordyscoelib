@@ -1,5 +1,6 @@
 package com.cordys.coe.util.cgc.nom;
 
+import com.cordys.coe.util.StringUtils;
 import com.cordys.coe.util.cgc.CordysGatewayClientBase;
 import com.cordys.coe.util.cgc.CordysGatewayClientException;
 import com.cordys.coe.util.cgc.CordysSOAPException;
@@ -15,12 +16,8 @@ import com.eibus.xml.nom.Node;
 import com.eibus.xml.nom.XMLException;
 import com.eibus.xml.xpath.XPathMetaInfo;
 
-import java.io.IOException;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.httpclient.methods.PostMethod;
 
 import org.apache.log4j.Logger;
 
@@ -28,30 +25,19 @@ import org.apache.log4j.Logger;
  * This class can be used to communicate with the Cordys Web Gateway. It supports 3 types of authentication: - Basic - NTLM -
  * Certificates. This class is thread safe. This means that multiple threads can use the same instance of this object to call
  * methods on the Cordys server. If you need to connect under multiple users you need to make an instance per user.<br>
- * Example code for NTLM: <code>String sUser = "pgussow"; String sPassword = "password"; String
- * sServer = "srv-nl-ces20"; String sDomain = "NTDOM"; int iPort = 80; ICordysGatewayClient cgc =
- * new CordysGatewayClient(sUser, sPassword, sServer, iPort, sDomain); cgc.connect();</code>
- * 
- * @author kvginkel
- * @author pgussow
+ * Example code for NTLM: <code>String sUser = "pgussow"; String sPassword = "password"; String sServer =
+ * "srv-nl-ces20"; String sDomain = "NTDOM"; int iPort = 80; ICordysGatewayClient cgc = new CordysGatewayClient(sUser,
+ * sPassword, sServer, iPort, sDomain); cgc.connect();</code>
  */
 public class CordysNomGatewayClient extends CordysGatewayClientBase implements ICordysNomGatewayClient
 {
-    /**
-     * Holds the logger to use for this class.
-     */
+    /** Holds the logger to use for this class. */
     private static final Logger LOG = Logger.getLogger(CordysNomGatewayClient.class);
-    /**
-     * A shared NOM document for all instances.
-     */
+    /** A shared NOM document for all instances. */
     private static final Document dNomDoc = new Document();
-    /**
-     * Holds the namespace prefix for the SOAP namespace.
-     */
+    /** Holds the namespace prefix for the SOAP namespace. */
     private static final String PRE_SOAP = NamespaceDefinitions.PREFIX_SOAP_1_1;
-    /**
-     * Holds the user details.
-     */
+    /** Holds the user details. */
     protected int m_xLogonInfo;
     /** Holds the namespace prefixes used in this class. */
     private static XPathMetaInfo m_xmi = new XPathMetaInfo();
@@ -228,27 +214,7 @@ public class CordysNomGatewayClient extends CordysGatewayClientBase implements I
      */
     public String requestFromCordys(String aInputSoapRequest, long lTimeout) throws CordysGatewayClientException
     {
-        String sReturn = null;
-
-        PostMethod pmMethod = requestFromCordys(aInputSoapRequest, lTimeout, true, null, getGatewayURL(), m_sOrganization, null);
-
-        try
-        {
-            try
-            {
-                sReturn = pmMethod.getResponseBodyAsString();
-            }
-            catch (IOException e)
-            {
-                throw new CordysGatewayClientException(e, CGCMessages.CGC_ERROR_REQUEST_FAILED, aInputSoapRequest, lTimeout);
-            }
-        }
-        finally
-        {
-            pmMethod.releaseConnection();
-        }
-
-        return sReturn;
+        return requestFromCordys(aInputSoapRequest, lTimeout, true, null, getGatewayURL(), m_sOrganization, null);
     }
 
     /**
@@ -307,8 +273,7 @@ public class CordysNomGatewayClient extends CordysGatewayClientBase implements I
      * @param sHTTPResponse The response from the web server.
      * @param sRequestXML The request XML (used for filling the exception object with enough information).
      * @throws CordysSOAPException In case of a SOAP fault.
-     * @see com.cordys.coe.util.cgc.CordysGatewayClientBase#checkForAndThrowCordysSOAPException(java.lang.String,
-     *      java.lang.String)
+     * @see com.cordys.coe.util.cgc.CordysGatewayClientBase#checkForAndThrowCordysSOAPException(java.lang.String, java.lang.String)
      */
     @Override
     protected void checkForAndThrowCordysSOAPException(String sHTTPResponse, String sRequestXML) throws CordysSOAPException
@@ -584,22 +549,20 @@ public class CordysNomGatewayClient extends CordysGatewayClientBase implements I
             mExtraHeaders.put(SOAP_ACTION_HEADER, sSoapAction);
         }
 
-        PostMethod pm = requestFromCordys(Node.writeToString(xRequest, false), lTimeout, bBlockIfServerIsDown, mExtraHeaders,
-                getGatewayURL(), m_sOrganization, null);
+        String responseContent = requestFromCordys(Node.writeToString(xRequest, false), lTimeout, bBlockIfServerIsDown,
+                mExtraHeaders, getGatewayURL(), m_sOrganization, null);
         boolean bRequestOk = false;
 
         try
         {
             try
             {
-                byte[] baBody = pm.getResponseBody();
-
-                if (baBody == null)
+                if (!StringUtils.isSet(responseContent))
                 {
                     throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_EMPTY_BODY);
                 }
 
-                xReturn = dNomDoc.load(baBody);
+                xReturn = dNomDoc.parseString(responseContent);
                 bRequestOk = true;
             }
             catch (Exception e)
@@ -620,8 +583,6 @@ public class CordysNomGatewayClient extends CordysGatewayClientBase implements I
         }
         finally
         {
-            pm.releaseConnection();
-
             if (!bRequestOk)
             {
                 if (xReturn != 0)

@@ -13,6 +13,7 @@
 	</template>
 	<body>
         <release description="Development release" version="@NEXT@">
+          <action dev="pgussow" type="fix">Migrated the CordysGatewayClient to Http Client 4.2.2</action>
 				</release>
 <release date="2012-12-06" description="Development release" version="1.2.6">
           <action dev="pgussow" type="fix">Fixed a bug in the XPathHelper class for DOM. It would return the wrong data when using the getStringValue() without an XPath ending with /text().</action>

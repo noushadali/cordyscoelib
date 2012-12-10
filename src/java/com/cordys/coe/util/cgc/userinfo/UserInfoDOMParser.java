@@ -72,7 +72,7 @@ class UserInfoDOMParser
         try
         {
             Node nUser = XPathHelper.prSelectSingleNode(m_eGetUserDetailsResponse,
-                                                        "./" + PRE_LDAP + ":old/" + PRE_LDAP + ":user");
+                                                        "" + PRE_LDAP + ":old/" + PRE_LDAP + ":user");
 
             if (nUser == null)
             {
@@ -80,7 +80,7 @@ class UserInfoDOMParser
             }
 
             // Get the authenticated user.
-            String sTemp = XMLHelper.prGetData(nUser, "./" + PRE_LDAP + ":authuserdn/text()", "");
+            String sTemp = XMLHelper.prGetData(nUser, "" + PRE_LDAP + ":authuserdn/text()", "");
 
             if (sTemp.length() == 0)
             {
@@ -89,7 +89,7 @@ class UserInfoDOMParser
             uiReturn.setAuthenticatedUser(sTemp);
 
             // Get the description.
-            sTemp = XMLHelper.prGetData(nUser, "./" + PRE_LDAP + ":description/text()", "");
+            sTemp = XMLHelper.prGetData(nUser, "" + PRE_LDAP + ":description/text()", "");
 
             if (sTemp.length() == 0)
             {
@@ -98,7 +98,7 @@ class UserInfoDOMParser
             uiReturn.setDescription(sTemp);
 
             // Now parse the organizations.
-            NodeList nlOrganizations = XPathHelper.prSelectNodeList(nUser, "./" + PRE_LDAP + ":organization");
+            NodeList nlOrganizations = XPathHelper.prSelectNodeList(nUser, "" + PRE_LDAP + ":organization");
 
             for (int iCount = 0; iCount < nlOrganizations.getLength(); iCount++)
             {
@@ -142,7 +142,7 @@ class UserInfoDOMParser
         }
 
         // Get the DN of the organization
-        String sTemp = XMLHelper.prGetData(eOrganization, "./" + PRE_LDAP + ":dn/text()", "");
+        String sTemp = XMLHelper.prGetData(eOrganization, "" + PRE_LDAP + ":dn/text()", "");
 
         if (sTemp.length() == 0)
         {
@@ -152,7 +152,7 @@ class UserInfoDOMParser
         oiReturn.setDN(sTemp);
 
         // Get the description
-        sTemp = XMLHelper.prGetData(eOrganization, "./" + PRE_LDAP + ":description/text()", "");
+        sTemp = XMLHelper.prGetData(eOrganization, "" + PRE_LDAP + ":description/text()", "");
 
         if (sTemp.length() == 0)
         {
@@ -163,7 +163,7 @@ class UserInfoDOMParser
         oiReturn.setDescription(sTemp);
 
         // Get the DN of the organizational user.
-        sTemp = XMLHelper.prGetData(eOrganization, "./" + PRE_LDAP + ":organizationaluser/" + PRE_LDAP + ":dn/text()",
+        sTemp = XMLHelper.prGetData(eOrganization, "" + PRE_LDAP + ":organizationaluser/" + PRE_LDAP + ":dn/text()",
                                     "");
 
         if (sTemp.length() == 0)
@@ -175,11 +175,11 @@ class UserInfoDOMParser
         oiReturn.setOrganizationalUser(sTemp);
 
         // Parse the menus
-        NodeList nlMenus = XPathHelper.prSelectNodeList(eOrganization, "./" + PRE_LDAP + ":menu");
+        NodeList nlMenus = XPathHelper.prSelectNodeList(eOrganization, "" + PRE_LDAP + ":menu");
 
         for (int iCount = 0; iCount < nlMenus.getLength(); iCount++)
         {
-            sTemp = XMLHelper.prGetData(nlMenus.item(iCount), "./text()", "");
+            sTemp = XMLHelper.prGetData(nlMenus.item(iCount), "text()", "");
 
             if (sTemp.length() > 0)
             {
@@ -188,11 +188,11 @@ class UserInfoDOMParser
         }
 
         // Parse the toolbars
-        NodeList nlToolbars = XPathHelper.prSelectNodeList(eOrganization, "./" + PRE_LDAP + ":toolbar");
+        NodeList nlToolbars = XPathHelper.prSelectNodeList(eOrganization, "" + PRE_LDAP + ":toolbar");
 
         for (int iCount = 0; iCount < nlToolbars.getLength(); iCount++)
         {
-            sTemp = XMLHelper.prGetData(nlToolbars.item(iCount), "./text()", "");
+            sTemp = XMLHelper.prGetData(nlToolbars.item(iCount), "text()", "");
 
             if (sTemp.length() > 0)
             {
@@ -201,7 +201,7 @@ class UserInfoDOMParser
         }
 
         // Parse the roles.
-        NodeList nlRoles = XPathHelper.prSelectNodeList(eOrganization, "./" + PRE_LDAP + ":role");
+        NodeList nlRoles = XPathHelper.prSelectNodeList(eOrganization, "" + PRE_LDAP + ":role");
 
         for (int iCount = 0; iCount < nlRoles.getLength(); iCount++)
         {
@@ -236,7 +236,7 @@ class UserInfoDOMParser
         riReturn.setRoleDN(eRole.getAttribute("id"));
 
         // Get the description
-        String sTemp = XMLHelper.prGetData(eRole, "./" + PRE_LDAP + ":description/text()", "");
+        String sTemp = XMLHelper.prGetData(eRole, "" + PRE_LDAP + ":description/text()", "");
 
         if (sTemp.length() == 0)
         {
@@ -248,11 +248,11 @@ class UserInfoDOMParser
 
         // Parse the optional menus, toolsbars and nested roles.
         // Parse the menus
-        NodeList nlMenus = XPathHelper.prSelectNodeList(eRole, "./" + PRE_LDAP + ":menu");
+        NodeList nlMenus = XPathHelper.prSelectNodeList(eRole, "" + PRE_LDAP + ":menu");
 
         for (int iCount = 0; iCount < nlMenus.getLength(); iCount++)
         {
-            sTemp = XMLHelper.prGetData(nlMenus.item(iCount), "./text()", "");
+            sTemp = XMLHelper.prGetData(nlMenus.item(iCount), "text()", "");
 
             if (sTemp.length() > 0)
             {
@@ -261,11 +261,11 @@ class UserInfoDOMParser
         }
 
         // Parse the toolbars
-        NodeList nlToolbars = XPathHelper.prSelectNodeList(eRole, "./" + PRE_LDAP + ":toolbar");
+        NodeList nlToolbars = XPathHelper.prSelectNodeList(eRole, "" + PRE_LDAP + ":toolbar");
 
         for (int iCount = 0; iCount < nlToolbars.getLength(); iCount++)
         {
-            sTemp = XMLHelper.prGetData(nlToolbars.item(iCount), "./text()", "");
+            sTemp = XMLHelper.prGetData(nlToolbars.item(iCount), "text()", "");
 
             if (sTemp.length() > 0)
             {
@@ -274,7 +274,7 @@ class UserInfoDOMParser
         }
 
         // Parse the roles.
-        NodeList nlRoles = XPathHelper.prSelectNodeList(eRole, "./" + PRE_LDAP + ":role");
+        NodeList nlRoles = XPathHelper.prSelectNodeList(eRole, "" + PRE_LDAP + ":role");
 
         for (int iCount = 0; iCount < nlRoles.getLength(); iCount++)
         {

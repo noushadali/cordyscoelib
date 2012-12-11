@@ -1,3 +1,6 @@
+version 1.2.8 (released 2012-12-11)
+-add: Added support for the Upload.wcp to the Cordys Gateway Client.
+
 version 1.2.7 (released 2012-12-10)
 -fix: Migrated the CordysGatewayClient to Http Client 4.2.2
 

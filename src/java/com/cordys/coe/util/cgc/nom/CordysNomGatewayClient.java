@@ -1,5 +1,11 @@
 package com.cordys.coe.util.cgc.nom;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+
 import com.cordys.coe.util.StringUtils;
 import com.cordys.coe.util.cgc.CordysGatewayClientBase;
 import com.cordys.coe.util.cgc.CordysGatewayClientException;
@@ -10,16 +16,10 @@ import com.cordys.coe.util.cgc.message.CGCMessages;
 import com.cordys.coe.util.exceptions.XMLWrapperException;
 import com.cordys.coe.util.xml.NamespaceDefinitions;
 import com.cordys.coe.util.xml.nom.XPathHelper;
-
 import com.eibus.xml.nom.Document;
 import com.eibus.xml.nom.Node;
 import com.eibus.xml.nom.XMLException;
 import com.eibus.xml.xpath.XPathMetaInfo;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
 
 /**
  * This class can be used to communicate with the Cordys Web Gateway. It supports 3 types of authentication: - Basic - NTLM -
@@ -273,7 +273,8 @@ public class CordysNomGatewayClient extends CordysGatewayClientBase implements I
      * @param sHTTPResponse The response from the web server.
      * @param sRequestXML The request XML (used for filling the exception object with enough information).
      * @throws CordysSOAPException In case of a SOAP fault.
-     * @see com.cordys.coe.util.cgc.CordysGatewayClientBase#checkForAndThrowCordysSOAPException(java.lang.String, java.lang.String)
+     * @see com.cordys.coe.util.cgc.CordysGatewayClientBase#checkForAndThrowCordysSOAPException(java.lang.String,
+     *      java.lang.String)
      */
     @Override
     protected void checkForAndThrowCordysSOAPException(String sHTTPResponse, String sRequestXML) throws CordysSOAPException
@@ -551,6 +552,67 @@ public class CordysNomGatewayClient extends CordysGatewayClientBase implements I
 
         String responseContent = requestFromCordys(Node.writeToString(xRequest, false), lTimeout, bBlockIfServerIsDown,
                 mExtraHeaders, getGatewayURL(), m_sOrganization, null);
+        boolean bRequestOk = false;
+
+        try
+        {
+            try
+            {
+                if (!StringUtils.isSet(responseContent))
+                {
+                    throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_EMPTY_BODY);
+                }
+
+                xReturn = dNomDoc.parseString(responseContent);
+                bRequestOk = true;
+            }
+            catch (Exception e)
+            {
+                throw new CordysGatewayClientException(e, CGCMessages.CGC_ERROR_PARSE_RESPONSE);
+            }
+
+            if (isCheckingForFaults())
+            {
+                // Parse for SOAP faults.
+                int xFault = XPathHelper.selectSingleNode(xReturn, "/soap:Envelope/soap:Body/soap:Fault");
+
+                if (xFault != 0)
+                {
+                    throw parseSOAPFault(xFault, xRequest);
+                }
+            }
+        }
+        finally
+        {
+            if (!bRequestOk)
+            {
+                if (xReturn != 0)
+                {
+                    Node.delete(xReturn);
+                    xReturn = 0;
+                }
+            }
+        }
+
+        return xReturn;
+    }
+
+    /**
+     * @see com.cordys.coe.util.cgc.nom.ICordysNomGatewayClient#uploadFile(int, java.io.File)
+     */
+    @Override
+    public int uploadFile(int xRequest, File file) throws CordysGatewayClientException, CordysSOAPException
+    {
+        int xReturn = 0;
+
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Request:\n" + Node.writeToString(xRequest, false));
+        }
+
+        String responseContent = uploadFile(Node.writeToString(xRequest, false), file, m_sOrganization, getConfiguration()
+                .getTimeout(), null, true);
+
         boolean bRequestOk = false;
 
         try

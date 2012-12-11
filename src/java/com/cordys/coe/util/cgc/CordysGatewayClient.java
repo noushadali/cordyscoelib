@@ -1,6 +1,7 @@
 package com.cordys.coe.util.cgc;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1102,6 +1103,84 @@ class CordysGatewayClient extends CordysGatewayClientBase implements ICordysGate
                 if (nFault != null)
                 {
                     throw CordysSOAPException.parseSOAPFault(nFault, eRequest);
+                }
+            }
+            catch (TransformerException te)
+            {
+                throw new CordysGatewayClientException(te, CGCMessages.CGC_ERROR_SEARCH_FOR_FAULT);
+            }
+        }
+
+        return eReturn;
+    }
+    
+    /**
+     * @see com.cordys.coe.util.cgc.ICordysGatewayClient#uploadFile(org.w3c.dom.Element, java.io.File)
+     */
+    @Override
+    public Element uploadFile(Element request, File file) throws CordysGatewayClientException, CordysSOAPException
+    {
+        Element eReturn = null;
+
+        // Fix the request for SSO
+        addSSOToken(request);
+
+        // Make sure the space is preserved, otherwise the SSO tokens signature might break.
+        String sRequestXML = NiceDOMWriter.write(request, 0, false, false, false);
+
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Request:\n" + sRequestXML);
+        }
+
+        //We need to change the URL that we'de posting to. Because we need to post the the com.eibus.web.tools.upload.Upload.wcp instead of the normal gateway.
+        String responseContent = uploadFile(sRequestXML, file, m_sOrganization, getConfiguration().getTimeout(), null, true);
+
+        Document dDoc;
+
+        try
+        {
+            dDoc = XMLHelper.createDocumentFromXML(responseContent, m_bNamespaceAwareResponses);
+        }
+        catch (Exception e)
+        {
+            throw new CordysGatewayClientException(e, CGCMessages.CGC_ERROR_PARSE_RESPONSE, responseContent);
+        }
+
+        eReturn = dDoc.getDocumentElement();
+        
+        //The upload response is wrapped in a HTML piece. If this is the case then we need to remove that part first.
+        if (!"Envelope".equals(eReturn.getLocalName()) && !NamespaceDefinitions.XMLNS_SOAP_1_1.equals(eReturn.getNamespaceURI()))
+        {
+            try
+            {
+                Node temp = XPathHelper.selectSingleNode(eReturn, "//SOAP:Envelope", NamespaceConstants.getPrefixResolver());
+                if (temp != null)
+                {
+                    temp.getParentNode().removeChild(temp);
+                    eReturn = (Element) temp;
+                }
+            }
+            catch (TransformerException e)
+            {
+                if (LOG.isInfoEnabled())
+                {
+                    LOG.info("Error getting the SOAP Envelope from the HTML response.", e);
+                }
+            }
+        }
+
+        if (isCheckingForFaults())
+        {
+            // Parse for SOAP faults.
+            try
+            {
+                Node nFault = XPathHelper.selectSingleNode(eReturn, "/" + PRE_SOAP + ":Envelope/" + PRE_SOAP + ":Body/"
+                        + PRE_SOAP + ":Fault", NamespaceConstants.getPrefixResolver());
+
+                if (nFault != null)
+                {
+                    throw CordysSOAPException.parseSOAPFault(nFault, request);
                 }
             }
             catch (TransformerException te)

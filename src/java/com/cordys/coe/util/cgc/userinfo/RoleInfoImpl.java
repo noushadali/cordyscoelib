@@ -8,39 +8,59 @@ import java.util.Map;
 
 /**
  * This class wraps the Role information.
- *
- * @author  pgussow
+ * 
+ * @author pgussow
  */
-public class RoleInfoImpl
-    implements IRoleInfo
+public class RoleInfoImpl implements IRoleInfo
 {
-    /**
-     * Holds all menus for this organization.
-     */
+    /** Holds all menus for this organization. */
     private List<String> m_lMenus = new ArrayList<String>();
-    /**
-     * Holds all toolbars for this organization.
-     */
+    /** Holds all toolbars for this organization. */
     private List<String> m_lToolbars = new ArrayList<String>();
-    /**
-     * Holds all roles for this organizations.
-     */
+    /** Holds all roles for this organizations. */
     private Map<String, IRoleInfo> m_mRoles = new LinkedHashMap<String, IRoleInfo>();
-    /**
-     * Holds the description of the oprganization.
-     */
+    /** Holds the description of the oprganization. */
     private String m_sDescription;
-    /**
-     * Holds the DN of the role.
-     */
+    /** Holds the DN of the role. */
     private String m_sRoleDN;
+    /** Holds the parent role Info object. */
+    private IRoleInfo m_parent;
+
+    /**
+     * Instantiates a new role info impl.
+     * 
+     * @param parent the parent
+     */
+    RoleInfoImpl(IRoleInfo parent)
+    {
+        m_parent = parent;
+    }
+    
+    /**
+     * This method gets the parent role Info object.
+     * 
+     * @return The parent role Info object.
+     */
+    public IRoleInfo getParent()
+    {
+        return m_parent;
+    }
+
+    /**
+     * This method sets the parent role Info object.
+     * 
+     * @param parent The parent role Info object.
+     */
+    public void setParent(IRoleInfo parent)
+    {
+        m_parent = parent;
+    }
 
     /**
      * This method adds a new menu to this role.
-     *
-     * @param  sMenu  The menu to add.
-     *
-     * @see    com.cordys.coe.util.cgc.userinfo.IRoleInfo#addMenu(java.lang.String)
+     * 
+     * @param sMenu The menu to add.
+     * @see com.cordys.coe.util.cgc.userinfo.IRoleInfo#addMenu(java.lang.String)
      */
     public void addMenu(String sMenu)
     {
@@ -49,10 +69,9 @@ public class RoleInfoImpl
 
     /**
      * This method adds a nested role to the current role.
-     *
-     * @param  riRole  The role information.
-     *
-     * @see    com.cordys.coe.util.cgc.userinfo.IRoleInfo#addNestedRole(com.cordys.coe.util.cgc.userinfo.IRoleInfo)
+     * 
+     * @param riRole The role information.
+     * @see com.cordys.coe.util.cgc.userinfo.IRoleInfo#addNestedRole(com.cordys.coe.util.cgc.userinfo.IRoleInfo)
      */
     public void addNestedRole(IRoleInfo riRole)
     {
@@ -61,10 +80,9 @@ public class RoleInfoImpl
 
     /**
      * This method adds a new toolbar to this role.
-     *
-     * @param  sToolbar  The toolbar to add.
-     *
-     * @see    com.cordys.coe.util.cgc.userinfo.IRoleInfo#addToolbar(java.lang.String)
+     * 
+     * @param sToolbar The toolbar to add.
+     * @see com.cordys.coe.util.cgc.userinfo.IRoleInfo#addToolbar(java.lang.String)
      */
     public void addToolbar(String sToolbar)
     {
@@ -73,10 +91,9 @@ public class RoleInfoImpl
 
     /**
      * This method gets the description for the role.
-     *
-     * @return  The description for the role.
-     *
-     * @see     com.cordys.coe.util.cgc.userinfo.IRoleInfo#getDescription()
+     * 
+     * @return The description for the role.
+     * @see com.cordys.coe.util.cgc.userinfo.IRoleInfo#getDescription()
      */
     public String getDescription()
     {
@@ -85,10 +102,9 @@ public class RoleInfoImpl
 
     /**
      * This method gets the list of menus assigned to this user.
-     *
-     * @return  The list of menus assigned to this user.
-     *
-     * @see     com.cordys.coe.util.cgc.userinfo.IRoleInfo#getMenus()
+     * 
+     * @return The list of menus assigned to this user.
+     * @see com.cordys.coe.util.cgc.userinfo.IRoleInfo#getMenus()
      */
     public List<String> getMenus()
     {
@@ -99,10 +115,9 @@ public class RoleInfoImpl
 
     /**
      * This method gets the list of nested roles for this role.
-     *
-     * @return  The list of nested roles for this role.
-     *
-     * @see     com.cordys.coe.util.cgc.userinfo.IRoleInfo#getNestedRoles()
+     * 
+     * @return The list of nested roles for this role.
+     * @see com.cordys.coe.util.cgc.userinfo.IRoleInfo#getNestedRoles()
      */
     public Map<String, IRoleInfo> getNestedRoles()
     {
@@ -113,10 +128,9 @@ public class RoleInfoImpl
 
     /**
      * This method gets the DN of the current role.
-     *
-     * @return  The DN of the current role.
-     *
-     * @see     com.cordys.coe.util.cgc.userinfo.IRoleInfo#getRoleDN()
+     * 
+     * @return The DN of the current role.
+     * @see com.cordys.coe.util.cgc.userinfo.IRoleInfo#getRoleDN()
      */
     public String getRoleDN()
     {
@@ -125,10 +139,9 @@ public class RoleInfoImpl
 
     /**
      * This method gets the list of toolsbars assigned to this user.
-     *
-     * @return  The list of toolsbars assigned to this user.
-     *
-     * @see     com.cordys.coe.util.cgc.userinfo.IRoleInfo#getToolbars()
+     * 
+     * @return The list of toolsbars assigned to this user.
+     * @see com.cordys.coe.util.cgc.userinfo.IRoleInfo#getToolbars()
      */
     public List<String> getToolbars()
     {
@@ -139,12 +152,10 @@ public class RoleInfoImpl
 
     /**
      * This method returns if the user has the given role.
-     *
-     * @param   sRoleDN  The DN of the role.
-     *
-     * @return  true if the user has this role. Otherwise false.
-     *
-     * @see     com.cordys.coe.util.cgc.userinfo.IRoleInfo#hasRole(java.lang.String)
+     * 
+     * @param sRoleDN The DN of the role.
+     * @return true if the user has this role. Otherwise false.
+     * @see com.cordys.coe.util.cgc.userinfo.IRoleInfo#hasRole(java.lang.String)
      */
     public boolean hasRole(String sRoleDN)
     {
@@ -171,10 +182,9 @@ public class RoleInfoImpl
 
     /**
      * This method sets the description for the role.
-     *
-     * @param  sDescription  The description for the role.
-     *
-     * @see    com.cordys.coe.util.cgc.userinfo.IRoleInfo#setDescription(java.lang.String)
+     * 
+     * @param sDescription The description for the role.
+     * @see com.cordys.coe.util.cgc.userinfo.IRoleInfo#setDescription(java.lang.String)
      */
     public void setDescription(String sDescription)
     {
@@ -183,10 +193,9 @@ public class RoleInfoImpl
 
     /**
      * This method sets the DN of the current role.
-     *
-     * @param  sRoleDN  The DN of the current role.
-     *
-     * @see    com.cordys.coe.util.cgc.userinfo.IRoleInfo#setRoleDN(java.lang.String)
+     * 
+     * @param sRoleDN The DN of the current role.
+     * @see com.cordys.coe.util.cgc.userinfo.IRoleInfo#setRoleDN(java.lang.String)
      */
     public void setRoleDN(String sRoleDN)
     {
@@ -195,24 +204,22 @@ public class RoleInfoImpl
 
     /**
      * This method returns the string representation of the object.
-     *
-     * @return  The string representation of the object.
-     *
-     * @see     java.lang.Object#toString()
+     * 
+     * @return The string representation of the object.
+     * @see java.lang.Object#toString()
      */
-    @Override public String toString()
+    @Override
+    public String toString()
     {
         return toString(0);
     }
 
     /**
      * This method returns the string representation of the object.
-     *
-     * @param   iIdent  The number of tab char to add after a new line.
-     *
-     * @return  The string representation of the object.
-     *
-     * @see     java.lang.Object#toString()
+     * 
+     * @param iIdent The number of tab char to add after a new line.
+     * @return The string representation of the object.
+     * @see java.lang.Object#toString()
      */
     public String toString(int iIdent)
     {

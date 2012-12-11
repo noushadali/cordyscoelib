@@ -1,36 +1,34 @@
 package com.cordys.coe.util.cgc.userinfo;
 
+import org.apache.log4j.Logger;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import com.cordys.coe.util.cgc.CordysGatewayClientException;
 import com.cordys.coe.util.cgc.message.CGCMessages;
 import com.cordys.coe.util.xml.dom.NamespaceConstants;
 import com.cordys.coe.util.xml.dom.XMLHelper;
 import com.cordys.coe.util.xml.dom.XPathHelper;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 /**
  * This class can parse the GetUserInfoResponse based on the DOM classes.
- *
- * @author  pgussow
+ * 
+ * @author pgussow
  */
 class UserInfoDOMParser
 {
-    /**
-     * Holds the prefix to use.
-     */
-    private static final String PRE_LDAP = NamespaceConstants.registerPrefix("ldap11",
-                                                                             "http://schemas.cordys.com/1.1/ldap");
-    /**
-     * Holds the root tag.
-     */
+    /** Holds the logger to use. */
+    private static final Logger LOG = Logger.getLogger(UserInfoDOMParser.class);
+    /** Holds the prefix to use. */
+    private static final String PRE_LDAP = NamespaceConstants.registerPrefix("ldap11", "http://schemas.cordys.com/1.1/ldap");
+    /** Holds the root tag. */
     private Element m_eGetUserDetailsResponse;
 
     /**
      * Constructor.
-     *
-     * @param  eGetUserDetailsResponse  The GetUserDetailsResponse tag.
+     * 
+     * @param eGetUserDetailsResponse The GetUserDetailsResponse tag.
      */
     private UserInfoDOMParser(Element eGetUserDetailsResponse)
     {
@@ -39,15 +37,12 @@ class UserInfoDOMParser
 
     /**
      * This method will do the actual parsing of the GetUserDetails.
-     *
-     * @param   eGetUserDetailsResponse  The tag pointing to the GetUserDetailsResponse/tuple
-     *
-     * @return  The parsed UserInfo.
-     *
-     * @throws  CordysGatewayClientException  In case of any exceptions
+     * 
+     * @param eGetUserDetailsResponse The tag pointing to the GetUserDetailsResponse/tuple
+     * @return The parsed UserInfo.
+     * @throws CordysGatewayClientException In case of any exceptions
      */
-    public static IUserInfo parse(Element eGetUserDetailsResponse)
-                           throws CordysGatewayClientException
+    public static IUserInfo parse(Element eGetUserDetailsResponse) throws CordysGatewayClientException
     {
         IUserInfo uiReturn = null;
 
@@ -59,20 +54,17 @@ class UserInfoDOMParser
 
     /**
      * This method parses the GetUserDetailsResponse..
-     *
-     * @return  The user info object.
-     *
-     * @throws  CordysGatewayClientException  In case of any exceptions
+     * 
+     * @return The user info object.
+     * @throws CordysGatewayClientException In case of any exceptions
      */
-    public IUserInfo parse()
-                    throws CordysGatewayClientException
+    public IUserInfo parse() throws CordysGatewayClientException
     {
         IUserInfo uiReturn = new UserInfoImpl();
 
         try
         {
-            Node nUser = XPathHelper.prSelectSingleNode(m_eGetUserDetailsResponse,
-                                                        "" + PRE_LDAP + ":old/" + PRE_LDAP + ":user");
+            Node nUser = XPathHelper.prSelectSingleNode(m_eGetUserDetailsResponse, "" + PRE_LDAP + ":old/" + PRE_LDAP + ":user");
 
             if (nUser == null)
             {
@@ -123,15 +115,12 @@ class UserInfoDOMParser
 
     /**
      * This method parses the given organization.
-     *
-     * @param   eOrganization  The given organziation.
-     *
-     * @return  The wrapper around the organizational information.
-     *
-     * @throws  Exception  In case of any exceptions
+     * 
+     * @param eOrganization The given organziation.
+     * @return The wrapper around the organizational information.
+     * @throws Exception In case of any exceptions
      */
-    private IOrganizationInfo parseOrganization(Element eOrganization)
-                                         throws Exception
+    private IOrganizationInfo parseOrganization(Element eOrganization) throws Exception
     {
         IOrganizationInfo oiReturn = new OrganizationInfoImpl();
 
@@ -156,20 +145,23 @@ class UserInfoDOMParser
 
         if (sTemp.length() == 0)
         {
-            throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_USERINFO_XPATH,
-                                                   "organization/description/text()");
+            throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_USERINFO_XPATH, "organization/description/text()");
         }
 
         oiReturn.setDescription(sTemp);
+        
+        if (LOG.isDebugEnabled())
+        {
+            LOG.debug("Parsing organization " + oiReturn.getDN());
+        }
 
         // Get the DN of the organizational user.
-        sTemp = XMLHelper.prGetData(eOrganization, "" + PRE_LDAP + ":organizationaluser/" + PRE_LDAP + ":dn/text()",
-                                    "");
+        sTemp = XMLHelper.prGetData(eOrganization, "" + PRE_LDAP + ":organizationaluser/" + PRE_LDAP + ":dn/text()", "");
 
         if (sTemp.length() == 0)
         {
             throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_USERINFO_XPATH,
-                                                   "organization/organizationaluser/dn/text()");
+                    "organization/organizationaluser/dn/text()");
         }
 
         oiReturn.setOrganizationalUser(sTemp);
@@ -207,7 +199,7 @@ class UserInfoDOMParser
         {
             Element eRole = (Element) nlRoles.item(iCount);
 
-            IRoleInfo riRole = parseRole(eRole);
+            IRoleInfo riRole = parseRole(eRole, null);
 
             if (riRole != null)
             {
@@ -220,20 +212,35 @@ class UserInfoDOMParser
 
     /**
      * This method parses the role tag. It will return a filled RoleInfo object.
-     *
-     * @param   eRole  The role element.
-     *
-     * @return  The role info.
-     *
-     * @throws  Exception  In case of any exceptions
+     * 
+     * @param eRole The role element.
+     * @return The role info.
+     * @throws Exception In case of any exceptions
      */
-    private IRoleInfo parseRole(Element eRole)
-                         throws Exception
+    private IRoleInfo parseRole(Element eRole, IRoleInfo parent) throws Exception
     {
-        IRoleInfo riReturn = new RoleInfoImpl();
+        IRoleInfo riReturn = new RoleInfoImpl(parent);
 
         // Get the DN of the role.
         riReturn.setRoleDN(eRole.getAttribute("id"));
+        
+        if (LOG.isDebugEnabled())
+        {
+            LOG.debug("Parsing role " + riReturn.getRoleDN());
+        }
+        
+        //Check to make sure the role is not already in a cyclic reference.
+        IRoleInfo current = parent;
+        while (current != null)
+        {
+            if (current.getRoleDN().equals(riReturn.getRoleDN()))
+            {
+                LOG.warn("Cyclic role reference!!");
+                return null;
+            }
+            
+            current = current.getParent();
+        }
 
         // Get the description
         String sTemp = XMLHelper.prGetData(eRole, "" + PRE_LDAP + ":description/text()", "");
@@ -280,7 +287,8 @@ class UserInfoDOMParser
         {
             Element eNestedRole = (Element) nlRoles.item(iCount);
 
-            IRoleInfo riRole = parseRole(eNestedRole);
+            //Check to make sure it is not in the parent!
+            IRoleInfo riRole = parseRole(eNestedRole, riReturn);
 
             if (riRole != null)
             {

@@ -88,6 +88,20 @@ public interface IRoleInfo
      * @param  sRoleDN  The DN of the current role.
      */
     void setRoleDN(String sRoleDN);
+    
+    /**
+     * This method gets the parent role Info object.
+     * 
+     * @return The parent role Info object.
+     */
+    public IRoleInfo getParent();
+
+    /**
+     * This method sets the parent role Info object.
+     * 
+     * @param parent The parent role Info object.
+     */
+    public void setParent(IRoleInfo parent);
 
     /**
      * This method returns the string representation of the object.

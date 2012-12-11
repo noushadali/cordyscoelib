@@ -206,10 +206,16 @@ public class CGCMessages
 	 */
 	public static final CoEMessage CGC_ERROR_ADD_MESSAGE = new CoEMessage(MESSAGE_SET, "cgc.error.add.message");
 	/**
-	 * Holds the definition of the message with ID cgc.error.ssl.certificate.not.exists.
-	 * Message text:
-	 * Authentication certificate file does not exist({0}).
-	 */
-	public static final CoEMessage CGC_ERROR_SSL_CERTIFICATE_NOT_EXISTS = new CoEMessage(MESSAGE_SET, "cgc.error.ssl.certificate.not.exists");
+     * Holds the definition of the message with ID cgc.error.ssl.certificate.not.exists.
+     * Message text:
+     * Authentication certificate file does not exist({0}).
+     */
+    public static final CoEMessage CGC_ERROR_SSL_CERTIFICATE_NOT_EXISTS = new CoEMessage(MESSAGE_SET, "cgc.error.ssl.certificate.not.exists");
+    /**
+    * Holds the definition of the message with ID cgc.error.file.upload.
+    * Message text:
+    * Error uploading file {0}.
+    */
+   public static final CoEMessage CGC_ERROR_FILE_UPLOAD = new CoEMessage(MESSAGE_SET, "cgc.error.file.upload");
 
 }

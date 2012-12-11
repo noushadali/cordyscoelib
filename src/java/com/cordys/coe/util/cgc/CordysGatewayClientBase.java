@@ -1,6 +1,8 @@
 package com.cordys.coe.util.cgc;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,6 +28,10 @@ import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.params.HttpConnectionParams;
@@ -35,6 +41,7 @@ import org.apache.log4j.Logger;
 import com.cordys.coe.util.IPoolWorker;
 import com.cordys.coe.util.StringUtils;
 import com.cordys.coe.util.TokenPool;
+import com.cordys.coe.util.cgc.config.CGCConfigFactory;
 import com.cordys.coe.util.cgc.config.IAuthenticationConfiguration;
 import com.cordys.coe.util.cgc.config.ICGCConfiguration;
 import com.cordys.coe.util.cgc.config.ICGCSSLConfiguration;
@@ -421,6 +428,33 @@ public abstract class CordysGatewayClientBase implements ICordysGatewayClientBas
     public String getGatewayURL()
     {
         return m_ccConfiguration.getGatewayURL();
+    }
+
+    /**
+     * This method gets the full URL for the gateway.
+     * 
+     * @return The full URL for the gateway.
+     */
+    public URL getRealGatewayURL()
+    {
+        URL retVal = null;
+
+        String protocol = "http";
+        if (m_ccConfiguration.isSSL())
+        {
+            protocol += "s";
+        }
+
+        try
+        {
+            retVal = new URL(protocol, m_ccConfiguration.getHost(), m_ccConfiguration.getPort(), getGatewayURL());
+        }
+        catch (Exception e)
+        {
+            // Should never happen, since we've already used the URL.
+        }
+
+        return retVal;
     }
 
     /**
@@ -1090,5 +1124,186 @@ public abstract class CordysGatewayClientBase implements ICordysGatewayClientBas
     protected void setUserInfo(IUserInfo uiUserInfo)
     {
         m_uiUserInfo = uiUserInfo;
+    }
+
+    /**
+     * @see com.cordys.coe.util.cgc.ICordysGatewayClientBase#uploadFile(java.lang.String, java.io.File)
+     */
+    @Override
+    public String uploadFile(String request, File file, String organization, long timeout, String receiver,
+            boolean blockIfServerIsDown) throws CordysGatewayClientException
+    {
+        String retVal = null;
+
+        if (m_hcClient == null)
+        {
+            throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_NOT_CONNECTED);
+        }
+
+        // If this CGC is configured to use the serverwatcher we need to make sure that
+        // the server is running before we attempt to send the request.
+        if (m_ccConfiguration.useServerWatcher() && blockIfServerIsDown)
+        {
+            boolean bFirst = true;
+            boolean bServerDown = false;
+
+            while (!m_swWatcher.shouldServerFunction())
+            {
+                if (bFirst == true)
+                {
+                    if (getLogger().isInfoEnabled())
+                    {
+                        getLogger()
+                                .info("Server watcher indicates that the server is not running. Waiting for the server to come back online.");
+                    }
+                    bFirst = false;
+                }
+                bServerDown = true;
+
+                try
+                {
+                    Thread.sleep(m_ccConfiguration.getSleepTimeBetweenServerWacther());
+                }
+                catch (InterruptedException e)
+                {
+                    if (getLogger().isDebugEnabled())
+                    {
+                        getLogger().debug("Waiting for server loop interrupted.", e);
+                    }
+                }
+            }
+
+            if (bServerDown == true)
+            {
+                if (getLogger().isInfoEnabled())
+                {
+                    getLogger().info("The server was down but is up again. So continuing.");
+                }
+            }
+        }
+
+        // Now send the actual request.
+        IPoolWorker oToken = null;
+
+        try
+        {
+            oToken = m_oRequestTokens.getWorker();
+
+            // pmReturn.setRequestContentLength(aInputSoapRequest.length());
+            String sActualURL = getGatewayURL();
+            boolean bHasQuery = (sActualURL != null) && (sActualURL.indexOf('?') >= 0);
+
+            // The details are wrapped in a multipart/from-data
+            MultipartEntity mpe = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+            FileBody fb = new FileBody(file, "application/octet-stream");
+            mpe.addPart("file1", fb);
+            mpe.addPart("methodXML", new StringBody(request, Consts.UTF_8));
+            mpe.addPart("encode", new StringBody("true", Consts.UTF_8));
+            mpe.addPart("xmlcontent", new StringBody("true", Consts.UTF_8));
+            if (StringUtils.isSet(organization))
+            {
+                mpe.addPart("organizationalcontext", new StringBody(organization, Consts.UTF_8));
+            }
+            if (timeout > 0)
+            {
+                mpe.addPart("timeout", new StringBody(String.valueOf(timeout), Consts.UTF_8));
+            }
+            if (StringUtils.isSet(receiver))
+            {
+                mpe.addPart("receiver", new StringBody(receiver, Consts.UTF_8));
+            }
+            mpe.addPart("contentType", new StringBody("application/octet-stream", Consts.UTF_8));
+            mpe.addPart("resultHtml", new StringBody("", Consts.UTF_8));
+
+            // Add the WCP session if needed
+            if (ICordysCustomAuthentication.class.isAssignableFrom(m_acAuthenticationDetails.getClass()))
+            {
+                ICordysCustomAuthentication cca = (ICordysCustomAuthentication) m_acAuthenticationDetails;
+
+                if ((cca.getWCPSessionID() != null) && (cca.getWCPSessionID().length() > 0))
+                {
+                    sActualURL += (((!bHasQuery) ? "?" : "&") + "wcp-session=" + URLEncoder.encode(getWCPSessionID(), "UTF8"));
+                    bHasQuery = true;
+                }
+            }
+
+            // Create the Post method
+            sActualURL = sActualURL.replace(CGCConfigFactory.GATEWAY_URL_CLASS, "com.eibus.web.tools.upload.Upload.wcp");
+            HttpPost pmReturn = new HttpPost(m_schemeRegistry.getSchemeNames().get(0) + "://" + m_ccConfiguration.getHost() + ":"
+                    + m_ccConfiguration.getPort() + sActualURL);
+
+            // Set the payload.
+            pmReturn.setEntity(mpe);
+
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug("Posting to url " + sActualURL);
+            }
+
+            HttpResponse response = null;
+            try
+            {
+                long lStart = System.currentTimeMillis();
+                response = m_hcClient.execute(pmReturn);
+
+                long lEnd = System.currentTimeMillis();
+
+                if (getLogger().isDebugEnabled())
+                {
+                    getLogger().debug("Request took " + (lEnd - lStart) + " miliseconds.");
+                }
+
+                // Read the response data. This can be done only once.
+                retVal = EntityUtils.toString(response.getEntity());
+
+                if (getLogger().isDebugEnabled())
+                {
+                    getLogger().debug("Response: " + retVal.replace("\n", " "));
+                }
+
+                // From C3 if a SOAP:Fault has occurred we will get a HTTP error code 500
+                // so we need to check for that and make sure a proper CordysSOAPException.
+                // The C3 Soap faults contain more information then the C2 exceptions.
+                if (response.getStatusLine().getStatusCode() != 200)
+                {
+                    if (response.getStatusLine().getStatusCode() == 500)
+                    {
+                        checkForAndThrowCordysSOAPException(retVal, request);
+                    }
+
+                    throw new HttpException("Wrong responsecode: " + response.getStatusLine().getStatusCode() + "\n" + retVal);
+                }
+            }
+            catch (IOException ioe)
+            {
+                throw new CordysGatewayClientException(ioe, CGCMessages.CGC_ERROR_HTTP_ERROR);
+            }
+            finally
+            {
+                if (response != null && response.getEntity() != null)
+                {
+                    EntityUtils.consumeQuietly(response.getEntity());
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            if (e instanceof CordysGatewayClientException)
+            {
+                throw (CordysGatewayClientException) e;
+            }
+
+            throw new CordysGatewayClientException(e, CGCMessages.CGC_ERROR_SENDING_REQUEST);
+        }
+        finally
+        {
+            if (null != oToken)
+            {
+                m_oRequestTokens.putWorker(oToken);
+            }
+        }
+
+        return retVal;
     }
 }

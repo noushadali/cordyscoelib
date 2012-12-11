@@ -246,7 +246,7 @@ class UserInfoNOMParser
                          throws XMLWrapperException, CordysGatewayClientException,
                                 TransformerException
     {
-        IRoleInfo riReturn = new RoleInfoImpl();
+        IRoleInfo riReturn = new RoleInfoImpl(null);
 
         // Get the DN of the role.
         riReturn.setRoleDN(Node.getAttribute(iRole, "id"));

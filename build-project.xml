@@ -280,11 +280,18 @@
 			</fileset>
 		</zip>
 		
-		
+        <!-- Copy the proper zip with all the data -->
+        <zip destfile="${dist.dir}/${isv.filename}_${version.full}.zip">
+            <fileset dir="${dist.dir}">
+                <include name="jar/**"/>
+                <include name="coetool/**"/>
+            </fileset>
+            <fileset file="${dist.dir}/docs/api-bundle/coelib-javadocs.zip" />
+        </zip>
 	</target>
 
 	<!--Target for copying resources from build to distribution -->
-	<target name="copy-dist" depends="copy-docs,copy-javadocs,copy-isv,copy-testreports,createsourcezip,copy-dist-coelib,_create-build-info">
+	<target name="copy-dist" depends="copy-docs,copy-javadocs,copy-isv,copy-testreports,createsourcezip,copy-dist-coelib,_create-build-info,deploy-google">
 	</target>
 	
     <target name="cobertura-report">
@@ -294,16 +301,7 @@
 	<!-- ================================= 
           target: deploy-google              
          ================================= -->
-    <target name="deploy-google" description="Deploys the binaries to the google code project">
-    	<!-- Copy the proper zip with all the data -->
-        <zip destfile="${dist.dir}/${isv.filename}_${version.full}.zip">
-            <fileset dir="${dist.dir}">
-                <include name="jar/**"/>
-            	<include name="coetool/**"/>
-            </fileset>
-            <fileset file="${dist.dir}/docs/api-bundle/coelib-javadocs.zip" />
-        </zip>
-    	
+    <target name="deploy-google" description="Deploys the binaries to the google code project" if="google.username">
     	<taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="./test/lib/ant-googlecode-0.0.3.jar" name="gcupload"/>
     	<gcupload 
 	        username="${google.username}" 
@@ -313,6 +311,15 @@
 	        targetfilename="${isv.filename}_${version.full}.zip"
 	        summary="Version ${version.full} of the CoE Library"
 	        labels="Featured, Type-Package, OpSys-All" />
+    	
+    	<gcupload 
+            username="${google.username}" 
+            password="${google.password}"
+            projectname="${google.project}" 
+            filename="${dist.dir}/${isv.filename}_${version.full}-src.zip" 
+            targetfilename="${isv.filename}_${version.full}-src.zip"
+            summary="Version ${version.full} source of the CoE Library"
+            labels="Featured, Type-Package, OpSys-All" />
     </target>
 
 </project>

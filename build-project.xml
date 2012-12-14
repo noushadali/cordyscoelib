@@ -278,7 +278,9 @@
 				<patternset refid="all.non.vss.files" />
 				<patternset refid="all.non.svn.files" />
 			</fileset>
-		</zip>		
+		</zip>
+		
+		
 	</target>
 
 	<!--Target for copying resources from build to distribution -->
@@ -287,6 +289,30 @@
 	
     <target name="cobertura-report">
         <!-- No need for cobertura -->
+    </target>
+
+	<!-- ================================= 
+          target: deploy-google              
+         ================================= -->
+    <target name="deploy-google" description="Deploys the binaries to the google code project">
+    	<!-- Copy the proper zip with all the data -->
+        <zip destfile="${dist.dir}/${isv.filename}_${version.full}.zip">
+            <fileset dir="${dist.dir}">
+                <include name="jar/**"/>
+            	<include name="coetool/**"/>
+            </fileset>
+            <fileset file="${dist.dir}/docs/api-bundle/coelib-javadocs.zip" />
+        </zip>
+    	
+    	<taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="./test/lib/ant-googlecode-0.0.3.jar" name="gcupload"/>
+    	<gcupload 
+	        username="${google.username}" 
+	        password="${google.password}"
+	        projectname="${google.project}" 
+	        filename="${dist.dir}/${isv.filename}_${version.full}.zip" 
+	        targetfilename="${isv.filename}_${version.full}.zip"
+	        summary="Version ${version.full} of the CoE Library"
+	        labels="Featured, Type-Package, OpSys-All" />
     </target>
 
 </project>

@@ -65,6 +65,14 @@ public interface ICordysGatewayClientBase
      * @return If <code>true</code>, a login request is sent.
      */
     boolean getLoginToCordysOnConnect();
+    
+    /**
+     * Returns the flag indicating if a the login response should be parsed automatically when it is received. A reason not to do
+     * this is because the parsing takes a couple of seconds.
+     * 
+     * @return If <code>true</code>, the response is parsed.
+     */
+    boolean getAutoParseGetUserDetails();
 
     /**
      * Returns the network TCP/IP timeout to be used for requests.
@@ -203,6 +211,14 @@ public interface ICordysGatewayClientBase
      * @param bValue If <code>true</code>, a login request is sent.
      */
     void setLoginToCordysOnConnect(boolean bValue);
+    
+    /**
+     * Sets the flag indicating if a the login response should be parsed automatically when it is received. A reason not to do
+     * this is because the parsing takes a couple of seconds.
+     * 
+     * @param autoParseGetUserDetails If <code>true</code>, the login response is parsed.
+     */
+    void setAutoParseGetUserDetails(boolean autoParseGetUserDetails);
 
     /**
      * Sets the network TCP/IP timeout to be used for requests. This is separate from the Cordys timeout URL parameter.

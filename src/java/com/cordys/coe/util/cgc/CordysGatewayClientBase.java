@@ -486,11 +486,19 @@ public abstract class CordysGatewayClientBase implements ICordysGatewayClientBas
     {
         return m_ccConfiguration.getLoginToCordysOnConnect();
     }
+    
+    /**
+     * @see com.cordys.coe.util.cgc.ICordysGatewayClientBase#getAutoParseGetUserDetails()
+     */
+    public boolean getAutoParseGetUserDetails()
+    {
+        return m_ccConfiguration.getAutoParseGetUserDetails();
+    }
 
     /**
-     * Get a list of organisations for this user.
+     * Get a list of organizations for this user.
      * 
-     * @return Returns the logonInfo - organisations as an array of strings.
+     * @return Returns the logonInfo - organizations as an array of strings.
      * @deprecated This method has never been implemented and will be removed. Use getuserInfo instead.
      */
     public ArrayList<String> getLogonInfoOrganisations()
@@ -741,6 +749,14 @@ public abstract class CordysGatewayClientBase implements ICordysGatewayClientBas
     public void setLoginToCordysOnConnect(boolean bValue)
     {
         m_ccConfiguration.setLoginToCordysOnConnect(bValue);
+    }
+    
+    /**
+     * @see com.cordys.coe.util.cgc.ICordysGatewayClientBase#setAutoParseGetUserDetails(boolean)
+     */
+    public void setAutoParseGetUserDetails(boolean autoParseGetUserDetails)
+    {
+        m_ccConfiguration.setAutoParseGetUserDetails(autoParseGetUserDetails);
     }
 
     /**

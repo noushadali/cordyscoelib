@@ -5,94 +5,60 @@ import com.cordys.coe.util.cgc.message.CGCMessages;
 
 /**
  * This class holds the configuration for the CordysGatewayClient.
- *
- * @author  pgussow
+ * 
+ * @author pgussow
  */
-class CGCConfigurationImpl
-    implements ICGCConfiguration
+class CGCConfigurationImpl implements ICGCConfiguration
 {
     /**
-     * Holds whether or not the login request should be sent with each request. If set to false it
-     * will only send it when the server requests it.
+     * Holds whether or not the login request should be sent with each request. If set to false it will only send it when the
+     * server requests it.
      */
     private boolean m_bAuthenticationPreemptive;
-    /**
-     * Holds whether or not to automatically check for SOAP faults in the response.
-     */
+    /** Holds whether or not to automatically check for SOAP faults in the response. */
     private boolean m_bCheckForFaults;
-    /**
-     * Holds whether or not to send the GetUserDetails request.
-     */
+    /** Holds whether or not to send the GetUserDetails request. */
     private boolean m_bLoginToCordysOnConnect;
-    /**
-     * Holds whether or not the Cordys server is running in SSL mode.
-     */
+    /** Holds whether or not to send the GetUserDetails request. */
+    private boolean m_autoParseGetUserDetails = true;
+    /** Holds whether or not the Cordys server is running in SSL mode. */
     private boolean m_bSsl;
-    /**
-     * Holds whether or not to use the server watcher.
-     */
+    /** Holds whether or not to use the server watcher. */
     private boolean m_bUseServerWatcher;
-    /**
-     * Holds the maximum amount of concurrent calls to the requestCordys method.
-     */
+    /** Holds the maximum amount of concurrent calls to the requestCordys method. */
     private int m_iMaxConcurrentCalls;
-    /**
-     * Holds the maximum number of connections per host.
-     */
+    /** Holds the maximum number of connections per host. */
     private int m_iMaxConnectionsPerHost;
-    /**
-     * Holds the port number on which the server is running.
-     */
+    /** Holds the port number on which the server is running. */
     private int m_iPort;
-    /**
-     * Holds the port for the proxy server.
-     */
+    /** Holds the port for the proxy server. */
     private int m_iProxyPort;
-    /**
-     * Holds the network timeout to use.
-     */
+    /** Holds the network timeout to use. */
     private long m_lNetworkTimeout;
-    /**
-     * Holds the poll interval for the server watcher.
-     */
+    /** Holds the poll interval for the server watcher. */
     private long m_lServerWatcherPollInterval;
-    /**
-     * Holds the sleep time between checking if the server is still up.
-     */
+    /** Holds the sleep time between checking if the server is still up. */
     private long m_lSleepTime;
-    /**
-     * Holds the timeout for the soap request.
-     */
+    /** Holds the timeout for the soap request. */
     private long m_lTimeout;
-    /**
-     * Holds the URL for the gateway.
-     */
+    /** Holds the URL for the gateway. */
     private String m_sGatewayURL;
-    /**
-     * Holds the host name to connect to.
-     */
+    /** Holds the host name to connect to. */
     private String m_sHost;
-    /**
-     * Holds the name of the proxy server.
-     */
+    /** Holds the name of the proxy server. */
     private String m_sProxyHost;
-    /**
-     * Holds the password for the proxy server.
-     */
+    /** Holds the password for the proxy server. */
     private String m_sProxyPassword;
-    /**
-     * Holds the username for the proxy server.
-     */
+    /** Holds the username for the proxy server. */
     private String m_sProxyUsername;
 
     /**
-     * This method gets whether or not the login request should be sent with each request. If set to
-     * false it will only send it when the server requests it.
-     *
-     * @return  Whether or not the login request should be sent with each request. If set to false
-     *          it will only send it when the server requests it.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getAuthenticationPreemptive()
+     * This method gets whether or not the login request should be sent with each request. If set to false it will only send it
+     * when the server requests it.
+     * 
+     * @return Whether or not the login request should be sent with each request. If set to false it will only send it when the
+     *         server requests it.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getAuthenticationPreemptive()
      */
     public boolean getAuthenticationPreemptive()
     {
@@ -101,10 +67,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets the url of the Cordys gateway.
-     *
-     * @return  The url of the Cordys gateway.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getGatewayURL()
+     * 
+     * @return The url of the Cordys gateway.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getGatewayURL()
      */
     public String getGatewayURL()
     {
@@ -113,10 +78,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets the hostname of the cordys gateway.
-     *
-     * @return  The hostname of the cordys gateway.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getHost()
+     * 
+     * @return The hostname of the cordys gateway.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getHost()
      */
     public String getHost()
     {
@@ -124,11 +88,26 @@ class CGCConfigurationImpl
     }
 
     /**
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getAutoParseGetUserDetails()
+     */
+    public boolean getAutoParseGetUserDetails()
+    {
+        return m_autoParseGetUserDetails;
+    }
+
+    /**
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setAutoParseGetUserDetails(boolean)
+     */
+    public void setAutoParseGetUserDetails(boolean autoParseGetUserDetails)
+    {
+        m_autoParseGetUserDetails = autoParseGetUserDetails;
+    }
+
+    /**
      * Returns the flag indicating if a login request is sent when the connection is opened.
-     *
-     * @return  If <code>true</code>, a login request is sent.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getLoginToCordysOnConnect()
+     * 
+     * @return If <code>true</code>, a login request is sent.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getLoginToCordysOnConnect()
      */
     public boolean getLoginToCordysOnConnect()
     {
@@ -137,10 +116,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets the maximum amount of concurrent calls to this class.
-     *
-     * @return  The maximum amount of concurrent calls to this class.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getMaxConcurrentCalls()
+     * 
+     * @return The maximum amount of concurrent calls to this class.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getMaxConcurrentCalls()
      */
     public int getMaxConcurrentCalls()
     {
@@ -149,10 +127,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets the maximum number of connections per host.
-     *
-     * @return  The maximum number of connections per host.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getMaxConnectionsPerHost()
+     * 
+     * @return The maximum number of connections per host.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getMaxConnectionsPerHost()
      */
     public int getMaxConnectionsPerHost()
     {
@@ -161,10 +138,9 @@ class CGCConfigurationImpl
 
     /**
      * Returns the network TCP/IP timeout to be used for requests.
-     *
-     * @return  Network timeout.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getNetworkTimeout()
+     * 
+     * @return Network timeout.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getNetworkTimeout()
      */
     public long getNetworkTimeout()
     {
@@ -173,10 +149,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets the port where the Cordys web gateway is running.
-     *
-     * @return  The port where the Cordys web gateway is running.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getPort()
+     * 
+     * @return The port where the Cordys web gateway is running.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getPort()
      */
     public int getPort()
     {
@@ -185,10 +160,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets the proxy host to use.
-     *
-     * @return  The proxy host to use.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getProxyHost()
+     * 
+     * @return The proxy host to use.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getProxyHost()
      */
     public String getProxyHost()
     {
@@ -197,10 +171,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets the password for the proxy user.
-     *
-     * @return  The password for the proxy user.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getProxyPassword()
+     * 
+     * @return The password for the proxy user.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getProxyPassword()
      */
     public String getProxyPassword()
     {
@@ -209,10 +182,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets the proxy port to use.
-     *
-     * @return  The proxy port to use.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getProxyPort()
+     * 
+     * @return The proxy port to use.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getProxyPort()
      */
     public int getProxyPort()
     {
@@ -221,10 +193,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets the username for the proxy server.
-     *
-     * @return  The username for the proxy server.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getProxyUsername()
+     * 
+     * @return The username for the proxy server.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getProxyUsername()
      */
     public String getProxyUsername()
     {
@@ -232,12 +203,11 @@ class CGCConfigurationImpl
     }
 
     /**
-     * This method gets the interval in which the server watcher will check if the webserver is
-     * still available. If this CGC is created without a server watcher this call has no effect.
-     *
-     * @return  The new poll interval.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getServerWatcherPollInterval()
+     * This method gets the interval in which the server watcher will check if the webserver is still available. If this CGC is
+     * created without a server watcher this call has no effect.
+     * 
+     * @return The new poll interval.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getServerWatcherPollInterval()
      */
     public long getServerWatcherPollInterval()
     {
@@ -246,10 +216,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets the time to wait between asking the server watcher if the server is alive.
-     *
-     * @return  The time to wait between asking the server watcher if the server is alive.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getSleepTimeBetweenServerWacther()
+     * 
+     * @return The time to wait between asking the server watcher if the server is alive.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getSleepTimeBetweenServerWacther()
      */
     public long getSleepTimeBetweenServerWacther()
     {
@@ -258,10 +227,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets the timeout to use.
-     *
-     * @return  The timeout to use.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#getTimeout()
+     * 
+     * @return The timeout to use.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getTimeout()
      */
     public long getTimeout()
     {
@@ -270,10 +238,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets whether or not the gateway checks the responses for soap faults.
-     *
-     * @return  Whether or not the gateway checks the responses for soap faults.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#isCheckingForFaults()
+     * 
+     * @return Whether or not the gateway checks the responses for soap faults.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#isCheckingForFaults()
      */
     public boolean isCheckingForFaults()
     {
@@ -282,10 +249,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets whether or not a proxy server is configured.
-     *
-     * @return  Whether or not a proxy server is configured.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#isProxyServerSet()
+     * 
+     * @return Whether or not a proxy server is configured.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#isProxyServerSet()
      */
     public boolean isProxyServerSet()
     {
@@ -294,10 +260,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets whether or not SSL should be used.
-     *
-     * @return  Whether or not SSL should be used.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#isSSL()
+     * 
+     * @return Whether or not SSL should be used.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#isSSL()
      */
     public boolean isSSL()
     {
@@ -305,14 +270,12 @@ class CGCConfigurationImpl
     }
 
     /**
-     * This method sets wether or not the login request should be sent with each request. If set to
-     * false it will only send it when the server requests it.
-     *
-     * @param  bAuthenticationPreemptive  Whether or not the login request should be sent with each
-     *                                    request. If set to false it will only send it when the
-     *                                    server requests it.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setAuthenticationPreemptive(boolean)
+     * This method sets wether or not the login request should be sent with each request. If set to false it will only send it
+     * when the server requests it.
+     * 
+     * @param bAuthenticationPreemptive Whether or not the login request should be sent with each request. If set to false it will
+     *            only send it when the server requests it.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setAuthenticationPreemptive(boolean)
      */
     public void setAuthenticationPreemptive(boolean bAuthenticationPreemptive)
     {
@@ -321,10 +284,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets wether or not the gateway checks the responses for soap faults.
-     *
-     * @param  bCheckForFaults  Whether or not the gateway checks the responses for soap faults.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setCheckForFaults(boolean)
+     * 
+     * @param bCheckForFaults Whether or not the gateway checks the responses for soap faults.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setCheckForFaults(boolean)
      */
     public void setCheckForFaults(boolean bCheckForFaults)
     {
@@ -333,10 +295,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets the url of the Cordys gateway.
-     *
-     * @param  sGatewayURL  The url of the Cordys gateway.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setGatewayURL(java.lang.String)
+     * 
+     * @param sGatewayURL The url of the Cordys gateway.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setGatewayURL(java.lang.String)
      */
     public void setGatewayURL(String sGatewayURL)
     {
@@ -345,10 +306,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets the hostname of the cordys gateway.
-     *
-     * @param  sHost  The hostname of the cordys gateway.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setHost(java.lang.String)
+     * 
+     * @param sHost The hostname of the cordys gateway.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setHost(java.lang.String)
      */
     public void setHost(String sHost)
     {
@@ -357,10 +317,9 @@ class CGCConfigurationImpl
 
     /**
      * Sets the flag indicating if a login request is sent when the connection is opened.
-     *
-     * @param  bLoginToCordysOnConnect  If <code>true</code>, a login request is sent.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setLoginToCordysOnConnect(boolean)
+     * 
+     * @param bLoginToCordysOnConnect If <code>true</code>, a login request is sent.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setLoginToCordysOnConnect(boolean)
      */
     public void setLoginToCordysOnConnect(boolean bLoginToCordysOnConnect)
     {
@@ -369,10 +328,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets the maximum amount of concurrent calls to this class.
-     *
-     * @param  iMaxConcurrentCalls  The maximum amount of concurrent calls to this class.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setMaxConcurrentCalls(int)
+     * 
+     * @param iMaxConcurrentCalls The maximum amount of concurrent calls to this class.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setMaxConcurrentCalls(int)
      */
     public void setMaxConcurrentCalls(int iMaxConcurrentCalls)
     {
@@ -381,10 +339,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets the maximum number of connections per host.
-     *
-     * @param  iMaxConnectionsPerHost  The maximum number of connections per host.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setMaxConnectionsPerHost(int)
+     * 
+     * @param iMaxConnectionsPerHost The maximum number of connections per host.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setMaxConnectionsPerHost(int)
      */
     public void setMaxConnectionsPerHost(int iMaxConnectionsPerHost)
     {
@@ -392,12 +349,10 @@ class CGCConfigurationImpl
     }
 
     /**
-     * Sets the network TCP/IP timeout to be used for requests. This is separate from the Cordys
-     * timeout URL parameter.
-     *
-     * @param  lNetworkTimeout  Network timeout value (-1 means infinite wait).
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setNetworkTimeout(long)
+     * Sets the network TCP/IP timeout to be used for requests. This is separate from the Cordys timeout URL parameter.
+     * 
+     * @param lNetworkTimeout Network timeout value (-1 means infinite wait).
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setNetworkTimeout(long)
      */
     public void setNetworkTimeout(long lNetworkTimeout)
     {
@@ -406,10 +361,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets the port where the Cordys web gateway is running.
-     *
-     * @param  iPort  The port where the Cordys web gateway is running.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setPort(int)
+     * 
+     * @param iPort The port where the Cordys web gateway is running.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setPort(int)
      */
     public void setPort(int iPort)
     {
@@ -418,10 +372,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets the proxy host to use.
-     *
-     * @param  sProxyHost  The proxy host to use.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setProxyHost(java.lang.String)
+     * 
+     * @param sProxyHost The proxy host to use.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setProxyHost(java.lang.String)
      */
     public void setProxyHost(String sProxyHost)
     {
@@ -430,10 +383,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets the password for the proxy user.
-     *
-     * @param  sProxyPassword  The password for the proxy user.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setProxyPassword(java.lang.String)
+     * 
+     * @param sProxyPassword The password for the proxy user.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setProxyPassword(java.lang.String)
      */
     public void setProxyPassword(String sProxyPassword)
     {
@@ -442,10 +394,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets the proxy port to use.
-     *
-     * @param  iProxyPort  The proxy port to use.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setProxyPort(int)
+     * 
+     * @param iProxyPort The proxy port to use.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setProxyPort(int)
      */
     public void setProxyPort(int iProxyPort)
     {
@@ -454,10 +405,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets the username for the proxy server.
-     *
-     * @param  sProxyUsername  The username for the proxy server.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setProxyUsername(java.lang.String)
+     * 
+     * @param sProxyUsername The username for the proxy server.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setProxyUsername(java.lang.String)
      */
     public void setProxyUsername(String sProxyUsername)
     {
@@ -465,12 +415,11 @@ class CGCConfigurationImpl
     }
 
     /**
-     * This method sets the interval in which the server watcher will check if the webserver is
-     * still available. If this CGC is created without a server watcher this call has no effect.
-     *
-     * @param  lServerWatcherPollInterval  The new poll interval.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setServerWatcherPollInterval(long)
+     * This method sets the interval in which the server watcher will check if the webserver is still available. If this CGC is
+     * created without a server watcher this call has no effect.
+     * 
+     * @param lServerWatcherPollInterval The new poll interval.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setServerWatcherPollInterval(long)
      */
     public void setServerWatcherPollInterval(long lServerWatcherPollInterval)
     {
@@ -479,10 +428,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets the time to wait between asking the server watcher if the server is alive.
-     *
-     * @param  lSleepTime  The new sleep time.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setSleepTimeBetweenServerWacther(long)
+     * 
+     * @param lSleepTime The new sleep time.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setSleepTimeBetweenServerWacther(long)
      */
     public void setSleepTimeBetweenServerWacther(long lSleepTime)
     {
@@ -491,10 +439,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets whether or not this connection uses SSL.
-     *
-     * @param  bSsl  Whether or not this connection uses SSL.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setSSL(boolean)
+     * 
+     * @param bSsl Whether or not this connection uses SSL.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setSSL(boolean)
      */
     public void setSSL(boolean bSsl)
     {
@@ -503,10 +450,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets the timeout to use.
-     *
-     * @param  lTimeout  The timeout to use.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setTimeout(long)
+     * 
+     * @param lTimeout The timeout to use.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setTimeout(long)
      */
     public void setTimeout(long lTimeout)
     {
@@ -515,11 +461,9 @@ class CGCConfigurationImpl
 
     /**
      * This method sets wether or not to use the serverwatcher to monitor te Cordys server.
-     *
-     * @param  bUseServerWatcher  Whether or not to use the serverwatcher to monitor te Cordys
-     *                            server.
-     *
-     * @see    com.cordys.coe.util.cgc.config.ICGCConfiguration#setUseServerWatcher(boolean)
+     * 
+     * @param bUseServerWatcher Whether or not to use the serverwatcher to monitor te Cordys server.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#setUseServerWatcher(boolean)
      */
     public void setUseServerWatcher(boolean bUseServerWatcher)
     {
@@ -528,10 +472,9 @@ class CGCConfigurationImpl
 
     /**
      * This method gets whether or not to use the serverwatcher to monitor te Cordys server.
-     *
-     * @return  Whether or not to use the serverwatcher to monitor te Cordys server.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#useServerWatcher()
+     * 
+     * @return Whether or not to use the serverwatcher to monitor te Cordys server.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#useServerWatcher()
      */
     public boolean useServerWatcher()
     {
@@ -539,16 +482,13 @@ class CGCConfigurationImpl
     }
 
     /**
-     * This method validates the configuration to make sure it contains the minimum configuration to
-     * connect to a server.
-     *
-     * @throws  CordysGatewayClientException  In case the configuration is not valid.
-     *
-     * @see     com.cordys.coe.util.cgc.config.ICGCConfiguration#validate()
+     * This method validates the configuration to make sure it contains the minimum configuration to connect to a server.
+     * 
+     * @throws CordysGatewayClientException In case the configuration is not valid.
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#validate()
      */
 
-    public void validate()
-                  throws CordysGatewayClientException
+    public void validate() throws CordysGatewayClientException
     {
         if ((m_sHost == null) || (m_sHost.length() == 0))
         {

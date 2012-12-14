@@ -24,6 +24,7 @@ import com.cordys.coe.util.cgc.config.ICGCConfiguration;
 import com.cordys.coe.util.cgc.config.ICordysCustomAuthentication;
 import com.cordys.coe.util.cgc.config.ISSOAuthentication;
 import com.cordys.coe.util.cgc.message.CGCMessages;
+import com.cordys.coe.util.cgc.userinfo.IUserInfo;
 import com.cordys.coe.util.cgc.userinfo.UserInfoFactory;
 import com.cordys.coe.util.exceptions.XMLWrapperException;
 import com.cordys.coe.util.xml.NamespaceDefinitions;
@@ -874,9 +875,10 @@ class CordysGatewayClient extends CordysGatewayClientBase implements ICordysGate
                 handleSSOAuthLogin();
             }
 
-            // Only if we're suppost to send the login message (which basically means executing
-            // getUserDetails) we're going to.
-            if (getConfiguration().getLoginToCordysOnConnect())
+            // Only if we're supposed to send the login message (which basically means executing
+            // getUserDetails) we're going to. We should also send the message if the client is already connected. In that
+            // scenario the login request should be sent.
+            if (getConfiguration().getLoginToCordysOnConnect() || m_bConnected == true)
             {
                 Element eResponse = requestFromCordys(dRequest.getDocumentElement());
 
@@ -889,17 +891,11 @@ class CordysGatewayClient extends CordysGatewayClientBase implements ICordysGate
                             NiceDOMWriter.write(eResponse), NiceDOMWriter.write(dRequest.getDocumentElement()));
                 }
 
-                Node nTuple = XPathHelper.selectSingleNode(m_nLogonInfo, "//" + PRE_LDAP + ":tuple",
-                        NamespaceConstants.getPrefixResolver());
-
-                if (nTuple == null)
+                // Parse the user information if required
+                if (getConfiguration().getAutoParseGetUserDetails())
                 {
-                    throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_NOM_XML, "<tuple>",
-                            NiceDOMWriter.write(eResponse), NiceDOMWriter.write(dRequest.getDocumentElement()));
+                    setUserInfo(parseUserInfo());
                 }
-
-                // Parse the user information
-                setUserInfo(UserInfoFactory.createUserInfo((Element) nTuple));
 
                 // Get the directory search root.
                 String sAuthUserDN = getAuthUserDN();
@@ -928,6 +924,46 @@ class CordysGatewayClient extends CordysGatewayClientBase implements ICordysGate
         {
             m_swWatcher.setCordysGatewayClient(this);
         }
+    }
+
+    /**
+     * @see com.cordys.coe.util.cgc.CordysGatewayClientBase#parseUserInfo()
+     */
+    public IUserInfo parseUserInfo() throws CordysGatewayClientException
+    {
+        IUserInfo retVal = null;
+
+        if (m_nLogonInfo == null)
+        {
+            try
+            {
+                sendLoginMessage();
+            }
+            catch (CordysGatewayClientException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+
+        // Now we can parse it.
+        try
+        {
+            Node nTuple = XPathHelper.selectSingleNode(m_nLogonInfo, "//" + PRE_LDAP + ":tuple",
+                    NamespaceConstants.getPrefixResolver());
+
+            if (nTuple == null)
+            {
+                throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_NOM_XML, "<tuple>",
+                        NiceDOMWriter.write(m_nLogonInfo), "unknown");
+            }
+            retVal = UserInfoFactory.createUserInfo((Element) nTuple);
+        }
+        catch (Exception e)
+        {
+            LOG.error("Error parsing user information", e);
+        }
+
+        return retVal;
     }
 
     /**
@@ -1113,7 +1149,7 @@ class CordysGatewayClient extends CordysGatewayClientBase implements ICordysGate
 
         return eReturn;
     }
-    
+
     /**
      * @see com.cordys.coe.util.cgc.ICordysGatewayClient#uploadFile(org.w3c.dom.Element, java.io.File)
      */
@@ -1133,7 +1169,8 @@ class CordysGatewayClient extends CordysGatewayClientBase implements ICordysGate
             getLogger().debug("Request:\n" + sRequestXML);
         }
 
-        //We need to change the URL that we'de posting to. Because we need to post the the com.eibus.web.tools.upload.Upload.wcp instead of the normal gateway.
+        // We need to change the URL that we'de posting to. Because we need to post the the com.eibus.web.tools.upload.Upload.wcp
+        // instead of the normal gateway.
         String responseContent = uploadFile(sRequestXML, file, m_sOrganization, getConfiguration().getTimeout(), null, true);
 
         Document dDoc;
@@ -1148,8 +1185,8 @@ class CordysGatewayClient extends CordysGatewayClientBase implements ICordysGate
         }
 
         eReturn = dDoc.getDocumentElement();
-        
-        //The upload response is wrapped in a HTML piece. If this is the case then we need to remove that part first.
+
+        // The upload response is wrapped in a HTML piece. If this is the case then we need to remove that part first.
         if (!"Envelope".equals(eReturn.getLocalName()) && !NamespaceDefinitions.XMLNS_SOAP_1_1.equals(eReturn.getNamespaceURI()))
         {
             try

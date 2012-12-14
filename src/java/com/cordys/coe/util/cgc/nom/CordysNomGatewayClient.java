@@ -13,6 +13,8 @@ import com.cordys.coe.util.cgc.CordysSOAPException;
 import com.cordys.coe.util.cgc.config.IAuthenticationConfiguration;
 import com.cordys.coe.util.cgc.config.ICGCConfiguration;
 import com.cordys.coe.util.cgc.message.CGCMessages;
+import com.cordys.coe.util.cgc.userinfo.IUserInfo;
+import com.cordys.coe.util.cgc.userinfo.UserInfoFactory;
 import com.cordys.coe.util.exceptions.XMLWrapperException;
 import com.cordys.coe.util.xml.NamespaceDefinitions;
 import com.cordys.coe.util.xml.nom.XPathHelper;
@@ -393,6 +395,27 @@ public class CordysNomGatewayClient extends CordysGatewayClientBase implements I
     }
 
     /**
+     * @see com.cordys.coe.util.cgc.CordysGatewayClientBase#parseUserInfo()
+     */
+    protected IUserInfo parseUserInfo() throws CordysGatewayClientException
+    {
+        if (m_xLogonInfo <= 0)
+        {
+            sendLoginMessage();
+        }
+
+        int xTuple = XPathHelper.selectSingleNode(m_xLogonInfo, ".//ldap:tuple", m_xmi);
+
+        if (xTuple == 0)
+        {
+            throw new CordysGatewayClientException(CGCMessages.CGC_ERROR_NOM_XML, "<tuple>", Node.writeToString(xTuple, true),
+                    Node.writeToString(m_xLogonInfo, true));
+        }
+
+        return UserInfoFactory.createUserInfo(xTuple);
+    }
+
+    /**
      * Returns the SOAP namespace prefix from the SOAP:Envelope. The prefix is returned as "SOAP:" or if the prefix is empty, an
      * empty string is returned.
      * 
@@ -492,7 +515,6 @@ public class CordysNomGatewayClient extends CordysGatewayClientBase implements I
         if (xRequestEnvelope != 0)
         {
             sRequestXML = Node.writeToString(xRequestEnvelope, true);
-            ;
         }
 
         // Create the exception object.
@@ -657,4 +679,5 @@ public class CordysNomGatewayClient extends CordysGatewayClientBase implements I
 
         return xReturn;
     }
+
 }

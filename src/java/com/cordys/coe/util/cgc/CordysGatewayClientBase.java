@@ -579,27 +579,6 @@ public abstract class CordysGatewayClientBase implements ICordysGatewayClientBas
     }
 
     /**
-     * This method gets the information about the current user.
-     * 
-     * @return The information about the current user.
-     */
-    public IUserInfo getUserInfo()
-    {
-        if (m_uiUserInfo == null)
-        {
-            try
-            {
-                sendLoginMessage();
-            }
-            catch (CordysGatewayClientException e)
-            {
-                throw new RuntimeException(e);
-            }
-        }
-        return m_uiUserInfo;
-    }
-
-    /**
      * This method gets the username to use.
      * 
      * @return The username to use.
@@ -616,6 +595,33 @@ public abstract class CordysGatewayClientBase implements ICordysGatewayClientBas
 
         return sReturn;
     }
+
+    /**
+     * @see com.cordys.coe.util.cgc.ICordysGatewayClientBase#getUserInfo()
+     */
+    public IUserInfo getUserInfo()
+    {
+        if (m_uiUserInfo == null)
+        {
+            try
+            {
+                m_uiUserInfo = parseUserInfo();
+            }
+            catch (CordysGatewayClientException e)
+            {
+                LOG.error("Error parsing user information", e);
+            }
+        }
+
+        return m_uiUserInfo;
+    }
+
+    /**
+     * This method needs to return the user info based on the login response.
+     * 
+     * @return The parsed variant of the user info.
+     */
+    protected abstract IUserInfo parseUserInfo() throws CordysGatewayClientException;
 
     /**
      * This method gets the WCP session ID to use.

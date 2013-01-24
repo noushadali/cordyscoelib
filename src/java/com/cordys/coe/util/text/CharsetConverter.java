@@ -8,17 +8,16 @@ package com.cordys.coe.util.text;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
-
 import java.nio.charset.Charset;
-
 import java.util.Iterator;
+
+import com.cordys.coe.util.FileUtils;
 
 /**
  * Simple utility to convert text to one character set to another.
@@ -60,11 +59,11 @@ public class CharsetConverter
         Writer wOutput = null;
         boolean bCloseInput = false;
         boolean bCloseOutput = false;
+        InputStream isInputStream = null;
+        OutputStream osOutputStream = null;
 
         try
         {
-            InputStream isInputStream = null;
-            OutputStream osOutputStream = null;
 
             if (args.length >= 3)
             {
@@ -107,24 +106,14 @@ public class CharsetConverter
         {
             if (bCloseInput)
             {
-                try
-                {
-                    rInput.close();
-                }
-                catch (IOException ignored)
-                {
-                }
+                FileUtils.closeStream(isInputStream);
+                FileUtils.closeReader(rInput);
             }
 
             if (bCloseOutput)
             {
-                try
-                {
-                    wOutput.close();
-                }
-                catch (IOException ignored)
-                {
-                }
+                FileUtils.closeStream(osOutputStream);
+                FileUtils.closeWriter(wOutput);
             }
         }
     }

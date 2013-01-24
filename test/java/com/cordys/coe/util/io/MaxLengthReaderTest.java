@@ -9,6 +9,8 @@ package com.cordys.coe.util.io;
 import java.io.Reader;
 import java.io.StringReader;
 
+import com.cordys.coe.util.FileUtils;
+
 import junit.framework.TestCase;
 
 /**
@@ -226,6 +228,7 @@ public class MaxLengthReaderTest extends TestCase
         amount = testReader.skipUntilEnd();
         assertEquals(s.length() - 1, amount);
         assertEquals(-1, testReader.read());
+        FileUtils.closeReader(testReader);
     }
 
     /**
@@ -252,6 +255,7 @@ public class MaxLengthReaderTest extends TestCase
         testReader.detachSource(false);
         amount = srcReader.read(buf);
         assertEquals(s.substring(1, s.length()), new String(buf, 0, amount));
+        testReader.close();
         
         //////////////////////////////////////////////
         // Test with skipping
@@ -264,6 +268,7 @@ public class MaxLengthReaderTest extends TestCase
         assertEquals(s.charAt(0), ch);
         testReader.detachSource(true);
         amount = srcReader.read(buf);
-        assertEquals(s.substring(s.length() - 1), new String(buf, 0, amount));        
+        assertEquals(s.substring(s.length() - 1), new String(buf, 0, amount));
+        testReader.close();
     }
 }

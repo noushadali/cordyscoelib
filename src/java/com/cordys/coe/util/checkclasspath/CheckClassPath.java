@@ -1,5 +1,6 @@
 package com.cordys.coe.util.checkclasspath;
 
+import com.cordys.coe.util.FileUtils;
 import com.eibus.xml.nom.Document;
 import com.eibus.xml.nom.Find;
 import com.eibus.xml.nom.Node;
@@ -21,9 +22,8 @@ import java.util.jar.*;
 
 /**
  * DOCUMENTME.
- *
- * @author  tveldhui
  * 
+ * @author tveldhui
  * @deprecated This class uses the old Find library for XML searching. This is not namespace safe!
  */
 public class CheckClassPath
@@ -61,8 +61,7 @@ public class CheckClassPath
 
         for (int iCount = 0; iCount < sSystemClassPaths.length; iCount++)
         {
-            if (sSystemClassPaths[iCount].endsWith(".jar") ||
-                    sSystemClassPaths[iCount].endsWith(".zip"))
+            if (sSystemClassPaths[iCount].endsWith(".jar") || sSystemClassPaths[iCount].endsWith(".zip"))
             {
                 iJarIndex[iNumberOfJars] = iCount;
                 iNumberOfJars++;
@@ -95,16 +94,22 @@ public class CheckClassPath
                         int iNrOfBytes = isTemp.read(baBuffer);
                         OutputStream osTemp = new ByteArrayOutputStream();
                         MD5OutputStream md5Out = new MD5OutputStream(osTemp);
-
-                        while (iNrOfBytes > -1)
+                        try
                         {
-                            md5Out.write(baBuffer, 0, iNrOfBytes);
-                            iNrOfBytes = isTemp.read(baBuffer);
-                        }
 
-                        String sHash = MD5.asHex(md5Out.hash());
-                        storeJarFileData(jeTemp, sSystemClassPaths[iJarIndex[iCount]], sHash,
-                                         iJarIndex[iCount]);
+                            while (iNrOfBytes > -1)
+                            {
+                                md5Out.write(baBuffer, 0, iNrOfBytes);
+                                iNrOfBytes = isTemp.read(baBuffer);
+                            }
+
+                            String sHash = MD5.asHex(md5Out.hash());
+                            storeJarFileData(jeTemp, sSystemClassPaths[iJarIndex[iCount]], sHash, iJarIndex[iCount]);
+                        }
+                        finally
+                        {
+                            FileUtils.closeStream(md5Out);
+                        }
                     }
                     catch (Exception e)
                     {
@@ -114,16 +119,15 @@ public class CheckClassPath
             }
             catch (Exception e)
             {
-                System.out.println("The Jar file named " + sSystemClassPaths[iJarIndex[iCount]] +
-                                   " is curropt or non existing");
+                System.out.println("The Jar file named " + sSystemClassPaths[iJarIndex[iCount]] + " is curropt or non existing");
             }
         }
     } //
 
     /**
      * This method returns all classes.
-     *
-     * @return  a node with all classes.
+     * 
+     * @return a node with all classes.
      */
     public static int getAllClasses()
     {
@@ -136,8 +140,7 @@ public class CheckClassPath
         int iEntryNode;
         int iNumberOfClasses = 0;
 
-        for (Iterator<String> iClasses = hmClassesCollection.keySet().iterator();
-                 iClasses.hasNext();)
+        for (Iterator<String> iClasses = hmClassesCollection.keySet().iterator(); iClasses.hasNext();)
         {
             iNumberOfClasses++;
 
@@ -155,30 +158,25 @@ public class CheckClassPath
                 String sJarName = (String) iClassData.next();
                 ClassInfo ciFileInfo = (ClassInfo) hmClassData.get(sJarName);
                 dDoc.createTextElement("Jarfile", ciFileInfo.getJarName(), iEntryNode);
-                dDoc.createTextElement("FileSize", String.valueOf(ciFileInfo.getFileSize()),
-                                       iEntryNode);
+                dDoc.createTextElement("FileSize", String.valueOf(ciFileInfo.getFileSize()), iEntryNode);
                 dDoc.createTextElement("Date", "" + ciFileInfo.getFileDate(), iEntryNode);
                 dDoc.createTextElement("FileCRC", "" + ciFileInfo.getFileCrc(), iEntryNode);
                 dDoc.createTextElement("Comment", ciFileInfo.getFileComment(), iEntryNode);
                 dDoc.createTextElement("MD5Hash", ciFileInfo.getMD5Hash(), iEntryNode);
-                dDoc.createTextElement("ClassOrderLevel", "" + ciFileInfo.getClassOrderLevel(),
-                                       iEntryNode);
+                dDoc.createTextElement("ClassOrderLevel", "" + ciFileInfo.getClassOrderLevel(), iEntryNode);
                 dDoc.createTextElement("ClassDir", "" + ciFileInfo.getClassPathDir(), iEntryNode);
 
                 if (ciFileInfo.getFileAttributes() != null)
                 {
                     if (ciFileInfo.getFileAttributes().size() > 0)
                     {
-                        dDoc.createTextElement("Attributes",
-                                               ciFileInfo.getFileAttributes().toString(),
-                                               iEntryNode);
+                        dDoc.createTextElement("Attributes", ciFileInfo.getFileAttributes().toString(), iEntryNode);
                     }
                 }
 
                 if (ciFileInfo.getFileClass() != null)
                 {
-                    dDoc.createTextElement("Class", ciFileInfo.getFileClass().toString(),
-                                           iEntryNode);
+                    dDoc.createTextElement("Class", ciFileInfo.getFileClass().toString(), iEntryNode);
                 }
 
                 if (ciFileInfo.getRelativeDir() != null)
@@ -196,10 +194,10 @@ public class CheckClassPath
     }
 
     /**
-     * This searches the jarfiles that are in the classpath for duplicate classes. It will return
-     * the classes and where they can be found. Even if the classes are simular.
-     *
-     * @return  XML containg info about the duplicate Classes
+     * This searches the jarfiles that are in the classpath for duplicate classes. It will return the classes and where they can
+     * be found. Even if the classes are simular.
+     * 
+     * @return XML containg info about the duplicate Classes
      */
     public static int getDuplicatAndDifferentClasses()
     {
@@ -247,18 +245,17 @@ public class CheckClassPath
         {
             iXmlNode = dDoc.createElement("classes");
         }
-        Node.appendToChildren(Node.clone(Find.firstMatch(iClasses, "fChild<info>"), true),
-                              iXmlNode);
+        Node.appendToChildren(Node.clone(Find.firstMatch(iClasses, "fChild<info>"), true), iXmlNode);
         dDoc.createTextElement("Result", "" + iFoundClasses, iXmlNode);
 
         return iXmlNode;
     }
 
     /**
-     * This searches the jarfiles that are in the classpath for duplicate classes. It will return
-     * the classes and where they can be found. Even if the classes are simular.
-     *
-     * @return  XML containg info about the duplicate Classes
+     * This searches the jarfiles that are in the classpath for duplicate classes. It will return the classes and where they can
+     * be found. Even if the classes are simular.
+     * 
+     * @return XML containg info about the duplicate Classes
      */
     public static int getDuplicateClasses()
     {
@@ -279,8 +276,7 @@ public class CheckClassPath
                 iFoundClasses++;
             }
         }
-        Node.appendToChildren(Node.clone(Find.firstMatch(iClasses, "fChild<info>"), true),
-                              iXmlNode);
+        Node.appendToChildren(Node.clone(Find.firstMatch(iClasses, "fChild<info>"), true), iXmlNode);
         dDoc.createTextElement("Result", "" + iFoundClasses, iXmlNode);
 
         return iXmlNode;
@@ -288,8 +284,8 @@ public class CheckClassPath
 
     /**
      * This method returns all non-jar classes.
-     *
-     * @return  All non-jar classes.
+     * 
+     * @return All non-jar classes.
      */
     public static int getNonJarClasses()
     {
@@ -324,16 +320,15 @@ public class CheckClassPath
                 Node.appendToChildren(Node.clone(iaClassNodes[iCount], true), iXmlNode);
             }
         }
-        Node.appendToChildren(Node.clone(Find.firstMatch(iClasses, "fChild<info>"), true),
-                              iXmlNode);
+        Node.appendToChildren(Node.clone(Find.firstMatch(iClasses, "fChild<info>"), true), iXmlNode);
         dDoc.createTextElement("Result", "" + iFoundClasses, iXmlNode);
         return iXmlNode;
     }
 
     /**
      * DOCUMENTME.
-     *
-     * @param  args
+     * 
+     * @param args
      */
     public static void main(String[] args)
     {
@@ -343,10 +338,10 @@ public class CheckClassPath
 
     /**
      * DOCUMENTME.
-     *
-     * @param  sBaseFolder
-     * @param  sRelative
-     * @param  iClassOrder
+     * 
+     * @param sBaseFolder
+     * @param sRelative
+     * @param iClassOrder
      */
     private static void parseFolder(String sBaseFolder, String sRelative, int iClassOrder)
     {
@@ -363,8 +358,6 @@ public class CheckClassPath
 
                 if (fTemp.isDirectory())
                 {
-                    // System.out.println("Dept of dir: " + iCount);
-
                     parseFolder(sBaseFolder, sRelative + sFilename + "/", iClassOrder);
                 }
                 else
@@ -379,21 +372,28 @@ public class CheckClassPath
                             int iNrOfBytes = isTemp.read(baBuffer);
                             OutputStream osTemp = new ByteArrayOutputStream();
                             MD5OutputStream md5Out = new MD5OutputStream(osTemp);
-
-                            while (iNrOfBytes > -1)
+                            try
                             {
-                                md5Out.write(baBuffer, 0, iNrOfBytes);
-                                iNrOfBytes = isTemp.read(baBuffer);
-                            }
 
-                            String sHash = MD5.asHex(md5Out.hash());
-                            storeClassFileData(fTemp, sBaseFolder, sHash, iClassOrder, sRelative);
+                                while (iNrOfBytes > -1)
+                                {
+                                    md5Out.write(baBuffer, 0, iNrOfBytes);
+                                    iNrOfBytes = isTemp.read(baBuffer);
+                                }
+
+                                String sHash = MD5.asHex(md5Out.hash());
+                                storeClassFileData(fTemp, sBaseFolder, sHash, iClassOrder, sRelative);
+                            }
+                            finally
+                            {
+                                FileUtils.closeStream(isTemp);
+                                FileUtils.closeStream(md5Out);
+                            }
                         }
                         catch (Exception e)
                         {
                             e.printStackTrace();
                         }
-                        // System.out.println("Dept of class: " + fTemp.getName() + ": "+ iCount);
                     }
                 }
             }
@@ -402,16 +402,14 @@ public class CheckClassPath
 
     /**
      * DOCUMENTME.
-     *
-     * @param  fClassEntry       This method stores the class info into the hashmap
-     * @param  sDirPath          - Enumerator containing the JarEntry
-     * @param  sHash             - String containing the name of the Jarfile where the JarEntry is
-     *                           from.
-     * @param  iClassOrderLever  DOCUMENTME
-     * @param  sRelative         DOCUMENTME
+     * 
+     * @param fClassEntry This method stores the class info into the hashmap
+     * @param sDirPath - Enumerator containing the JarEntry
+     * @param sHash - String containing the name of the Jarfile where the JarEntry is from.
+     * @param iClassOrderLever DOCUMENTME
+     * @param sRelative DOCUMENTME
      */
-    private static void storeClassFileData(File fClassEntry, String sDirPath, String sHash,
-                                           int iClassOrderLever, String sRelative)
+    private static void storeClassFileData(File fClassEntry, String sDirPath, String sHash, int iClassOrderLever, String sRelative)
     {
         String sClassName = fClassEntry.getName();
 
@@ -427,10 +425,8 @@ public class CheckClassPath
             Date dFileDate = new Date();
             dFileDate.setTime(lFileDate);
 
-            ClassInfo ciFileInfo = new ClassInfo(sClassName, "", lCrc, dFileDate, lFileSize,
-                                                 lCompressedSize, aAttributes, null, cClass,
-                                                 sComment, sHash, iClassOrderLever, sDirPath,
-                                                 sRelative);
+            ClassInfo ciFileInfo = new ClassInfo(sClassName, "", lCrc, dFileDate, lFileSize, lCompressedSize, aAttributes, null,
+                    cClass, sComment, sHash, iClassOrderLever, sDirPath, sRelative);
 
             HashMap<String, ClassInfo> hmClassData;
             hmClassData = hmClasses.get(sClassName);
@@ -446,15 +442,13 @@ public class CheckClassPath
 
     /**
      * DOCUMENTME.
-     *
-     * @param  oJarEntry         This method stores the class info into the hashmap
-     * @param  sJarName          - Enumerator containing the JarEntry
-     * @param  sHash             - String containing the name of the Jarfile where the JarEntry is
-     *                           from.
-     * @param  iClassOrderLever  DOCUMENTME
+     * 
+     * @param oJarEntry This method stores the class info into the hashmap
+     * @param sJarName - Enumerator containing the JarEntry
+     * @param sHash - String containing the name of the Jarfile where the JarEntry is from.
+     * @param iClassOrderLever DOCUMENTME
      */
-    private static void storeJarFileData(Object oJarEntry, String sJarName, String sHash,
-                                         int iClassOrderLever)
+    private static void storeJarFileData(Object oJarEntry, String sJarName, String sHash, int iClassOrderLever)
     {
         JarEntry entry = (JarEntry) oJarEntry;
         String sClassName = entry.getName();
@@ -483,9 +477,8 @@ public class CheckClassPath
             Date dFileDate = new Date();
             dFileDate.setTime(lFileDate);
 
-            ClassInfo ciFileInfo = new ClassInfo(sClassName, sJarName, lCrc, dFileDate, lFileSize,
-                                                 lCompressedSize, aAttributes, acCertificates,
-                                                 cClass, sComment, sHash, iClassOrderLever, "", "");
+            ClassInfo ciFileInfo = new ClassInfo(sClassName, sJarName, lCrc, dFileDate, lFileSize, lCompressedSize, aAttributes,
+                    acCertificates, cClass, sComment, sHash, iClassOrderLever, "", "");
 
             HashMap<String, ClassInfo> hmClassData;
             hmClassData = hmClasses.get(sClassName);

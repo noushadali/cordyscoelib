@@ -115,6 +115,7 @@ public class VariableData
      *
      * @throws  IllegalArgumentException
      */
+    @SuppressWarnings("incomplete-switch")
     public static VariableData parseVariableFromMatcher(Matcher mVariableMatcher,
                                                         EVariableType etDefaultType)
                                                  throws IllegalArgumentException

@@ -8,18 +8,34 @@ package com.cordys.coe.util.cmdline;
  */
 public class CmdLineStderrException extends CmdLineException
 {
+    
     /**
-     * Constructor for CmdLineStderrException
+     * Instantiates a new cmd line stderr exception.
+     * @deprecated
      */
     public CmdLineStderrException()
     {
         super();
     }
+    
+    /**
+     * Instantiates a new cmd line stderr exception.
+     * 
+     * @param iReturnCode the i return code
+     * @param sMessage the s message
+     * @param cmdLine the cmd line that was executed.
+     */
+    public CmdLineStderrException(int iReturnCode, String sMessage, CmdLine cmdLine)
+    {
+        super(iReturnCode, sMessage, cmdLine);
+    }
 
     /**
-     * Constructor for CmdLineStderrException
-     * @param iReturnCode
-     * @param sMessage
+     * Instantiates a new cmd line stderr exception.
+     * 
+     * @param iReturnCode the i return code
+     * @param sMessage the s message
+     * @deprecated Please use the {@link CmdLineStderrException#CmdLineStderrException(int, String, CmdLine)} constructor.
      */
     public CmdLineStderrException(int iReturnCode, String sMessage)
     {
@@ -27,18 +43,35 @@ public class CmdLineStderrException extends CmdLineException
     }
 
     /**
-     * Constructor for CmdLineStderrException
-     * @param sMessage
-     * @param tCause
+     * Instantiates a new cmd line stderr exception.
+     * 
+     * @param sMessage the s message
+     * @param tCause the t cause
+     * @deprecated Please use the {@link CmdLineStderrException#CmdLineStderrException(String, Throwable, CmdLine))} constructor.
      */
     public CmdLineStderrException(String sMessage, Throwable tCause)
     {
         super(sMessage, tCause);
     }
+    
+    /**
+     * Instantiates a new cmd line stderr exception.
+     * 
+     * @param sMessage the s message
+     * @param tCause the t cause
+     * @param cmdLine the cmd line that was executed.
+     * 
+     */
+    public CmdLineStderrException(String sMessage, Throwable tCause, CmdLine cmdLine)
+    {
+        super(sMessage, tCause, cmdLine);
+    }
 
     /**
-     * Constructor for CmdLineStderrException
-     * @param sMessage
+     * Instantiates a new cmd line stderr exception.
+     * 
+     * @param sMessage the s message
+     * @deprecated
      */
     public CmdLineStderrException(String sMessage)
     {
@@ -46,8 +79,10 @@ public class CmdLineStderrException extends CmdLineException
     }
 
     /**
-     * Constructor for CmdLineStderrException
-     * @param tCause
+     * Instantiates a new cmd line stderr exception.
+     * 
+     * @param tCause the t cause
+     * @deprecated
      */
     public CmdLineStderrException(Throwable tCause)
     {

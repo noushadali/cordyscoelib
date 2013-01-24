@@ -1,8 +1,7 @@
 /**
- * (c) 2009 Cordys R&D B.V. All rights reserved. The computer program(s) is the
- * proprietary information of Cordys B.V. and provided under the relevant
- * License Agreement containing restrictions on use and disclosure. Use is
- * subject to the License Agreement.
+ * (c) 2009 Cordys R&D B.V. All rights reserved. The computer program(s) is the proprietary information of Cordys B.V. and
+ * provided under the relevant License Agreement containing restrictions on use and disclosure. Use is subject to the License
+ * Agreement.
  */
 package com.cordys.coe.util.cmdline;
 
@@ -10,7 +9,7 @@ import org.apache.log4j.Logger;
 
 /**
  * Contains the process and stream pumpers that are started by the CmdLine class.
- *
+ * 
  * @author mpoyhone
  */
 public class RunningProcess
@@ -43,10 +42,10 @@ public class RunningProcess
      * Owning command line object.
      */
     private CmdLine m_clCmdLine;
-    
+
     /**
-     * 
      * Constructor for RunningProcess
+     * 
      * @param clCmdLine Owning command line object.
      * @param pProcess Created process.
      */
@@ -55,7 +54,7 @@ public class RunningProcess
         m_clCmdLine = clCmdLine;
         this.pProcess = pProcess;
     }
-    
+
     /**
      * Starts the stdout and stderr pumpers.
      * 
@@ -63,8 +62,9 @@ public class RunningProcess
      */
     public void startPumpers() throws CmdLineException
     {
-        if (pProcess == null) {
-            throw new CmdLineException("Process is not set.");
+        if (pProcess == null)
+        {
+            throw new CmdLineException("Process is not set.", m_clCmdLine);
         }
 
         // Now attach the streampumpers to capture the output.
@@ -76,7 +76,7 @@ public class RunningProcess
         tStdOut.start();
         tStdErr.start();
     }
-    
+
     /**
      * Waits until the process is finished.
      * 
@@ -86,11 +86,12 @@ public class RunningProcess
     public int waitFor(boolean terminateOnInterrupt) throws CmdLineException
     {
         int iReturn = 0;
-        
-        if (pProcess == null) {
-            throw new CmdLineException("Process is not set.");
+
+        if (pProcess == null)
+        {
+            throw new CmdLineException("Process is not set.", m_clCmdLine);
         }
-        
+
         // Wait for the command to finish.
         try
         {
@@ -100,14 +101,14 @@ public class RunningProcess
             }
             clspStdOut.waitFor();
             clspStdErr.waitFor();
-    
+
             if (lLogger.isDebugEnabled())
             {
                 lLogger.debug("Waiting for the process to finish.");
             }
-    
+
             int iTmpReturn = pProcess.waitFor();
-    
+
             if (lLogger.isDebugEnabled())
             {
                 lLogger.debug("The exit code: " + iTmpReturn);
@@ -116,47 +117,48 @@ public class RunningProcess
         catch (InterruptedException e)
         {
             lLogger.error("Error waiting for the streams.", e);
-            
-            if (terminateOnInterrupt) {
+
+            if (terminateOnInterrupt)
+            {
                 // Destroy the process.
                 pProcess.destroy();
             }
         }
-    
+
         // Try to get the exitcode
         iReturn = pProcess.exitValue();
         pProcess = null;
-    
+
         if (lLogger.isInfoEnabled())
         {
             lLogger.info("Returncode: " + iReturn + "\nCommand: " + m_clCmdLine.getFullCommand());
         }
-    
+
         // Get the stdout and stderr messages.
         m_clCmdLine.setStdErr(clspStdErr.toString());
         m_clCmdLine.setStdOut(clspStdOut.toString());
-    
+
         if (lLogger.isDebugEnabled())
         {
             lLogger.debug("StdOut:\n" + m_clCmdLine.getStdOut());
             lLogger.debug("StdErr:\n" + m_clCmdLine.getStdErr());
         }
-    
+
         if ((m_clCmdLine.getStdErr().length() > 0) && (m_clCmdLine.getFailOnStdErr() == true))
         {
-            throw new CmdLineStderrException(iReturn, m_clCmdLine.getStdErr());
+            throw new CmdLineStderrException(iReturn, m_clCmdLine.getStdErr(), m_clCmdLine);
         }
-        
+
         return iReturn;
     }
-    
+
     /**
      * Terminates the process if it is still running.
-     * 
      */
     public void terminate()
     {
-        if (pProcess != null) {
+        if (pProcess != null)
+        {
             pProcess.destroy();
             pProcess = null;
         }
@@ -164,7 +166,7 @@ public class RunningProcess
 
     /**
      * Returns the process.
-     *
+     * 
      * @return Returns the process.
      */
     public Process getProcess()

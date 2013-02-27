@@ -1596,7 +1596,7 @@ public class XPathHelper
         {
             nsResult = xpath.selectNodeSet(iNode, NamespaceConstants.getXPathMetaInfo());
 
-            if (nsResult.hasNext())
+            if (nsResult != null && nsResult.hasNext())
             {
                 long lResult = nsResult.next();
 
@@ -1741,56 +1741,59 @@ public class XPathHelper
 
                     StringBuilder sb = null;
 
-                    while (nsResult.hasNext())
+                    if (nsResult != null)
                     {
-                        long lResult = nsResult.next();
-                        String str = null;
-
-                        if (ResultNode.isAttribute(lResult))
+                        while (nsResult.hasNext())
                         {
-                            str = ResultNode.getStringValue(lResult);
-                        }
-                        else
-                        {
-                            int iResNode = ResultNode.getElementNode(lResult);
+                            long lResult = nsResult.next();
+                            String str = null;
 
-                            if ((Node.getType(iResNode) == NodeType.CDATA) || (Node.getType(iResNode) == NodeType.DATA))
+                            if (ResultNode.isAttribute(lResult))
+                            {
+                                str = ResultNode.getStringValue(lResult);
+                            }
+                            else
+                            {
+                                int iResNode = ResultNode.getElementNode(lResult);
+
+                                if ((Node.getType(iResNode) == NodeType.CDATA) || (Node.getType(iResNode) == NodeType.DATA))
+                                {
+                                    if (!bAllMatches)
+                                    {
+                                        // Use the parent node because there can be multiple
+                                        // text elements one node (e.g. in case of <a>x&b</a>.
+                                        // Usually we are interested in the whole text, not
+                                        // just parts of it.
+                                        iResNode = Node.getParent(iResNode);
+                                    }
+                                    else
+                                    {
+                                        // We are getting all the matching text nodes, so
+                                        // they will be concatenated anyway.
+                                        str = Node.getData(iResNode);
+                                    }
+                                }
+
+                                if (iResNode != 0)
+                                {
+                                    str = Node.getDataWithDefault(iResNode, null);
+                                }
+                            }
+
+                            if (str != null)
                             {
                                 if (!bAllMatches)
                                 {
-                                    // Use the parent node because there can be multiple
-                                    // text elements one node (e.g. in case of <a>x&b</a>.
-                                    // Usually we are interested in the whole text, not
-                                    // just parts of it.
-                                    iResNode = Node.getParent(iResNode);
+                                    return str;
                                 }
-                                else
+
+                                if (sb == null)
                                 {
-                                    // We are getting all the matching text nodes, so
-                                    // they will be concatenated anyway.
-                                    str = Node.getData(iResNode);
+                                    sb = new StringBuilder();
                                 }
-                            }
 
-                            if (iResNode != 0)
-                            {
-                                str = Node.getDataWithDefault(iResNode, null);
+                                sb.append(str);
                             }
-                        }
-
-                        if (str != null)
-                        {
-                            if (!bAllMatches)
-                            {
-                                return str;
-                            }
-
-                            if (sb == null)
-                            {
-                                sb = new StringBuilder();
-                            }
-
-                            sb.append(str);
                         }
                     }
 
@@ -1874,7 +1877,7 @@ public class XPathHelper
 
         return retVal;
     }
-    
+
     /**
      * This method sets the string value for the given XPath. If the resulting node is a text node then it's value is set. If the
      * result is an element all child text nodes are removed and a single text node is added with the given value.
@@ -1967,19 +1970,25 @@ public class XPathHelper
                     // Iterate over the the result set until we get a non-null result.
                     // This is needed because otherwise //node and //node/text() would
                     // return different results.
-                    while (resultNodeSet.hasNext())
+                    if (resultNodeSet != null)
                     {
-                        String str = getNextNodeSetMatch(resultNodeSet);
-
-                        if (str != null)
+                        while (resultNodeSet.hasNext())
                         {
-                            return str;
+                            String str = getNextNodeSetMatch(resultNodeSet);
+
+                            if (str != null)
+                            {
+                                return str;
+                            }
                         }
                     }
                 }
                 finally
                 {
-                    resultNodeSet.delete();
+                    if (resultNodeSet != null)
+                    {
+                        resultNodeSet.delete();
+                    }
                 }
 
                 return null;
@@ -2023,13 +2032,16 @@ public class XPathHelper
                 {
                     List<String> res = new ArrayList<String>(16);
 
-                    while (resultNodeSet.hasNext())
+                    if (resultNodeSet != null)
                     {
-                        String str = getNextNodeSetMatch(resultNodeSet);
-
-                        if (str != null)
+                        while (resultNodeSet.hasNext())
                         {
-                            res.add(str);
+                            String str = getNextNodeSetMatch(resultNodeSet);
+
+                            if (str != null)
+                            {
+                                res.add(str);
+                            }
                         }
                     }
 
@@ -2037,7 +2049,10 @@ public class XPathHelper
                 }
                 finally
                 {
-                    resultNodeSet.delete();
+                    if (resultNodeSet != null)
+                    {
+                        resultNodeSet.delete();
+                    }
                 }
 
             default:
@@ -2053,7 +2068,7 @@ public class XPathHelper
      */
     public static String getNextNodeSetMatch(NodeSet resultNodeSet)
     {
-        if (!resultNodeSet.hasNext())
+        if (resultNodeSet == null || !resultNodeSet.hasNext())
         {
             return null;
         }
@@ -2189,7 +2204,7 @@ public class XPathHelper
 
         try
         {
-            if (ns.hasNext())
+            if (ns != null && ns.hasNext())
             {
                 while (ns.hasNext())
                 {
@@ -2392,6 +2407,8 @@ public class XPathHelper
 
         try
         {
+            if (ns != null)
+            {
             while (ns.hasNext())
             {
                 long lResult = ns.next();
@@ -2412,6 +2429,7 @@ public class XPathHelper
                 {
                     break;
                 }
+            }
             }
 
             return matched;

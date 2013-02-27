@@ -306,6 +306,7 @@ public class VariableData
      * @return  <code>String</code> for string variables/XPath expressions that return a string or
      *          <code>int[]</code> for XML variables.
      */
+    @SuppressWarnings("deprecation")
     public Object resolveValue(VariableContext vcContext)
     {
         ITemplateVariable emValue = vcContext.getValueMap().get(sVariableName);

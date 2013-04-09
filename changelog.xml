@@ -12,6 +12,7 @@
 	</template>
     <body>
     <release description="Development release" version="@NEXT@">
+      <action dev="pgussow" type="add"><![CDATA[Added classes for schema validation]]></action>
       <action dev="pgussow" type="fix"><![CDATA[Fixed some issues in the XPathHelper in case an XPath returned a null resultset]]></action>
     </release>
     <release date="2013-01-24" description="Development release" version="1.2.10">

@@ -1,4 +1,4 @@
-package com.cordys.coe.utils.xsd;
+package com.cordys.coe.util.xml;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ class LocalErrorHandler implements IValidationErrorHandler
     }
 
     /**
-     * @see com.cordys.coe.ac.jmsconnector.util.xsd.IValidationErrorHandler#getXML()
+     * @see com.cordys.coe.util.xml.ac.jmsconnector.util.xsd.IValidationErrorHandler#getXML()
      */
     @Override
     public String getXML()
@@ -42,7 +42,7 @@ class LocalErrorHandler implements IValidationErrorHandler
     }
 
     /**
-     * @see com.cordys.coe.ac.jmsconnector.util.xsd.IValidationErrorHandler#getXSDFile()
+     * @see com.cordys.coe.util.xml.ac.jmsconnector.util.xsd.IValidationErrorHandler#getXSDFile()
      */
     @Override
     public String getXSDFile()
@@ -99,7 +99,7 @@ class LocalErrorHandler implements IValidationErrorHandler
     }
 
     /**
-     * @see com.cordys.coe.ac.jmsconnector.util.xsd.IValidationErrorHandler#getValidationMessages()
+     * @see com.cordys.coe.util.xml.ac.jmsconnector.util.xsd.IValidationErrorHandler#getValidationMessages()
      */
     @Override
     public String getValidationMessages()

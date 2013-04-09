@@ -1,4 +1,4 @@
-package com.cordys.coe.utils.xsd;
+package com.cordys.coe.util.xml;
 
 import org.xml.sax.ErrorHandler;
 

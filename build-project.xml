@@ -31,6 +31,7 @@
 		<include name="com/cordys/coe/util/win32/*.class" />
 		<include name="com/cordys/coe/util/xml/**/*.class" />
 		<include name="com/cordys/coe/util/xmlstore/*.class" />
+        <include name="com/cordys/coe/util/xmlstore/*.class" />
 	</patternset>
 	
 	<!--Target for compiling java source files. Done to make sure also .png files are copied -->

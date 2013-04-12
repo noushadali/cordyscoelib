@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document>
+<?xml version="1.0" encoding="UTF-8"?><document>
     <properties>
         <title>Cordys CoE Library Changelog</title>
         <author email="pgussow@cordys.com">Phillip Gussow</author>
@@ -13,8 +12,9 @@
 	</template>
     <body>
     <release description="Development release" version="@NEXT@">
-				</release>
-<release date="2013-04-09" description="Development release" version="1.2.11">
+      <action dev="pgussow" type="add"><![CDATA[Added ValidateXML class to validae an XML against an XSD]]></action>
+    </release>
+    <release date="2013-04-09" description="Development release" version="1.2.11">
       <action dev="pgussow" type="add"><![CDATA[Added classes for schema validation]]></action>
       <action dev="pgussow" type="fix"><![CDATA[Fixed some issues in the XPathHelper in case an XPath returned a null resultset]]></action>
     </release>

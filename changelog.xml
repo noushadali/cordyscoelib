@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><document>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document>
     <properties>
         <title>Cordys CoE Library Changelog</title>
         <author email="pgussow@cordys.com">Phillip Gussow</author>
@@ -13,6 +14,8 @@
     <body>
     <release description="Development release" version="@NEXT@">
       <action dev="pgussow" type="fix"><![CDATA[The SoapFaultInfo had a bug in detecting the error.]]></action>
+				</release>
+<release date="2013-09-09" description="Development release" version="1.2.12">
       <action dev="pgussow" type="add"><![CDATA[Added ValidateXML class to validae an XML against an XSD]]></action>
     </release>
     <release date="2013-04-09" description="Development release" version="1.2.11">

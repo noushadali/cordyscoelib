@@ -107,7 +107,7 @@ public class SoapFaultInfo
         }
 
         // Check for SOAP fault
-        int xSoapFaultNode = XPathHelper.selectSingleNode(xSoapEnvelope, "soap:Body/soap:Fault");
+        int xSoapFaultNode = XPathHelper.selectSingleNode(xSoapEnvelope, "soap:Body/soap:Fault", s_xmi);
 
         if (xSoapFaultNode == 0)
         {
@@ -118,7 +118,7 @@ public class SoapFaultInfo
 
         int xNode;
 
-        if ((xNode = XPathHelper.selectSingleNode(xSoapFaultNode, ".//*[local-name()='faultcode']")) != 0)
+        if ((xNode = XPathHelper.selectSingleNode(xSoapFaultNode, ".//*[local-name()='faultcode']", s_xmi)) != 0)
         {
             // Standard SOAP faultcode.
             String value = Node.getData(xNode);
@@ -139,24 +139,24 @@ public class SoapFaultInfo
             info.setFaultcode(Node.getData(xNode));
         }
 
-        if ((xNode = XPathHelper.selectSingleNode(xSoapFaultNode, ".//*[local-name()='faultactor']")) != 0)
+        if ((xNode = XPathHelper.selectSingleNode(xSoapFaultNode, ".//*[local-name()='faultactor']", s_xmi)) != 0)
         {
             // Standard SOAP faultactor. There is no faultactor in C2
             info.setFaultactor(Node.getData(xNode));
         }
 
-        if ((xNode = XPathHelper.selectSingleNode(xSoapFaultNode, ".//*[local-name()='faultstring']")) != 0)
+        if ((xNode = XPathHelper.selectSingleNode(xSoapFaultNode, ".//*[local-name()='faultstring']", s_xmi)) != 0)
         {
             // Standard SOAP faultstring.
             info.setFaultstring(Node.getData(xNode));
         }
-        else if ((xNode = XPathHelper.selectSingleNode(xSoapFaultNode, ".//*[local-name()='faultstring']")) != 0)
+        else if ((xNode = XPathHelper.selectSingleNode(xSoapFaultNode, ".//*[local-name()='faultstring']", s_xmi)) != 0)
         {
             // Cordys C2 SOAP faultstring.
             info.setFaultstring(Node.getData(xNode));
         }
 
-        if ((xNode = XPathHelper.selectSingleNode(xSoapFaultNode, ".//*[local-name()='detail']")) != 0)
+        if ((xNode = XPathHelper.selectSingleNode(xSoapFaultNode, ".//*[local-name()='detail']", s_xmi)) != 0)
         {
             // Standard SOAP faultdetail.
             info.setDetail(xNode);
@@ -186,7 +186,7 @@ public class SoapFaultInfo
         }
 
         // Check for SOAP fault
-        int xSoapFaultNode = XPathHelper.selectSingleNode(xSoapEnvelope, "soap:Body/soap:Fault");
+        int xSoapFaultNode = XPathHelper.selectSingleNode(xSoapEnvelope, "soap:Body/soap:Fault", s_xmi);
 
         return xSoapFaultNode;
     }

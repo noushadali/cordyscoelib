@@ -12,6 +12,7 @@
 	</template>
     <body>
     <release description="Development release" version="@NEXT@">
+      <action dev="pgussow" type="fix"><![CDATA[The SoapFaultInfo had a bug in detecting the error.]]></action>
       <action dev="pgussow" type="add"><![CDATA[Added ValidateXML class to validae an XML against an XSD]]></action>
     </release>
     <release date="2013-04-09" description="Development release" version="1.2.11">

@@ -10,8 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * This class wraps the information from the RMI registry.
- *
- * @author  localpg
+ * 
+ * @author localpg
  */
 @XmlRootElement(name = "ActualServiceContainer", namespace = Constants.NS)
 public class ActualServiceContainer
@@ -39,8 +39,8 @@ public class ActualServiceContainer
 
     /**
      * This method gets the name of the server it is running on.
-     *
-     * @return  The name of the server it is running on.
+     * 
+     * @return The name of the server it is running on.
      */
     @XmlElement(name = "Server", namespace = Constants.NS)
     public String getServer()
@@ -50,8 +50,8 @@ public class ActualServiceContainer
 
     /**
      * This method sets the name of the server it is running on.
-     *
-     * @param  server  The name of the server it is running on.
+     * 
+     * @param server The name of the server it is running on.
      */
     public void setServer(String server)
     {
@@ -60,8 +60,8 @@ public class ActualServiceContainer
 
     /**
      * This method gets the JMX URL.
-     *
-     * @return  The JMX URL.
+     * 
+     * @return The JMX URL.
      */
     @XmlElement(name = "JmxURL", namespace = Constants.NS)
     public String getJmxUrl()
@@ -71,8 +71,8 @@ public class ActualServiceContainer
 
     /**
      * This method sets the JMX URL.
-     *
-     * @param  jmxURL  The JMX URL.
+     * 
+     * @param jmxURL The JMX URL.
      */
     public void setJmxUrl(String jmxURL)
     {
@@ -81,8 +81,8 @@ public class ActualServiceContainer
 
     /**
      * This method gets the name of the organization (could be empty).
-     *
-     * @return  The name of the organization (could be empty).
+     * 
+     * @return The name of the organization (could be empty).
      */
     @XmlElement(name = "Organization", namespace = Constants.NS)
     public String getOrganization()
@@ -92,8 +92,8 @@ public class ActualServiceContainer
 
     /**
      * This method sets the name of the organization (could be empty).
-     *
-     * @param  organization  The name of the organization (could be empty).
+     * 
+     * @param organization The name of the organization (could be empty).
      */
     public void setOrganization(String organization)
     {
@@ -102,8 +102,8 @@ public class ActualServiceContainer
 
     /**
      * This method gets the name of the service group.
-     *
-     * @return  The name of the service group.
+     * 
+     * @return The name of the service group.
      */
     @XmlElement(name = "ServiceGroup", namespace = Constants.NS)
     public String getServiceGroup()
@@ -113,8 +113,8 @@ public class ActualServiceContainer
 
     /**
      * This method sets the name of the service group.
-     *
-     * @param  serviceGroup  The name of the service group.
+     * 
+     * @param serviceGroup The name of the service group.
      */
     public void setServiceGroup(String serviceGroup)
     {
@@ -123,8 +123,8 @@ public class ActualServiceContainer
 
     /**
      * This method gets the name of the service container.
-     *
-     * @return  The name of the service container.
+     * 
+     * @return The name of the service container.
      */
     @XmlElement(name = "ServiceContainer", namespace = Constants.NS)
     public String getServiceContainer()
@@ -134,8 +134,8 @@ public class ActualServiceContainer
 
     /**
      * This method sets the name of the service container.
-     *
-     * @param  serviceContainer  The name of the service container.
+     * 
+     * @param serviceContainer The name of the service container.
      */
     public void setServiceContainer(String serviceContainer)
     {
@@ -143,24 +143,24 @@ public class ActualServiceContainer
     }
 
     /**
-     * @see  java.lang.Object#toString()
+     * @see java.lang.Object#toString()
      */
-    @Override public String toString()
+    @Override
+    public String toString()
     {
         StringBuilder sb = new StringBuilder(1024);
 
         sb.append(m_server).append(";").append(m_organization).append(";").append(m_serviceGroup).append(";")
-          .append(m_serviceContainer).append(";").append(m_jmxURL);
+                .append(m_serviceContainer).append(";").append(m_jmxURL);
 
         return sb.toString();
     }
 
     /**
      * This method will return true if this service container matches the given service group.
-     *
-     * @param   group  The group it should match.
-     *
-     * @return  true if this service container matches the given service group.
+     * 
+     * @param group The group it should match.
+     * @return true if this service container matches the given service group.
      */
     public boolean matches(ServiceGroup group)
     {
@@ -176,10 +176,9 @@ public class ActualServiceContainer
 
     /**
      * This method will return true if this service container matches the given service container.
-     *
-     * @param   container  The container it should match.
-     *
-     * @return  true if this service container matches the given service container.
+     * 
+     * @param container The container it should match.
+     * @return true if this service container matches the given service container.
      */
     public boolean matches(ServiceContainer container)
     {

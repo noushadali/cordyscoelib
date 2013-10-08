@@ -109,4 +109,14 @@ public class ServiceContainer
     {
         m_jmxCounters.clear();
     }
+
+    /**
+     * This method removes the jmx counter.
+     * 
+     * @param counter The counter
+     */
+    public void removeJMXCounter(JMXCounter counter)
+    {
+        m_jmxCounters.remove(counter);
+    }
 }

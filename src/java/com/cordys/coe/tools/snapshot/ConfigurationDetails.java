@@ -1,23 +1,12 @@
 package com.cordys.coe.tools.snapshot;
 
-import com.cordys.coe.tools.snapshot.config.Config;
-import com.cordys.coe.tools.snapshot.config.EJMXCounterType;
-import com.cordys.coe.tools.snapshot.config.JMXCounter;
-import com.cordys.coe.tools.snapshot.config.Server;
-import com.cordys.coe.tools.snapshot.config.ServiceContainer;
-import com.cordys.coe.tools.snapshot.config.ServiceGroup;
-import com.cordys.coe.util.swing.MessageBoxUtil;
-
 import java.awt.BorderLayout;
 import java.awt.Font;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import java.io.ByteArrayOutputStream;
-
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -33,25 +22,29 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
-
 import javax.swing.border.TitledBorder;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-
 import javax.swing.table.DefaultTableModel;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
-
+import javax.swing.tree.TreeSelectionModel;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
 import net.miginfocom.swing.MigLayout;
+
+import com.cordys.coe.tools.snapshot.config.Config;
+import com.cordys.coe.tools.snapshot.config.EJMXCounterType;
+import com.cordys.coe.tools.snapshot.config.JMXCounter;
+import com.cordys.coe.tools.snapshot.config.Server;
+import com.cordys.coe.tools.snapshot.config.ServiceContainer;
+import com.cordys.coe.tools.snapshot.config.ServiceGroup;
+import com.cordys.coe.util.swing.MessageBoxUtil;
 
 /**
  * Holds the composite that shows the configuration details.
@@ -60,42 +53,23 @@ import net.miginfocom.swing.MigLayout;
  */
 public class ConfigurationDetails extends JPanel
 {
-    /**
-     * Holds the configuration that be displayed.
-     */
+    /** Holds the configuration that be displayed. */
     private Config m_config;
-    /**
-     * Holds the tree displaying the service groups / containers and JMX counters.
-     */
+    /** Holds the tree displaying the service groups / containers and JMX counters. */
     private JTree m_tree;
-    /**
-     * Holds the servers from which data will be retrieved.
-     */
+    /** Holds the servers from which data will be retrieved. */
     private JTable m_serversTable;
-    /**
-     * Holds teh raw configuration XML.
-     */
+    /** Holds teh raw configuration XML. */
     private JTextArea m_rawView;
-    /**
-     * Holds teh JAXB context.
-     */
+    /** Holds teh JAXB context. */
     private JAXBContext m_context;
-    /**
-     * Holds teh username to connect.
-     */
+    /** Holds teh username to connect. */
     private JTextField m_username;
-    /**
-     * Holds teh JMX password for the connection.
-     */
+    /** Holds teh JMX password for the connection. */
     private JPasswordField m_password;
-    /**
-     * Holds whether or not anything was changed in the configuration.
-     */
+    /** Holds whether or not anything was changed in the configuration. */
     private boolean m_dirty = false;
-
-    /**
-     * Holds teh details for the selected item in the tree.
-     */
+    /** Holds teh details for the selected item in the tree. */
     private JPanel m_detailsPanel;
 
     /**
@@ -193,6 +167,8 @@ public class ConfigurationDetails extends JPanel
                 showCounterDetails(e);
             }
         });
+        m_tree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+
         panel_2.add(m_tree, BorderLayout.CENTER);
         splitPane.setDividerLocation(250);
         splitPane_1.setDividerLocation(100);
@@ -375,9 +351,7 @@ public class ConfigurationDetails extends JPanel
      */
     public class ServerTableModel extends DefaultTableModel
     {
-        /**
-         * Holds the servers that should be displayed.
-         */
+        /** Holds the servers that should be displayed. */
         private ArrayList<Server> m_servers;
 
         /**
@@ -516,26 +490,18 @@ public class ConfigurationDetails extends JPanel
      */
     private class TreePopupHandler
     {
-        /**
-         * Holds the tree on which this popup menu should work.
-         */
+        /** Holds the tree on which this popup menu should work. */
         private JTree m_tree;
-        /**
-         * Holds the popup menu for the root level.
-         */
+        /** Holds the popup menu for the root level. */
         private JPopupMenu m_rootMenu;
-        /**
-         * Holds the popup menu for the service group level.
-         */
+        /** Holds the popup menu for the service group level. */
         private JPopupMenu m_serviceGroup;
-        /**
-         * Holds the popup menu for the service container level.
-         */
+        /** Holds the popup menu for the service container level. */
         private JPopupMenu m_serviceContainer;
-        /**
-         * Holds the popup menu for the JMX counter level.
-         */
+        /** Holds the popup menu for the JMX counter level. */
         private JPopupMenu m_jmxCounter;
+        /** Holds the JMX counters in the copy buffer */
+        private ArrayList<DefaultMutableTreeNode> m_toBeCopied = new ArrayList<DefaultMutableTreeNode>();
 
         /**
          * Instantiates a new tree popup.
@@ -576,13 +542,9 @@ public class ConfigurationDetails extends JPanel
                     {
                         TreePath path = m_tree.getPathForLocation(e.getX(), e.getY());
 
-                        if (path != null)
+                        if (m_tree.isSelectionEmpty())
                         {
                             m_tree.setSelectionPath(path);
-                        }
-                        else
-                        {
-                            return;
                         }
 
                         // Now add the proper items
@@ -623,20 +585,46 @@ public class ConfigurationDetails extends JPanel
          */
         private void createJMXCounterMenu()
         {
-            JMenuItem mi = new JMenuItem("Delete");
+            JMenuItem mi = new JMenuItem("Copy");
             mi.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
-                    DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
-                    
-                    DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
-                    dtm.removeNodeFromParent(treeNode);
-                    
+                    m_toBeCopied.clear();
+                    TreePath[] paths = m_tree.getSelectionPaths();
+                    for (TreePath path : paths)
+                    {
+                        DefaultMutableTreeNode dtm = (DefaultMutableTreeNode) path.getLastPathComponent();
+                        if (dtm.getLevel() == 3)
+                        {
+                            m_toBeCopied.add(dtm);
+                        }
+                    }
+                }
+            });
+            m_jmxCounter.add(mi);
+
+            mi = new JMenuItem("Delete");
+            mi.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    TreePath[] paths = m_tree.getSelectionPaths();
+                    for (TreePath path : paths)
+                    {
+                        DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+                        ServiceContainer sc = (ServiceContainer) ((DefaultMutableTreeNode)treeNode.getParent()).getUserObject();
+
+                        sc.removeJMXCounter((JMXCounter)treeNode.getUserObject());
+                        DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
+                        dtm.removeNodeFromParent(treeNode);
+                    }
+
                     m_tree.revalidate();
                 }
             });
             m_jmxCounter.add(mi);
+
         }
 
         /**
@@ -653,7 +641,7 @@ public class ConfigurationDetails extends JPanel
                 }
             });
             m_serviceContainer.add(mi);
-            
+
             mi = new JMenuItem("Delete");
             mi.addActionListener(new ActionListener() {
                 @Override
@@ -661,9 +649,12 @@ public class ConfigurationDetails extends JPanel
                 {
                     DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
                     
+                    ServiceGroup sg = (ServiceGroup) ((DefaultMutableTreeNode)treeNode.getParent()).getUserObject();
+                    sg.removeServiceContainer((ServiceContainer)treeNode.getUserObject());
+
                     DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
                     dtm.removeNodeFromParent(treeNode);
-                    
+
                     m_tree.revalidate();
                 }
             });
@@ -692,6 +683,48 @@ public class ConfigurationDetails extends JPanel
                 }
             });
             m_serviceContainer.add(mi);
+
+            mi = new JMenuItem("Paste");
+            mi.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    if (m_toBeCopied.isEmpty())
+                    {
+                        MessageBoxUtil.showError("The copy buffer is empty");
+                    }
+                    else
+                    {
+                        DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
+                        ServiceContainer sc = (ServiceContainer) treeNode.getUserObject();
+
+                        for (DefaultMutableTreeNode source : m_toBeCopied)
+                        {
+                            JMXCounter jcSource = (JMXCounter) source.getUserObject();
+
+                            try
+                            {
+                                JMXCounter cln = (JMXCounter) jcSource.clone();
+                                sc.addJMXCounter(cln);
+                                DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(cln);
+                                treeNode.add(newChild);
+                            }
+                            catch (CloneNotSupportedException e1)
+                            {
+                                // Will not happen
+                            }
+                        }
+
+                        DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
+
+                        dtm.reload(treeNode);
+                    }
+
+                    m_tree.revalidate();
+                }
+            });
+
+            m_serviceContainer.add(mi);
         }
 
         /**
@@ -708,7 +741,7 @@ public class ConfigurationDetails extends JPanel
                 }
             });
             m_serviceGroup.add(mi);
-            
+
             mi = new JMenuItem("Delete");
             mi.addActionListener(new ActionListener() {
                 @Override
@@ -716,9 +749,11 @@ public class ConfigurationDetails extends JPanel
                 {
                     DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) m_tree.getLastSelectedPathComponent();
                     
+                    ConfigurationDetails.this.m_config.removeServiceGroup((ServiceGroup)treeNode.getUserObject());
+
                     DefaultTreeModel dtm = (DefaultTreeModel) m_tree.getModel();
                     dtm.removeNodeFromParent(treeNode);
-                    
+
                     m_tree.revalidate();
                 }
             });
@@ -827,9 +862,9 @@ public class ConfigurationDetails extends JPanel
 
             dtm.reload(treeNode);
         }
-        
+
         /**
-         * Adds the new JMX counter.
+         * Adds the new JMX counter.`
          */
         protected void addNewJMXCounter()
         {

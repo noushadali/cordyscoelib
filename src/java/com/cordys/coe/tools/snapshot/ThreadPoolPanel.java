@@ -35,22 +35,16 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * This panel displays all the thread pools found in the responses. It gets the data from the WorkerThreadCollector.
- *
- * @author  localpg
+ * 
+ * @author localpg
  */
 public class ThreadPoolPanel extends JPanel
 {
-    /**
-     * Holds all threads that were found.
-     */
+    /** Holds all threads that were found. */
     private JTable m_allThreads;
-    /**
-     * Holds the threads that are part of this thread pool.
-     */
-    private JList m_threads;
-    /**
-     * Holds teh stack trace of the individual thread.
-     */
+    /** Holds the threads that are part of this thread pool. */
+    private JList<ThreadInfo> m_threads;
+    /** Holds teh stack trace of the individual thread. */
     private JTextArea m_threadInfoDetails;
 
     /**
@@ -72,102 +66,92 @@ public class ThreadPoolPanel extends JPanel
         m_allThreads = new JTable();
         m_allThreads.getSelectionModel().addListSelectionListener(new SelectionListener(m_allThreads));
 
-        m_allThreads.setModel(new DefaultTableModel(new Object[][] {},
-                                                    new String[]
-                                                    {
-                                                        "Service Group", "Service Container", "Organization",
-                                                        "Dispatcher", "Status"
-                                                    })
+        m_allThreads.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Service Group", "Service Container",
+                "Organization", "Dispatcher", "Status" }) {
+            boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false, false };
+
+            @Override
+            public boolean isCellEditable(int row, int column)
             {
-                boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false, false };
-
-                @Override public boolean isCellEditable(int row, int column)
-                {
-                    return columnEditables[column];
-                }
-            });
+                return columnEditables[column];
+            }
+        });
         m_allThreads.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        m_allThreads.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
-                                        {
-                                            /**
-                                             * @see  javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable,
-                                             *       java.lang.Object, boolean, boolean, int, int)
-                                             */
-                                            @Override public Component getTableCellRendererComponent(JTable table,
-                                                                                                     Object value,
-                                                                                                     boolean isSelected,
-                                                                                                     boolean hasFocus,
-                                                                                                     int row,
-                                                                                                     int column)
-                                            {
-                                                row = table.convertRowIndexToModel(row);
+        m_allThreads.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            /**
+             * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object,
+             *      boolean, boolean, int, int)
+             */
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+                    int row, int column)
+            {
+                row = table.convertRowIndexToModel(row);
 
-                                                DispatcherInfo di = (DispatcherInfo) table.getModel().getValueAt(row,
-                                                                                                                 3);
+                DispatcherInfo di = (DispatcherInfo) table.getModel().getValueAt(row, 3);
 
-                                                if (di.getCurrentWorkers() < di.getMaxConcurrentWorkers())
-                                                {
-                                                    setBackground(Color.GREEN);
-                                                }
-                                                else if (di.getCurrentWorkers() >= di.getMaxConcurrentWorkers())
-                                                {
-                                                    // All threads are created. Let's see if there are active ones. -1 means unlimited workers
-                                                    // possible.
-                                                    if (di.getMaxConcurrentWorkers() != -1)
-                                                    {
-                                                        if (di.getActiveWorkers() < di.getMaxConcurrentWorkers())
-                                                        {
-                                                            setBackground(Color.ORANGE);
-                                                        }
-                                                        else
-                                                        {
-                                                            setBackground(Color.RED);
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        setBackground(Color.GREEN);
-                                                    }
-                                                }
+                if (di.getCurrentWorkers() < di.getMaxConcurrentWorkers())
+                {
+                    setBackground(Color.GREEN);
+                }
+                else if (di.getCurrentWorkers() >= di.getMaxConcurrentWorkers())
+                {
+                    // All threads are created. Let's see if there are active ones. -1 means unlimited workers
+                    // possible.
+                    if (di.getMaxConcurrentWorkers() != -1)
+                    {
+                        if (di.getActiveWorkers() < di.getMaxConcurrentWorkers())
+                        {
+                            setBackground(Color.ORANGE);
+                        }
+                        else
+                        {
+                            setBackground(Color.RED);
+                        }
+                    }
+                    else
+                    {
+                        setBackground(Color.GREEN);
+                    }
+                }
 
-                                                return super.getTableCellRendererComponent(table, value, isSelected,
-                                                                                           hasFocus, row, column);
-                                            }
-                                        });
+                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            }
+        });
         scrollPane_3.setViewportView(m_allThreads);
 
         JSplitPane splitPane_2 = new JSplitPane();
         splitPane_1.setRightComponent(splitPane_2);
 
-        m_threads = new JList();
-        m_threads.setModel(new DefaultListModel());
+        m_threads = new JList<ThreadInfo>();
+        m_threads.setModel(new DefaultListModel<ThreadInfo>());
         m_threads.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         m_threads.getSelectionModel().addListSelectionListener(new SelectionListener(m_threads));
-        m_threads.setCellRenderer(new DefaultListCellRenderer()
+        m_threads.setCellRenderer(new DefaultListCellRenderer() {
+            /**
+             * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList,java.lang.Object, int,
+             *      boolean, boolean)
+             */
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+                    boolean cellHasFocus)
             {
-                /**
-                 * @see  javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList,java.lang.Object,
-                 *       int, boolean, boolean)
-                 */
-                @Override public Component getListCellRendererComponent(JList list, Object value, int index,
-                                                                        boolean isSelected, boolean cellHasFocus)
-                {
-                    ThreadInfo ti = (ThreadInfo) value;
+                ThreadInfo ti = (ThreadInfo) value;
 
-                    if (ti != null)
+                if (ti != null)
+                {
+                    if (Thread.State.WAITING.name().equals(ti.getState()))
                     {
-                        if (Thread.State.WAITING.name().equals(ti.getState()))
-                        {
-                            setBackground(Color.GREEN);
-                        }
-                        else if (Thread.State.BLOCKED.name().equals(ti.getState()))
-                        {
-                            setBackground(Color.RED);
-                        }
+                        setBackground(Color.GREEN);
                     }
-                    return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    else if (Thread.State.BLOCKED.name().equals(ti.getState()))
+                    {
+                        setBackground(Color.RED);
+                    }
                 }
-            });
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            }
+        });
 
         JScrollPane scrollPane_5 = new JScrollPane();
         scrollPane_5.setViewportView(m_threads);
@@ -189,8 +173,8 @@ public class ThreadPoolPanel extends JPanel
 
     /**
      * This method updates the panel with the information from the Workerthread collector result.
-     *
-     * @param  sr  The snapshot result that should be displayed.
+     * 
+     * @param sr The snapshot result that should be displayed.
      */
     public void updateData(SnapshotResult sr)
     {
@@ -231,40 +215,33 @@ public class ThreadPoolPanel extends JPanel
 
     /**
      * This method adds the results from the thread pool to the table.
-     *
-     * @param  info  The dispatcher information.
-     * @param  asc   The service container where it came from.
+     * 
+     * @param info The dispatcher information.
+     * @param asc The service container where it came from.
      */
     private void addThreadResults(DispatcherInfo info, ActualServiceContainer asc)
     {
         DefaultTableModel dtm = (DefaultTableModel) m_allThreads.getModel();
 
-        Object[] rowData = new Object[]
-                           {
-                               asc.getServiceGroup(), asc.getServiceContainer(), asc.getOrganization(), info,
-                               "" + info.getActiveWorkers() + " ( " + info.getCurrentWorkers() + " / " +
-                               info.getMaxConcurrentWorkers() + ")"
-                           };
+        Object[] rowData = new Object[] { asc.getServiceGroup(), asc.getServiceContainer(), asc.getOrganization(), info,
+                "" + info.getActiveWorkers() + " ( " + info.getCurrentWorkers() + " / " + info.getMaxConcurrentWorkers() + ")" };
         dtm.addRow(rowData);
     }
 
     /**
      * The row selection listener used.
-     *
-     * @author  localpg
+     * 
+     * @author localpg
      */
-    public class SelectionListener
-        implements ListSelectionListener
+    public class SelectionListener implements ListSelectionListener
     {
-        /**
-         * The table to listen to.
-         */
+        /** The table to listen to. */
         JComponent m_comp;
 
         /**
          * It is necessary to keep the table since it is not possible to determine the table from the event's source.
-         *
-         * @param  table  The table to listen to.
+         * 
+         * @param table The table to listen to.
          */
         SelectionListener(JComponent table)
         {
@@ -273,8 +250,8 @@ public class ThreadPoolPanel extends JPanel
 
         /**
          * When the selection has changed.
-         *
-         * @param  e  DOCUMENTME
+         * 
+         * @param e DOCUMENTME
          */
         public void valueChanged(ListSelectionEvent e)
         {
@@ -290,7 +267,7 @@ public class ThreadPoolPanel extends JPanel
             }
             else if (m_comp instanceof JList)
             {
-                JList list = (JList) m_comp;
+                JList<?> list = (JList<?>) m_comp;
                 row = list.getSelectedIndex();
                 lsm = list.getSelectionModel();
             }
@@ -300,9 +277,9 @@ public class ThreadPoolPanel extends JPanel
                 if (m_comp == m_allThreads)
                 {
                     DefaultTableModel dtm = (DefaultTableModel) m_allThreads.getModel();
-                    DefaultListModel dlm = (DefaultListModel) m_threads.getModel();
-                    
-                    //Clean the selection.
+                    DefaultListModel<ThreadInfo> dlm = (DefaultListModel<ThreadInfo>) m_threads.getModel();
+
+                    // Clean the selection.
                     dlm.removeAllElements();
                     m_threadInfoDetails.setText("");
 
@@ -333,7 +310,7 @@ public class ThreadPoolPanel extends JPanel
                     }
                     else
                     {
-                    	m_threadInfoDetails.setText("");
+                        m_threadInfoDetails.setText("");
                     }
                 }
             }

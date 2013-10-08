@@ -15,8 +15,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Holds the configuration for the SystemSnapshot program.
- *
- * @author  localpg
+ * 
+ * @author localpg
  */
 @XmlRootElement(name = "Config", namespace = Constants.NS)
 @XmlType(propOrder = { "username", "password", "m_servers", "m_serviceGroups" })
@@ -45,8 +45,8 @@ public class Config
 
     /**
      * This method gets the password for the JMX user.
-     *
-     * @return  The password for the JMX user.
+     * 
+     * @return The password for the JMX user.
      */
     @XmlElement(name = "Password", namespace = Constants.NS)
     public String getPassword()
@@ -56,8 +56,8 @@ public class Config
 
     /**
      * This method sets the password for the JMX user.
-     *
-     * @param  password  The password for the JMX user.
+     * 
+     * @param password The password for the JMX user.
      */
     public void setPassword(String password)
     {
@@ -66,8 +66,8 @@ public class Config
 
     /**
      * This method gets the username to connect to JMX.
-     *
-     * @return  The username to connect to JMX.
+     * 
+     * @return The username to connect to JMX.
      */
     @XmlElement(name = "Username", namespace = Constants.NS)
     public String getUsername()
@@ -77,8 +77,8 @@ public class Config
 
     /**
      * This method sets the username to connect to JMX.
-     *
-     * @param  username  The username to connect to JMX.
+     * 
+     * @param username The username to connect to JMX.
      */
     public void setUsername(String username)
     {
@@ -87,8 +87,8 @@ public class Config
 
     /**
      * This method returns the servers that are part of this cluster.
-     *
-     * @return  The servers that are part of this cluster
+     * 
+     * @return The servers that are part of this cluster
      */
     public ArrayList<Server> getServerList()
     {
@@ -97,8 +97,8 @@ public class Config
 
     /**
      * This method adds the given server.
-     *
-     * @param  server  The server to add.
+     * 
+     * @param server The server to add.
      */
     public void addServer(Server server)
     {
@@ -107,8 +107,8 @@ public class Config
 
     /**
      * This method returns the service groups to include in the dump.
-     *
-     * @return  The service groups to include in the dump.
+     * 
+     * @return The service groups to include in the dump.
      */
     public ArrayList<ServiceGroup> getServiceGroupList()
     {
@@ -117,8 +117,8 @@ public class Config
 
     /**
      * This method adds the given emailID.
-     *
-     * @param  serviceGroup  emailID The email ID to add.
+     * 
+     * @param serviceGroup emailID The email ID to add.
      */
     public void addServiceGroup(ServiceGroup serviceGroup)
     {
@@ -126,15 +126,13 @@ public class Config
     }
 
     /**
-     * This method gets the list of all the custom datahandler classes that have been configured. This is used to
-     * properly initialize the JAXB context.
-     *
-     * @return  The list of all the custom datahandler classes that have been configured.
-     *
-     * @throws  Exception  In case of any exceptions
+     * This method gets the list of all the custom datahandler classes that have been configured. This is used to properly
+     * initialize the JAXB context.
+     * 
+     * @return The list of all the custom datahandler classes that have been configured.
+     * @throws Exception In case of any exceptions
      */
-    public List<Class<?>> getCustomDataHandlers()
-                                         throws Exception
+    public List<Class<?>> getCustomDataHandlers() throws Exception
     {
         ArrayList<Class<?>> retVal = new ArrayList<Class<?>>();
 
@@ -163,7 +161,7 @@ public class Config
 
         return retVal;
     }
-    
+
     /**
      * This method deletes all service groups.
      */
@@ -173,9 +171,19 @@ public class Config
     }
 
     /**
+     * This method removes the service group.
+     * 
+     * @param sg The sg
+     */
+    public void removeServiceGroup(ServiceGroup sg)
+    {
+        m_serviceGroups.remove(sg);
+    }
+
+    /**
      * Main method.
-     *
-     * @param  saArguments  Commandline arguments.
+     * 
+     * @param saArguments Commandline arguments.
      */
     public static void main(String[] saArguments)
     {

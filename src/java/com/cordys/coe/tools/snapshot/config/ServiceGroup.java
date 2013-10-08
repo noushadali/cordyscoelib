@@ -109,4 +109,14 @@ public class ServiceGroup
     {
         m_serviceContainers.clear();
     }
+
+    /**
+     * This method removes the service container.
+     * 
+     * @param sc The sc to remove.
+     */
+    public void removeServiceContainer(ServiceContainer sc)
+    {
+        m_serviceContainers.remove(sc);
+    }
 }

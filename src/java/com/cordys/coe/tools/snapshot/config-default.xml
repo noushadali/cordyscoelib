@@ -39,6 +39,10 @@
 							<Domain>com.cordys</Domain>
 							<DataCollector>com.cordys.coe.tools.snapshot.data.collector.DBPoolCollector</DataCollector>
 						</JMXCounter>
+                        <JMXCounter>
+                            <Domain>com.cordys</Domain>
+                            <DataCollector>com.cordys.coe.tools.snapshot.data.collector.JMXWSICollector</DataCollector>
+                        </JMXCounter>
 						<JMXCounter>
 							<Domain>java.lang</Domain>
 							<NameProperties>

@@ -1,5 +1,30 @@
 package com.cordys.coe.tools.snapshot;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.management.MBeanServerConnection;
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.SchemaOutputResolver;
+import javax.xml.transform.Result;
+import javax.xml.transform.dom.DOMResult;
+
 import com.cordys.coe.tools.snapshot.config.ActualServiceContainer;
 import com.cordys.coe.tools.snapshot.config.Config;
 import com.cordys.coe.tools.snapshot.config.JMXCounter;
@@ -12,39 +37,10 @@ import com.cordys.coe.tools.snapshot.data.ThrowableWrapper;
 import com.cordys.coe.tools.snapshot.data.handler.DataHandlerFactory;
 import com.cordys.coe.util.xml.dom.NiceDOMWriter;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import java.net.URLDecoder;
-
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.management.MBeanServerConnection;
-
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.SchemaOutputResolver;
-
-import javax.xml.transform.Result;
-import javax.xml.transform.dom.DOMResult;
-
 /**
  * This class will get the snapshot of the system. based on the given configuration.
- *
- * @author  localpg
+ * 
+ * @author localpg
  */
 public class SystemSnapshotGrabber
 {
@@ -59,13 +55,11 @@ public class SystemSnapshotGrabber
 
     /**
      * Creates a new SystemSnapshotGrabber object.
-     *
-     * @param   config  The configuration.
-     *
-     * @throws  Exception  In case of any exceptions.
+     * 
+     * @param config The configuration.
+     * @throws Exception In case of any exceptions.
      */
-    public SystemSnapshotGrabber(Config config)
-                          throws Exception
+    public SystemSnapshotGrabber(Config config) throws Exception
     {
         m_config = config;
 
@@ -74,12 +68,16 @@ public class SystemSnapshotGrabber
 
     /**
      * This method will build up the snapshot for the containers that match the configuration.
-     *
-     * @return  The result containing the snapshot.
+     * 
+     * @return The result containing the snapshot.
      */
-    public SnapshotResult buildSnapshot()
+    public SnapshotResult buildSnapshot(ISnapshotGrabberProgress progress)
     {
         SnapshotResult retVal = new SnapshotResult();
+        
+        //Step 1: gather all the objects to get data from so that we can determine the progress that that should be made.
+        Map<ActualServiceContainer, ServiceContainer> matchingNodes = new LinkedHashMap<ActualServiceContainer, ServiceContainer>();
+        
 
         ArrayList<ServiceGroup> groups = m_config.getServiceGroupList();
 
@@ -96,21 +94,39 @@ public class SystemSnapshotGrabber
                     {
                         if (asc.matches(container))
                         {
-                            // Step 2: If we found a match we need to build the snapshot data.
-                            try
-                            {
-                                SnapshotData sd = gatherData(asc, container);
-                                retVal.addSnapshotData(sd);
-                            }
-                            catch (Exception e)
-                            {
-                                retVal.addSnapshotData(new SnapshotData(asc, e));
-                            }
-
+                            matchingNodes.put(asc, container);
                             break;
                         }
                     }
                 }
+            }
+        }
+        
+        //Now we know how many containers we will question, so we can set the max.
+        progress.setMax(matchingNodes.size());
+        
+        //Step 3: Execute the gathering of data
+        int actualProgress = 0;
+        for (Entry<ActualServiceContainer, ServiceContainer> entry : matchingNodes.entrySet())
+        {
+            ActualServiceContainer sc = entry.getKey();
+            try
+            {
+                GrabberData gd = new GrabberData();
+                gd.setProgress(actualProgress++);
+                gd.setHost(sc.getServer());
+                gd.setServiceContainer(sc.getServiceContainer());
+                gd.setDetail("Grabbing data for service container " + sc.getServiceContainer());
+                
+                progress.publishGrabberData(gd);
+                
+                SnapshotData sd = gatherData(sc, entry.getValue());
+                retVal.addSnapshotData(sd);
+                
+            }
+            catch (Exception e)
+            {
+                retVal.addSnapshotData(new SnapshotData(sc, e));
             }
         }
 
@@ -119,16 +135,13 @@ public class SystemSnapshotGrabber
 
     /**
      * This method will gather the data from the given container with the given counters.
-     *
-     * @param   asc        The container to get the details for.
-     * @param   container  The container containing the counters that should be retrieved.
-     *
-     * @return  The captured JMX data.
-     *
-     * @throws  Exception  In case of any exceptions
+     * 
+     * @param asc The container to get the details for.
+     * @param container The container containing the counters that should be retrieved.
+     * @return The captured JMX data.
+     * @throws Exception In case of any exceptions
      */
-    public SnapshotData gatherData(ActualServiceContainer asc, ServiceContainer container)
-                            throws Exception
+    public SnapshotData gatherData(ActualServiceContainer asc, ServiceContainer container) throws Exception
     {
         SnapshotData retVal = new SnapshotData(asc);
 
@@ -172,8 +185,8 @@ public class SystemSnapshotGrabber
 
     /**
      * This method gets the components that were found.
-     *
-     * @return  The components that were found.
+     * 
+     * @return The components that were found.
      */
     public List<ActualServiceContainer> getComponents()
     {
@@ -182,11 +195,10 @@ public class SystemSnapshotGrabber
 
     /**
      * This method will build the table with all components that can be connected to.
-     *
-     * @throws  Exception  In case of any exceptions.
+     * 
+     * @throws Exception In case of any exceptions.
      */
-    public void buildRMIRable()
-                       throws Exception
+    public void buildRMIRable() throws Exception
     {
         m_allEntries.clear();
 
@@ -204,8 +216,7 @@ public class SystemSnapshotGrabber
                 {
                     String sEntry = saEntries[iCount];
 
-                    String url = "service:jmx:rmi:///jndi/rmi://" + server.getName() + ":" + server.getPort() + "/" +
-                                 sEntry;
+                    String url = "service:jmx:rmi:///jndi/rmi://" + server.getName() + ":" + server.getPort() + "/" + sEntry;
 
                     if (sEntry.startsWith("cordys/"))
                     {
@@ -240,36 +251,31 @@ public class SystemSnapshotGrabber
                 }
 
                 // Sort the entries.
-                Collections.sort(m_allEntries, new Comparator<ActualServiceContainer>()
-                                 {
-                                     @Override public int compare(ActualServiceContainer o1, ActualServiceContainer o2)
-                                     {
-                                         // We'll compare the name of the organization, then the service group, then the container.
-                                         int retVal = o1.getOrganization().toLowerCase().compareTo(o2.getOrganization()
-                                                                                                   .toLowerCase());
+                Collections.sort(m_allEntries, new Comparator<ActualServiceContainer>() {
+                    @Override
+                    public int compare(ActualServiceContainer o1, ActualServiceContainer o2)
+                    {
+                        // We'll compare the name of the organization, then the service group, then the container.
+                        int retVal = o1.getOrganization().toLowerCase().compareTo(o2.getOrganization().toLowerCase());
 
-                                         if (retVal == 0)
-                                         {
-                                             retVal = o1.getServiceGroup().toLowerCase().compareTo(o2.getServiceGroup()
-                                                                                                   .toLowerCase());
-                                         }
+                        if (retVal == 0)
+                        {
+                            retVal = o1.getServiceGroup().toLowerCase().compareTo(o2.getServiceGroup().toLowerCase());
+                        }
 
-                                         if (retVal == 0)
-                                         {
-                                             retVal = o1.getServiceContainer().toLowerCase().compareTo(o2
-                                                                                                       .getServiceContainer()
-                                                                                                       .toLowerCase());
-                                         }
+                        if (retVal == 0)
+                        {
+                            retVal = o1.getServiceContainer().toLowerCase().compareTo(o2.getServiceContainer().toLowerCase());
+                        }
 
-                                         if (retVal == 0)
-                                         {
-                                             retVal = o1.getServer().toLowerCase().compareTo(o2.getServer()
-                                                                                             .toLowerCase());
-                                         }
+                        if (retVal == 0)
+                        {
+                            retVal = o1.getServer().toLowerCase().compareTo(o2.getServer().toLowerCase());
+                        }
 
-                                         return retVal;
-                                     }
-                                 });
+                        return retVal;
+                    }
+                });
             }
             catch (Exception e)
             {
@@ -280,8 +286,8 @@ public class SystemSnapshotGrabber
 
     /**
      * Main method.
-     *
-     * @param  saArguments  Commandline arguments.
+     * 
+     * @param saArguments Commandline arguments.
      */
     public static void main(String[] saArguments)
     {
@@ -290,8 +296,8 @@ public class SystemSnapshotGrabber
             JAXBContext context = JAXBContext.newInstance(Config.class);
 
             // Load the config.
-            Config config = (Config) context.createUnmarshaller().unmarshal(SystemSnapshotGrabber.class
-                                                                            .getResourceAsStream("config-local.xml"));
+            Config config = (Config) context.createUnmarshaller().unmarshal(
+                    SystemSnapshotGrabber.class.getResourceAsStream("config-local.xml"));
 
             // Recreate the context with all the classes that participate.
             List<Class<?>> classes = config.getCustomDataHandlers();
@@ -301,20 +307,19 @@ public class SystemSnapshotGrabber
 
             // Generate the schema
             final List<DOMResult> results = new ArrayList<DOMResult>();
-            context.generateSchema(new SchemaOutputResolver()
+            context.generateSchema(new SchemaOutputResolver() {
+                @Override
+                public Result createOutput(String namespaceUri, String file) throws IOException
                 {
-                    @Override public Result createOutput(String namespaceUri, String file)
-                                                  throws IOException
-                    {
-                        DOMResult result = new DOMResult();
-                        result.setSystemId(file);
-                        results.add(result);
+                    DOMResult result = new DOMResult();
+                    result.setSystemId(file);
+                    results.add(result);
 
-                        results.add(result);
+                    results.add(result);
 
-                        return result;
-                    }
-                });
+                    return result;
+                }
+            });
 
             for (DOMResult result : results)
             {
@@ -323,7 +328,26 @@ public class SystemSnapshotGrabber
 
             // Get the data from Cordys via JMX.
             SystemSnapshotGrabber ssg = new SystemSnapshotGrabber(config);
-            SnapshotResult result = ssg.buildSnapshot();
+            SnapshotResult result = ssg.buildSnapshot(new ISnapshotGrabberProgress() {
+
+                @Override
+                public void setGrabberProgress(int progress)
+                {
+                    System.out.println("Progress: " + progress);
+                }
+
+                @Override
+                public void publishGrabberData(GrabberData data)
+                {
+                    System.out.println(data.toString());
+                }
+                
+                @Override
+                public void setMax(int max)
+                {
+                    System.out.println("Max ticks will be: " + max);
+                }
+            });
 
             // Write the XML to a file
             File outputFile = new File(System.getProperty("TEMP"), "snapshot.xml");

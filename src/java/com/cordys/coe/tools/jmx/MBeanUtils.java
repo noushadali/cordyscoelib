@@ -1,20 +1,10 @@
 /**
- * Eclipse JMX Console
- * Copyright (C) 2006 Jeff Mesnil
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- *  Code was inspired from org.eclipse.equinox.client source, (c) 2006 IBM
+ * Eclipse JMX Console Copyright (C) 2006 Jeff Mesnil Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the License. Code was inspired from
+ * org.eclipse.equinox.client source, (c) 2006 IBM
  */
 package com.cordys.coe.tools.jmx;
 
@@ -34,24 +24,21 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * DOCUMENTME.
- *
- * @author  $author$
+ * 
+ * @author $author$
  */
 public class MBeanUtils
 {
     /**
      * This method gets the value for the given attribute.
-     *
-     * @param   mbsc        The JMX connection.
-     * @param   objectName  The object name for the object.
-     * @param   attribute   The name of the attribute to get the value for.
-     *
-     * @return  The value for the given attribute.
-     *
-     * @throws  Exception  In case of any exceptions
+     * 
+     * @param mbsc The JMX connection.
+     * @param objectName The object name for the object.
+     * @param attribute The name of the attribute to get the value for.
+     * @return The value for the given attribute.
+     * @throws Exception In case of any exceptions
      */
-    public static Object getAttributeValue(MBeanServerConnection mbsc, ObjectName objectName, String attribute)
-                                    throws Exception
+    public static Object getAttributeValue(MBeanServerConnection mbsc, ObjectName objectName, String attribute) throws Exception
     {
         Object retVal = null;
 
@@ -63,23 +50,20 @@ public class MBeanUtils
         {
             // We'll ignore it and just return null.
         }
-        
+
         return retVal;
     }
 
     /**
      * This method gets the integer value for the given attribute.
-     *
-     * @param   mbsc        The JMX connection.
-     * @param   objectName  The object name for the object.
-     * @param   attribute   The name of the attribute to get the value for.
-     *
-     * @return  The integer value for the given attribute.
-     *
-     * @throws  Exception  In case of any exceptions
+     * 
+     * @param mbsc The JMX connection.
+     * @param objectName The object name for the object.
+     * @param attribute The name of the attribute to get the value for.
+     * @return The integer value for the given attribute.
+     * @throws Exception In case of any exceptions
      */
-    public static int getIntAttributeValue(MBeanServerConnection mbsc, ObjectName objectName, String attribute)
-                                    throws Exception
+    public static int getIntAttributeValue(MBeanServerConnection mbsc, ObjectName objectName, String attribute) throws Exception
     {
         int retVal = -1;
 
@@ -101,11 +85,41 @@ public class MBeanUtils
     }
 
     /**
+     * This method gets the long value for the given attribute.
+     * 
+     * @param mbsc The JMX connection.
+     * @param objectName The object name for the object.
+     * @param attribute The name of the attribute to get the value for.
+     * @return The long value for the given attribute.
+     * @throws Exception In case of any exceptions
+     */
+    public static long getLongAttributeValue(MBeanServerConnection mbsc, ObjectName objectName, String attribute)
+            throws Exception
+    {
+        long retVal = -1;
+
+        Object tmp = getAttributeValue(mbsc, objectName, attribute);
+
+        if (tmp != null)
+        {
+            if (tmp instanceof Long)
+            {
+                retVal = (Long) tmp;
+            }
+            else
+            {
+                retVal = Long.parseLong(tmp.toString());
+            }
+        }
+
+        return retVal;
+    }
+
+    /**
      * DOCUMENTME.
-     *
-     * @param   val  DOCUMENTME
-     *
-     * @return  DOCUMENTME
+     * 
+     * @param val DOCUMENTME
+     * @return DOCUMENTME
      */
     public static Number createNumber(String val)
     {
@@ -137,19 +151,18 @@ public class MBeanUtils
 
     /**
      * This method returns a default value for the given type.
-     *
-     * @param   sType  The type of the parameter.
-     *
-     * @return  The default value for it.
+     * 
+     * @param sType The type of the parameter.
+     * @return The default value for it.
      */
     public static String getDefaultValue(String sType)
     {
         String sReturn = "";
 
-        if (sType.equals("byte") || sType.equals("short") || sType.equals("java.lang.Short") || sType.equals("int") ||
-                sType.equals("java.lang.Integer") || sType.equals("long") || sType.equals("java.lang.Long") ||
-                sType.equals("float") || sType.equals("java.lang.Float") || sType.equals("double") ||
-                sType.equals("java.lang.Double") || sType.equals("char"))
+        if (sType.equals("byte") || sType.equals("short") || sType.equals("java.lang.Short") || sType.equals("int")
+                || sType.equals("java.lang.Integer") || sType.equals("long") || sType.equals("java.lang.Long")
+                || sType.equals("float") || sType.equals("java.lang.Float") || sType.equals("double")
+                || sType.equals("java.lang.Double") || sType.equals("char"))
         {
             sReturn = "0";
         }
@@ -163,16 +176,14 @@ public class MBeanUtils
 
     /**
      * DOCUMENTME.
-     *
-     * @param   lhmParams  DOCUMENTME
-     * @param   params     DOCUMENTME
-     *
-     * @return  DOCUMENTME
-     *
-     * @throws  ClassNotFoundException  DOCUMENTME
+     * 
+     * @param lhmParams DOCUMENTME
+     * @param params DOCUMENTME
+     * @return DOCUMENTME
+     * @throws ClassNotFoundException DOCUMENTME
      */
     public static Object[] getParameters(LinkedHashMap<String, Text> lhmParams, MBeanParameterInfo[] params)
-                                  throws ClassNotFoundException
+            throws ClassNotFoundException
     {
         if ((lhmParams == null) || (params == null))
         {
@@ -197,16 +208,13 @@ public class MBeanUtils
 
     /**
      * This method returns the proper value for the given parameter.
-     *
-     * @param   param      The MBean parameter details.
-     * @param   textValue  The String value of the parameter.
-     *
-     * @return  The proper return object to match the method's signature.
-     *
-     * @throws  ClassNotFoundException  In case of any exceptions.
+     * 
+     * @param param The MBean parameter details.
+     * @param textValue The String value of the parameter.
+     * @return The proper return object to match the method's signature.
+     * @throws ClassNotFoundException In case of any exceptions.
      */
-    public static Object getParameterValue(MBeanParameterInfo param, String textValue)
-                                    throws ClassNotFoundException
+    public static Object getParameterValue(MBeanParameterInfo param, String textValue) throws ClassNotFoundException
     {
         Object result;
 
@@ -270,9 +278,8 @@ public class MBeanUtils
         { // $NON-NLS-1$
             result = new Boolean(textValue);
         }
-        else if (MBeanUtils.class.getClassLoader().loadClass("java.lang.Number").isAssignableFrom(MBeanUtils.class
-                                                                                                      .getClassLoader()
-                                                                                                      .loadClass(param.getType())))
+        else if (MBeanUtils.class.getClassLoader().loadClass("java.lang.Number")
+                .isAssignableFrom(MBeanUtils.class.getClassLoader().loadClass(param.getType())))
         { // $NON-NLS-1$
             result = createNumber(textValue);
         }
@@ -285,16 +292,13 @@ public class MBeanUtils
 
     /**
      * DOCUMENTME.
-     *
-     * @param   valueStr  DOCUMENTME
-     * @param   type      DOCUMENTME
-     *
-     * @return  DOCUMENTME
-     *
-     * @throws  ClassNotFoundException  DOCUMENTME
+     * 
+     * @param valueStr DOCUMENTME
+     * @param type DOCUMENTME
+     * @return DOCUMENTME
+     * @throws ClassNotFoundException DOCUMENTME
      */
-    public static Object getValue(String valueStr, String type)
-                           throws ClassNotFoundException
+    public static Object getValue(String valueStr, String type) throws ClassNotFoundException
     {
         if ((valueStr == null) || (type == null))
         {
@@ -377,10 +381,9 @@ public class MBeanUtils
 
     /**
      * DOCUMENTME.
-     *
-     * @param   opInfo  DOCUMENTME
-     *
-     * @return  DOCUMENTME
+     * 
+     * @param opInfo DOCUMENTME
+     * @return DOCUMENTME
      */
     public static String prettySignature(MBeanOperationInfo opInfo)
     {
@@ -404,10 +407,9 @@ public class MBeanUtils
 
     /**
      * DOCUMENTME.
-     *
-     * @param   opInfo  DOCUMENTME
-     *
-     * @return  DOCUMENTME
+     * 
+     * @param opInfo DOCUMENTME
+     * @return DOCUMENTME
      */
     public static String prettySignature(MBeanNotificationInfo opInfo)
     {

@@ -6,10 +6,10 @@ import javax.xml.bind.annotation.XmlElement;
 
 /**
  * Wrapper for parameters to operations.
- *
- * @author  localpg
+ * 
+ * @author localpg
  */
-public class Parameter
+public class Parameter implements Cloneable
 {
     /**
      * Holds the value of the parameter.
@@ -23,10 +23,20 @@ public class Parameter
     {
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        Parameter p = new Parameter();
+
+        p.m_value = m_value;
+
+        return p;
+    }
+
     /**
      * Creates a new Parameter object.
-     *
-     * @param  value  The value for the parameter.
+     * 
+     * @param value The value for the parameter.
      */
     public Parameter(String value)
     {
@@ -35,8 +45,8 @@ public class Parameter
 
     /**
      * This method gets the value of the parameter.
-     *
-     * @return  The value of the parameter.
+     * 
+     * @return The value of the parameter.
      */
     @XmlElement(name = "Value", namespace = Constants.NS)
     public String getValue()
@@ -46,8 +56,8 @@ public class Parameter
 
     /**
      * This method sets the value of the parameter.
-     *
-     * @param  value  The value of the parameter.
+     * 
+     * @param value The value of the parameter.
      */
     public void setValue(String value)
     {

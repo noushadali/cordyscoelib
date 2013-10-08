@@ -13,6 +13,9 @@
 	</template>
     <body>
     <release description="Development release" version="@NEXT@">
+      <action dev="pgussow" type="update"><![CDATA[Added support for the Web Service Inspector to the Snapshot grabber tool.]]></action>
+    </release>
+    <release date="2013-09-09" description="Development release" version="1.2.12">
       <action dev="pgussow" type="fix"><![CDATA[The SoapFaultInfo had a bug in detecting the error.]]></action>
 				</release>
 <release date="2013-09-09" description="Development release" version="1.2.12">

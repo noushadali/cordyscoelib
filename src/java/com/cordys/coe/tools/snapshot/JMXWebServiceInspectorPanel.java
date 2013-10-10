@@ -262,7 +262,7 @@ public class JMXWebServiceInspectorPanel extends JPanel
             }
             else if (wso.getTotalAverage() < 500000)
             {
-                setBackground(Color.GREEN);
+                setBackground(Color.ORANGE);
             }
             else
             {

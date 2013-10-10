@@ -39,7 +39,7 @@ public class JMXCounterPanel extends JPanel
     /**
      * Holds teh counter type.
      */
-    private JComboBox<EJMXCounterType> m_type;
+    private JComboBox m_type;
     /**
      * Holds the class name for the data handler.
      */
@@ -95,7 +95,7 @@ public class JMXCounterPanel extends JPanel
         JLabel lblType = new JLabel("Type:");
         add(lblType, "cell 0 2,alignx trailing");
 
-        m_type = new JComboBox<EJMXCounterType>(EJMXCounterType.values());
+        m_type = new JComboBox(EJMXCounterType.values());
         add(m_type, "cell 1 2,growx");
 
         JLabel lblDataHandler = new JLabel("Data handler:");

@@ -13,6 +13,8 @@
 	</template>
     <body>
     <release description="Development release" version="@NEXT@">
+				</release>
+<release date="2013-10-10" description="Development release" version="1.2.13">
       <action dev="pgussow" type="update"><![CDATA[Added support for the Web Service Inspector to the Snapshot grabber tool.]]></action>
     </release>
     <release date="2013-09-09" description="Development release" version="1.2.12">

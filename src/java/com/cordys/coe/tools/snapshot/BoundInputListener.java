@@ -53,7 +53,7 @@ final class BoundInputListener
     /**
      * Holds teh combobox this listener works on.
      */
-    private JComboBox<?> m_combo;
+    private JComboBox m_combo;
 
     /**
      * Instantiates a new bound input listener.
@@ -126,7 +126,7 @@ final class BoundInputListener
      * @param  property              The name of the setter to call.
      * @param  parameter             The type of the parameter for the setter.
      */
-    public BoundInputListener(ConfigurationDetails configurationDetails, JComboBox<?> component, Object bean,
+    public BoundInputListener(ConfigurationDetails configurationDetails, JComboBox component, Object bean,
                               String property, Class<?> parameter)
     {
         m_configurationDetails = configurationDetails;

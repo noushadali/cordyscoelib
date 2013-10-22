@@ -661,6 +661,147 @@ public class XPathHelper
     }
 
     /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)"). This version returns only the first match. <br>
+     * As a prefix resolver it uses the one from the NamespaceConstants class.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @return The double value.
+     * @throws TransformerException
+     */
+    public static double getDoubleValue(Node nContextNode, String sXPath) throws TransformerException
+    {
+        return getDoubleValue(nContextNode, sXPath, NamespaceConstants.getPrefixResolver(), false, -1);
+    }
+
+    /**
+     * This method returns the double value for the given XPath.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param bMandatory Whether or not the field is mandatory.
+     * @return The double value. If the value is not found and bMandatory is false the default value is false.
+     * @throws TransformerException If the value cannot be found and bMandatory is true.
+     */
+    public static double getDoubleValue(Node nContextNode, String sXPath, boolean bMandatory) throws TransformerException
+    {
+        double lReturn = -1;
+
+        String sTemp = getStringValue(nContextNode, sXPath, bMandatory);
+
+        if ((sTemp != null) && (sTemp.length() != 0))
+        {
+            try
+            {
+                lReturn = Double.parseDouble(sTemp);
+            }
+            catch (NumberFormatException nfe)
+            {
+                // Ignore it.
+            }
+        }
+
+        if ((bMandatory == true) && (lReturn == -1))
+        {
+            throw new TransformerException("Cannot find xpath " + sXPath + " in the definition.");
+        }
+
+        return lReturn;
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)"). This version returns only the first match.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @return The double value.
+     * @throws TransformerException
+     */
+    public static double getDoubleValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo) throws TransformerException
+    {
+        return getDoubleValue(nContextNode, sXPath, xmiPathInfo, false, -1);
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)").<br>
+     * As a prefix resolver it uses the one from the NamespaceConstants class.
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The double value.
+     * @throws TransformerException
+     */
+    public static double getDoubleValue(Node nContextNode, String sXPath, double iDefault) throws TransformerException
+    {
+        return getDoubleValue(nContextNode, sXPath, NamespaceConstants.getPrefixResolver(), false, iDefault);
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @return The double value.
+     * @throws TransformerException
+     */
+    public static double getDoubleValue(Node nContextNode, String sPath, PrefixResolver xmiPathInfo, boolean bAllMatches)
+            throws TransformerException
+    {
+        return getDoubleValue(nContextNode, sPath, xmiPathInfo, bAllMatches, -1);
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The double value.
+     * @throws TransformerException
+     */
+    public static double getDoubleValue(Node nContextNode, String sXPath, PrefixResolver xmiPathInfo, double iDefault)
+            throws TransformerException
+    {
+        return getDoubleValue(nContextNode, sXPath, xmiPathInfo, false, iDefault);
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "number(.)").
+     * 
+     * @param nContextNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param prPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The double value.
+     * @throws TransformerException
+     */
+    public static double getDoubleValue(Node nContextNode, String sXPath, PrefixResolver prPathInfo, boolean bAllMatches,
+            double iDefault) throws TransformerException
+    {
+        double lReturn = iDefault;
+
+        String sTemp = getStringValue(nContextNode, sXPath, prPathInfo, bAllMatches, String.valueOf(iDefault));
+
+        lReturn = Double.parseDouble(sTemp);
+
+        return lReturn;
+    }
+
+    /**
      * This method sets the string value for the given XPath. If the resulting node is a text node then it's value is set. If the
      * result is an element all child text nodes are removed and a single text node is added with the given value.
      * 

@@ -15,24 +15,19 @@ import com.cordys.coe.util.swing.MessageBoxUtil;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -51,21 +46,17 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.ProgressMonitor;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
-
 import javax.swing.border.TitledBorder;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-
 import javax.swing.filechooser.FileFilter;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -305,10 +296,10 @@ public class SystemSnapshot implements PropertyChangeListener
 
         m_dbPoolPanel = new DBConnectionPoolPanel();
         tabbedPane.addTab("DB Connection Pools", null, m_dbPoolPanel, null);
-        
+
         m_jmxWSIPanel = new JMXWebServiceInspectorPanel();
         tabbedPane.addTab("JMX Web Service Inspector", null, m_jmxWSIPanel, null);
-        
+
         JPanel panel_3 = new JPanel();
         tabbedPane.addTab("Raw data", null, panel_3, null);
         panel_3.setLayout(new BorderLayout(0, 0));
@@ -565,9 +556,15 @@ public class SystemSnapshot implements PropertyChangeListener
             {
                 m_result = ssg.buildSnapshot(this);
             }
-            catch (Exception e)
+            catch (final Exception e)
             {
-                System.out.println("Error!" + e);
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        MessageBoxUtil.showError("Error getting snapshot", e);
+                    }
+                });
             }
 
             return null;
@@ -762,6 +759,11 @@ public class SystemSnapshot implements PropertyChangeListener
      */
     public void updateResultView()
     {
+        if (m_result == null)
+        {
+            return;
+        }
+
         // Update the tree
         DefaultMutableTreeNode tm = new ResultTreeNode(m_result, "Result");
 

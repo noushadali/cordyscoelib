@@ -1272,6 +1272,348 @@ public class XPathHelper
     }
 
     /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)"). This version returns only the first match. <br>
+     * As a prefix resolver it uses the one from the NamespaceConstants class.
+     * <p>
+     * Note: The XPath executed is not explicitly deleted. This means that it is up to the garbage collector to decide when the
+     * XPath object (and thus the native object tree) is deleted. This has no influence on the involved NOM nodes, just the XPath
+     * object. This means that you should use this method when having static xpaths like ./ns:item/text(). But when executing
+     * dynamic XPaths like "./ns:item[@id='" + itemID "']/text()" you should use the get***ValueDynamic methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @return The double value.
+     */
+    public static double getDoubleValue(int iNode, String sXPath)
+    {
+        return getDoubleValue(iNode, sXPath, NamespaceConstants.getXPathMetaInfo(), false, -1);
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)"). This version returns only the first match.
+     * <p>
+     * Note: The XPath executed is not explicitly deleted. This means that it is up to the garbage collector to decide when the
+     * XPath object (and thus the native object tree) is deleted. This has no influence on the involved NOM nodes, just the XPath
+     * object. This means that you should use this method when having static xpaths like ./ns:item/text(). But when executing
+     * dynamic XPaths like "./ns:item[@id='" + itemID "']/text()" you should use the get***ValueDynamic methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @return The double value.
+     */
+    public static double getDoubleValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo)
+    {
+        return getDoubleValue(iNode, sXPath, xmiPathInfo, false, -1);
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)").<br>
+     * As a prefix resolver it uses the one from the NamespaceConstants class.
+     * <p>
+     * Note: The XPath executed is not explicitly deleted. This means that it is up to the garbage collector to decide when the
+     * XPath object (and thus the native object tree) is deleted. This has no influence on the involved NOM nodes, just the XPath
+     * object. This means that you should use this method when having static xpaths like ./ns:item/text(). But when executing
+     * dynamic XPaths like "./ns:item[@id='" + itemID "']/text()" you should use the get***ValueDynamic methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The double value.
+     */
+    public static double getDoubleValue(int iNode, String sXPath, double iDefault)
+    {
+        return getDoubleValue(iNode, sXPath, NamespaceConstants.getXPathMetaInfo(), false, iDefault);
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)").
+     * <p>
+     * Note: The XPath executed is not explicitly deleted. This means that it is up to the garbage collector to decide when the
+     * XPath object (and thus the native object tree) is deleted. This has no influence on the involved NOM nodes, just the XPath
+     * object. This means that you should use this method when having static xpaths like ./ns:item/text(). But when executing
+     * dynamic XPaths like "./ns:item[@id='" + itemID "']/text()" you should use the get***ValueDynamic methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @return The double value.
+     */
+    public static double getDoubleValue(int iNode, String sPath, XPathMetaInfo xmiPathInfo, boolean bAllMatches)
+    {
+        return getDoubleValue(iNode, sPath, xmiPathInfo, bAllMatches, -1);
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)").
+     * <p>
+     * Note: The XPath executed is not explicitly deleted. This means that it is up to the garbage collector to decide when the
+     * XPath object (and thus the native object tree) is deleted. This has no influence on the involved NOM nodes, just the XPath
+     * object. This means that you should use this method when having static xpaths like ./ns:item/text(). But when executing
+     * dynamic XPaths like "./ns:item[@id='" + itemID "']/text()" you should use the get***ValueDynamic methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The double value.
+     */
+    public static double getDoubleValue(int iNode, String sXPath, XPathMetaInfo xmiPathInfo, double iDefault)
+    {
+        return getDoubleValue(iNode, sXPath, xmiPathInfo, false, iDefault);
+    }
+
+    /**
+     * This method returns the double value for the given XPath.
+     * <p>
+     * Note: The XPath executed is not explicitly deleted. This means that it is up to the garbage collector to decide when the
+     * XPath object (and thus the native object tree) is deleted. This has no influence on the involved NOM nodes, just the XPath
+     * object. This means that you should use this method when having static xpaths like ./ns:item/text(). But when executing
+     * dynamic XPaths like "./ns:item[@id='" + itemID "']/text()" you should use the get***ValueDynamic methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param bMandatory Whether or not the field is mandatory.
+     * @return The double value. If the value is not found and bMandatory is false the default value is false.
+     * @throws NOMXPathParseException In case mandatory is true and the XPath was not found.
+     */
+    public static double getDoubleValue(int iNode, String sXPath, boolean bMandatory) throws NOMXPathParseException
+    {
+        double lReturn = -1;
+
+        String sTemp = getStringValue(iNode, sXPath, bMandatory);
+
+        if ((sTemp != null) && (sTemp.length() != 0))
+        {
+            try
+            {
+                lReturn = Double.parseDouble(sTemp);
+            }
+            catch (NumberFormatException nfe)
+            {
+                // Ignore it.
+            }
+        }
+
+        if ((bMandatory == true) && (lReturn == -1))
+        {
+            throw new NOMXPathParseException("Cannot find xpath " + sXPath + " in the definition.");
+        }
+
+        return lReturn;
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "number(.)").
+     * <p>
+     * Note: The XPath executed is not explicitly deleted. This means that it is up to the garbage collector to decide when the
+     * XPath object (and thus the native object tree) is deleted. This has no influence on the involved NOM nodes, just the XPath
+     * object. This means that you should use this method when having static xpaths like ./ns:item/text(). But when executing
+     * dynamic XPaths like "./ns:item[@id='" + itemID "']/text()" you should use the get***ValueDynamic methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param prPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The double value.
+     */
+    public static double getDoubleValue(int iNode, String sXPath, XPathMetaInfo prPathInfo, boolean bAllMatches, double iDefault)
+    {
+        double lReturn = iDefault;
+
+        String sTemp = getStringValue(iNode, sXPath, prPathInfo, bAllMatches, String.valueOf(iDefault));
+
+        lReturn = Double.parseDouble(sTemp);
+
+        return lReturn;
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)"). This version returns only the first match. <br>
+     * As a prefix resolver it uses the one from the NamespaceConstants class.
+     * <p>
+     * Note: The XPath executed is explicitly deleted. This means you should use this method for XPaths that are executed only
+     * once like "./ns:item[@id='" + itemID "']/text()". For XPaths like "./ns:item/text()" you should use the get***Value
+     * methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @return The double value.
+     */
+    public static double getDoubleValueDynamic(int iNode, String sXPath)
+    {
+        return getDoubleValueDynamic(iNode, sXPath, NamespaceConstants.getXPathMetaInfo(), false, -1);
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)"). This version returns only the first match.
+     * <p>
+     * Note: The XPath executed is explicitly deleted. This means you should use this method for XPaths that are executed only
+     * once like "./ns:item[@id='" + itemID "']/text()". For XPaths like "./ns:item/text()" you should use the get***Value
+     * methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @return The double value.
+     */
+    public static double getDoubleValueDynamic(int iNode, String sXPath, XPathMetaInfo xmiPathInfo)
+    {
+        return getDoubleValueDynamic(iNode, sXPath, xmiPathInfo, false, -1);
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)").<br>
+     * As a prefix resolver it uses the one from the NamespaceConstants class.
+     * <p>
+     * Note: The XPath executed is explicitly deleted. This means you should use this method for XPaths that are executed only
+     * once like "./ns:item[@id='" + itemID "']/text()". For XPaths like "./ns:item/text()" you should use the get***Value
+     * methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The double value.
+     */
+    public static double getDoubleValueDynamic(int iNode, String sXPath, double iDefault)
+    {
+        return getDoubleValueDynamic(iNode, sXPath, NamespaceConstants.getXPathMetaInfo(), false, iDefault);
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)").
+     * <p>
+     * Note: The XPath executed is explicitly deleted. This means you should use this method for XPaths that are executed only
+     * once like "./ns:item[@id='" + itemID "']/text()". For XPaths like "./ns:item/text()" you should use the get***Value
+     * methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @return The double value.
+     */
+    public static double getDoubleValueDynamic(int iNode, String sPath, XPathMetaInfo xmiPathInfo, boolean bAllMatches)
+    {
+        return getDoubleValueDynamic(iNode, sPath, xmiPathInfo, bAllMatches, -1);
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "double(.)").
+     * <p>
+     * Note: The XPath executed is explicitly deleted. This means you should use this method for XPaths that are executed only
+     * once like "./ns:item[@id='" + itemID "']/text()". For XPaths like "./ns:item/text()" you should use the get***Value
+     * methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param xmiPathInfo Extra XPath information, e.g. namespace mappings
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The double value.
+     */
+    public static double getDoubleValueDynamic(int iNode, String sXPath, XPathMetaInfo xmiPathInfo, double iDefault)
+    {
+        return getDoubleValueDynamic(iNode, sXPath, xmiPathInfo, false, iDefault);
+    }
+
+    /**
+     * This method returns the double value for the given XPath.
+     * <p>
+     * Note: The XPath executed is explicitly deleted. This means you should use this method for XPaths that are executed only
+     * once like "./ns:item[@id='" + itemID "']/text()". For XPaths like "./ns:item/text()" you should use the get***Value
+     * methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param bMandatory Whether or not the field is mandatory.
+     * @return The double value. If the value is not found and bMandatory is false the default value is false.
+     * @throws NOMXPathParseException In case mandatory is true and the XPath was not found.
+     */
+    public static double getDoubleValueDynamic(int iNode, String sXPath, boolean bMandatory) throws NOMXPathParseException
+    {
+        double lReturn = -1;
+
+        String sTemp = getStringValueDynamic(iNode, sXPath, bMandatory);
+
+        if ((sTemp != null) && (sTemp.length() != 0))
+        {
+            try
+            {
+                lReturn = Double.parseDouble(sTemp);
+            }
+            catch (NumberFormatException nfe)
+            {
+                // Ignore it.
+            }
+        }
+
+        if ((bMandatory == true) && (lReturn == -1))
+        {
+            throw new NOMXPathParseException("Cannot find xpath " + sXPath + " in the definition.");
+        }
+
+        return lReturn;
+    }
+
+    /**
+     * This method returns the double value for the given XPath. This version return the double value for XPath expressions that
+     * evaluate to a node, attribute or a double value (e.g. "number(.)").
+     * <p>
+     * Note: The XPath executed is explicitly deleted. This means you should use this method for XPaths that are executed only
+     * once like "./ns:item[@id='" + itemID "']/text()". For XPaths like "./ns:item/text()" you should use the get***Value
+     * methods.
+     * </p>
+     * 
+     * @param iNode The node to operate on.
+     * @param sXPath The XPath to execute.
+     * @param prPathInfo Extra XPath information, e.g. namespace mappings
+     * @param bAllMatches If <code>false</code> and there are multiple matches, only the first one is returned. Otherwise the
+     *            results are concatenated together.
+     * @param iDefault The default value to return if there was nothing found.
+     * @return The double value.
+     */
+    public static double getDoubleValueDynamic(int iNode, String sXPath, XPathMetaInfo prPathInfo, boolean bAllMatches,
+            double iDefault)
+    {
+        double lReturn = iDefault;
+
+        String sTemp = getStringValueDynamic(iNode, sXPath, prPathInfo, bAllMatches, String.valueOf(iDefault));
+
+        lReturn = Double.parseDouble(sTemp);
+
+        return lReturn;
+    }
+
+    /**
      * This method returns the string value for the given XPath. This version return the string value for XPath expressions that
      * evaluate to a node, attribute or a string value (e.g. "string(.)"). This version returns only the first match.<br>
      * As a prefix resolver it uses the one from the NamespaceConstants class.
@@ -2409,27 +2751,27 @@ public class XPathHelper
         {
             if (ns != null)
             {
-            while (ns.hasNext())
-            {
-                long lResult = ns.next();
-                int node = ResultNode.getElementNode(lResult);
-
-                if (ResultNode.isAttribute(lResult))
+                while (ns.hasNext())
                 {
-                    Node.setAttribute(node, ResultNode.getName(lResult), sValue);
-                }
-                else
-                {
-                    Node.setDataElement(node, "", sValue);
-                }
+                    long lResult = ns.next();
+                    int node = ResultNode.getElementNode(lResult);
 
-                matched = true;
+                    if (ResultNode.isAttribute(lResult))
+                    {
+                        Node.setAttribute(node, ResultNode.getName(lResult), sValue);
+                    }
+                    else
+                    {
+                        Node.setDataElement(node, "", sValue);
+                    }
 
-                if (!bAllMatches)
-                {
-                    break;
+                    matched = true;
+
+                    if (!bAllMatches)
+                    {
+                        break;
+                    }
                 }
-            }
             }
 
             return matched;

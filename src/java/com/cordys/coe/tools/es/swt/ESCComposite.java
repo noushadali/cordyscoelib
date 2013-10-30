@@ -56,11 +56,10 @@ import com.eibus.xml.nom.Node;
 
 /**
  * This composite is the base for the Event Service client.
- *
- * @author  pgussow
+ * 
+ * @author pgussow
  */
-public class ESCComposite extends Composite
-    implements SOAPMessageListener, IMessageHandler, IEventServiceClient
+public class ESCComposite extends Composite implements SOAPMessageListener, IMessageHandler, IEventServiceClient
 {
     /**
      * Identifies the image for opening Cordys logs.
@@ -177,14 +176,12 @@ public class ESCComposite extends Composite
 
     /**
      * Creates a new ESCComposite object.
-     *
-     * @param   cParent     The parent composite.
-     * @param   cConnector  The Cordys connector to use.
-     *
-     * @throws  IOException  DOCUMENTME
+     * 
+     * @param cParent The parent composite.
+     * @param cConnector The Cordys connector to use.
+     * @throws IOException DOCUMENTME
      */
-    public ESCComposite(Composite cParent, Connector cConnector)
-                 throws IOException
+    public ESCComposite(Composite cParent, Connector cConnector) throws IOException
     {
         super(cParent, SWT.NONE);
 
@@ -214,9 +211,31 @@ public class ESCComposite extends Composite
     }
 
     /**
+     * @see com.cordys.coe.tools.log4j.ILog4JComposite#clearCurrentView()
+     */
+    @Override
+    public void clearCurrentView()
+    {
+        // Clean all the panels that are shown.
+        for (Iterator<String> iPanels = m_hmSubscribed.keySet().iterator(); iPanels.hasNext();)
+        {
+            AbstractEventPanel aepPanel = m_hmSubscribed.get(iPanels.next());
+            aepPanel.clear();
+        }
+
+        // Clear the details.
+        if (m_dcDetailsComposite != null)
+        {
+            m_dcDetailsComposite.clearFields();
+        }
+
+        clearDetails();
+    }
+
+    /**
      * When the shell is resized try to keep the proportions.
-     *
-     * @param  ceEvent  The event that took place.
+     * 
+     * @param ceEvent The event that took place.
      */
     public void calculateNewSizes(ControlEvent ceEvent)
     {
@@ -264,8 +283,7 @@ public class ESCComposite extends Composite
     }
 
     /**
-     * This method retrieves the list of current subjects from the event service. All subjects are added to the combo
-     * box.
+     * This method retrieves the list of current subjects from the event service. All subjects are added to the combo box.
      */
     public void fillSubjectCombo()
     {
@@ -274,8 +292,7 @@ public class ESCComposite extends Composite
 
         try
         {
-            int iMethod = m_swSoap.createSoapMethod("GetAllSubscriptions",
-                                                    "http://schemas.cordys.com/1.0/eventservice");
+            int iMethod = m_swSoap.createSoapMethod("GetAllSubscriptions", "http://schemas.cordys.com/1.0/eventservice");
             iEnvelope = SOAPWrapper.getEnvelope(iMethod);
 
             iResponse = m_swSoap.sendAndWait(iEnvelope);
@@ -307,8 +324,8 @@ public class ESCComposite extends Composite
 
     /**
      * This method gets the configuration for the Event Service Client.
-     *
-     * @return  The configuration for the Event Service Client.
+     * 
+     * @return The configuration for the Event Service Client.
      */
     public ILogViewerConfiguration getConfiguration()
     {
@@ -317,8 +334,8 @@ public class ESCComposite extends Composite
 
     /**
      * This method gets the image registry for this client.
-     *
-     * @return  The image registry for this client.
+     * 
+     * @return The image registry for this client.
      */
     public ImageRegistry getOwnImageRegistry()
     {
@@ -331,8 +348,8 @@ public class ESCComposite extends Composite
 
     /**
      * This method returns the title for this panel.
-     *
-     * @return  The title.
+     * 
+     * @return The title.
      */
     public String getTitle()
     {
@@ -365,9 +382,9 @@ public class ESCComposite extends Composite
 
     /**
      * This method handles the messages that are received from the Log4J messages.
-     *
-     * @param  sName      DOCUMENTME
-     * @param  edDetails  The event details.
+     * 
+     * @param sName DOCUMENTME
+     * @param edDetails The event details.
      */
     public void handleMessage(String sName, EventDetails edDetails)
     {
@@ -385,8 +402,8 @@ public class ESCComposite extends Composite
 
     /**
      * This method loads the LogEvents from a file.
-     *
-     * @param  iFileType
+     * 
+     * @param iFileType
      */
     public void loadFromFile(int iFileType)
     {
@@ -414,15 +431,13 @@ public class ESCComposite extends Composite
                 {
                     MessageBox mbPaging = new MessageBox(getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
                     mbPaging.setText("Confirmation");
-                    mbPaging.setMessage("The file is bigger then " + MAX_FILESIZE +
-                                        " bytes. Do you want to use paging (which is recommended)?");
+                    mbPaging.setMessage("The file is bigger then " + MAX_FILESIZE
+                            + " bytes. Do you want to use paging (which is recommended)?");
 
                     if (mbPaging.open() == SWT.YES)
                     {
-                        ILogContentProvider lcpProvider = LogContentFactory.createLog4JFileProviderByRecordCount(fTemp
-                                                                                                                 .getAbsolutePath(),
-                                                                                                                 m_lvcConfig
-                                                                                                                 .getPageSize());
+                        ILogContentProvider lcpProvider = LogContentFactory.createLog4JFileProviderByRecordCount(
+                                fTemp.getAbsolutePath(), m_lvcConfig.getPageSize());
                         addSubscribedSubject("Log4JEvents", lcpProvider);
                         bOK = false;
                     }
@@ -501,8 +516,7 @@ public class ESCComposite extends Composite
                             }
                             else if (iFileType == TYPE_CORDYS_LOG4J)
                             {
-                                EventDetails ed = EventDetails.createInstanceFromCordysLog4JXML(sbCurrentMessage
-                                                                                                .toString());
+                                EventDetails ed = EventDetails.createInstanceFromCordysLog4JXML(sbCurrentMessage.toString());
                                 handleMessage(sSourceName, ed);
                             }
                             sbCurrentMessage = null;
@@ -534,10 +548,9 @@ public class ESCComposite extends Composite
 
     /**
      * This methos gets called when a message is received by the connector.
-     *
-     * @param   iMSG  THe message that was received.
-     *
-     * @return  Always false. This application will take care of Node-deletion.
+     * 
+     * @param iMSG THe message that was received.
+     * @return Always false. This application will take care of Node-deletion.
      */
     public boolean onReceive(int iMSG)
     {
@@ -632,8 +645,8 @@ public class ESCComposite extends Composite
 
     /**
      * This method sets the text of the details.
-     *
-     * @param  leEvent  The logevent to display.
+     * 
+     * @param leEvent The logevent to display.
      */
     public synchronized void setDetailedText(final ILogEvent leEvent)
     {
@@ -642,61 +655,60 @@ public class ESCComposite extends Composite
 
         if ((dTemp != null) && !dTemp.isDisposed())
         {
-            dTemp.asyncExec(new Runnable()
+            dTemp.asyncExec(new Runnable() {
+                public void run()
                 {
-                    public void run()
+                    if ((leEvent == null) || !(leEvent instanceof Log4JLogEvent))
                     {
-                        if ((leEvent == null) || !(leEvent instanceof Log4JLogEvent))
-                        {
-                            m_dcDetailsComposite.setInformation(leEvent.getMessage(), "", "");
-                        }
-                        else
-                        {
-                            Log4JLogEvent lleEvent = (Log4JLogEvent) leEvent;
-                            m_dcDetailsComposite.setInformation(lleEvent.getMessage(), lleEvent.getException(),
-                                                                lleEvent.getLocationInformation());
-                        }
-
-                        String sTemp = "";
-
-                        // Time
-                        try
-                        {
-                            SimpleDateFormat sdf = new SimpleDateFormat(getConfiguration().getDateFormat());
-                            sTemp = sdf.format(leEvent.getTime());
-                        }
-                        catch (Exception e)
-                        {
-                            sTemp = leEvent.getTime().toString();
-                        }
-                        m_tTime.setText(sTemp);
-
-                        // Host
-                        m_tHost.setText(leEvent.getHost());
-
-                        // PID
-                        m_tPID.setText(leEvent.getPID());
-
-                        // Category
-                        m_tCategory.setText(leEvent.getCategory());
-
-                        // Thread
-                        m_tThread.setText(leEvent.getThread());
-
-                        // Level
-                        m_tTraceLevel.setText(leEvent.getTraceLevel());
-
-                        // Set the NDC
-                        m_stNDC.setText(leEvent.getNDC());
+                        m_dcDetailsComposite.setInformation(leEvent.getMessage(), "", "");
                     }
-                });
+                    else
+                    {
+                        Log4JLogEvent lleEvent = (Log4JLogEvent) leEvent;
+                        m_dcDetailsComposite.setInformation(lleEvent.getMessage(), lleEvent.getException(),
+                                lleEvent.getLocationInformation());
+                    }
+
+                    String sTemp = "";
+
+                    // Time
+                    try
+                    {
+                        SimpleDateFormat sdf = new SimpleDateFormat(getConfiguration().getDateFormat());
+                        sTemp = sdf.format(leEvent.getTime());
+                    }
+                    catch (Exception e)
+                    {
+                        sTemp = leEvent.getTime().toString();
+                    }
+                    m_tTime.setText(sTemp);
+
+                    // Host
+                    m_tHost.setText(leEvent.getHost());
+
+                    // PID
+                    m_tPID.setText(leEvent.getPID());
+
+                    // Category
+                    m_tCategory.setText(leEvent.getCategory());
+
+                    // Thread
+                    m_tThread.setText(leEvent.getThread());
+
+                    // Level
+                    m_tTraceLevel.setText(leEvent.getTraceLevel());
+
+                    // Set the NDC
+                    m_stNDC.setText(leEvent.getNDC());
+                }
+            });
         }
     }
 
     /**
      * This method shows an error dialog to the end user.
-     *
-     * @param  sMessage  the message to display.
+     * 
+     * @param sMessage the message to display.
      */
     public void showError(String sMessage)
     {
@@ -708,8 +720,8 @@ public class ESCComposite extends Composite
 
     /**
      * This method shows an information dialog to the end user.
-     *
-     * @param  sMessage  The message to display.
+     * 
+     * @param sMessage The message to display.
      */
     public void showInformation(String sMessage)
     {
@@ -721,8 +733,8 @@ public class ESCComposite extends Composite
 
     /**
      * This method starts the socket reader to read the Log4J messages sent via the socketappender.
-     *
-     * @return  The portnumber used.
+     * 
+     * @return The portnumber used.
      */
     public String startLog4JListening()
     {
@@ -752,8 +764,8 @@ public class ESCComposite extends Composite
 
     /**
      * This method subscribes to the passed on subject.
-     *
-     * @param  sSubject  The subject to subscribwe to.
+     * 
+     * @param sSubject The subject to subscribwe to.
      */
     public void subscribeToSubject(String sSubject)
     {
@@ -804,61 +816,56 @@ public class ESCComposite extends Composite
         tiItem.setImage(getOwnImageRegistry().get(IMG_OPEN_CORDYS));
         tiItem.setToolTipText("Open a Cordys Spy XML logfile");
 
-        tiItem.addSelectionListener(new SelectionAdapter()
+        tiItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent arg0)
             {
-                public void widgetSelected(SelectionEvent arg0)
-                {
-                    loadFromFile(TYPE_CORDYS_SPY);
-                }
-            });
+                loadFromFile(TYPE_CORDYS_SPY);
+            }
+        });
 
         tiItem = new ToolItem(tbToolbar, SWT.NULL);
         tiItem.setImage(getOwnImageRegistry().get(IMG_OPEN_CORDYS));
         tiItem.setToolTipText("Open a Cordys Log4J XML logfile");
 
-        tiItem.addSelectionListener(new SelectionAdapter()
+        tiItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent arg0)
             {
-                public void widgetSelected(SelectionEvent arg0)
-                {
-                    loadFromFile(TYPE_CORDYS_LOG4J);
-                }
-            });
+                loadFromFile(TYPE_CORDYS_LOG4J);
+            }
+        });
 
         tiItem = new ToolItem(tbToolbar, SWT.NULL);
         tiItem.setImage(getOwnImageRegistry().get(IMG_OPEN_LOG4J));
         tiItem.setToolTipText("Open a Log4J XML logfile");
 
-        tiItem.addSelectionListener(new SelectionAdapter()
+        tiItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent arg0)
             {
-                public void widgetSelected(SelectionEvent arg0)
-                {
-                    loadFromFile(TYPE_LOG4J);
-                }
-            });
+                loadFromFile(TYPE_LOG4J);
+            }
+        });
 
         tiItem = new ToolItem(tbToolbar, SWT.NULL);
         tiItem.setImage(getOwnImageRegistry().get(IMG_NEW_LISTENER));
         tiItem.setToolTipText("Add a new SocketListener for Log4J events");
 
-        tiItem.addSelectionListener(new SelectionAdapter()
+        tiItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent arg0)
             {
-                public void widgetSelected(SelectionEvent arg0)
-                {
-                    startLog4JListening();
-                }
-            });
+                startLog4JListening();
+            }
+        });
 
         tiItem = new ToolItem(tbToolbar, SWT.NULL);
         tiItem.setImage(getOwnImageRegistry().get(IMG_SAVE));
         tiItem.setToolTipText("Save the current events as a Log4J XML logfile");
 
-        tiItem.addSelectionListener(new SelectionAdapter()
+        tiItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent arg0)
             {
-                public void widgetSelected(SelectionEvent arg0)
-                {
-                    saveLog4JLog();
-                }
-            });
+                saveLog4JLog();
+            }
+        });
 
         // Add a coolItem to a coolBar
         CoolItem ciCoolItem = new CoolItem(cbCoolBar, SWT.NULL);
@@ -885,47 +892,31 @@ public class ESCComposite extends Composite
         m_cbSubject.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 
         m_bSubscribe = new Button(cTop, SWT.NONE);
-        m_bSubscribe.addSelectionListener(new SelectionAdapter()
+        m_bSubscribe.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e)
             {
-                public void widgetSelected(SelectionEvent e)
-                {
-                    subscribeToSubject(m_cbSubject.getText());
-                }
-            });
+                subscribeToSubject(m_cbSubject.getText());
+            }
+        });
         m_bSubscribe.setLayoutData(new GridData());
         m_bSubscribe.setText("&Subscribe");
 
         m_bUnsubscribe = new Button(cTop, SWT.NONE);
-        m_bUnsubscribe.addSelectionListener(new SelectionAdapter()
+        m_bUnsubscribe.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e)
             {
-                public void widgetSelected(SelectionEvent e)
-                {
-                    unsubscribeToSubject(m_cbSubject.getText());
-                }
-            });
+                unsubscribeToSubject(m_cbSubject.getText());
+            }
+        });
         m_bUnsubscribe.setText("&Unsubscribe");
 
         final Button bClear = new Button(cTop, SWT.NONE);
-        bClear.addSelectionListener(new SelectionAdapter()
+        bClear.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e)
             {
-                public void widgetSelected(SelectionEvent e)
-                {
-                    // Clean all the panels that are shown.
-                    for (Iterator<String> iPanels = m_hmSubscribed.keySet().iterator(); iPanels.hasNext();)
-                    {
-                        AbstractEventPanel aepPanel = m_hmSubscribed.get(iPanels.next());
-                        aepPanel.clear();
-                    }
-
-                    // Clear the details.
-                    if (m_dcDetailsComposite != null)
-                    {
-                        m_dcDetailsComposite.clearFields();
-                    }
-
-                    clearDetails();
-                }
-            });
+                clearCurrentView();
+            }
+        });
         bClear.setText("&Clear");
 
         final Composite cBottomFrame = new Composite(m_sfMain, SWT.NONE);
@@ -1052,8 +1043,8 @@ public class ESCComposite extends Composite
 
     /**
      * This method adds a specific message to the LogEvent panel.
-     *
-     * @param  sMessage  The message to add.
+     * 
+     * @param sMessage The message to add.
      */
     private void addMessage(String sMessage)
     {
@@ -1078,8 +1069,8 @@ public class ESCComposite extends Composite
 
     /**
      * This method adds the subject to the subscription list.
-     *
-     * @param  sSubject  The subject that was subscribed to.
+     * 
+     * @param sSubject The subject that was subscribed to.
      */
     private void addSubscribedSubject(String sSubject)
     {
@@ -1106,9 +1097,9 @@ public class ESCComposite extends Composite
 
     /**
      * This method adds the subject to the subscription list based on a content provider.
-     *
-     * @param  sSubject     The subject that was subscribed to.
-     * @param  lcpProvider  The content provider.
+     * 
+     * @param sSubject The subject that was subscribed to.
+     * @param lcpProvider The content provider.
      */
     private void addSubscribedSubject(String sSubject, ILogContentProvider lcpProvider)
     {
@@ -1160,19 +1151,18 @@ public class ESCComposite extends Composite
 
         String iconPath = "filter/icons/";
         s_irImages.put(IMG_OPEN_CORDYS,
-                       ImageDescriptor.createFromFile(EventServiceClient.class, iconPath + IMG_OPEN_CORDYS + ".gif"));
-        s_irImages.put(IMG_SAVE,
-                       ImageDescriptor.createFromFile(EventServiceClient.class, iconPath + IMG_SAVE + ".gif"));
+                ImageDescriptor.createFromFile(EventServiceClient.class, iconPath + IMG_OPEN_CORDYS + ".gif"));
+        s_irImages.put(IMG_SAVE, ImageDescriptor.createFromFile(EventServiceClient.class, iconPath + IMG_SAVE + ".gif"));
         s_irImages.put(IMG_OPEN_LOG4J,
-                       ImageDescriptor.createFromFile(EventServiceClient.class, iconPath + IMG_OPEN_LOG4J + ".gif"));
+                ImageDescriptor.createFromFile(EventServiceClient.class, iconPath + IMG_OPEN_LOG4J + ".gif"));
         s_irImages.put(IMG_NEW_LISTENER,
-                       ImageDescriptor.createFromFile(EventServiceClient.class, iconPath + IMG_NEW_LISTENER + ".gif"));
+                ImageDescriptor.createFromFile(EventServiceClient.class, iconPath + IMG_NEW_LISTENER + ".gif"));
     }
 
     /**
      * This method unsubscribes to a certain subject.
-     *
-     * @param  sSubject  The subject to unsubscribe.
+     * 
+     * @param sSubject The subject to unsubscribe.
      */
     private void unsubscribeToSubject(String sSubject)
     {

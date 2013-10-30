@@ -52,11 +52,10 @@ import org.eclipse.swt.widgets.ToolItem;
 
 /**
  * This composite holds all controls for the Log4J viewer. It can load and save logfiles and add new Socket receivers.
- *
- * @author  pgussow
+ * 
+ * @author pgussow
  */
-public class Log4JComposite extends Composite
-    implements IMessageHandler, ILog4JComposite
+public class Log4JComposite extends Composite implements IMessageHandler, ILog4JComposite
 {
     /**
      * Identifies the image for opening Cordys logs.
@@ -145,14 +144,12 @@ public class Log4JComposite extends Composite
 
     /**
      * Creates a new Log4JComposite object.
-     *
-     * @param   cParent          The parent composite.
-     * @param   bShowPortDialog  Whether or not to show the dialog to add a new listener.
-     *
-     * @throws  IOException  DOCUMENTME
+     * 
+     * @param cParent The parent composite.
+     * @param bShowPortDialog Whether or not to show the dialog to add a new listener.
+     * @throws IOException DOCUMENTME
      */
-    public Log4JComposite(Composite cParent, boolean bShowPortDialog)
-                   throws IOException
+    public Log4JComposite(Composite cParent, boolean bShowPortDialog) throws IOException
     {
         super(cParent, SWT.NONE);
 
@@ -174,15 +171,13 @@ public class Log4JComposite extends Composite
 
     /**
      * Creates a new Log4JComposite object.
-     *
-     * @param   cParent          The parent composite.
-     * @param   bShowPortDialog  Whether or not to show the dialog to add a new listener.
-     * @param   lvcConfig        Holds the log viewer configuration.
-     *
-     * @throws  IOException  DOCUMENTME
+     * 
+     * @param cParent The parent composite.
+     * @param bShowPortDialog Whether or not to show the dialog to add a new listener.
+     * @param lvcConfig Holds the log viewer configuration.
+     * @throws IOException DOCUMENTME
      */
-    public Log4JComposite(Composite cParent, boolean bShowPortDialog, ILogViewerConfiguration lvcConfig)
-                   throws IOException
+    public Log4JComposite(Composite cParent, boolean bShowPortDialog, ILogViewerConfiguration lvcConfig) throws IOException
     {
         super(cParent, SWT.NONE);
 
@@ -233,8 +228,8 @@ public class Log4JComposite extends Composite
 
     /**
      * This method gets the configuration for the Event Service Client.
-     *
-     * @return  The configuration for the Event Service Client.
+     * 
+     * @return The configuration for the Event Service Client.
      */
     public ILogViewerConfiguration getConfiguration()
     {
@@ -243,8 +238,8 @@ public class Log4JComposite extends Composite
 
     /**
      * This method gets the image registry for this client.
-     *
-     * @return  The image registry for this client.
+     * 
+     * @return The image registry for this client.
      */
     public ImageRegistry getOwnImageRegistry()
     {
@@ -257,8 +252,8 @@ public class Log4JComposite extends Composite
 
     /**
      * This method returns the title for this panel.
-     *
-     * @return  The title.
+     * 
+     * @return The title.
      */
     public String getTitle()
     {
@@ -284,12 +279,10 @@ public class Log4JComposite extends Composite
 
     /**
      * This method handles the messages that are received from the SocketReceivers.
-     *
-     * @param  sLogName   The name of the log file.
-     * @param  edDetails  The details of the Log4J event.
-     *
-     * @see    com.cordys.coe.tools.es.swt.IMessageHandler#handleMessage(java.lang.String,
-     *         com.cordys.coe.tools.es.swt.EventDetails)
+     * 
+     * @param sLogName The name of the log file.
+     * @param edDetails The details of the Log4J event.
+     * @see com.cordys.coe.tools.es.swt.IMessageHandler#handleMessage(java.lang.String, com.cordys.coe.tools.es.swt.EventDetails)
      */
     public void handleMessage(String sLogName, EventDetails edDetails)
     {
@@ -305,8 +298,8 @@ public class Log4JComposite extends Composite
 
     /**
      * This method loads the LogEvents from a file.
-     *
-     * @param  iFileType
+     * 
+     * @param iFileType
      */
     public void loadFromFile(int iFileType)
     {
@@ -334,15 +327,13 @@ public class Log4JComposite extends Composite
                 {
                     MessageBox mbPaging = new MessageBox(getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
                     mbPaging.setText("Confirmation");
-                    mbPaging.setMessage("The file is bigger then " + MAX_FILESIZE +
-                                        " bytes. Do you want to use paging (which is recommended)?");
+                    mbPaging.setMessage("The file is bigger then " + MAX_FILESIZE
+                            + " bytes. Do you want to use paging (which is recommended)?");
 
                     if (mbPaging.open() == SWT.YES)
                     {
-                        ILogContentProvider lcpProvider = LogContentFactory.createLog4JFileProviderByRecordCount(fTemp
-                                                                                                                 .getAbsolutePath(),
-                                                                                                                 m_lvcConfig
-                                                                                                                 .getPageSize());
+                        ILogContentProvider lcpProvider = LogContentFactory.createLog4JFileProviderByRecordCount(
+                                fTemp.getAbsolutePath(), m_lvcConfig.getPageSize());
                         addEventPanel(fTemp.getName(), lcpProvider);
                         bOK = false;
                     }
@@ -466,9 +457,7 @@ public class Log4JComposite extends Composite
 
             if (fTemp.exists())
             {
-                if (
-                    MessageBoxUtil.showConfirmation("The file " + sFilename +
-                                                        " already exists. Do you want to overwrite it?") == true)
+                if (MessageBoxUtil.showConfirmation("The file " + sFilename + " already exists. Do you want to overwrite it?") == true)
                 {
                     bSave = true;
                 }
@@ -503,8 +492,8 @@ public class Log4JComposite extends Composite
 
     /**
      * This method sets the text of the details.
-     *
-     * @param  leEvent  The logevent to display.
+     * 
+     * @param leEvent The logevent to display.
      */
     public synchronized void setDetailedText(final ILogEvent leEvent)
     {
@@ -513,61 +502,60 @@ public class Log4JComposite extends Composite
 
         if ((dTemp != null) && !dTemp.isDisposed())
         {
-            dTemp.asyncExec(new Runnable()
+            dTemp.asyncExec(new Runnable() {
+                public void run()
                 {
-                    public void run()
+                    if ((leEvent == null) || !(leEvent instanceof Log4JLogEvent))
                     {
-                        if ((leEvent == null) || !(leEvent instanceof Log4JLogEvent))
-                        {
-                            m_dcDetailsComposite.setInformation(leEvent.getMessage(), "", "");
-                        }
-                        else
-                        {
-                            Log4JLogEvent lleEvent = (Log4JLogEvent) leEvent;
-                            m_dcDetailsComposite.setInformation(lleEvent.getMessage(), lleEvent.getException(),
-                                                                lleEvent.getLocationInformation());
-                        }
-
-                        String sTemp = "";
-
-                        // Time
-                        try
-                        {
-                            SimpleDateFormat sdf = new SimpleDateFormat(getConfiguration().getDateFormat());
-                            sTemp = sdf.format(leEvent.getTime());
-                        }
-                        catch (Exception e)
-                        {
-                            sTemp = leEvent.getTime().toString();
-                        }
-                        m_tTime.setText(sTemp);
-
-                        // Host
-                        m_tHost.setText(leEvent.getHost());
-
-                        // PID
-                        m_tPID.setText(leEvent.getPID());
-
-                        // Category
-                        m_tCategory.setText(leEvent.getCategory());
-
-                        // Thread
-                        m_tThread.setText(leEvent.getThread());
-
-                        // Level
-                        m_tTraceLevel.setText(leEvent.getTraceLevel());
-
-                        // Set the NDC
-                        m_stNDC.setText(leEvent.getNDC());
+                        m_dcDetailsComposite.setInformation(leEvent.getMessage(), "", "");
                     }
-                });
+                    else
+                    {
+                        Log4JLogEvent lleEvent = (Log4JLogEvent) leEvent;
+                        m_dcDetailsComposite.setInformation(lleEvent.getMessage(), lleEvent.getException(),
+                                lleEvent.getLocationInformation());
+                    }
+
+                    String sTemp = "";
+
+                    // Time
+                    try
+                    {
+                        SimpleDateFormat sdf = new SimpleDateFormat(getConfiguration().getDateFormat());
+                        sTemp = sdf.format(leEvent.getTime());
+                    }
+                    catch (Exception e)
+                    {
+                        sTemp = leEvent.getTime().toString();
+                    }
+                    m_tTime.setText(sTemp);
+
+                    // Host
+                    m_tHost.setText(leEvent.getHost());
+
+                    // PID
+                    m_tPID.setText(leEvent.getPID());
+
+                    // Category
+                    m_tCategory.setText(leEvent.getCategory());
+
+                    // Thread
+                    m_tThread.setText(leEvent.getThread());
+
+                    // Level
+                    m_tTraceLevel.setText(leEvent.getTraceLevel());
+
+                    // Set the NDC
+                    m_stNDC.setText(leEvent.getNDC());
+                }
+            });
         }
     }
 
     /**
      * This method starts the socket reader to read the Log4J messages sent via the socketappender.
-     *
-     * @return  The portnumber used.
+     * 
+     * @return The portnumber used.
      */
     public String startLog4JListening()
     {
@@ -616,34 +604,32 @@ public class Log4JComposite extends Composite
         Composite cMain = new Composite(this, SWT.NONE);
         cMain.setLayout(new BorderLayout());
 
-        cMain.addKeyListener(new KeyAdapter()
+        cMain.addKeyListener(new KeyAdapter() {
+            /**
+             * This method handles the Alt-C shortcut to clear the current panel.
+             * 
+             * @param keEvent The key event.
+             * @see org.eclipse.swt.events.KeyAdapter#keyPressed(org.eclipse.swt.events.KeyEvent)
+             */
+            public void keyPressed(KeyEvent keEvent)
             {
-                /**
-                 * This method handles the Alt-C shortcut to clear the current panel.
-                 *
-                 * @param  keEvent  The key event.
-                 *
-                 * @see    org.eclipse.swt.events.KeyAdapter#keyPressed(org.eclipse.swt.events.KeyEvent)
-                 */
-                public void keyPressed(KeyEvent keEvent)
+                if ((keEvent.stateMask == SWT.ALT) && ((keEvent.keyCode == 'c') || (keEvent.keyCode == 'C')))
                 {
-                    if ((keEvent.stateMask == SWT.ALT) && ((keEvent.keyCode == 'c') || (keEvent.keyCode == 'C')))
+                    if (m_tpTabEvents != null)
                     {
-                        if (m_tpTabEvents != null)
-                        {
-                            CTabItem tiTempItem = m_tpTabEvents.getSelection();
+                        CTabItem tiTempItem = m_tpTabEvents.getSelection();
 
-                            if ((tiTempItem != null) && (tiTempItem.getControl() != null) &&
-                                    (tiTempItem.getControl() instanceof Log4JPanel))
-                            {
-                                Log4JPanel lpTemp = (Log4JPanel) tiTempItem.getControl();
-                                lpTemp.clear();
-                            }
+                        if ((tiTempItem != null) && (tiTempItem.getControl() != null)
+                                && (tiTempItem.getControl() instanceof Log4JPanel))
+                        {
+                            Log4JPanel lpTemp = (Log4JPanel) tiTempItem.getControl();
+                            lpTemp.clear();
                         }
                     }
-                    super.keyPressed(keEvent);
                 }
-            });
+                super.keyPressed(keEvent);
+            }
+        });
 
         // Create the toolbar for this application.
         final CoolBar cbCoolBar = new CoolBar(cMain, SWT.NONE);
@@ -657,86 +643,67 @@ public class Log4JComposite extends Composite
         tiItem.setImage(getOwnImageRegistry().get(IMG_OPEN_CORDYS));
         tiItem.setToolTipText("Open a Cordys Spy XML logfile");
 
-        tiItem.addSelectionListener(new SelectionAdapter()
+        tiItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent arg0)
             {
-                public void widgetSelected(SelectionEvent arg0)
-                {
-                    loadFromFile(TYPE_CORDYS_SPY);
-                }
-            });
+                loadFromFile(TYPE_CORDYS_SPY);
+            }
+        });
 
         tiItem = new ToolItem(tbToolbar, SWT.NULL);
         tiItem.setImage(getOwnImageRegistry().get(IMG_OPEN_CORDYS));
         tiItem.setToolTipText("Open a Cordys Log4J XML logfile");
 
-        tiItem.addSelectionListener(new SelectionAdapter()
+        tiItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent arg0)
             {
-                public void widgetSelected(SelectionEvent arg0)
-                {
-                    loadFromFile(TYPE_CORDYS_LOG4J);
-                }
-            });
+                loadFromFile(TYPE_CORDYS_LOG4J);
+            }
+        });
 
         tiItem = new ToolItem(tbToolbar, SWT.NULL);
         tiItem.setImage(getOwnImageRegistry().get(IMG_OPEN_LOG4J));
         tiItem.setToolTipText("Open a Log4J XML logfile");
 
-        tiItem.addSelectionListener(new SelectionAdapter()
+        tiItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent arg0)
             {
-                public void widgetSelected(SelectionEvent arg0)
-                {
-                    loadFromFile(TYPE_LOG4J);
-                }
-            });
+                loadFromFile(TYPE_LOG4J);
+            }
+        });
 
         tiItem = new ToolItem(tbToolbar, SWT.NULL);
         tiItem.setImage(getOwnImageRegistry().get(IMG_NEW_LISTENER));
         tiItem.setToolTipText("Add a new SocketListener for Log4J events");
 
-        tiItem.addSelectionListener(new SelectionAdapter()
+        tiItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent arg0)
             {
-                public void widgetSelected(SelectionEvent arg0)
-                {
-                    startLog4JListening();
-                }
-            });
+                startLog4JListening();
+            }
+        });
 
         tiItem = new ToolItem(tbToolbar, SWT.NULL);
         tiItem.setImage(getOwnImageRegistry().get(IMG_SAVE));
         tiItem.setToolTipText("Save the current events as a Log4J XML logfile");
 
-        tiItem.addSelectionListener(new SelectionAdapter()
+        tiItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent arg0)
             {
-                public void widgetSelected(SelectionEvent arg0)
-                {
-                    saveLog4JLog();
-                }
-            });
+                saveLog4JLog();
+            }
+        });
 
         tiItem = new ToolItem(tbToolbar, SWT.NULL);
         tiItem.setImage(getOwnImageRegistry().get(IMG_CLEAR_ALL));
 
         tiItem.setToolTipText("Clears the events of all listeners");
-        tiItem.addSelectionListener(new SelectionAdapter()
+        tiItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e)
             {
-                public void widgetSelected(SelectionEvent e)
-                {
-                    // Clean all the panels that are shown.
-                    for (Iterator<String> iPanels = m_hmReceiverPanels.keySet().iterator(); iPanels.hasNext();)
-                    {
-                        Log4JPanel lpPanel = m_hmReceiverPanels.get(iPanels.next());
-                        lpPanel.clear();
-                    }
-
-                    // Clear the details.
-                    if (m_dcDetailsComposite != null)
-                    {
-                        m_dcDetailsComposite.clearFields();
-                    }
-
-                    clearDetails();
-                }
-            });
+                clearCurrentView();
+            }
+        });
 
         // Add a coolItem to a coolBar
         CoolItem ciCoolItem = new CoolItem(cbCoolBar, SWT.NULL);
@@ -848,32 +815,51 @@ public class Log4JComposite extends Composite
         tiMessage.setControl(m_dcDetailsComposite);
 
         // Add the close listener to the tab folder to properly dispose of the panel.
-        m_tpTabEvents.addCTabFolder2Listener(new CTabFolder2Adapter()
+        m_tpTabEvents.addCTabFolder2Listener(new CTabFolder2Adapter() {
+            /**
+             * This method makes sure that the item is disposed of.
+             * 
+             * @param tfeEvent
+             * @see org.eclipse.swt.custom.CTabFolder2Adapter#close(org.eclipse.swt.custom.CTabFolderEvent)
+             */
+            public void close(CTabFolderEvent tfeEvent)
             {
-                /**
-                 * This method makes sure that the item is disposed of.
-                 *
-                 * @param  tfeEvent
-                 *
-                 * @see    org.eclipse.swt.custom.CTabFolder2Adapter#close(org.eclipse.swt.custom.CTabFolderEvent)
-                 */
-                public void close(CTabFolderEvent tfeEvent)
-                {
-                    CTabItem tiBeingClosed = (CTabItem) tfeEvent.item;
-                    Log4JPanel lpPanel = (Log4JPanel) tiBeingClosed.getControl();
-                    lpPanel.clear();
-                    lpPanel.dispose();
-                    m_hmReceiverPanels.remove(lpPanel.getPanelName());
-                }
-            });
+                CTabItem tiBeingClosed = (CTabItem) tfeEvent.item;
+                Log4JPanel lpPanel = (Log4JPanel) tiBeingClosed.getControl();
+                lpPanel.clear();
+                lpPanel.dispose();
+                m_hmReceiverPanels.remove(lpPanel.getPanelName());
+            }
+        });
+    }
+
+    /**
+     * @see com.cordys.coe.tools.log4j.ILog4JComposite#clearCurrentView()
+     */
+    @Override
+    public void clearCurrentView()
+    {
+        // Clean all the panels that are shown.
+        for (Iterator<String> iPanels = m_hmReceiverPanels.keySet().iterator(); iPanels.hasNext();)
+        {
+            Log4JPanel lpPanel = m_hmReceiverPanels.get(iPanels.next());
+            lpPanel.clear();
+        }
+
+        // Clear the details.
+        if (m_dcDetailsComposite != null)
+        {
+            m_dcDetailsComposite.clearFields();
+        }
+
+        clearDetails();
     }
 
     /**
      * This method adds a new panel with the name sName.
-     *
-     * @param   sName  The name for the new panel.
-     *
-     * @return  The panel for these events.
+     * 
+     * @param sName The name for the new panel.
+     * @return The panel for these events.
      */
     private Log4JPanel addEventPanel(String sName)
     {
@@ -882,11 +868,10 @@ public class Log4JComposite extends Composite
 
     /**
      * This method adds a new panel with the name sName.
-     *
-     * @param   sName        The name for the new panel.
-     * @param   lcpProvider  The content provider. Can be null.
-     *
-     * @return  The panel for these events.
+     * 
+     * @param sName The name for the new panel.
+     * @param lcpProvider The content provider. Can be null.
+     * @return The panel for these events.
      */
     private Log4JPanel addEventPanel(String sName, ILogContentProvider lcpProvider)
     {
@@ -915,8 +900,8 @@ public class Log4JComposite extends Composite
 
     /**
      * This method returns the names of all panels in the list.
-     *
-     * @return  The panel names.
+     * 
+     * @return The panel names.
      */
     private String[] getPanelNames()
     {
@@ -941,14 +926,10 @@ public class Log4JComposite extends Composite
         s_irImages = new ImageRegistry();
 
         String iconPath = "filter/icons/";
-        s_irImages.put(IMG_OPEN_CORDYS,
-                       ImageDescriptor.createFromFile(Log4JViewer.class, iconPath + IMG_OPEN_CORDYS + ".gif"));
+        s_irImages.put(IMG_OPEN_CORDYS, ImageDescriptor.createFromFile(Log4JViewer.class, iconPath + IMG_OPEN_CORDYS + ".gif"));
         s_irImages.put(IMG_SAVE, ImageDescriptor.createFromFile(Log4JViewer.class, iconPath + IMG_SAVE + ".gif"));
-        s_irImages.put(IMG_OPEN_LOG4J,
-                       ImageDescriptor.createFromFile(Log4JViewer.class, iconPath + IMG_OPEN_LOG4J + ".gif"));
-        s_irImages.put(IMG_NEW_LISTENER,
-                       ImageDescriptor.createFromFile(Log4JViewer.class, iconPath + IMG_NEW_LISTENER + ".gif"));
-        s_irImages.put(IMG_CLEAR_ALL,
-                       ImageDescriptor.createFromFile(Log4JViewer.class, iconPath + IMG_CLEAR_ALL + ".gif"));
+        s_irImages.put(IMG_OPEN_LOG4J, ImageDescriptor.createFromFile(Log4JViewer.class, iconPath + IMG_OPEN_LOG4J + ".gif"));
+        s_irImages.put(IMG_NEW_LISTENER, ImageDescriptor.createFromFile(Log4JViewer.class, iconPath + IMG_NEW_LISTENER + ".gif"));
+        s_irImages.put(IMG_CLEAR_ALL, ImageDescriptor.createFromFile(Log4JViewer.class, iconPath + IMG_CLEAR_ALL + ".gif"));
     }
 }

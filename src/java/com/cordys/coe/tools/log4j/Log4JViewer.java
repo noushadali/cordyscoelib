@@ -8,7 +8,6 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.helpers.LogLog;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -16,15 +15,16 @@ import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * This class is a pure Log4J viewer. It has no dependencies to the Cordys jars. It is based on the
- * old Event Service Client
- *
- * @author  pgussow
+ * This class is a pure Log4J viewer. It has no dependencies to the Cordys jars. It is based on the old Event Service Client
+ * 
+ * @author pgussow
  */
 public class Log4JViewer
 {
@@ -39,8 +39,8 @@ public class Log4JViewer
 
     /**
      * Main method. This method starts the event service.
-     *
-     * @param  saArgs  the commandline arguments.
+     * 
+     * @param saArgs the commandline arguments.
      */
     public static void main(String[] saArgs)
     {
@@ -60,20 +60,19 @@ public class Log4JViewer
     }
 
     /**
-     * This method opens the actual window. First a LDAPLogin screen is shown to log on to a
-     * specific Cordys server. Then the window is cerated and built up.
+     * This method opens the actual window. First a LDAPLogin screen is shown to log on to a specific Cordys server. Then the
+     * window is cerated and built up.
      */
     public void open()
     {
         sShell = new Shell();
         sShell.setImage(SWTResourceManager.getImage(Log4JViewer.class, "cordyslog4j.gif"));
-        sShell.addShellListener(new ShellAdapter()
+        sShell.addShellListener(new ShellAdapter() {
+            public void shellClosed(ShellEvent e)
             {
-                public void shellClosed(ShellEvent e)
-                {
-                    exitForm();
-                }
-            });
+                exitForm();
+            }
+        });
 
         final Display display = Display.getDefault();
 
@@ -88,6 +87,17 @@ public class Log4JViewer
         // Show the screen
         sShell.open();
         sShell.layout();
+
+        display.addFilter(SWT.KeyDown, new Listener() {
+            @Override
+            public void handleEvent(Event e)
+            {
+                if ((((e.stateMask & SWT.ALT) == SWT.ALT) && (e.keyCode == 'c')) && (m_lcLog4J != null))
+                {
+                    m_lcLog4J.clearCurrentView();
+                }
+            }
+        });
 
         while (!sShell.isDisposed())
         {
@@ -119,60 +129,55 @@ public class Log4JViewer
         miFile.setMenu(menu_1);
 
         final MenuItem miLoadCordys = new MenuItem(menu_1, SWT.NONE);
-        miLoadCordys.addSelectionListener(new SelectionAdapter()
+        miLoadCordys.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e)
             {
-                public void widgetSelected(SelectionEvent e)
-                {
-                    m_lcLog4J.loadFromFile(ILog4JComposite.TYPE_CORDYS_SPY);
-                }
-            });
+                m_lcLog4J.loadFromFile(ILog4JComposite.TYPE_CORDYS_SPY);
+            }
+        });
         miLoadCordys.setText("Load &Cordys File");
 
         final MenuItem miLoadLog4J = new MenuItem(menu_1, SWT.NONE);
-        miLoadLog4J.addSelectionListener(new SelectionAdapter()
+        miLoadLog4J.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e)
             {
-                public void widgetSelected(SelectionEvent e)
-                {
-                    m_lcLog4J.loadFromFile(ILog4JComposite.TYPE_LOG4J);
-                }
-            });
+                m_lcLog4J.loadFromFile(ILog4JComposite.TYPE_LOG4J);
+            }
+        });
         miLoadLog4J.setText("&Load Log4J XML File");
 
         new MenuItem(menu_1, SWT.SEPARATOR);
 
         final MenuItem miAddListener = new MenuItem(menu_1, SWT.NONE);
-        miAddListener.addSelectionListener(new SelectionAdapter()
+        miAddListener.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e)
             {
-                public void widgetSelected(SelectionEvent e)
-                {
-                    m_lcLog4J.startLog4JListening();
-                }
-            });
+                m_lcLog4J.startLog4JListening();
+            }
+        });
         miAddListener.setText("&Add Log4J Socket listener");
 
         new MenuItem(menu_1, SWT.SEPARATOR);
 
         // Save button
         final MenuItem miSaveLog = new MenuItem(menu_1, SWT.NONE);
-        miSaveLog.addSelectionListener(new SelectionAdapter()
+        miSaveLog.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e)
             {
-                public void widgetSelected(SelectionEvent e)
-                {
-                    m_lcLog4J.saveLog4JLog();
-                }
-            });
+                m_lcLog4J.saveLog4JLog();
+            }
+        });
         miSaveLog.setText("&Save Log4J log");
 
         new MenuItem(menu_1, SWT.SEPARATOR);
 
         final MenuItem miExit = new MenuItem(menu_1, SWT.NONE);
-        miExit.addSelectionListener(new SelectionAdapter()
+        miExit.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e)
             {
-                public void widgetSelected(SelectionEvent e)
-                {
-                    System.exit(0);
-                }
-            });
+                System.exit(0);
+            }
+        });
         miExit.setText("E&xit");
 
         try

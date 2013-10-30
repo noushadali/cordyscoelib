@@ -66,4 +66,9 @@ public interface ILog4JComposite
      * @return  The portnumber used.
      */
     String startLog4JListening();
+
+    /**
+     * This method will clear the currently selected log panel.
+     */
+    void clearCurrentView();
 }

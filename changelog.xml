@@ -12,6 +12,7 @@
 	</template>
     <body>
     <release description="Development release" version="@NEXT@">
+      <action dev="pgussow" type="add"><![CDATA[Added the 'ALT-C' shortcut to the Log4J viewer to clean the log entries]]></action>
       <action dev="pgussow" type="add"><![CDATA[Added the getDouble to the XPathHelper classes]]></action>
       <action dev="pgussow" type="update"><![CDATA[Added support for the Web Service Inspector to the Snapshot grabber tool.]]></action>
     </release>

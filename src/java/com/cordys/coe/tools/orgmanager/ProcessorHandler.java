@@ -5,30 +5,28 @@ import com.cordys.coe.util.cgc.CordysGatewayClientException;
 import com.cordys.coe.util.cgc.CordysSOAPException;
 import com.cordys.coe.util.cgc.ICordysGatewayClient;
 import com.cordys.coe.util.general.ldap.LDAPUtils;
+import com.cordys.coe.util.swing.MessageBoxUtil;
 import com.cordys.coe.util.xml.dom.EmptyPrefixResolver;
 import com.cordys.coe.util.xml.dom.XMLHelper;
 import com.cordys.coe.util.xml.dom.XPathHelper;
-
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPEntry;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-
 import java.util.regex.Matcher;
 
 import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
  * This class manages the actions for the given SOAP processors.
- *
- * @author  pgussow
+ * 
+ * @author pgussow
  */
 public class ProcessorHandler
 {
@@ -67,18 +65,16 @@ public class ProcessorHandler
 
     /**
      * Creates a new ProcessorHandler object.
-     *
-     * @param   cgcClient    Holds the client to use.
-     * @param   iInterval    Holds the refresh interval.
-     * @param   phcCallBack  The callback listener.
-     *
-     * @throws  CordysGatewayClientException  In case of any exceptions.
-     * @throws  CordysSOAPException           In case of any SOAp related exceptions.
-     * @throws  TransformerException          In case of any XML related exceptions.
+     * 
+     * @param cgcClient Holds the client to use.
+     * @param iInterval Holds the refresh interval.
+     * @param phcCallBack The callback listener.
+     * @throws CordysGatewayClientException In case of any exceptions.
+     * @throws CordysSOAPException In case of any SOAp related exceptions.
+     * @throws TransformerException In case of any XML related exceptions.
      */
-    public ProcessorHandler(ICordysGatewayClient cgcClient, int iInterval,
-                            IProcessHandlerCallback phcCallBack)
-                     throws CordysGatewayClientException, CordysSOAPException, TransformerException
+    public ProcessorHandler(ICordysGatewayClient cgcClient, int iInterval, IProcessHandlerCallback phcCallBack)
+            throws CordysGatewayClientException, CordysSOAPException, TransformerException
     {
         m_cgcClient = cgcClient;
         m_iInterval = iInterval;
@@ -92,8 +88,8 @@ public class ProcessorHandler
 
     /**
      * This method gets the current list of processors.
-     *
-     * @return  The current list of processors.
+     * 
+     * @return The current list of processors.
      */
     public LinkedHashMap<String, LinkedHashMap<String, Processor>> getAllProcessors()
     {
@@ -102,13 +98,11 @@ public class ProcessorHandler
 
     /**
      * This method gets the organizations available.
-     *
-     * @return  The organizations available.
-     *
-     * @throws  CordysGatewayClientException  In case of any exceptions.
+     * 
+     * @return The organizations available.
+     * @throws CordysGatewayClientException In case of any exceptions.
      */
-    public ArrayList<ObjectData<LDAPEntry>> getOrganizations()
-                                                      throws CordysGatewayClientException
+    public ArrayList<ObjectData<LDAPEntry>> getOrganizations() throws CordysGatewayClientException
     {
         ArrayList<ObjectData<LDAPEntry>> alReturn = new ArrayList<ObjectData<LDAPEntry>>();
 
@@ -123,8 +117,8 @@ public class ProcessorHandler
 
     /**
      * This method gets the processors and their status.
-     *
-     * @return  The processors and their status.
+     * 
+     * @return The processors and their status.
      */
     public ArrayList<Processor> getProcessors()
     {
@@ -145,13 +139,12 @@ public class ProcessorHandler
 
     /**
      * This method rebuilds the full list from LDAP.
-     *
-     * @throws  CordysGatewayClientException  In case of any errors.
-     * @throws  CordysSOAPException           In case of any SOAP related exceptions.
-     * @throws  TransformerException          In case of any XML related exceptions.
+     * 
+     * @throws CordysGatewayClientException In case of any errors.
+     * @throws CordysSOAPException In case of any SOAP related exceptions.
+     * @throws TransformerException In case of any XML related exceptions.
      */
-    public void rebuildList()
-                     throws CordysGatewayClientException, CordysSOAPException, TransformerException
+    public void rebuildList() throws CordysGatewayClientException, CordysSOAPException, TransformerException
     {
         if (m_tUpdater != null)
         {
@@ -170,9 +163,8 @@ public class ProcessorHandler
 
         m_lhmOrgsAndProcessors.clear();
 
-        LDAPEntry[] aeOrgs = m_cgcClient.searchLDAP(m_cgcClient.getSearchRoot(),
-                                                    LDAPConnection.SCOPE_SUB,
-                                                    "(objectclass=organization)");
+        LDAPEntry[] aeOrgs = m_cgcClient.searchLDAP(m_cgcClient.getSearchRoot(), LDAPConnection.SCOPE_SUB,
+                "(objectclass=organization)");
 
         // First we'll do the system organization
         for (LDAPEntry le : aeOrgs)
@@ -208,91 +200,75 @@ public class ProcessorHandler
 
     /**
      * This method refreshes the runtime information for a specific SOAP processor.
-     *
-     * @throws  CordysGatewayClientException  In case of any exceptions.
-     * @throws  CordysSOAPException           In case of any SOAP related exceptions.
-     * @throws  TransformerException          In case of any XML related exceptions.
+     * 
+     * @throws CordysGatewayClientException In case of any exceptions.
+     * @throws CordysSOAPException In case of any SOAP related exceptions.
+     * @throws TransformerException In case of any XML related exceptions.
      */
-    public void refreshStatus()
-                       throws CordysGatewayClientException, CordysSOAPException,
-                              TransformerException
+    public void refreshStatus() throws CordysGatewayClientException, CordysSOAPException, TransformerException
     {
         // TODO: If we run in a cluster we need to send the list request to each and every monitor
         // of the cluster in order to get all the statusses.
         for (String sDN : m_lhmMonitorProcessors.values())
         {
-            Element eMessage = m_cgcClient.createMessage("List",
-                                                         "http://schemas.cordys.com/1.0/monitor");
-            Element eResponse = m_cgcClient.requestFromCordys(eMessage.getOwnerDocument()
-                                                              .getDocumentElement(), sDN);
-
-            // Find all processors.
-            NodeList nlProcesses = XPathHelper.selectNodeList(eResponse,
-                                                              "//mon:tuple/mon:old/mon:workerprocess",
-                                                              m_epr);
-
-            for (int iCount = 0; iCount < nlProcesses.getLength(); iCount++)
+            Element eMessage = m_cgcClient.createMessage("List", "http://schemas.cordys.com/1.0/monitor");
+            try
             {
-                Node nWorkerProcess = nlProcesses.item(iCount);
+                Element eResponse = m_cgcClient.requestFromCordys(eMessage.getOwnerDocument().getDocumentElement(), sDN);
 
-                String sName = XPathHelper.getStringValue(nWorkerProcess, "mon:name/text()", m_epr);
-                Matcher m = java.util.regex.Pattern.compile("cn=([^,]+),cn=([^,]+),cn=soap nodes,(o=.+)")
-                                                   .matcher(sName);
-                m.find();
+                // Find all processors.
+                NodeList nlProcesses = XPathHelper.selectNodeList(eResponse, "//mon:tuple/mon:old/mon:workerprocess", m_epr);
 
-                String sOrganization = m.group(3);
-
-                LinkedHashMap<String, Processor> lhmOrg = m_lhmOrgsAndProcessors.get(sOrganization);
-
-                if (lhmOrg == null)
+                for (int iCount = 0; iCount < nlProcesses.getLength(); iCount++)
                 {
-                    throw new RuntimeException("Could not find list for organization " +
-                                               sOrganization);
+                    Node nWorkerProcess = nlProcesses.item(iCount);
+
+                    String sName = XPathHelper.getStringValue(nWorkerProcess, "mon:name/text()", m_epr);
+                    Matcher m = java.util.regex.Pattern.compile("cn=([^,]+),cn=([^,]+),cn=soap nodes,(o=.+)").matcher(sName);
+                    m.find();
+
+                    String sOrganization = m.group(3);
+
+                    LinkedHashMap<String, Processor> lhmOrg = m_lhmOrgsAndProcessors.get(sOrganization);
+
+                    if (lhmOrg == null)
+                    {
+                        throw new RuntimeException("Could not find list for organization " + sOrganization);
+                    }
+
+                    Processor pProcessor = lhmOrg.get(sName);
+
+                    if (pProcessor == null)
+                    {
+                        throw new RuntimeException("Could not find entry for processor " + sName);
+                    }
+
+                    pProcessor.setProcessID(XPathHelper.getIntegerValue(nWorkerProcess, "mon:process-id/text()", m_epr, -1));
+                    pProcessor.setStatus(XPathHelper.getStringValue(nWorkerProcess, "mon:status/text()", m_epr, "Stopped"));
+                    pProcessor
+                            .setTotalNomMemory(XPathHelper.getLongValue(nWorkerProcess, "mon:totalNOMMemory/text()", m_epr, -1));
+                    pProcessor.setTotalNOMNodes(XPathHelper.getLongValue(nWorkerProcess, "mon:totalNOMNodesMemory/text()", m_epr,
+                            -1));
+                    pProcessor.setTotalCpuTime(XPathHelper.getStringValue(nWorkerProcess, "mon:totalCpuTime/text()", m_epr,
+                            "00:00:00"));
+                    pProcessor.setVirtualMemoryUsage(XPathHelper.getLongValue(nWorkerProcess, "mon:virtualMemoryUsage/text()",
+                            m_epr, -1));
+                    pProcessor.setResidentMemoryUsage(XPathHelper.getLongValue(nWorkerProcess, "mon:residentMemoryUsage/text()",
+                            m_epr, -1));
+                    pProcessor.setGUID(XPathHelper.getStringValue(nWorkerProcess, "mon:guid/text()", m_epr, ""));
+
+                    pProcessor.setTotalSOAPDocumentsProcessed(XPathHelper.getLongValue(nWorkerProcess, "mon:busdocs/text()",
+                            m_epr, -1));
+                    pProcessor.setTotalProcessingTime(XPathHelper.getLongValue(nWorkerProcess, "mon:processing-time/text()",
+                            m_epr, -1));
+                    pProcessor.setLastProcessingTime(XPathHelper.getLongValue(nWorkerProcess, "mon:last-time/text()", m_epr, -1));
+
+                    pProcessor.setErrorDetails(XPathHelper.getStringValue(nWorkerProcess, "mon:error/text()", m_epr, ""));
                 }
-
-                Processor pProcessor = lhmOrg.get(sName);
-
-                if (pProcessor == null)
-                {
-                    throw new RuntimeException("Could not find entry for processor " + sName);
-                }
-
-                pProcessor.setProcessID(XPathHelper.getIntegerValue(nWorkerProcess,
-                                                                    "mon:process-id/text()", m_epr,
-                                                                    -1));
-                pProcessor.setStatus(XPathHelper.getStringValue(nWorkerProcess, "mon:status/text()",
-                                                                m_epr, "Stopped"));
-                pProcessor.setTotalNomMemory(XPathHelper.getLongValue(nWorkerProcess,
-                                                                      "mon:totalNOMMemory/text()",
-                                                                      m_epr, -1));
-                pProcessor.setTotalNOMNodes(XPathHelper.getLongValue(nWorkerProcess,
-                                                                     "mon:totalNOMNodesMemory/text()",
-                                                                     m_epr, -1));
-                pProcessor.setTotalCpuTime(XPathHelper.getStringValue(nWorkerProcess,
-                                                                      "mon:totalCpuTime/text()",
-                                                                      m_epr, "00:00:00"));
-                pProcessor.setVirtualMemoryUsage(XPathHelper.getLongValue(nWorkerProcess,
-                                                                          "mon:virtualMemoryUsage/text()",
-                                                                          m_epr, -1));
-                pProcessor.setResidentMemoryUsage(XPathHelper.getLongValue(nWorkerProcess,
-                                                                           "mon:residentMemoryUsage/text()",
-                                                                           m_epr, -1));
-                pProcessor.setGUID(XPathHelper.getStringValue(nWorkerProcess, "mon:guid/text()",
-                                                              m_epr, ""));
-
-                pProcessor.setTotalSOAPDocumentsProcessed(XPathHelper.getLongValue(nWorkerProcess,
-                                                                                   "mon:busdocs/text()",
-                                                                                   m_epr, -1));
-                pProcessor.setTotalProcessingTime(XPathHelper.getLongValue(nWorkerProcess,
-                                                                           "mon:processing-time/text()",
-                                                                           m_epr, -1));
-                pProcessor.setLastProcessingTime(XPathHelper.getLongValue(nWorkerProcess,
-                                                                          "mon:last-time/text()",
-                                                                          m_epr, -1));
-
-                pProcessor.setErrorDetails(XPathHelper.getStringValue(nWorkerProcess,
-                                                                      "mon:error/text()", m_epr,
-                                                                      ""));
+            }
+            catch (Exception e)
+            {
+                MessageBoxUtil.showError("Cannot get status from monitor '" + sDN + "' ", e);
             }
         }
 
@@ -302,36 +278,32 @@ public class ProcessorHandler
 
     /**
      * This method will reset the processor with the given DN.
-     *
-     * @param   pProcessor  The processor to reset.
-     *
-     * @throws  CordysGatewayClientException  In case of any gateway exceptions.
-     * @throws  CordysSOAPException           In case of any SOAP faults.
+     * 
+     * @param pProcessor The processor to reset.
+     * @throws CordysGatewayClientException In case of any gateway exceptions.
+     * @throws CordysSOAPException In case of any SOAP faults.
      */
-    public void resetProcessor(Processor pProcessor)
-                        throws CordysGatewayClientException, CordysSOAPException
+    public void resetProcessor(Processor pProcessor) throws CordysGatewayClientException, CordysSOAPException
     {
         doProcessorAction("Reset", pProcessor);
     }
 
     /**
      * This method will restart the processor with the given DN.
-     *
-     * @param   pProcessor  The processor to restart.
-     *
-     * @throws  CordysGatewayClientException  In case of any gateway exceptions.
-     * @throws  CordysSOAPException           In case of any SOAP faults.
+     * 
+     * @param pProcessor The processor to restart.
+     * @throws CordysGatewayClientException In case of any gateway exceptions.
+     * @throws CordysSOAPException In case of any SOAP faults.
      */
-    public void restartProcessor(Processor pProcessor)
-                          throws CordysGatewayClientException, CordysSOAPException
+    public void restartProcessor(Processor pProcessor) throws CordysGatewayClientException, CordysSOAPException
     {
         doProcessorAction("Restart", pProcessor);
     }
 
     /**
      * This method sets the new refresh interval for the updater.
-     *
-     * @param  iRefreshInterval  the new refresh interval.
+     * 
+     * @param iRefreshInterval the new refresh interval.
      */
     public void setRefreshInterval(int iRefreshInterval)
     {
@@ -351,52 +323,50 @@ public class ProcessorHandler
 
     /**
      * This method starts a full organization.
-     *
-     * @param   sOrganization   The organization to start.
-     * @param   bIncludeManual  Whether or not to include the non-automatics in the action list.
-     *
-     * @throws  CordysGatewayClientException  In case of any gateway exceptions.
-     * @throws  CordysSOAPException           In case of any SOAP faults.
+     * 
+     * @param sOrganization The organization to start.
+     * @param bIncludeManual Whether or not to include the non-automatics in the action list.
+     * @throws CordysGatewayClientException In case of any gateway exceptions.
+     * @throws CordysSOAPException In case of any SOAP faults.
      */
-    public void startOrganization(String sOrganization, boolean bIncludeManual)
-                           throws CordysGatewayClientException, CordysSOAPException
+    public void startOrganization(String sOrganization, boolean bIncludeManual) throws CordysGatewayClientException,
+            CordysSOAPException
     {
         doFullOrgAction("Start", sOrganization, bIncludeManual);
     }
 
     /**
      * This method will start the processor with the given DN.
-     *
-     * @param   pProcessor  The processor to start.
-     *
-     * @throws  CordysGatewayClientException  In case of any gateway exceptions.
-     * @throws  CordysSOAPException           In case of any SOAP faults.
+     * 
+     * @param pProcessor The processor to start.
+     * @throws CordysGatewayClientException In case of any gateway exceptions.
+     * @throws CordysSOAPException In case of any SOAP faults.
      */
-    public void startProcessor(Processor pProcessor)
-                        throws CordysGatewayClientException, CordysSOAPException
+    public void startProcessor(Processor pProcessor) throws CordysGatewayClientException, CordysSOAPException
     {
         doProcessorAction("Start", pProcessor);
     }
 
     /**
      * This method stops a full organization.
-     *
-     * @param   sOrganization   The organization to stop.
-     * @param   bIncludeManual  Whether or not to include the non-automatics in the action list.
-     *
-     * @throws  CordysGatewayClientException  In case of any gateway exceptions.
-     * @throws  CordysSOAPException           In case of any SOAP faults.
+     * 
+     * @param sOrganization The organization to stop.
+     * @param bIncludeManual Whether or not to include the non-automatics in the action list.
+     * @throws CordysGatewayClientException In case of any gateway exceptions.
+     * @throws CordysSOAPException In case of any SOAP faults.
      */
-    public void stopOrganization(String sOrganization, boolean bIncludeManual)
-                          throws CordysGatewayClientException, CordysSOAPException
+    public void stopOrganization(String sOrganization, boolean bIncludeManual) throws CordysGatewayClientException,
+            CordysSOAPException
     {
         if (sOrganization == null)
         {
-            throw new RuntimeException("You cannot stop the whole Cordys installation using this tool.\nYou need to stop the monitor service on the actual machine.");
+            throw new RuntimeException(
+                    "You cannot stop the whole Cordys installation using this tool.\nYou need to stop the monitor service on the actual machine.");
         }
         else if ((sOrganization != null) && sOrganization.startsWith("o=system"))
         {
-            throw new RuntimeException("Stopping the system organization is not supported since it will lead to unpredictable results.");
+            throw new RuntimeException(
+                    "Stopping the system organization is not supported since it will lead to unpredictable results.");
         }
 
         doFullOrgAction("Stop", sOrganization, bIncludeManual);
@@ -404,28 +374,25 @@ public class ProcessorHandler
 
     /**
      * This method will stop the processor with the given DN.
-     *
-     * @param   pProcessor  The processor to start.
-     *
-     * @throws  CordysGatewayClientException  In case of any gateway exceptions.
-     * @throws  CordysSOAPException           In case of any SOAP faults.
+     * 
+     * @param pProcessor The processor to start.
+     * @throws CordysGatewayClientException In case of any gateway exceptions.
+     * @throws CordysSOAPException In case of any SOAP faults.
      */
-    public void stopProcessor(Processor pProcessor)
-                       throws CordysGatewayClientException, CordysSOAPException
+    public void stopProcessor(Processor pProcessor) throws CordysGatewayClientException, CordysSOAPException
     {
         doProcessorAction("Stop", pProcessor);
     }
 
     /**
      * This method queries LDAP for all the SOAP processors that are defined.
-     *
-     * @param   sDN            The current organization.
-     * @param   lhmProcessors  The list in which to add all processors.
-     *
-     * @throws  CordysGatewayClientException  In case of any exceptions.
+     * 
+     * @param sDN The current organization.
+     * @param lhmProcessors The list in which to add all processors.
+     * @throws CordysGatewayClientException In case of any exceptions.
      */
     private void addSoapProcessors(String sDN, LinkedHashMap<String, Processor> lhmProcessors)
-                            throws CordysGatewayClientException
+            throws CordysGatewayClientException
     {
         String sSearchFilter = "(objectclass=bussoapprocessor)";
         LDAPEntry[] aleSPs = m_cgcClient.searchLDAP(sDN, LDAPConnection.SCOPE_SUB, sSearchFilter);
@@ -445,17 +412,15 @@ public class ProcessorHandler
 
     /**
      * This method does the action for the full organization.
-     *
-     * @param   sAction         The action to do (Stop or Start).
-     * @param   sOrganization   The organization to stop/start. If left null the action will be done
-     *                          for all organizations.
-     * @param   bIncludeManual  Whether or not to include the non-automatics in the action list.
-     *
-     * @throws  CordysGatewayClientException  In case of any connection related exceptions.
-     * @throws  CordysSOAPException           In case of any SOAP faults.
+     * 
+     * @param sAction The action to do (Stop or Start).
+     * @param sOrganization The organization to stop/start. If left null the action will be done for all organizations.
+     * @param bIncludeManual Whether or not to include the non-automatics in the action list.
+     * @throws CordysGatewayClientException In case of any connection related exceptions.
+     * @throws CordysSOAPException In case of any SOAP faults.
      */
     private void doFullOrgAction(String sAction, String sOrganization, boolean bIncludeManual)
-                          throws CordysGatewayClientException, CordysSOAPException
+            throws CordysGatewayClientException, CordysSOAPException
     {
         ArrayList<Processor> alToExecute = getProcessors();
 
@@ -463,8 +428,7 @@ public class ProcessorHandler
         {
             if (((sOrganization == null) || pProcessor.getOrganization().equals(sOrganization)))
             {
-                if ((pProcessor.startsAutomatically() == true) ||
-                        (pProcessor.startsAutomatically() && (bIncludeManual == true)))
+                if ((pProcessor.startsAutomatically() == true) || (pProcessor.startsAutomatically() && (bIncludeManual == true)))
                 {
                     if ("Start".equals(sAction) && !"Started".equals(pProcessor.getStatus()))
                     {
@@ -483,15 +447,14 @@ public class ProcessorHandler
 
     /**
      * This method does the appropriate action of the SP: Start, Stop, Reset, Restart.
-     *
-     * @param   sName       The name of the action.
-     * @param   pProcessor  sDN The DN of the SOAP processor.
-     *
-     * @throws  CordysGatewayClientException  In case of any gateway exceptions.
-     * @throws  CordysSOAPException           In case of any SOAP faults.
+     * 
+     * @param sName The name of the action.
+     * @param pProcessor sDN The DN of the SOAP processor.
+     * @throws CordysGatewayClientException In case of any gateway exceptions.
+     * @throws CordysSOAPException In case of any SOAP faults.
      */
-    private void doProcessorAction(final String sName, Processor pProcessor)
-                            throws CordysGatewayClientException, CordysSOAPException
+    private void doProcessorAction(final String sName, Processor pProcessor) throws CordysGatewayClientException,
+            CordysSOAPException
     {
         final Element eMessage = m_cgcClient.createMessage(sName, "http://schemas.cordys.com/1.0/monitor");
         final String sMonitor = m_lhmMonitorProcessors.get(pProcessor.getComputer());
@@ -499,27 +462,26 @@ public class ProcessorHandler
         XMLHelper.createTextElementWithParentNS("dn", pProcessor.getDN(), eMessage);
 
         // Run the request in a different thread, since we don't need the response
-        new Thread(new Runnable()
+        new Thread(new Runnable() {
+            @Override
+            public void run()
             {
-                @Override public void run()
+                try
                 {
-                    try
-                    {
-                        m_cgcClient.requestFromCordys(eMessage.getOwnerDocument()
-                                                      .getDocumentElement(), sMonitor);
-                    }
-                    catch (Exception e)
-                    {
-                        LOG.warn("Error executing action " + sName, e);
-                    }
+                    m_cgcClient.requestFromCordys(eMessage.getOwnerDocument().getDocumentElement(), sMonitor);
                 }
-            }).start();
+                catch (Exception e)
+                {
+                    LOG.warn("Error executing action " + sName, e);
+                }
+            }
+        }).start();
     }
 
     /**
      * This class is used to automatically update the status of the SOAP processors.
-     *
-     * @author  pgussow
+     * 
+     * @author pgussow
      */
     private class StatusUpdater extends Thread
     {
@@ -534,8 +496,8 @@ public class ProcessorHandler
 
         /**
          * Creates the updater thread.
-         *
-         * @param  iInterval  The interval to use between list requests.
+         * 
+         * @param iInterval The interval to use between list requests.
          */
         public StatusUpdater(int iInterval)
         {
@@ -549,10 +511,11 @@ public class ProcessorHandler
 
         /**
          * This method will send the SOAP call to update the runtime status.
-         *
-         * @see  java.lang.Runnable#run()
+         * 
+         * @see java.lang.Runnable#run()
          */
-        @Override public void run()
+        @Override
+        public void run()
         {
             while (!m_bStop)
             {
@@ -581,8 +544,8 @@ public class ProcessorHandler
 
         /**
          * This method sets the refresh interval to use.
-         *
-         * @param  iRefreshInterval  The new refresh interval.
+         * 
+         * @param iRefreshInterval The new refresh interval.
          */
         public void setRefreshInterval(int iRefreshInterval)
         {
@@ -591,8 +554,8 @@ public class ProcessorHandler
 
         /**
          * This method sets whether or not the thread should stop.
-         *
-         * @param  bStop  Whether or not the thread should stop.
+         * 
+         * @param bStop Whether or not the thread should stop.
          */
         public void setStop(boolean bStop)
         {

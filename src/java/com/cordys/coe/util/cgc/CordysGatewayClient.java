@@ -897,9 +897,9 @@ class CordysGatewayClient extends CordysGatewayClientBase implements ICordysGate
                     setUserInfo(parseUserInfo());
                 }
 
-                // Get the directory search root.
+                // Get the directory search root. 
                 String sAuthUserDN = getAuthUserDN();
-                Pattern pPattern = Pattern.compile("cn=cordys.+$");
+                Pattern pPattern = Pattern.compile("cn=cordys,.+$");
                 Matcher mMatcher = pPattern.matcher(sAuthUserDN);
 
                 if (mMatcher.find())

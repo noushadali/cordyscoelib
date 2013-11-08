@@ -19,7 +19,7 @@
 		<include name="com/cordys/coe/util/general/*.class" />
 		<include name="com/cordys/coe/util/general/ldap/*.class" />
 		<include name="com/cordys/coe/util/i18n/**" />
-		<include name="com/cordys/coe/util/ipc/**/*.class" />	
+		<include name="com/cordys/coe/util/ipc/**/*.class" />
 		<include name="com/cordys/coe/util/io/*.class" />
 		<include name="com/cordys/coe/util/log/*.class" />
 		<include name="com/cordys/coe/util/soap/*.class" />
@@ -27,28 +27,16 @@
 		<include name="com/cordys/coe/util/ssm/*.class" />
 		<include name="com/cordys/coe/util/system/**/*.class" />
 		<include name="com/cordys/coe/util/template/**/*.class" />
-		<include name="com/cordys/coe/util/test/junit/*.class" />		
+		<include name="com/cordys/coe/util/test/junit/*.class" />
 		<include name="com/cordys/coe/util/win32/*.class" />
 		<include name="com/cordys/coe/util/xml/**/*.class" />
 		<include name="com/cordys/coe/util/xmlstore/*.class" />
-        <include name="com/cordys/coe/util/xmlstore/*.class" />
+		<include name="com/cordys/coe/util/xmlstore/*.class" />
 	</patternset>
-	
+
 	<!--Target for compiling java source files. Done to make sure also .png files are copied -->
-	<target name="compile"
-	        description="Compiles Java source files"
-	        depends="init,copy-coelib-version"
-	        unless="skip.java"
-	>
-		<javac srcdir="${src.java}"
-		       destdir="${build.classes}"
-		       debug="${javac.debug}"
-		       deprecation="${javac.deprecation}"
-		       optimize="${javac.optimize}"
-		       source="${javac.source.version}"
-		       target="${javac.target.version}"
-			   encoding="${javac.encoding}"
-		>
+	<target name="compile" description="Compiles Java source files" depends="init,copy-coelib-version" unless="skip.java">
+		<javac srcdir="${src.java}" destdir="${build.classes}" debug="${javac.debug}" deprecation="${javac.deprecation}" optimize="${javac.optimize}" source="${javac.source.version}" target="${javac.target.version}" encoding="${javac.encoding}">
 			<include name="**/*.java" />
 			<classpath refid="classpath" />
 		</javac>
@@ -68,16 +56,10 @@
 
 	<!-- Sets the library build number to LibraryVersion class -->
 	<target name="setlibrarynumber">
-		<property name="setbuildnumber.class.path"
-		          value="com/cordys/coe/coelib"
-		/>
-		<property name="setbuildnumber.class.name"
-		          value="LibraryVersion.java"
-		/>
+		<property name="setbuildnumber.class.path" value="com/cordys/coe/coelib" />
+		<property name="setbuildnumber.class.name" value="LibraryVersion.java" />
 		<tstamp>
-			<format property="setbuildnumber.build.timestamp"
-			        pattern="yyyy-MM-dd hh:mm aa"
-			/>
+			<format property="setbuildnumber.build.timestamp" pattern="yyyy-MM-dd hh:mm aa" />
 		</tstamp>
 
 		<!-- Read the next build number -->
@@ -87,45 +69,27 @@
 		<mkdir dir="${build.classes}/${setbuildnumber.class.path}" />
 
 		<!-- Copy the Java file and replace the next version parameter -->
-		<copy file="${src.java}/${setbuildnumber.class.path}/${setbuildnumber.class.name}"
-		      todir="${build.classes}/${setbuildnumber.class.path}"
-		>
+		<copy file="${src.java}/${setbuildnumber.class.path}/${setbuildnumber.class.name}" todir="${build.classes}/${setbuildnumber.class.path}">
 			<filterchain>
 				<replacetokens>
-					<token key="current-version"
-					       value="${setbuildnumber.patch.number}"
-					/>
-					<token key="build-time"
-					       value="${setbuildnumber.build.timestamp}"
-					/>
+					<token key="current-version" value="${setbuildnumber.patch.number}" />
+					<token key="build-time" value="${setbuildnumber.build.timestamp}" />
 				</replacetokens>
 			</filterchain>
 		</copy>
 
 		<!-- Compile the LibraryVersion class -->
-		<javac srcdir="${build.classes}/${setbuildnumber.class.path}"
-		       destdir="${build.classes}"
-		       debug="${javac.debug}"
-		       deprecation="${javac.deprecation}"
-		       optimize="${javac.optimize}"
-		       source="${javac.source.version}"
-		       target="${javac.target.version}"
-			   encoding="${javac.encoding}"
-		>
+		<javac srcdir="${build.classes}/${setbuildnumber.class.path}" destdir="${build.classes}" debug="${javac.debug}" deprecation="${javac.deprecation}" optimize="${javac.optimize}" source="${javac.source.version}" target="${javac.target.version}" encoding="${javac.encoding}">
 			<include name="*.java" />
 			<classpath refid="classpath" />
 		</javac>
 
 		<!-- Delete the Java source file -->
-		<delete file="${build.classes}/${setbuildnumber.class.path}/${setbuildnumber.class.name}"
-		/>
+		<delete file="${build.classes}/${setbuildnumber.class.path}/${setbuildnumber.class.name}" />
 	</target>
 
 	<!--Target for making jar files of the project in build folder. This makes a 'core' version and a 'full' version -->
-	<target name="jar"
-	        description="Compiles Java sources and creates 'core' and 'full' JAR files"
-	        depends="compile,setlibrarynumber"
-	>
+	<target name="jar" description="Compiles Java sources and creates 'core' and 'full' JAR files" depends="compile,setlibrarynumber">
 		<tstamp>
 			<format property="now" pattern="dd MMM yyyy hh:mm aa" />
 		</tstamp>
@@ -134,24 +98,18 @@
 				<attribute name="Build-Number" value="${version.full}" />
 				<attribute name="Created-By" value="${isv.owner}" />
 				<attribute name="Created-On" value="${now}" />
-				<attribute name="Main-Class"
-				           value="com/cordys/coe/coelib/LibraryVersion"
-				/>
+				<attribute name="Main-Class" value="com/cordys/coe/coelib/LibraryVersion" />
 			</manifest>
 			<fileset dir="${build.classes}">
 				<patternset refid="coelib.core.classes" />
 			</fileset>
 		</jar>
-		<jar jarfile="${build.jar}/${project.jar.name.full}.jar"
-		     basedir="${build.classes}"
-		>
+		<jar jarfile="${build.jar}/${project.jar.name.full}.jar" basedir="${build.classes}">
 			<manifest>
 				<attribute name="Build-Number" value="${version.full}" />
 				<attribute name="Created-By" value="${isv.owner}" />
 				<attribute name="Created-On" value="${now}" />
-				<attribute name="Main-Class"
-				           value="com/cordys/coe/coelib/LibraryVersion"
-				/>
+				<attribute name="Main-Class" value="com/cordys/coe/coelib/LibraryVersion" />
 			</manifest>
 		</jar>
 	</target>
@@ -159,19 +117,16 @@
 	<!-- ================================= 
           target: coetool              
          ================================= -->
-	<target name="coetool"
-	        depends="jar"
-	        description="--> This target builds up the coetool standalone binary"
-	>
+	<target name="coetool" depends="jar" description="--> This target builds up the coetool standalone binary">
 		<property name="build.coetool" value="${build.dir}/coetool" />
 		<mkdir dir="${build.coetool}" />
-        <mkdir dir="${build.coetool}/swt" />
-        <mkdir dir="${build.coetool}/swt/32bit" />
-        <mkdir dir="${build.coetool}/swt/64bit" />
-        <mkdir dir="${build.coetool}/platform" />
-        <mkdir dir="${build.coetool}/platform/32bit" />
-        <mkdir dir="${build.coetool}/platform/64bit" />
-		
+		<mkdir dir="${build.coetool}/swt" />
+		<mkdir dir="${build.coetool}/swt/32bit" />
+		<mkdir dir="${build.coetool}/swt/64bit" />
+		<mkdir dir="${build.coetool}/platform" />
+		<mkdir dir="${build.coetool}/platform/32bit" />
+		<mkdir dir="${build.coetool}/platform/64bit" />
+
 		<copy todir="${build.coetool}" flatten="true">
 			<fileset dir="${build.jar}">
 				<include name="*.jar" />
@@ -198,64 +153,72 @@
 				<include name="managementlib/managementlib.jar" />
 			</fileset>
 			<fileset dir="${platform.dir}/ext">
-                <include name="wsdl4j.jar" />
-                <include name="qname.jar" />
-            </fileset>
+				<include name="wsdl4j.jar" />
+				<include name="qname.jar" />
+				<include name="ldap.jar" />
+			</fileset>
 		</copy>
-        <copy todir="${build.coetool}/platform/32bit" flatten="true">
-            <fileset dir="${lib.dir}/platform/32bit">
-                <include name="eib4java.dll" />
-                <include name="eibxml.dll" />
-                <include name="jniForCpp.dll" />
-                <include name="XmlForJava.dll" />
-                <include name="eibxmlsec.dll" />
-                <include name="jniForCpp.dll" />
-                <include name="js32.dll" />
-            </fileset>
-        </copy>
-        <copy todir="${build.coetool}/platform/64bit" flatten="true">
-            <fileset dir="${lib.dir}/platform/64bit">
-                <include name="eib4java.dll" />
-                <include name="eibxml.dll" />
-                <include name="jniForCpp.dll" />
-                <include name="XmlForJava.dll" />
-                <include name="eibxmlsec.dll" />
-                <include name="jniForCpp.dll" />
-                <include name="js32.dll" />
-            </fileset>
-        </copy>
+		<copy todir="${build.coetool}/platform/32bit" flatten="true">
+			<fileset dir="${lib.dir}/platform/32bit">
+				<include name="eib4java.dll" />
+				<include name="eibxml.dll" />
+				<include name="jniForCpp.dll" />
+				<include name="XmlForJava.dll" />
+				<include name="eibxmlsec.dll" />
+				<include name="jniForCpp.dll" />
+				<include name="js32.dll" />
+			</fileset>
+		</copy>
+		<copy todir="${build.coetool}/platform/64bit" flatten="true">
+			<fileset dir="${lib.dir}/platform/64bit">
+				<include name="eib4java.dll" />
+				<include name="eibxml.dll" />
+				<include name="jniForCpp.dll" />
+				<include name="XmlForJava.dll" />
+				<include name="eibxmlsec.dll" />
+				<include name="jniForCpp.dll" />
+				<include name="js32.dll" />
+			</fileset>
+		</copy>
 		<copy todir="${build.coetool}/swt/32bit" flatten="true">
-            <fileset dir="${lib.dir}/swt/32bit">
-                <include name="*" />
-            </fileset>
-        </copy>
+			<fileset dir="${lib.dir}/swt/32bit">
+				<include name="*" />
+			</fileset>
+		</copy>
 		<copy todir="${build.coetool}/swt/64bit" flatten="true">
-            <fileset dir="${lib.dir}/swt/64bit">
-                <include name="*" />
-            </fileset>
-        </copy>
+			<fileset dir="${lib.dir}/swt/64bit">
+				<include name="*" />
+			</fileset>
+		</copy>
+
+		<!-- Create the manifest jar with the with the proper main class and the combined classpath -->
+		<manifestclasspath jarfile="${build.coetool}/coetool.jar" property="coetool.classpath">
+			<classpath>
+				<fileset dir="${build.coetool}" includes="**/*.jar" />
+			</classpath>
+		</manifestclasspath>
+
+		<!-- Build the jar -->
+		<jar destfile="${build.coetool}/coetool.jar">
+			<manifest>
+				<attribute name="Main-Class" value="com.cordys.coe.jarmenu.JarMenu" />
+				<attribute name="Class-Path" value="${coetool.classpath}" />
+			</manifest>
+		</jar>
 	</target>
-	
-	<target name="_isv"
-		depends="content"
-	/>
+
+	<target name="_isv" depends="content" />
 
 	<!-- ================================= 
           target: coetool-dist
          ================================= -->
-	<target name="coetool-dist"
-	        depends="coetool"
-	        description="--> This target zips up the coetool"
-	>
+	<target name="coetool-dist" depends="coetool" description="--> This target zips up the coetool">
 		<zip destfile="${build.dir}/coetool.zip" basedir="${build.coetool}">
 		</zip>
 	</target>
-	
+
 	<!-- Target for copying extra content to the build folder -->
-	<target name="content"
-	        description="Copies content to the build folder"
-	        depends="init,web,zipprojectsource,coetool-dist"
-	>
+	<target name="content" description="Copies content to the build folder" depends="init,web,zipprojectsource,coetool-dist">
 		<copy todir="${build.content}/dbschema">
 			<fileset dir="${src.content}/dbschema">
 				<patternset refid="all.non.cvs.files" />
@@ -264,14 +227,14 @@
 			</fileset>
 		</copy>
 	</target>
-	
+
 	<target name="copy-dist-coelib">
 		<copy todir="${dist.dir}/jar">
 			<fileset dir="${build.jar}">
 				<include name="*.jar" />
-			</fileset>		
+			</fileset>
 		</copy>
-		<copy todir="${dist.dir}/coetool" file="${build.dir}/coetool.zip"/>
+		<copy todir="${dist.dir}/coetool" file="${build.dir}/coetool.zip" />
 		<mkdir dir="${dist.dir}/docs/api-bundle" />
 		<zip destfile="${dist.dir}/docs/api-bundle/coelib-javadocs.zip">
 			<fileset dir="${build.apidocs}">
@@ -280,47 +243,33 @@
 				<patternset refid="all.non.svn.files" />
 			</fileset>
 		</zip>
-		
-        <!-- Copy the proper zip with all the data -->
-        <zip destfile="${dist.dir}/${isv.filename}_${version.full}.zip">
-            <fileset dir="${dist.dir}">
-                <include name="jar/**"/>
-                <include name="coetool/**"/>
-            </fileset>
-            <fileset file="${dist.dir}/docs/api-bundle/coelib-javadocs.zip" />
-        </zip>
+
+		<!-- Copy the proper zip with all the data -->
+		<zip destfile="${dist.dir}/${isv.filename}_${version.full}.zip">
+			<fileset dir="${dist.dir}">
+				<include name="jar/**" />
+				<include name="coetool/**" />
+			</fileset>
+			<fileset file="${dist.dir}/docs/api-bundle/coelib-javadocs.zip" />
+		</zip>
 	</target>
 
 	<!--Target for copying resources from build to distribution -->
 	<target name="copy-dist" depends="copy-docs,copy-javadocs,copy-isv,copy-testreports,createsourcezip,copy-dist-coelib,_create-build-info,deploy-google">
 	</target>
-	
-    <target name="cobertura-report">
-        <!-- No need for cobertura -->
-    </target>
+
+	<target name="cobertura-report">
+		<!-- No need for cobertura -->
+	</target>
 
 	<!-- ================================= 
           target: deploy-google              
          ================================= -->
-    <target name="deploy-google" description="Deploys the binaries to the google code project" if="google.username">
-    	<taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="./test/lib/ant-googlecode-0.0.3.jar" name="gcupload"/>
-    	<gcupload 
-	        username="${google.username}" 
-	        password="${google.password}"
-	        projectname="${google.project}" 
-	        filename="${dist.dir}/${isv.filename}_${version.full}.zip" 
-	        targetfilename="${isv.filename}_${version.full}.zip"
-	        summary="Version ${version.full} of the CoE Library"
-	        labels="Featured, Type-Package, OpSys-All" />
-    	
-    	<gcupload 
-            username="${google.username}" 
-            password="${google.password}"
-            projectname="${google.project}" 
-            filename="${dist.dir}/${isv.filename}_${version.full}-src.zip" 
-            targetfilename="${isv.filename}_${version.full}-src.zip"
-            summary="Version ${version.full} source of the CoE Library"
-            labels="Featured, Type-Package, OpSys-All" />
-    </target>
+	<target name="deploy-google" description="Deploys the binaries to the google code project" if="google.username">
+		<taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="./test/lib/ant-googlecode-0.0.3.jar" name="gcupload" />
+		<gcupload username="${google.username}" password="${google.password}" projectname="${google.project}" filename="${dist.dir}/${isv.filename}_${version.full}.zip" targetfilename="${isv.filename}_${version.full}.zip" summary="Version ${version.full} of the CoE Library" labels="Featured, Type-Package, OpSys-All" />
+
+		<gcupload username="${google.username}" password="${google.password}" projectname="${google.project}" filename="${dist.dir}/${isv.filename}_${version.full}-src.zip" targetfilename="${isv.filename}_${version.full}-src.zip" summary="Version ${version.full} source of the CoE Library" labels="Featured, Type-Package, OpSys-All" />
+	</target>
 
 </project>

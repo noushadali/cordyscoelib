@@ -20,11 +20,11 @@ echo Classpath: %JARMENUCP%
 echo Current directory: %CD%
 echo Path: %PATH%
 echo Full command: java.exe -cp "%JARMENUCP%" %JAVA_OPTIONS% com.cordys.coe.jarmenu.JarMenu
-%JAVA_HOME%\bin\java.exe %JAVA_OPTIONS% -jar coetool.jar 
+%JAVA_HOME%\bin\java.exe %JAVA_OPTIONS% -cp coetool.jar com.cordys.coe.jarmenu.JarMenu 
 pause
 goto :Finished
 
 :Normal
-%JAVA_HOME%\bin\javaw.exe %JAVA_OPTIONS% -jar coetool.jar
+start %JAVA_HOME%\bin\javaw.exe %JAVA_OPTIONS% -cp coetool.jar com.cordys.coe.jarmenu.JarMenu
 
 :Finished

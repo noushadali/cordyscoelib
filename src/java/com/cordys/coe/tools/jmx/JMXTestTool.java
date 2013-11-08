@@ -1,6 +1,8 @@
 package com.cordys.coe.tools.jmx;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
@@ -67,6 +69,13 @@ public class JMXTestTool
         m_sShell.setSize(800, 600);
         m_sShell.setText("Cordys CoE JMX viewer");
         m_sShell.setMaximized(true);
+        
+        m_sShell.addShellListener(new ShellAdapter() {
+            public void shellClosed(ShellEvent e)
+            {
+                System.exit(0);
+            }
+        });
 
         CordysCoEJMXViewerComposite ccjv = new CordysCoEJMXViewerComposite(m_sShell, SWT.NONE);
         ccjv.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

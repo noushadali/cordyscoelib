@@ -8,7 +8,6 @@ import com.cordys.coe.util.swt.SWTResourceManager;
 import com.cordys.coe.util.system.SystemInfo;
 
 import java.io.File;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +20,8 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -238,6 +239,12 @@ public class FindClassInJar
         m_sShell.setLayout(new GridLayout());
         m_sShell.setSize(645, 434);
         m_sShell.setText("Java Class finder");
+        m_sShell.addShellListener(new ShellAdapter() {
+            public void shellClosed(ShellEvent e)
+            {
+                System.exit(0);
+            }
+        });
 
         final Group searchParametersGroup = new Group(m_sShell, SWT.NONE);
         final GridLayout gridLayout = new GridLayout();

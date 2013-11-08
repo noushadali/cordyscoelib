@@ -490,13 +490,14 @@ public class CordysCoEJMXViewerComposite extends Composite
                 if (mMethod != null)
                 {
                     String sPassword = (String) mMethod.invoke(null, "com.eibus.management.jmxPassword");
-                    sPassword = new String(new BASE64Decoder().decodeBuffer(sPassword));
-
+                    
                     String sUsername = (String) mMethod.invoke(null, "com.eibus.management.jmxUser");
 
                     if ((sUsername != null) && (sUsername.length() > 0) && (sPassword != null) &&
                             (sPassword.length() > 0))
                     {
+                        sPassword = new String(new BASE64Decoder().decodeBuffer(sPassword));
+
                         m_tUsername.setText(sUsername);
                         m_tBBUsername.setText(sUsername);
                         m_tPassword.setText(sPassword);

@@ -275,9 +275,7 @@ public class JMXWebServiceInspectorPanel extends JPanel
     }
     
     /**
-     * Class to render the ms.
-     * 
-     * @author pgussow
+     * Class to render the ms of the average.
      */
     private class FormatAverageRenderer extends CustomRenderer
     {
@@ -291,6 +289,7 @@ public class JMXWebServiceInspectorPanel extends JPanel
                     long l = Long.parseLong(value.toString());
                     
                     NumberFormat nf = NumberFormat.getInstance();
+                    nf.setGroupingUsed(true);
                     
                     value = nf.format(l);
                 }

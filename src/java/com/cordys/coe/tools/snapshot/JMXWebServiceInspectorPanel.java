@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -238,9 +239,9 @@ public class JMXWebServiceInspectorPanel extends JPanel
     }
 
     /**
-     * Custom renderer for colloring the ranges
+     * Custom renderer for coloring the ranges
      */
-    private final class CustomRenderer extends DefaultTableCellRenderer
+    private class CustomRenderer extends DefaultTableCellRenderer
     {
         /**
          * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object,
@@ -271,6 +272,36 @@ public class JMXWebServiceInspectorPanel extends JPanel
 
             return retVal;
         }
+    }
+    
+    /**
+     * Class to render the ms.
+     * 
+     * @author pgussow
+     */
+    private class FormatAverageRenderer extends CustomRenderer
+    {
+        @Override
+        protected void setValue(Object value)
+        {
+            if (value != null)
+            {
+                try
+                {
+                    long l = Long.parseLong(value.toString());
+                    
+                    NumberFormat nf = NumberFormat.getInstance();
+                    
+                    value = nf.format(l);
+                }
+                catch(Exception e)
+                {
+                    //Ignore it.
+                }
+            }
+            super.setValue(value);
+        }
+        
     }
 
     /**

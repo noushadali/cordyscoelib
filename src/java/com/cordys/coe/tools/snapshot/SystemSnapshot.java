@@ -605,7 +605,14 @@ public class SystemSnapshot implements PropertyChangeListener
         @Override
         public void publishGrabberData(GrabberData data)
         {
-            setProgress(data.getProgress());
+            if (data.getProgress() > 100)
+            {
+                setProgress(100);
+            }
+            else
+            {
+                setProgress(data.getProgress());
+            }
             publish(data);
         }
 

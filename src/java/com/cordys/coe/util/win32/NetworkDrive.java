@@ -184,6 +184,31 @@ public class NetworkDrive
                                        clCMD.getStdOut() + "\nStdErr:\n" + clCMD.getStdErr());
         }
     }
+    
+    /**
+     * This method deletes all drive mappings.
+     *
+     * @throws  CmdLineException  A CmdLineException
+     */
+    public static void deleteAll()
+                throws CmdLineException
+    {
+        CmdLine clCMD = new CmdLine(CMD_NAME);
+        clCMD.addArgument("use");
+        clCMD.addArgument("*");
+        clCMD.addArgument("/DELETE");
+        clCMD.addArgument("/yes");
+
+        int iReturn = clCMD.execute();
+
+        if (iReturn != 0)
+        {
+            throw new CmdLineException("Error deleting all drive mappings  (" + iReturn +
+                                       ")\nStdOut:\n" + clCMD.getStdOut() + "\nStdErr:\n" +
+                                       clCMD.getStdErr());
+        }
+    }
+
 
     /**
      * This method deletes the drive mapping. It is deleted by location.

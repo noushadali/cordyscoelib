@@ -165,6 +165,8 @@ public class JMXWebServiceInspectorPanel extends JPanel
         m_operations.setDefaultRenderer(Object.class, new CustomRenderer());
         m_operations.setDefaultRenderer(Long.class, new CustomRenderer());
         m_operations.getColumnModel().getColumn(6).setCellRenderer(new FormatAverageRenderer());
+        m_operations.getColumnModel().getColumn(7).setCellRenderer(new FormatAverageRenderer());
+        m_operations.getColumnModel().getColumn(8).setCellRenderer(new FormatAverageRenderer());
 
         scrollPane.setViewportView(m_operations);
     }

@@ -72,6 +72,7 @@ import net.miginfocom.swing.MigLayout;
  */
 public class SystemSnapshot implements PropertyChangeListener
 {
+    private static final String TITLE_SNAPSHOT_GRABBER = "Snapshot Grabber";
     /** The main frame. */
     private JFrame frmSnapshotGrabber;
     /** Holds teh configuration that should be used. */
@@ -345,6 +346,8 @@ public class SystemSnapshot implements PropertyChangeListener
                 zos.closeEntry();
 
                 zos.close();
+                
+                frmSnapshotGrabber.setTitle(TITLE_SNAPSHOT_GRABBER + " - " + fc.getSelectedFile().getName());
             }
             catch (Exception e)
             {
@@ -416,6 +419,8 @@ public class SystemSnapshot implements PropertyChangeListener
 
                 // Show the data
                 updateResultView();
+                
+                frmSnapshotGrabber.setTitle(TITLE_SNAPSHOT_GRABBER + " - " + fc.getSelectedFile().getName());
             }
             catch (Exception e)
             {
@@ -491,6 +496,8 @@ public class SystemSnapshot implements PropertyChangeListener
     {
         try
         {
+            frmSnapshotGrabber.setTitle(TITLE_SNAPSHOT_GRABBER);
+            
             m_pm = new ProgressMonitor(frmSnapshotGrabber, "Getting information from cordys", null, 0, m_config.getServerList()
                     .size());
             m_pm.setProgress(0);

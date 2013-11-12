@@ -55,7 +55,7 @@ public class ConfigurationDetailsDlg extends JDialog
      * @param configFile The name of the configuration file used.
      * @param isNew Whether or not it is a new configuration.
      */
-    public ConfigurationDetailsDlg(final Frame owner, boolean modal, Config config, final JAXBContext context, String configFile,
+    public ConfigurationDetailsDlg(final Frame owner, final SystemSnapshot sg, boolean modal, Config config, final JAXBContext context, String configFile,
             final boolean isNew)
     {
         super(owner, modal);
@@ -63,7 +63,7 @@ public class ConfigurationDetailsDlg extends JDialog
             @Override
             public void componentHidden(ComponentEvent e)
             {
-                if ((m_configDetails != null) && m_configDetails.isDirty())
+                if ((m_configDetails != null) && m_configDetails.isDirty() || isNew == true)
                 {
                     String message = "The configuration has changed. Do you want to save the changes ";
 
@@ -107,6 +107,8 @@ public class ConfigurationDetailsDlg extends JDialog
                             m.marshal(m_configDetails.getConfig(), fos);
 
                             fos.close();
+                            
+                            sg.loadConfigurationFile(getConfigFile());
                         }
                         catch (Exception exception)
                         {
@@ -147,5 +149,15 @@ public class ConfigurationDetailsDlg extends JDialog
 
         m_configDetails = new ConfigurationDetails(config, context);
         contentPanel.add(m_configDetails, BorderLayout.CENTER);
+    }
+
+    /**
+     * This method gets the config file.
+     * 
+     * @return The config file
+     */
+    private File getConfigFile()
+    {
+        return new File(m_configFile);
     }
 }

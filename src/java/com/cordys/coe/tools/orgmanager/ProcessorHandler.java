@@ -1,17 +1,5 @@
 package com.cordys.coe.tools.orgmanager;
 
-import com.cordys.coe.util.ObjectData;
-import com.cordys.coe.util.cgc.CordysGatewayClientException;
-import com.cordys.coe.util.cgc.CordysSOAPException;
-import com.cordys.coe.util.cgc.ICordysGatewayClient;
-import com.cordys.coe.util.general.ldap.LDAPUtils;
-import com.cordys.coe.util.swing.MessageBoxUtil;
-import com.cordys.coe.util.xml.dom.EmptyPrefixResolver;
-import com.cordys.coe.util.xml.dom.XMLHelper;
-import com.cordys.coe.util.xml.dom.XPathHelper;
-import com.novell.ldap.LDAPConnection;
-import com.novell.ldap.LDAPEntry;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
@@ -22,6 +10,18 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.cordys.coe.util.ObjectData;
+import com.cordys.coe.util.cgc.CordysGatewayClientException;
+import com.cordys.coe.util.cgc.CordysSOAPException;
+import com.cordys.coe.util.cgc.ICordysGatewayClient;
+import com.cordys.coe.util.general.Util;
+import com.cordys.coe.util.general.ldap.LDAPUtils;
+import com.cordys.coe.util.xml.dom.EmptyPrefixResolver;
+import com.cordys.coe.util.xml.dom.XMLHelper;
+import com.cordys.coe.util.xml.dom.XPathHelper;
+import com.novell.ldap.LDAPConnection;
+import com.novell.ldap.LDAPEntry;
 
 /**
  * This class manages the actions for the given SOAP processors.
@@ -268,7 +268,7 @@ public class ProcessorHandler
             }
             catch (Exception e)
             {
-                MessageBoxUtil.showError("Cannot get status from monitor '" + sDN + "' ", e);
+                System.err.println("Cannot get status from monitor '" + sDN + "':\n" + Util.getStackTrace(e));
             }
         }
 

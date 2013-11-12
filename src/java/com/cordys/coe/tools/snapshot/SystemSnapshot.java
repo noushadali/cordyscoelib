@@ -72,6 +72,7 @@ import net.miginfocom.swing.MigLayout;
  */
 public class SystemSnapshot implements PropertyChangeListener
 {
+    /** The default title prefix */
     private static final String TITLE_SNAPSHOT_GRABBER = "Snapshot Grabber";
     /** The main frame. */
     private JFrame frmSnapshotGrabber;
@@ -103,6 +104,8 @@ public class SystemSnapshot implements PropertyChangeListener
     private ProgressMonitor m_pm;
     /** Holds the JMX panel */
     private JMXWebServiceInspectorPanel m_jmxWSIPanel;
+    /** Holds the title manager to use */
+    private TitleManager m_titleManager = new TitleManager();
 
     /**
      * Launch the application.
@@ -161,7 +164,7 @@ public class SystemSnapshot implements PropertyChangeListener
     private void initialize()
     {
         frmSnapshotGrabber = new JFrame();
-        frmSnapshotGrabber.setTitle("Snapshot grabber");
+        updateTitle();
         frmSnapshotGrabber.setBounds(100, 100, 1024, 729);
         frmSnapshotGrabber.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -315,6 +318,14 @@ public class SystemSnapshot implements PropertyChangeListener
     }
 
     /**
+     * This method updates the title of the snapshot grabber frame.
+     */
+    private void updateTitle()
+    {
+        frmSnapshotGrabber.setTitle(m_titleManager.toString());
+    }
+
+    /**
      * This method will save the snapshot result to a file.
      */
     protected void saveSnapshot()
@@ -346,8 +357,8 @@ public class SystemSnapshot implements PropertyChangeListener
                 zos.closeEntry();
 
                 zos.close();
-                
-                frmSnapshotGrabber.setTitle(TITLE_SNAPSHOT_GRABBER + " - " + fc.getSelectedFile().getName());
+
+                m_titleManager.setSnapshotFile(fc.getSelectedFile());
             }
             catch (Exception e)
             {
@@ -375,7 +386,7 @@ public class SystemSnapshot implements PropertyChangeListener
      */
     public void loadSnapshot()
     {
-        JFileChooser fc = new JFileChooser();
+        JFileChooser fc = new JFileChooser(new File("."));
 
         fc.setAcceptAllFileFilterUsed(true);
         fc.setFileFilter(new FileFilter() {
@@ -419,8 +430,8 @@ public class SystemSnapshot implements PropertyChangeListener
 
                 // Show the data
                 updateResultView();
-                
-                frmSnapshotGrabber.setTitle(TITLE_SNAPSHOT_GRABBER + " - " + fc.getSelectedFile().getName());
+
+                m_titleManager.setSnapshotFile(fc.getSelectedFile());
             }
             catch (Exception e)
             {
@@ -497,7 +508,7 @@ public class SystemSnapshot implements PropertyChangeListener
         try
         {
             frmSnapshotGrabber.setTitle(TITLE_SNAPSHOT_GRABBER);
-            
+
             m_pm = new ProgressMonitor(frmSnapshotGrabber, "Getting information from cordys", null, 0, m_config.getServerList()
                     .size());
             m_pm.setProgress(0);
@@ -669,7 +680,7 @@ public class SystemSnapshot implements PropertyChangeListener
 
         if (m_config != null)
         {
-            ConfigurationDetailsDlg cdd = new ConfigurationDetailsDlg(frmSnapshotGrabber, true, m_config, m_context,
+            ConfigurationDetailsDlg cdd = new ConfigurationDetailsDlg(frmSnapshotGrabber, this, true, m_config, m_context,
                     m_configFile, isNew);
 
             cdd.setVisible(true);
@@ -724,7 +735,7 @@ public class SystemSnapshot implements PropertyChangeListener
      * 
      * @param selectedFile The file that should be loaded.
      */
-    private void loadConfigurationFile(File selectedFile)
+    public void loadConfigurationFile(File selectedFile)
     {
         try
         {
@@ -736,6 +747,8 @@ public class SystemSnapshot implements PropertyChangeListener
             createJAXBContextForConfig();
 
             displayConfigDetails();
+
+            m_titleManager.setConfigFile(selectedFile);
         }
         catch (Exception e)
         {
@@ -930,5 +943,100 @@ public class SystemSnapshot implements PropertyChangeListener
         {
             return m_title;
         }
+    }
+
+    /**
+     * This class manages the title for the snapshot grabber.
+     */
+    private class TitleManager
+    {
+        /** Holds the location of the configuration file. */
+        private File m_config;
+        /** Holds the location of the snapshot file. */
+        private File m_snapshot;
+
+        /**
+         * @see java.lang.Object#toString()
+         */
+        @Override
+        public String toString()
+        {
+            StringBuilder sb = new StringBuilder(1024);
+
+            sb.append(TITLE_SNAPSHOT_GRABBER);
+
+            if (getConfigFile() != null)
+            {
+                sb.append(" - Config: ");
+                try
+                {
+                    sb.append(getConfigFile().getCanonicalPath());
+                }
+                catch (Exception e)
+                {
+                    sb.append(getConfigFile().getAbsolutePath());
+                }
+            }
+
+            if (getSnapshotFile() != null)
+            {
+                sb.append(" - Snapshot: ");
+                try
+                {
+                    sb.append(getSnapshotFile().getCanonicalPath());
+                }
+                catch (Exception e)
+                {
+                    sb.append(getSnapshotFile().getAbsolutePath());
+                }
+            }
+
+            return sb.toString();
+        }
+
+        /**
+         * This method gets the location of the snapshot file.
+         * 
+         * @return The location of the snapshot file.
+         */
+        public File getSnapshotFile()
+        {
+            return m_snapshot;
+        }
+
+        /**
+         * This method sets the location of the snapshot file.
+         * 
+         * @param snapshot The location of the snapshot file.
+         */
+        public void setSnapshotFile(File snapshot)
+        {
+            m_snapshot = snapshot;
+
+            SystemSnapshot.this.updateTitle();
+        }
+
+        /**
+         * This method gets the location of the configuration file.
+         * 
+         * @return The location of the configuration file.
+         */
+        public File getConfigFile()
+        {
+            return m_config;
+        }
+
+        /**
+         * This method sets the location of the configuration file.
+         * 
+         * @param config The location of the configuration file.
+         */
+        public void setConfigFile(File config)
+        {
+            m_config = config;
+
+            SystemSnapshot.this.updateTitle();
+        }
+
     }
 }

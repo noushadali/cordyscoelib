@@ -38,77 +38,45 @@ import javax.swing.table.TableColumnModel;
 
 /**
  * This tool can be used to manage SOAP processors.
- *
- * @author  pgussow
+ * 
+ * @author pgussow
  */
 public class OrganizationManager extends javax.swing.JFrame
 {
-    /**
-     * Variables declaration - do not modify//GEN-BEGIN:variables.
-     */
+    /** Variables declaration - do not modify//GEN-BEGIN:variables. */
     javax.swing.JCheckBox m_cbIncludeNonAutomatic;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     javax.swing.JComboBox m_cbOrganizations;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     javax.swing.JMenuItem m_miShowError;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     javax.swing.JSeparator m_sErrorSep;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     com.cordys.coe.tools.orgmanager.SoapProcessorDetails m_spdDetails;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     javax.swing.JTable m_tblProcessors;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     javax.swing.JTextField m_tInterval;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     javax.swing.JMenuItem miReset;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     javax.swing.JMenuItem miStop;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     javax.swing.JPopupMenu pmPopup;
     // End of variables declaration//GEN-END:variables
 
-    /**
-     * Holds the current sort-order for the column.
-     */
+    /** Holds the current sort-order for the column. */
     private boolean[] abSortOrder;
-    /**
-     * Holds the connection to use.
-     */
+    /** Holds the connection to use. */
     private ICordysGatewayClient m_cgcClient;
-    /**
-     * Holds the model for the table.
-     */
+    /** Holds the model for the table. */
     private ProcessorsTableModel m_mdlProcessors;
-    /**
-     * Holds the currently applied filter.
-     */
+    /** Holds the currently applied filter. */
     private ObjectData<LDAPEntry> m_odSelected = null;
-    /**
-     * Holds the process handler to use.
-     */
+    /** Holds the process handler to use. */
     private ProcessorHandler m_phProcesses;
 
-    /**
-     * Holds the currently selecte processor based on the X/Y coordinates.
-     */
+    /** Holds the currently selecte processor based on the X/Y coordinates. */
     private Processor m_pSelectedProcessor = null;
 
     /**
@@ -120,8 +88,7 @@ public class OrganizationManager extends javax.swing.JFrame
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension labelSize = getSize();
-        setLocation((screenSize.width / 2) - (labelSize.width / 2),
-                    (screenSize.height / 2) - (labelSize.height / 2));
+        setLocation((screenSize.width / 2) - (labelSize.width / 2), (screenSize.height / 2) - (labelSize.height / 2));
 
         TableColumnModel cm = m_tblProcessors.getColumnModel();
         Enumeration<TableColumn> e = cm.getColumns();
@@ -150,9 +117,9 @@ public class OrganizationManager extends javax.swing.JFrame
     }
 
     /**
-     * DOCUMENTME.
-     *
-     * @param  args  the command line arguments
+     * Main method.
+     * 
+     * @param args the command line arguments
      */
     public static void main(String[] args)
     {
@@ -160,13 +127,12 @@ public class OrganizationManager extends javax.swing.JFrame
         {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-            java.awt.EventQueue.invokeLater(new Runnable()
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run()
                 {
-                    public void run()
-                    {
-                        new OrganizationManager().setVisible(true);
-                    }
-                });
+                    new OrganizationManager().setVisible(true);
+                }
+            });
         }
         catch (Exception e)
         {
@@ -176,10 +142,10 @@ public class OrganizationManager extends javax.swing.JFrame
 
     /**
      * This method sorts the rows in the table.
-     *
-     * @param  model      The current table model.
-     * @param  colIndex   The index of the column to sort.
-     * @param  ascending  Whether or not it should be ascending or decending.
+     * 
+     * @param model The current table model.
+     * @param colIndex The index of the column to sort.
+     * @param ascending Whether or not it should be ascending or decending.
      */
     public void sortAllRowsBy(ProcessorsTableModel model, int colIndex, boolean ascending)
     {
@@ -190,14 +156,14 @@ public class OrganizationManager extends javax.swing.JFrame
 
     /**
      * DOCUMENTME.
-     *
-     * @param  evt  DOCUMENTME
+     * 
+     * @param evt DOCUMENTME
      */
-    private void bRefreshActionPerformed(java.awt.event.ActionEvent evt) //GEN-FIRST:event_bRefreshActionPerformed
+    private void bRefreshActionPerformed(java.awt.event.ActionEvent evt) // GEN-FIRST:event_bRefreshActionPerformed
     {
         try
         {
-            m_phProcesses.refreshStatus(); //GEN-LAST:event_bRefreshActionPerformed
+            m_phProcesses.refreshStatus(); // GEN-LAST:event_bRefreshActionPerformed
         }
         catch (Exception ex)
         {
@@ -207,10 +173,10 @@ public class OrganizationManager extends javax.swing.JFrame
 
     /**
      * DOCUMENTME.
-     *
-     * @param  evt  DOCUMENTME
+     * 
+     * @param evt DOCUMENTME
      */
-    private void bReloadActionPerformed(java.awt.event.ActionEvent evt) //GEN-FIRST:event_bReloadActionPerformed
+    private void bReloadActionPerformed(java.awt.event.ActionEvent evt) // GEN-FIRST:event_bReloadActionPerformed
     {
         try
         {
@@ -220,15 +186,15 @@ public class OrganizationManager extends javax.swing.JFrame
         {
             MessageBoxUtil.showError(this, "Error refreshing status", ex);
         }
-    } //GEN-LAST:event_bReloadActionPerformed
+    }
 
     /**
      * DOCUMENTME.
-     *
-     * @param  evt  DOCUMENTME
+     * 
+     * @param evt DOCUMENTME
      */
     @SuppressWarnings("unchecked")
-    private void bShowSPsActionPerformed(java.awt.event.ActionEvent evt) //GEN-FIRST:event_bShowSPsActionPerformed
+    private void bShowSPsActionPerformed(java.awt.event.ActionEvent evt) // GEN-FIRST:event_bShowSPsActionPerformed
     {
         ObjectData<LDAPEntry> od = (ObjectData<LDAPEntry>) m_cbOrganizations.getSelectedItem();
 
@@ -243,27 +209,27 @@ public class OrganizationManager extends javax.swing.JFrame
         }
 
         showProperSPs(sOrganization);
-    } //GEN-LAST:event_bShowSPsActionPerformed
+    } 
 
     /**
      * DOCUMENTME.
-     *
-     * @param  evt  DOCUMENTME
+     * 
+     * @param evt DOCUMENTME
      */
-    private void bStartOrganizationActionPerformed(java.awt.event.ActionEvent evt) //GEN-FIRST:event_bStartOrganizationActionPerformed
+    private void bStartOrganizationActionPerformed(java.awt.event.ActionEvent evt) // GEN-FIRST:event_bStartOrganizationActionPerformed
     {
         handleFullOrgAction(true);
-    } //GEN-LAST:event_bStartOrganizationActionPerformed
+    } // GEN-LAST:event_bStartOrganizationActionPerformed
 
     /**
      * DOCUMENTME.
-     *
-     * @param  evt  DOCUMENTME
+     * 
+     * @param evt DOCUMENTME
      */
-    private void bStopOrganizationActionPerformed(java.awt.event.ActionEvent evt) //GEN-FIRST:event_bStopOrganizationActionPerformed
+    private void bStopOrganizationActionPerformed(java.awt.event.ActionEvent evt) // GEN-FIRST:event_bStopOrganizationActionPerformed
     {
         handleFullOrgAction(false);
-    } //GEN-LAST:event_bStopOrganizationActionPerformed
+    } // GEN-LAST:event_bStopOrganizationActionPerformed
 
     /**
      * This method clears the current information.
@@ -291,9 +257,9 @@ public class OrganizationManager extends javax.swing.JFrame
 
     /**
      * This method does the actual action processing (start/stop/reset/restart).
-     *
-     * @param  p        The processor.
-     * @param  sAction  The action to execute.
+     * 
+     * @param p The processor.
+     * @param sAction The action to execute.
      */
     private void doActionOnProcessor(Processor p, String sAction)
     {
@@ -320,17 +286,14 @@ public class OrganizationManager extends javax.swing.JFrame
         }
         catch (Exception e)
         {
-            MessageBoxUtil.showError(this,
-                                     "Error doing action '" + sAction + "' on processor " +
-                                     p.getDN(), e);
+            MessageBoxUtil.showError(this, "Error doing action '" + sAction + "' on processor " + p.getDN(), e);
         }
     }
 
     /**
      * This method is called to start/stop a full organization.
-     *
-     * @param  bStart  Whether or not the the processors should be started (true) or stopped
-     *                 (false).
+     * 
+     * @param bStart Whether or not the the processors should be started (true) or stopped (false).
      */
     @SuppressWarnings("unchecked")
     private void handleFullOrgAction(boolean bStart)
@@ -348,14 +311,14 @@ public class OrganizationManager extends javax.swing.JFrame
         if ((sOrganization == null) && (bStart == false))
         {
             // They chose 'All' which is not supported
-            MessageBoxUtil.showError(this,
-                                     "You cannot stop the whole Cordys installation using this tool.\nYou need to stop the monitor service on the actual machine.");
+            MessageBoxUtil
+                    .showError(this,
+                            "You cannot stop the whole Cordys installation using this tool.\nYou need to stop the monitor service on the actual machine.");
         }
-        else if ((sOrganization != null) && sOrganization.startsWith("o=system") &&
-                     (bStart == false))
+        else if ((sOrganization != null) && sOrganization.startsWith("o=system") && (bStart == false))
         {
             MessageBoxUtil.showError(this,
-                                     "Stopping the system organization is not supported since it will lead to unpredictable results.");
+                    "Stopping the system organization is not supported since it will lead to unpredictable results.");
         }
         else
         {
@@ -363,32 +326,29 @@ public class OrganizationManager extends javax.swing.JFrame
             {
                 if (bStart)
                 {
-                    m_phProcesses.startOrganization(sOrganization,
-                                                    m_cbIncludeNonAutomatic.isSelected());
+                    m_phProcesses.startOrganization(sOrganization, m_cbIncludeNonAutomatic.isSelected());
                 }
                 else
                 {
-                    m_phProcesses.stopOrganization(sOrganization,
-                                                   m_cbIncludeNonAutomatic.isSelected());
+                    m_phProcesses.stopOrganization(sOrganization, m_cbIncludeNonAutomatic.isSelected());
                 }
 
                 m_phProcesses.refreshStatus();
             }
             catch (Exception e)
             {
-                MessageBoxUtil.showError(this,
-                                         "Error " + (bStart ? "starting" : "stopping") +
-                                         " the organization " + sOrganization, e);
+                MessageBoxUtil.showError(this, "Error " + (bStart ? "starting" : "stopping") + " the organization "
+                        + sOrganization, e);
             }
         }
     }
 
     /**
      * DOCUMENTME.
-     *
-     * @param  evt  DOCUMENTME
+     * 
+     * @param evt DOCUMENTME
      */
-    private void handleProcessorAction(java.awt.event.ActionEvent evt) //GEN-FIRST:event_handleProcessorAction
+    private void handleProcessorAction(java.awt.event.ActionEvent evt) // GEN-FIRST:event_handleProcessorAction
     {
         String sAction = evt.getActionCommand();
 
@@ -411,11 +371,11 @@ public class OrganizationManager extends javax.swing.JFrame
                 }
             }
         }
-    } //GEN-LAST:event_handleProcessorAction
+    } // GEN-LAST:event_handleProcessorAction
 
     /**
-     * This method is called from within the constructor to initialize the form. WARNING: Do NOT
-     * modify this code. The content of this method is always regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of
+     * this method is always regenerated by the Form Editor.
      */
     private void initComponents()
     {
@@ -458,55 +418,50 @@ public class OrganizationManager extends javax.swing.JFrame
         m_spdDetails = new com.cordys.coe.tools.orgmanager.SoapProcessorDetails();
 
         miStart.setText("Start");
-        miStart.addActionListener(new java.awt.event.ActionListener()
+        miStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                public void actionPerformed(java.awt.event.ActionEvent evt)
-                {
-                    handleProcessorAction(evt);
-                }
-            });
+                handleProcessorAction(evt);
+            }
+        });
         pmPopup.add(miStart);
 
         miStop.setText("Stop");
-        miStop.addActionListener(new java.awt.event.ActionListener()
+        miStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                public void actionPerformed(java.awt.event.ActionEvent evt)
-                {
-                    handleProcessorAction(evt);
-                }
-            });
+                handleProcessorAction(evt);
+            }
+        });
         pmPopup.add(miStop);
 
         miRestart.setText("Restart");
-        miRestart.addActionListener(new java.awt.event.ActionListener()
+        miRestart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                public void actionPerformed(java.awt.event.ActionEvent evt)
-                {
-                    handleProcessorAction(evt);
-                }
-            });
+                handleProcessorAction(evt);
+            }
+        });
         pmPopup.add(miRestart);
         pmPopup.add(jSeparator2);
 
         miReset.setText("Reset");
-        miReset.addActionListener(new java.awt.event.ActionListener()
+        miReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                public void actionPerformed(java.awt.event.ActionEvent evt)
-                {
-                    handleProcessorAction(evt);
-                }
-            });
+                handleProcessorAction(evt);
+            }
+        });
         pmPopup.add(miReset);
         pmPopup.add(m_sErrorSep);
 
         m_miShowError.setText("Show configuration error");
-        m_miShowError.addActionListener(new java.awt.event.ActionListener()
+        m_miShowError.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                public void actionPerformed(java.awt.event.ActionEvent evt)
-                {
-                    showConfigurationError(evt);
-                }
-            });
+                showConfigurationError(evt);
+            }
+        });
         pmPopup.add(m_miShowError);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -519,84 +474,74 @@ public class OrganizationManager extends javax.swing.JFrame
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener()
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                public void actionPerformed(java.awt.event.ActionEvent evt)
-                {
-                    jButton1ActionPerformed(evt);
-                }
-            });
+                jButton1ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton1);
         jToolBar1.add(jSeparator4);
 
         jLabel1.setText("Organization");
         jToolBar1.add(jLabel1);
 
-        m_cbOrganizations.setModel(new javax.swing.DefaultComboBoxModel(new String[]
-                                                                        {
-                                                                            "Item 1", "Item 2",
-                                                                            "Item 3", "Item 4"
-                                                                        }));
+        m_cbOrganizations.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jToolBar1.add(m_cbOrganizations);
 
         bShowSPs.setText("Show SPs");
         bShowSPs.setFocusable(false);
         bShowSPs.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         bShowSPs.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        bShowSPs.addActionListener(new java.awt.event.ActionListener()
+        bShowSPs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                public void actionPerformed(java.awt.event.ActionEvent evt)
-                {
-                    bShowSPsActionPerformed(evt);
-                }
-            });
+                bShowSPsActionPerformed(evt);
+            }
+        });
         jToolBar1.add(bShowSPs);
 
         bRefresh.setText("Refresh");
         bRefresh.setFocusable(false);
         bRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         bRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        bRefresh.addActionListener(new java.awt.event.ActionListener()
+        bRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                public void actionPerformed(java.awt.event.ActionEvent evt)
-                {
-                    bRefreshActionPerformed(evt);
-                }
-            });
+                bRefreshActionPerformed(evt);
+            }
+        });
         jToolBar1.add(bRefresh);
 
         bReload.setText("Reload");
         bReload.setFocusable(false);
         bReload.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         bReload.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        bReload.addActionListener(new java.awt.event.ActionListener()
+        bReload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                public void actionPerformed(java.awt.event.ActionEvent evt)
-                {
-                    bReloadActionPerformed(evt);
-                }
-            });
+                bReloadActionPerformed(evt);
+            }
+        });
         jToolBar1.add(bReload);
         jToolBar1.add(jSeparator1);
 
         bStartOrganization.setText("Start organization");
-        bStartOrganization.addActionListener(new java.awt.event.ActionListener()
+        bStartOrganization.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                public void actionPerformed(java.awt.event.ActionEvent evt)
-                {
-                    bStartOrganizationActionPerformed(evt);
-                }
-            });
+                bStartOrganizationActionPerformed(evt);
+            }
+        });
         jToolBar1.add(bStartOrganization);
 
         bStopOrganization.setText("Stop organization");
-        bStopOrganization.addActionListener(new java.awt.event.ActionListener()
+        bStopOrganization.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                public void actionPerformed(java.awt.event.ActionEvent evt)
-                {
-                    bStopOrganizationActionPerformed(evt);
-                }
-            });
+                bStopOrganizationActionPerformed(evt);
+            }
+        });
         jToolBar1.add(bStopOrganization);
 
         m_cbIncludeNonAutomatic.setSelected(true);
@@ -611,27 +556,24 @@ public class OrganizationManager extends javax.swing.JFrame
         m_tInterval.setMaximumSize(new java.awt.Dimension(50, 20));
         m_tInterval.setMinimumSize(new java.awt.Dimension(30, 20));
         m_tInterval.setPreferredSize(new java.awt.Dimension(30, 20));
-        m_tInterval.addActionListener(new java.awt.event.ActionListener()
+        m_tInterval.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                public void actionPerformed(java.awt.event.ActionEvent evt)
-                {
-                    updateInterval(evt);
-                }
-            });
-        m_tInterval.addFocusListener(new java.awt.event.FocusAdapter()
+                updateInterval(evt);
+            }
+        });
+        m_tInterval.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt)
             {
-                public void focusLost(java.awt.event.FocusEvent evt)
-                {
-                    m_tIntervalFocusLost(evt);
-                }
-            });
-        m_tInterval.addHierarchyListener(new java.awt.event.HierarchyListener()
+                m_tIntervalFocusLost(evt);
+            }
+        });
+        m_tInterval.addHierarchyListener(new java.awt.event.HierarchyListener() {
+            public void hierarchyChanged(java.awt.event.HierarchyEvent evt)
             {
-                public void hierarchyChanged(java.awt.event.HierarchyEvent evt)
-                {
-                    m_tIntervalHierarchyChanged(evt);
-                }
-            });
+                m_tIntervalHierarchyChanged(evt);
+            }
+        });
         jToolBar1.add(m_tInterval);
 
         jLabel3.setText("seconds");
@@ -651,8 +593,7 @@ public class OrganizationManager extends javax.swing.JFrame
         thHeader.addMouseListener(new ColumnHeaderListener());
         jScrollPane1.setViewportView(m_tblProcessors);
 
-        DefaultTableColumnModel dcmModel = (DefaultTableColumnModel)
-                                               m_tblProcessors.getColumnModel();
+        DefaultTableColumnModel dcmModel = (DefaultTableColumnModel) m_tblProcessors.getColumnModel();
         dcmModel.getColumn(1).setMaxWidth(70);
         dcmModel.getColumn(2).setMaxWidth(150);
         dcmModel.getColumn(3).setMaxWidth(70);
@@ -668,24 +609,23 @@ public class OrganizationManager extends javax.swing.JFrame
             abSortOrder[iCount] = true;
         }
 
-        m_tblProcessors.addMouseListener(new MouseAdapter()
+        m_tblProcessors.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e)
             {
-                public void mouseClicked(MouseEvent e)
+                if (e.getClickCount() == 2)
                 {
-                    if (e.getClickCount() == 2)
+                    Point pOrigin = e.getPoint();
+                    int iRow = m_tblProcessors.rowAtPoint(pOrigin);
+
+                    if (iRow >= 0)
                     {
-                        Point pOrigin = e.getPoint();
-                        int iRow = m_tblProcessors.rowAtPoint(pOrigin);
+                        Processor pProcessor = (Processor) m_mdlProcessors.getValueAt(iRow, -1);
 
-                        if (iRow >= 0)
-                        {
-                            Processor pProcessor = (Processor) m_mdlProcessors.getValueAt(iRow, -1);
-
-                            showProcessorDetails(pProcessor);
-                        }
+                        showProcessorDetails(pProcessor);
                     }
                 }
-            });
+            }
+        });
 
         spSplitPane.setTopComponent(jScrollPane1);
 
@@ -696,34 +636,24 @@ public class OrganizationManager extends javax.swing.JFrame
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                  .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                963, Short.MAX_VALUE).addComponent(spSplitPane,
-                                                                                   javax.swing
-                                                                                   .GroupLayout.DEFAULT_SIZE,
-                                                                                   963,
-                                                                                   Short.MAX_VALUE));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup().addComponent(jToolBar1,
-                                                                                      javax.swing
-                                                                                      .GroupLayout.PREFERRED_SIZE,
-                                                                                      25,
-                                                                                      javax.swing
-                                                                                      .GroupLayout.PREFERRED_SIZE)
-                                          .addPreferredGap(javax.swing.LayoutStyle
-                                                           .ComponentPlacement.RELATED)
-                                          .addComponent(spSplitPane,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE, 390,
-                                                        Short.MAX_VALUE)));
+                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 963, Short.MAX_VALUE)
+                .addComponent(spSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 963, Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                layout.createSequentialGroup()
+                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25,
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)));
 
         pack();
     } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENTME.
-     *
-     * @param  evt  DOCUMENTME
+     * 
+     * @param evt DOCUMENTME
      */
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) //GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) // GEN-FIRST:event_jButton1ActionPerformed
     {
         CGCLoginDialog cld = new CGCLoginDialog(this, true);
         cld.setVisible(true);
@@ -732,32 +662,32 @@ public class OrganizationManager extends javax.swing.JFrame
         {
             setConnection(cld.getConnection());
         }
-    } //GEN-LAST:event_jButton1ActionPerformed
+    } // GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * DOCUMENTME.
-     *
-     * @param  evt  DOCUMENTME
+     * 
+     * @param evt DOCUMENTME
      */
-    private void m_tIntervalFocusLost(java.awt.event.FocusEvent evt) //GEN-FIRST:event_m_tIntervalFocusLost
+    private void m_tIntervalFocusLost(java.awt.event.FocusEvent evt) // GEN-FIRST:event_m_tIntervalFocusLost
     {
         updateInterval(null);
-    } //GEN-LAST:event_m_tIntervalFocusLost
+    } // GEN-LAST:event_m_tIntervalFocusLost
 
     /**
      * DOCUMENTME.
-     *
-     * @param  evt  DOCUMENTME
+     * 
+     * @param evt DOCUMENTME
      */
-    private void m_tIntervalHierarchyChanged(java.awt.event.HierarchyEvent evt) //GEN-FIRST:event_m_tIntervalHierarchyChanged
+    private void m_tIntervalHierarchyChanged(java.awt.event.HierarchyEvent evt) // GEN-FIRST:event_m_tIntervalHierarchyChanged
     {
         updateInterval(null);
-    } //GEN-LAST:event_m_tIntervalHierarchyChanged
+    } // GEN-LAST:event_m_tIntervalHierarchyChanged
 
     /**
      * This method sets the connection that should be used for this connection.
-     *
-     * @param  cgcClient  The connection to use.
+     * 
+     * @param cgcClient The connection to use.
      */
     private void setConnection(ICordysGatewayClient cgcClient)
     {
@@ -767,8 +697,7 @@ public class OrganizationManager extends javax.swing.JFrame
         {
             // Create the process handler
             int iInterval = Integer.parseInt(m_tInterval.getText());
-            m_phProcesses = new ProcessorHandler(m_cgcClient, iInterval,
-                                                 new LocalProcessHandlerCallback());
+            m_phProcesses = new ProcessorHandler(m_cgcClient, iInterval, new LocalProcessHandlerCallback());
 
             cleanInformation();
 
@@ -787,24 +716,22 @@ public class OrganizationManager extends javax.swing.JFrame
 
     /**
      * DOCUMENTME.
-     *
-     * @param  evt  DOCUMENTME
+     * 
+     * @param evt DOCUMENTME
      */
-    private void showConfigurationError(java.awt.event.ActionEvent evt) //GEN-FIRST:event_showConfigurationError
+    private void showConfigurationError(java.awt.event.ActionEvent evt) // GEN-FIRST:event_showConfigurationError
     {
         if ((m_pSelectedProcessor != null) && m_pSelectedProcessor.hasConfigurationError())
         {
-            MessageBoxUtil.showError(this,
-                                     "SOAP Processor '" + m_pSelectedProcessor.getDN() +
-                                     "' could not be started.",
-                                     m_pSelectedProcessor.getErrorDetails());
+            MessageBoxUtil.showError(this, "SOAP Processor '" + m_pSelectedProcessor.getDN() + "' could not be started.",
+                    m_pSelectedProcessor.getErrorDetails());
         }
-    } //GEN-LAST:event_showConfigurationError
+    } // GEN-LAST:event_showConfigurationError
 
     /**
      * This method is called when the details of a Soap Processor should be shown.
-     *
-     * @param  pProcessor  The processor to display.
+     * 
+     * @param pProcessor The processor to display.
      */
     private void showProcessorDetails(Processor pProcessor)
     {
@@ -813,8 +740,8 @@ public class OrganizationManager extends javax.swing.JFrame
 
     /**
      * This method shows the proper soap processors in the table based on the selection.
-     *
-     * @param  sOrganization  The organization to show the SPs from. If null all SPs will be shown.
+     * 
+     * @param sOrganization The organization to show the SPs from. If null all SPs will be shown.
      */
     private void showProperSPs(String sOrganization)
     {
@@ -836,10 +763,10 @@ public class OrganizationManager extends javax.swing.JFrame
 
     /**
      * DOCUMENTME.
-     *
-     * @param  evt  DOCUMENTME
+     * 
+     * @param evt DOCUMENTME
      */
-    private void updateInterval(java.awt.event.ActionEvent evt) //GEN-FIRST:event_updateInterval
+    private void updateInterval(java.awt.event.ActionEvent evt) // GEN-FIRST:event_updateInterval
     {
         try
         {
@@ -849,12 +776,12 @@ public class OrganizationManager extends javax.swing.JFrame
         {
             // Ignore it.
         }
-    } //GEN-LAST:event_updateInterval
+    } // GEN-LAST:event_updateInterval
 
     /**
      * This method will update the status for the proper fields.
-     *
-     * @param  lhmOrgsAndProcessors
+     * 
+     * @param lhmOrgsAndProcessors
      */
     private void updateProcessorStatistics(LinkedHashMap<String, LinkedHashMap<String, Processor>> lhmOrgsAndProcessors)
     {
@@ -873,11 +800,10 @@ public class OrganizationManager extends javax.swing.JFrame
 
     /**
      * This method updates the current combo and table with the proper data.
-     *
-     * @throws  CordysGatewayClientException
+     * 
+     * @throws CordysGatewayClientException
      */
-    private void updateTableAndCombo()
-                              throws CordysGatewayClientException
+    private void updateTableAndCombo() throws CordysGatewayClientException
     {
         DefaultComboBoxModel dcbm = (DefaultComboBoxModel) m_cbOrganizations.getModel();
         dcbm.addElement(new ObjectData<LDAPEntry>("All", null));
@@ -891,6 +817,7 @@ public class OrganizationManager extends javax.swing.JFrame
 
         showProperSPs(null);
     }
+
     // End of variables declaration
 
     /**
@@ -900,10 +827,11 @@ public class OrganizationManager extends javax.swing.JFrame
     {
         /**
          * Occurs when the header is clicked.
-         *
-         * @param  evt  The event that occured.
+         * 
+         * @param evt The event that occured.
          */
-        @Override public void mouseClicked(MouseEvent evt)
+        @Override
+        public void mouseClicked(MouseEvent evt)
         {
             JTable table = ((JTableHeader) evt.getSource()).getTable();
             TableColumnModel colModel = table.getColumnModel();
@@ -954,23 +882,18 @@ public class OrganizationManager extends javax.swing.JFrame
     /**
      * Class to sort the rows.
      */
-    public class ColumnSorter
-        implements Comparator<Object>
+    public class ColumnSorter implements Comparator<Object>
     {
-        /**
-         * Indicates whether or not the sort should be ascending.
-         */
+        /** Indicates whether or not the sort should be ascending. */
         boolean ascending;
-        /**
-         * The index of the column.
-         */
+        /** The index of the column. */
         int iColumnIndex;
 
         /**
          * Constructor.
-         *
-         * @param  colIndex   The index of the column.
-         * @param  ascending  Indicates whether or not the sort should be ascending.
+         * 
+         * @param colIndex The index of the column.
+         * @param ascending Indicates whether or not the sort should be ascending.
          */
         ColumnSorter(int colIndex, boolean ascending)
         {
@@ -979,14 +902,13 @@ public class OrganizationManager extends javax.swing.JFrame
         }
 
         /**
-         * Compares its two arguments for order. Returns a negative integer, zero, or a positive
-         * integer as the first argument is less than, equal to, or greater than the second.
-         *
-         * @param   a  the first object to be compared.
-         * @param   b  the second object to be compared.
-         *
-         * @return  a negative integer, zero, or a positive integer as the first argument is less
-         *          than, equal to, or greater than the second.
+         * Compares its two arguments for order. Returns a negative integer, zero, or a positive integer as the first argument is
+         * less than, equal to, or greater than the second.
+         * 
+         * @param a the first object to be compared.
+         * @param b the second object to be compared.
+         * @return a negative integer, zero, or a positive integer as the first argument is less than, equal to, or greater than
+         *         the second.
          */
 
         @SuppressWarnings("unchecked")
@@ -1106,28 +1028,30 @@ public class OrganizationManager extends javax.swing.JFrame
     {
         /**
          * This method shows the popupmenu if needed.
-         *
-         * @param  meEvent  The mouseevent that occured.
+         * 
+         * @param meEvent The mouseevent that occured.
          */
-        @Override public void mousePressed(MouseEvent meEvent)
+        @Override
+        public void mousePressed(MouseEvent meEvent)
         {
             maybeShowPopup(meEvent);
         }
 
         /**
          * This method shows the popupmenu if needed.
-         *
-         * @param  meEvent  The mouseevent that occured.
+         * 
+         * @param meEvent The mouseevent that occured.
          */
-        @Override public void mouseReleased(MouseEvent meEvent)
+        @Override
+        public void mouseReleased(MouseEvent meEvent)
         {
             maybeShowPopup(meEvent);
         }
 
         /**
          * This method shows the popupmenu if needed.
-         *
-         * @param  meEvent  The mouseevent that occured.
+         * 
+         * @param meEvent The mouseevent that occured.
          */
         private void maybeShowPopup(MouseEvent meEvent)
         {
@@ -1155,22 +1079,20 @@ public class OrganizationManager extends javax.swing.JFrame
     }
 
     /**
-     * The processor table is customized to be able to set backgrounds for the rows based on the
-     * status of a processor.
+     * The processor table is customized to be able to set backgrounds for the rows based on the status of a processor.
      */
     private class JProcessorTable extends JTable
     {
         /**
          * This method will set the proper background based on the status.
-         *
-         * @param   renderer  The actual renderer.
-         * @param   iRow      The index of the row.
-         * @param   iColumn   The column to render.
-         *
-         * @return  The component to show.
+         * 
+         * @param renderer The actual renderer.
+         * @param iRow The index of the row.
+         * @param iColumn The column to render.
+         * @return The component to show.
          */
-        @Override public Component prepareRenderer(TableCellRenderer renderer, int iRow,
-                                                   int iColumn)
+        @Override
+        public Component prepareRenderer(TableCellRenderer renderer, int iRow, int iColumn)
         {
             Component comp = super.prepareRenderer(renderer, iRow, iColumn);
 
@@ -1211,21 +1133,19 @@ public class OrganizationManager extends javax.swing.JFrame
     /**
      * This method handles the callback when the status of the processors was updated.
      */
-    private class LocalProcessHandlerCallback
-        implements IProcessHandlerCallback
+    private class LocalProcessHandlerCallback implements IProcessHandlerCallback
     {
         /**
-         * @see  com.cordys.coe.tools.orgmanager.IProcessHandlerCallback#onStatusUpdate(java.util.LinkedHashMap)
+         * @see com.cordys.coe.tools.orgmanager.IProcessHandlerCallback#onStatusUpdate(java.util.LinkedHashMap)
          */
         public void onStatusUpdate(final LinkedHashMap<String, LinkedHashMap<String, Processor>> lhmOrgsAndProcessors)
         {
-            EventQueue.invokeLater(new Runnable()
+            EventQueue.invokeLater(new Runnable() {
+                public void run()
                 {
-                    public void run()
-                    {
-                        updateProcessorStatistics(lhmOrgsAndProcessors);
-                    }
-                });
+                    updateProcessorStatistics(lhmOrgsAndProcessors);
+                }
+            });
         }
     }
 }

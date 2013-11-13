@@ -63,8 +63,6 @@ public class OrganizationManager extends javax.swing.JFrame
     javax.swing.JMenuItem miStop;
     /** DOCUMENTME. */
     javax.swing.JPopupMenu pmPopup;
-    // End of variables declaration//GEN-END:variables
-
     /** Holds the current sort-order for the column. */
     private boolean[] abSortOrder;
     /** Holds the connection to use. */

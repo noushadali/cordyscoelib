@@ -568,10 +568,10 @@ public class SystemSnapshot implements PropertyChangeListener
         @Override
         protected Void doInBackground() throws Exception
         {
-            SystemSnapshotGrabber ssg = new SystemSnapshotGrabber(m_config);
-
             try
             {
+                SystemSnapshotGrabber ssg = new SystemSnapshotGrabber(m_config);
+
                 m_result = ssg.buildSnapshot(this);
             }
             catch (final Exception e)

@@ -77,7 +77,6 @@ public class SystemSnapshotGrabber
         
         //Step 1: gather all the objects to get data from so that we can determine the progress that that should be made.
         Map<ActualServiceContainer, ServiceContainer> matchingNodes = new LinkedHashMap<ActualServiceContainer, ServiceContainer>();
-        
 
         ArrayList<ServiceGroup> groups = m_config.getServiceGroupList();
 
@@ -203,7 +202,10 @@ public class SystemSnapshotGrabber
         m_allEntries.clear();
 
         ArrayList<Server> servers = m_config.getServerList();
+        List<Exception> exceptions = new ArrayList<Exception>();
 
+        boolean oneConnected = false;
+        
         for (Server server : servers)
         {
             // Try to get the list of managed components via the rmi registry
@@ -276,11 +278,18 @@ public class SystemSnapshotGrabber
                         return retVal;
                     }
                 });
+                
+                oneConnected = true;
             }
             catch (Exception e)
             {
-                throw new Exception("Error getting the list of managed components", e);
+                exceptions.add(e);
             }
+        }
+        
+        if (!oneConnected)
+        {
+            throw new Exception("Could not connect to any server defined. The cause is the first exception found.", exceptions.get(0));
         }
     }
 

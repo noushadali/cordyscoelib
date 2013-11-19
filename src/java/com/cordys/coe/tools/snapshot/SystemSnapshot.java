@@ -1,17 +1,5 @@
 package com.cordys.coe.tools.snapshot;
 
-import com.cordys.coe.tools.snapshot.config.ActualServiceContainer;
-import com.cordys.coe.tools.snapshot.config.Config;
-import com.cordys.coe.tools.snapshot.config.JMXCounter;
-import com.cordys.coe.tools.snapshot.config.Server;
-import com.cordys.coe.tools.snapshot.data.SnapshotData;
-import com.cordys.coe.tools.snapshot.data.SnapshotResult;
-import com.cordys.coe.tools.snapshot.data.ThrowableWrapper;
-import com.cordys.coe.tools.snapshot.data.handler.DataHandlerFactory;
-import com.cordys.coe.tools.snapshot.view.ViewDataFactory;
-import com.cordys.coe.util.Pair;
-import com.cordys.coe.util.swing.MessageBoxUtil;
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -46,8 +34,6 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.ProgressMonitor;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -63,6 +49,18 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import net.miginfocom.swing.MigLayout;
+
+import com.cordys.coe.tools.snapshot.config.ActualServiceContainer;
+import com.cordys.coe.tools.snapshot.config.Config;
+import com.cordys.coe.tools.snapshot.config.JMXCounter;
+import com.cordys.coe.tools.snapshot.config.Server;
+import com.cordys.coe.tools.snapshot.data.SnapshotData;
+import com.cordys.coe.tools.snapshot.data.SnapshotResult;
+import com.cordys.coe.tools.snapshot.data.ThrowableWrapper;
+import com.cordys.coe.tools.snapshot.data.handler.DataHandlerFactory;
+import com.cordys.coe.tools.snapshot.view.ViewDataFactory;
+import com.cordys.coe.util.Pair;
+import com.cordys.coe.util.swing.MessageBoxUtil;
 
 /**
  * This tool can be used to get a snapshot of a running system. The point is to get (also in a cluster) thread dumps and counter
@@ -83,7 +81,7 @@ public class SystemSnapshot implements PropertyChangeListener
     /** Holds the details of the servers that this snapshot connects to. */
     private JTextField m_servers;
     /** The response from the snapshot grabber. */
-    private SnapshotResult m_result;
+    SnapshotResult m_result;
     /** The raw XML result of the JMX counter result object. */
     private JTextArea m_rawResult;
     /** Holds teh result of all the counters. */
@@ -106,6 +104,8 @@ public class SystemSnapshot implements PropertyChangeListener
     private JMXWebServiceInspectorPanel m_jmxWSIPanel;
     /** Holds the title manager to use */
     private TitleManager m_titleManager = new TitleManager();
+    /** Holds the task to reset all the counters */
+    private ResetCounterTask m_resetCounterTask;
 
     /**
      * Launch the application.
@@ -170,6 +170,9 @@ public class SystemSnapshot implements PropertyChangeListener
 
         JToolBar toolBar = new JToolBar();
         frmSnapshotGrabber.getContentPane().add(toolBar, BorderLayout.NORTH);
+        
+        ImageIcon img = new ImageIcon(SystemSnapshot.class.getResource("/com/cordys/coe/tools/snapshot/jmx.png"));
+        frmSnapshotGrabber.setIconImage(img.getImage());
 
         JButton bOpen = new JButton("");
         bOpen.addActionListener(new ActionListener() {
@@ -230,6 +233,19 @@ public class SystemSnapshot implements PropertyChangeListener
         bSaveSnapshot.setToolTipText("Save saved snapshot");
         bSaveSnapshot.setIcon(new ImageIcon(SystemSnapshot.class.getResource("/com/cordys/coe/tools/snapshot/save.gif")));
         toolBar.add(bSaveSnapshot);
+
+        toolBar.addSeparator();
+
+        JButton bClearCounters = new JButton("");
+        bClearCounters.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+                clearCounters();
+            }
+        });
+        bClearCounters.setToolTipText("Clear all JMX Web Service Inspector counters");
+        bClearCounters.setIcon(new ImageIcon(SystemSnapshot.class.getResource("/com/cordys/coe/tools/snapshot/59.png")));
+        toolBar.add(bClearCounters);
 
         JPanel panel = new JPanel();
         frmSnapshotGrabber.getContentPane().add(panel, BorderLayout.CENTER);
@@ -315,6 +331,16 @@ public class SystemSnapshot implements PropertyChangeListener
         m_rawResult.setFont(new Font("Consolas", Font.PLAIN, 10));
         m_rawResult.setEditable(false);
         scrollPane_2.setViewportView(m_rawResult);
+    }
+
+    /**
+     * This method gets the config.
+     * 
+     * @return The config
+     */
+    public Config getConfig()
+    {
+        return m_config;
     }
 
     /**
@@ -501,6 +527,32 @@ public class SystemSnapshot implements PropertyChangeListener
     }
 
     /**
+     * This method will clear all the JMX Web Service Inspector counters.
+     */
+    protected void clearCounters()
+    {
+        try
+        {
+            if (m_config == null)
+            {
+                throw new Exception("You must first load a configuration");
+            }
+            
+            frmSnapshotGrabber.setTitle(TITLE_SNAPSHOT_GRABBER);
+            m_pm = new ProgressMonitor(frmSnapshotGrabber, "Resetting counters", null, 0, m_config.getServerList().size());
+            m_pm.setProgress(0);
+
+            m_resetCounterTask = new ResetCounterTask(this, m_pm);
+            m_resetCounterTask.addPropertyChangeListener(this);
+            m_resetCounterTask.execute();
+        }
+        catch (Exception e)
+        {
+            MessageBoxUtil.showError("Cannot reset the counters", e);
+        }
+    }
+
+    /**
      * This method will execute the snapshot to get the details from the configured servers.
      */
     public void buildSnapshot()
@@ -512,7 +564,7 @@ public class SystemSnapshot implements PropertyChangeListener
             m_pm = new ProgressMonitor(frmSnapshotGrabber, "Getting information from cordys", null, 0, m_config.getServerList()
                     .size());
             m_pm.setProgress(0);
-            m_grabberTask = new GrabberTask(m_pm);
+            m_grabberTask = new GrabberTask(this, m_pm);
             m_grabberTask.addPropertyChangeListener(this);
             m_grabberTask.execute();
         }
@@ -541,111 +593,6 @@ public class SystemSnapshot implements PropertyChangeListener
             // and set it on the progress monitor
             int progress = ((Integer) evt.getNewValue()).intValue();
             m_pm.setProgress(progress);
-        }
-    }
-
-    /**
-     * Holds the Class GrabberTask.
-     */
-    private class GrabberTask extends SwingWorker<Void, GrabberData> implements ISnapshotGrabberProgress
-    {
-        /** Holds the progress monitor that is to be used. */
-        ProgressMonitor m_pm;
-
-        /**
-         * Instantiates a new grabber task.
-         * 
-         * @param pm The progress monitor to be used.
-         */
-        GrabberTask(ProgressMonitor pm)
-        {
-            m_pm = pm;
-        }
-
-        /**
-         * @see javax.swing.SwingWorker#doInBackground()
-         */
-        @Override
-        protected Void doInBackground() throws Exception
-        {
-            try
-            {
-                SystemSnapshotGrabber ssg = new SystemSnapshotGrabber(m_config);
-
-                m_result = ssg.buildSnapshot(this);
-            }
-            catch (final Exception e)
-            {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run()
-                    {
-                        MessageBoxUtil.showError("Error getting snapshot", e);
-                    }
-                });
-            }
-
-            return null;
-        }
-
-        /**
-         * @see com.cordys.coe.tools.snapshot.ISnapshotGrabberProgress#setGrabberProgress(int)
-         */
-        @Override
-        public void setGrabberProgress(int progress)
-        {
-            setProgress(progress);
-        }
-
-        /**
-         * @see javax.swing.SwingWorker#done()
-         */
-        @Override
-        protected void done()
-        {
-            m_pm.close();
-
-            updateResultView();
-        }
-
-        /**
-         * @see com.cordys.coe.tools.snapshot.ISnapshotGrabberProgress#setMax(int)
-         */
-        @Override
-        public void setMax(int max)
-        {
-            m_pm.setMaximum(max);
-        }
-
-        /**
-         * @see com.cordys.coe.tools.snapshot.ISnapshotGrabberProgress#publishGrabberData(com.cordys.coe.tools.snapshot.GrabberData)
-         */
-        @Override
-        public void publishGrabberData(GrabberData data)
-        {
-            if (data.getProgress() > 100)
-            {
-                setProgress(100);
-            }
-            else
-            {
-                setProgress(data.getProgress());
-            }
-            publish(data);
-        }
-
-        /**
-         * @see javax.swing.SwingWorker#process(java.util.List)
-         */
-        @Override
-        protected void process(List<GrabberData> chunks)
-        {
-            if ((chunks != null) && (chunks.size() > 0))
-            {
-                GrabberData gd = chunks.get(chunks.size() - 1);
-
-                m_pm.setNote(gd.toString());
-            }
         }
     }
 
@@ -754,6 +701,16 @@ public class SystemSnapshot implements PropertyChangeListener
         {
             MessageBoxUtil.showError("Error loading configuration", e);
         }
+    }
+    
+    /**
+     * This method sets the result.
+     * 
+     * @param result The new result
+     */
+    public void setResult(SnapshotResult result)
+    {
+        m_result = result;
     }
 
     /**
@@ -1039,4 +996,5 @@ public class SystemSnapshot implements PropertyChangeListener
         }
 
     }
+
 }

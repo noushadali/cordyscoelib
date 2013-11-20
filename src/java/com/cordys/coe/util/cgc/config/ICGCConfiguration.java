@@ -298,4 +298,11 @@ public interface ICGCConfiguration
      * @throws CordysGatewayClientException DOCUMENTME
      */
     void validate() throws CordysGatewayClientException;
+    
+    /**
+     * This method gets the display url.
+     * 
+     * @return The display url.
+     */
+    String getDisplayURL();
 }

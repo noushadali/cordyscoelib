@@ -64,6 +64,30 @@ class CGCConfigurationImpl implements ICGCConfiguration
     {
         return m_bAuthenticationPreemptive;
     }
+    
+    /**
+     * @see com.cordys.coe.util.cgc.config.ICGCConfiguration#getDisplayURL()
+     */
+    @Override
+    public String getDisplayURL()
+    {
+        StringBuilder sb = new StringBuilder(1024);
+        sb.append("http");
+        if (m_bSsl)
+        {
+            sb.append("s");
+        }
+        sb.append("://").append(m_sHost);
+        
+        if ((m_bSsl == false && m_iPort != 80) || (m_bSsl == true && m_iPort != 443))
+        {
+            sb.append(":").append(m_iPort);
+        }
+        
+        sb.append(m_sGatewayURL);
+        
+        return sb.toString();
+    }
 
     /**
      * This method gets the url of the Cordys gateway.

@@ -78,132 +78,74 @@ import sun.misc.BASE64Decoder;
 
 /**
  * This tool can be used to send messages to the web gateway.
- *
- * @author  $author$
+ * 
+ * @author $author$
  */
 public class CoeMethodTestTool
 {
-    /**
-     * Holds the LDAP namespace.
-     */
+    /** Holds the LDAP namespace. */
     private static final String HTTP_SCHEMAS_CORDYS_COM_1_0_LDAP = "http://schemas.cordys.com/1.0/ldap";
-    /**
-     * Holds the number of threads that are used.
-     */
+    /** Holds the number of threads that are used. */
     private static final int NR_OF_THREADS = 10;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     protected Shell m_sShell;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private ArrayList<RequestRunnerThread> m_alRequestThreads;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Browser m_bBrowser;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Button m_bCompose;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Combo m_cbMethod;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Combo m_cbMethodLevel;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Combo m_cbMethodSet;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Combo m_cbOrganization;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private ICordysGatewayClient m_cgcClient;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Display m_dDisplay;
-    /**
-     * Holds the namespaces for the current methodset.
-     */
+    /** Holds the namespaces for the current methodset. */
     private LinkedHashMap<String, String> m_hmMethodSetNamespace = new LinkedHashMap<String, String>();
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private InProgressDialog m_ipbProgress;
-    /**
-     * Holds the queue for the requests.
-     */
+    /** Holds the queue for the requests. */
     private ArrayBlockingQueue<RequestObject> m_qRequests;
-    /**
-     * Holds teh queue for the responses.
-     */
+    /** Holds teh queue for the responses. */
     private ArrayBlockingQueue<RequestObject> m_qResponses;
-    /**
-     * Holds the current LDAP root.
-     */
+    /** Holds the current LDAP root. */
     private String m_sLDAPRoot;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Table m_tblHistory;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private TabFolder m_tfTabs;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Text m_tHistRequest;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Text m_tHistResponse;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private TabItem m_tiRequest;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private TabItem m_tiResponse;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private TabItem m_tiXReport;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Text m_tPDFLocation;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Text m_tRequestXML;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Text m_tResponse;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Thread m_tResponseListener;
-    /**
-     * DOCUMENTME.
-     */
+    /** DOCUMENTME. */
     private Text m_tTimeOut;
 
     /**
      * Launch the application.
-     *
-     * @param  args
+     * 
+     * @param args
      */
     public static void main(String[] args)
     {
@@ -245,13 +187,12 @@ public class CoeMethodTestTool
 
             m_ipbProgress = new InProgressDialog(m_sShell, "Please wait", "Connecting to Cordys...\nPlease wait");
             m_ipbProgress.open();
-            new Thread(new Runnable()
+            new Thread(new Runnable() {
+                public void run()
                 {
-                    public void run()
-                    {
-                        connectToCordys(wgcConfig);
-                    }
-                }).start();
+                    connectToCordys(wgcConfig);
+                }
+            }).start();
 
             while (!m_sShell.isDisposed())
             {
@@ -283,66 +224,69 @@ public class CoeMethodTestTool
         String sMethod = m_cbMethod.getItem(m_cbMethod.getSelectionIndex());
         IMethodInfo miInfo = (IMethodInfo) m_cbMethod.getData(sMethod);
 
-        m_tRequestXML.setText(miInfo.composeNewRequest(m_cgcClient,
-                                                       (String) m_cbOrganization.getData(m_cbOrganization.getText())));
+        m_tRequestXML
+                .setText(miInfo.composeNewRequest(m_cgcClient, (String) m_cbOrganization.getData(m_cbOrganization.getText())));
 
         m_tfTabs.setSelection(m_tiRequest);
     }
 
     /**
      * This method makes the connections.
-     *
-     * @param  wgcConfig  The configuration to use.
+     * 
+     * @param wgcConfig The configuration to use.
      */
     protected void connectToCordys(IWebGatewayConfiguration wgcConfig)
     {
         try
         {
             IAuthenticationConfiguration iaAuth = CGCAuthenticationFactory.createAuthentication(wgcConfig);
-            ICGCConfiguration icConfig = CGCConfigFactory.createConfiguration(wgcConfig);
+            final ICGCConfiguration icConfig = CGCConfigFactory.createConfiguration(wgcConfig);
 
             m_cgcClient = CGCFactory.createCGC(iaAuth, icConfig);
             m_cgcClient.setNamespaceAwareResponses(true);
+            m_cgcClient.setAutoParseGetUserDetails(false);
             m_cgcClient.connect();
+            
 
-            m_dDisplay.asyncExec(new Runnable()
+            m_dDisplay.asyncExec(new Runnable() {
+                public void run()
                 {
-                    public void run()
+                    m_sShell.setText("CoE web service operation test tool - " + icConfig.getDisplayURL());
+                    
+                    m_ipbProgress.setDetail("Initializing CoEMethodTestTool");
+
+                    String sAuthDN = m_cgcClient.getAuthUserDN();
+                    // Now get the LDAP root from it.
+                    m_sLDAPRoot = sAuthDN.substring(sAuthDN.indexOf("cn=cordys,"));
+
+                    fillOrgsAndISVs();
+
+                    m_bCompose.setFocus();
+
+                    // Create the needed queues and threads.
+                    m_qRequests = new ArrayBlockingQueue<RequestObject>(50);
+                    m_qResponses = new ArrayBlockingQueue<RequestObject>(50);
+
+                    m_alRequestThreads = new ArrayList<RequestRunnerThread>();
+
+                    for (int iCount = 0; iCount < NR_OF_THREADS; iCount++)
                     {
-                        m_ipbProgress.setDetail("Initializing CoEMethodTestTool");
-
-                        String sAuthDN = m_cgcClient.getAuthUserDN();
-                        // Now get the LDAP root from it.
-                        m_sLDAPRoot = sAuthDN.substring(sAuthDN.indexOf("cn=cordys,"));
-
-                        fillOrgsAndISVs();
-
-                        m_bCompose.setFocus();
-
-                        // Create the needed queues and threads.
-                        m_qRequests = new ArrayBlockingQueue<RequestObject>(50);
-                        m_qResponses = new ArrayBlockingQueue<RequestObject>(50);
-
-                        m_alRequestThreads = new ArrayList<RequestRunnerThread>();
-
-                        for (int iCount = 0; iCount < NR_OF_THREADS; iCount++)
-                        {
-                            RequestRunnerThread rrt = new RequestRunnerThread(m_qRequests, m_qResponses);
-                            m_alRequestThreads.add(rrt);
-                        }
-
-                        // Start all threads
-                        for (RequestRunnerThread rrt : m_alRequestThreads)
-                        {
-                            rrt.start();
-                        }
-
-                        // Start the thread that is listening for the responses.
-                        m_tResponseListener = new Thread(new ResponseListenThread());
-                        m_tResponseListener.start();
-                        m_ipbProgress.closeDialog();
+                        RequestRunnerThread rrt = new RequestRunnerThread(m_qRequests, m_qResponses);
+                        m_alRequestThreads.add(rrt);
                     }
-                });
+
+                    // Start all threads
+                    for (RequestRunnerThread rrt : m_alRequestThreads)
+                    {
+                        rrt.start();
+                    }
+
+                    // Start the thread that is listening for the responses.
+                    m_tResponseListener = new Thread(new ResponseListenThread());
+                    m_tResponseListener.start();
+                    m_ipbProgress.closeDialog();
+                }
+            });
         }
         catch (CordysGatewayClientException e)
         {
@@ -357,15 +301,14 @@ public class CoeMethodTestTool
     {
         m_sShell = new Shell();
         m_sShell.setImage(SWTResourceManager.getImage(CoeMethodTestTool.class, "methodtesttool.gif"));
-        m_sShell.addShellListener(new ShellAdapter()
+        m_sShell.addShellListener(new ShellAdapter() {
+            public void shellClosed(final ShellEvent e)
             {
-                public void shellClosed(final ShellEvent e)
-                {
-                    storeEntries();
+                storeEntries();
 
-                    System.exit(0);
-                }
-            });
+                System.exit(0);
+            }
+        });
         m_sShell.setLayout(new GridLayout());
         m_sShell.setSize(952, 733);
         m_sShell.setText("CoE method Test Tool");
@@ -384,13 +327,12 @@ public class CoeMethodTestTool
         organizationLabel.setText("Organization:");
 
         m_cbOrganization = new Combo(selectMethodToGroup, SWT.READ_ONLY);
-        m_cbOrganization.addModifyListener(new ModifyListener()
+        m_cbOrganization.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent arg0)
             {
-                public void modifyText(final ModifyEvent arg0)
-                {
-                    fillMethodLevels();
-                }
-            });
+                fillMethodLevels();
+            }
+        });
 
         final GridData gd_m_cbOrganization = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
         m_cbOrganization.setLayoutData(gd_m_cbOrganization);
@@ -400,13 +342,12 @@ public class CoeMethodTestTool
         methodLevelLabel.setText("Method level");
 
         m_cbMethodLevel = new Combo(selectMethodToGroup, SWT.READ_ONLY);
-        m_cbMethodLevel.addModifyListener(new ModifyListener()
+        m_cbMethodLevel.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent arg0)
             {
-                public void modifyText(final ModifyEvent arg0)
-                {
-                    fillMethodSets();
-                }
-            });
+                fillMethodSets();
+            }
+        });
 
         final GridData gd_m_cbMethodLevel = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
         m_cbMethodLevel.setLayoutData(gd_m_cbMethodLevel);
@@ -416,13 +357,12 @@ public class CoeMethodTestTool
         methodSetLabel.setText("Method Set:");
 
         m_cbMethodSet = new Combo(selectMethodToGroup, SWT.READ_ONLY);
-        m_cbMethodSet.addModifyListener(new ModifyListener()
+        m_cbMethodSet.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent arg0)
             {
-                public void modifyText(final ModifyEvent arg0)
-                {
-                    fillMethods();
-                }
-            });
+                fillMethods();
+            }
+        });
 
         final GridData gd_m_cbMethodSet = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
         gd_m_cbMethodSet.widthHint = 397;
@@ -448,13 +388,12 @@ public class CoeMethodTestTool
         m_tTimeOut.setLayoutData(gd_m_tTimeOut);
 
         m_bCompose = new Button(selectMethodToGroup, SWT.NONE);
-        m_bCompose.addSelectionListener(new SelectionAdapter()
+        m_bCompose.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(final SelectionEvent e)
             {
-                public void widgetSelected(final SelectionEvent e)
-                {
-                    composeRequest();
-                }
-            });
+                composeRequest();
+            }
+        });
 
         final GridData gd_composeButton = new GridData(SWT.RIGHT, SWT.CENTER, false, false);
         gd_composeButton.widthHint = 70;
@@ -470,23 +409,21 @@ public class CoeMethodTestTool
         composite_3.setLayout(gridLayout_2);
 
         final Button button = new Button(composite_3, SWT.NONE);
-        button.addSelectionListener(new SelectionAdapter()
+        button.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(final SelectionEvent e)
             {
-                public void widgetSelected(final SelectionEvent e)
-                {
-                    sendRequest();
-                }
-            });
+                sendRequest();
+            }
+        });
         button.setText("Send");
 
         final Button button_1 = new Button(composite_3, SWT.NONE);
-        button_1.addSelectionListener(new SelectionAdapter()
+        button_1.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(final SelectionEvent e)
             {
-                public void widgetSelected(final SelectionEvent e)
-                {
-                    clearAllOutput();
-                }
-            });
+                clearAllOutput();
+            }
+        });
         button_1.setText("Clear");
 
         m_tfTabs = new TabFolder(m_sShell, SWT.NONE);
@@ -532,13 +469,12 @@ public class CoeMethodTestTool
         sashForm.setOrientation(SWT.VERTICAL);
 
         m_tblHistory = new Table(sashForm, SWT.FULL_SELECTION | SWT.BORDER);
-        m_tblHistory.addSelectionListener(new SelectionAdapter()
+        m_tblHistory.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(final SelectionEvent selectionevent)
             {
-                public void widgetSelected(final SelectionEvent selectionevent)
-                {
-                    showHistoryRequestResponse();
-                }
-            });
+                showHistoryRequestResponse();
+            }
+        });
         m_tblHistory.setLinesVisible(true);
         m_tblHistory.setHeaderVisible(true);
 
@@ -613,7 +549,7 @@ public class CoeMethodTestTool
         if (m_cbOrganization.getSelectionIndex() > -1)
         {
             String sOrganizationDN = (String) m_cbOrganization.getData(m_cbOrganization.getItem(m_cbOrganization
-                                                                                                .getSelectionIndex()));
+                    .getSelectionIndex()));
             m_cbMethodLevel.removeAll();
             m_hmMethodSetNamespace.clear();
 
@@ -634,17 +570,15 @@ public class CoeMethodTestTool
 
                 String sPrefix = NamespaceConstants.registerPrefix("ldap10", HTTP_SCHEMAS_CORDYS_COM_1_0_LDAP);
 
-                NodeList nlEntries = XPathHelper.prSelectNodeList(eResponse,
-                                                                  ".//" + sPrefix + ":tuple/" + sPrefix + ":old/" +
-                                                                  sPrefix + ":entry");
+                NodeList nlEntries = XPathHelper.prSelectNodeList(eResponse, ".//" + sPrefix + ":tuple/" + sPrefix + ":old/"
+                        + sPrefix + ":entry");
 
                 for (int iCount = 0; iCount < nlEntries.getLength(); iCount++)
                 {
                     Element eEntry = (Element) nlEntries.item(iCount);
 
                     String sDN = eEntry.getAttribute("dn");
-                    Node nName = XPathHelper.prSelectSingleNode(eEntry,
-                                                                "./" + sPrefix + ":cn/" + sPrefix + ":string/text()");
+                    Node nName = XPathHelper.prSelectSingleNode(eEntry, "./" + sPrefix + ":cn/" + sPrefix + ":string/text()");
                     String sFriendlyName = sDN;
 
                     if (nName != null)
@@ -668,8 +602,8 @@ public class CoeMethodTestTool
 
     /**
      * This method handles the response as it was received.
-     *
-     * @param  ro  The response object.
+     * 
+     * @param ro The response object.
      */
     protected void handleResponse(RequestObject ro)
     {
@@ -677,11 +611,8 @@ public class CoeMethodTestTool
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
 
-        ti.setText(new String[]
-                   {
-                       ro.getMethodName(), sdf.format(ro.getStartTime()), sdf.format(ro.getEndTime()),
-                       String.valueOf(ro.getDuration()), ro.executedOK() ? "OK" : "Failed"
-                   });
+        ti.setText(new String[] { ro.getMethodName(), sdf.format(ro.getStartTime()), sdf.format(ro.getEndTime()),
+                String.valueOf(ro.getDuration()), ro.executedOK() ? "OK" : "Failed" });
         ti.setData(ro);
 
         if (ro.executedOK())
@@ -725,15 +656,13 @@ public class CoeMethodTestTool
 
     /**
      * This method handles responses from an XReport method.
-     *
-     * @param   miMethodInfo  The method information.
-     * @param   eRequest      The request XML.
-     * @param   eResponse     The response XML.
-     *
-     * @throws  Exception  In case of any errors.
+     * 
+     * @param miMethodInfo The method information.
+     * @param eRequest The request XML.
+     * @param eResponse The response XML.
+     * @throws Exception In case of any errors.
      */
-    protected void handleXReportResponse(IMethodInfo miMethodInfo, Element eRequest, Element eResponse)
-                                  throws Exception
+    protected void handleXReportResponse(IMethodInfo miMethodInfo, Element eRequest, Element eResponse) throws Exception
     {
         // Check to see if the output was XReports.
         m_tfTabs.setSelection(m_tiXReport);
@@ -795,8 +724,7 @@ public class CoeMethodTestTool
      */
     protected void loadProperties()
     {
-        File fMethodTestToolPref = new File(new File(System.getProperty("user.home")),
-                                            "coe/coe_mtt/methodtesttool.properties");
+        File fMethodTestToolPref = new File(new File(System.getProperty("user.home")), "coe/coe_mtt/methodtesttool.properties");
 
         // Create the property file.
         Properties pProp = new Properties();
@@ -824,10 +752,9 @@ public class CoeMethodTestTool
             IMethodInfo miInfo = (IMethodInfo) m_cbMethod.getData(sMethod);
             sMethod = miInfo.getNamespace() + ":" + miInfo.getName();
 
-            RequestObject ro = new RequestObject(m_cgcClient, Long.parseLong(m_tTimeOut.getText()),
-                                                 dDoc.getDocumentElement(), sMethod);
-            ro.setOrganization((String) m_cbOrganization.getData(m_cbOrganization.getItem(m_cbOrganization
-                                                                                          .getSelectionIndex())));
+            RequestObject ro = new RequestObject(m_cgcClient, Long.parseLong(m_tTimeOut.getText()), dDoc.getDocumentElement(),
+                    sMethod);
+            ro.setOrganization((String) m_cbOrganization.getData(m_cbOrganization.getItem(m_cbOrganization.getSelectionIndex())));
             ro.setMethodInfo(miInfo);
 
             TableItem ti = new TableItem(m_tblHistory, SWT.NONE);
@@ -945,17 +872,15 @@ public class CoeMethodTestTool
 
                 String sPrefix = NamespaceConstants.registerPrefix("ldap10", HTTP_SCHEMAS_CORDYS_COM_1_0_LDAP);
 
-                NodeList nlEntries = XPathHelper.prSelectNodeList(eResponse,
-                                                                  ".//" + sPrefix + ":tuple/" + sPrefix + ":old/" +
-                                                                  sPrefix + ":entry");
+                NodeList nlEntries = XPathHelper.prSelectNodeList(eResponse, ".//" + sPrefix + ":tuple/" + sPrefix + ":old/"
+                        + sPrefix + ":entry");
 
                 for (int iCount = 0; iCount < nlEntries.getLength(); iCount++)
                 {
                     Element eEntry = (Element) nlEntries.item(iCount);
 
                     String sMethodDN = eEntry.getAttribute("dn");
-                    Node nName = XPathHelper.prSelectSingleNode(eEntry,
-                                                                "./" + sPrefix + ":cn/" + sPrefix + ":string/text()");
+                    Node nName = XPathHelper.prSelectSingleNode(eEntry, "./" + sPrefix + ":cn/" + sPrefix + ":string/text()");
                     String sFriendlyName = sMethodDN;
 
                     if (nName != null)
@@ -980,17 +905,17 @@ public class CoeMethodTestTool
 
     /**
      * This method retrieves the methodsets for the given organization/isv.<br>
-     *
+     * 
      * <pre>
-       <SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" url="com.eibus.web.soap.Gateway.wcp?organization=o%3DXReports%2Ccn%3Dcordys%2Co%3Dvanenburg.com&amp;messageOptions=0">
-         <SOAP:Body>
-           <GetMethodSets xmlns="http://schemas.cordys.com/1.0/ldap">
-             <dn>cn=Cordys EJB Connector,cn=cordys,o=vanenburg.com</dn>
-             <labeleduri>*</labeleduri>
-             <sort>ascending</sort>
-           </GetMethodSets>
-         </SOAP:Body>
-       </SOAP:Envelope>
+     *        <SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" url="com.eibus.web.soap.Gateway.wcp?organization=o%3DXReports%2Ccn%3Dcordys%2Co%3Dvanenburg.com&amp;messageOptions=0">
+     *          <SOAP:Body>
+     *            <GetMethodSets xmlns="http://schemas.cordys.com/1.0/ldap">
+     *              <dn>cn=Cordys EJB Connector,cn=cordys,o=vanenburg.com</dn>
+     *              <labeleduri>*</labeleduri>
+     *              <sort>ascending</sort>
+     *            </GetMethodSets>
+     *          </SOAP:Body>
+     *        </SOAP:Envelope>
      * </pre>
      */
     private void fillMethodSets()
@@ -1007,8 +932,7 @@ public class CoeMethodTestTool
                 Element eDN = XMLHelper.createElementNS("dn", HTTP_SCHEMAS_CORDYS_COM_1_0_LDAP, eMessage);
                 XMLHelper.createText(sDN, eDN);
 
-                Element eLabeledURI = XMLHelper.createElementNS("labeleduri", HTTP_SCHEMAS_CORDYS_COM_1_0_LDAP,
-                                                                eMessage);
+                Element eLabeledURI = XMLHelper.createElementNS("labeleduri", HTTP_SCHEMAS_CORDYS_COM_1_0_LDAP, eMessage);
                 XMLHelper.createText("*", eLabeledURI);
 
                 Element eSort = XMLHelper.createElementNS("sort", HTTP_SCHEMAS_CORDYS_COM_1_0_LDAP, eMessage);
@@ -1018,17 +942,15 @@ public class CoeMethodTestTool
 
                 String sPrefix = NamespaceConstants.registerPrefix("ldap10", HTTP_SCHEMAS_CORDYS_COM_1_0_LDAP);
 
-                NodeList nlEntries = XPathHelper.prSelectNodeList(eResponse,
-                                                                  ".//" + sPrefix + ":tuple/" + sPrefix + ":old/" +
-                                                                  sPrefix + ":entry");
+                NodeList nlEntries = XPathHelper.prSelectNodeList(eResponse, ".//" + sPrefix + ":tuple/" + sPrefix + ":old/"
+                        + sPrefix + ":entry");
 
                 for (int iCount = 0; iCount < nlEntries.getLength(); iCount++)
                 {
                     Element eEntry = (Element) nlEntries.item(iCount);
 
                     String sMethodSetDN = eEntry.getAttribute("dn");
-                    Node nName = XPathHelper.prSelectSingleNode(eEntry,
-                                                                "./" + sPrefix + ":cn/" + sPrefix + ":string/text()");
+                    Node nName = XPathHelper.prSelectSingleNode(eEntry, "./" + sPrefix + ":cn/" + sPrefix + ":string/text()");
                     String sFriendlyName = sMethodSetDN;
 
                     if (nName != null)
@@ -1036,9 +958,8 @@ public class CoeMethodTestTool
                         sFriendlyName = nName.getNodeValue();
                     }
 
-                    Node nNamespace = XPathHelper.prSelectSingleNode(eEntry,
-                                                                     "./" + sPrefix + ":labeleduri/" + sPrefix +
-                                                                     ":string/text()");
+                    Node nNamespace = XPathHelper.prSelectSingleNode(eEntry, "./" + sPrefix + ":labeleduri/" + sPrefix
+                            + ":string/text()");
 
                     if (nNamespace != null)
                     {
@@ -1082,16 +1003,15 @@ public class CoeMethodTestTool
 
     /**
      * This thread receives the requests and displays them.
-     *
-     * @author  pgussow
+     * 
+     * @author pgussow
      */
-    public class ResponseListenThread
-        implements Runnable
+    public class ResponseListenThread implements Runnable
     {
         /**
          * This method reads the messages from the queue and displays them.
-         *
-         * @see  java.lang.Runnable#run()
+         * 
+         * @see java.lang.Runnable#run()
          */
         public void run()
         {
@@ -1101,13 +1021,12 @@ public class CoeMethodTestTool
                 {
                     final RequestObject ro = m_qResponses.take();
 
-                    m_dDisplay.syncExec(new Runnable()
+                    m_dDisplay.syncExec(new Runnable() {
+                        public void run()
                         {
-                            public void run()
-                            {
-                                handleResponse(ro);
-                            }
-                        });
+                            handleResponse(ro);
+                        }
+                    });
                 }
                 catch (InterruptedException e)
                 {

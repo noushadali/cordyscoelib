@@ -8,11 +8,11 @@ import com.cordys.coe.tools.snapshot.data.collector.DispatcherInfo;
 import com.cordys.coe.tools.snapshot.data.collector.WorkerThreadCollector;
 import com.cordys.coe.tools.snapshot.data.collector.WorkerThreadResult;
 import com.cordys.coe.tools.snapshot.data.handler.ThreadInfo;
+import com.cordys.coe.util.swing.MessageBoxUtil;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-
 import java.util.List;
 import java.util.Map;
 
@@ -26,10 +26,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -200,12 +198,20 @@ public class ThreadPoolPanel extends JPanel
                 {
                     if (WorkerThreadCollector.class.getName().equals(counter.getDataCollector()))
                     {
-                        WorkerThreadResult wtr = (WorkerThreadResult) values.get(counter);
-                        List<DispatcherInfo> infos = wtr.getDispatcherInfoList();
-
-                        for (DispatcherInfo info : infos)
+                        Object tmp = values.get(counter);
+                        if (tmp instanceof WorkerThreadResult)
                         {
-                            addThreadResults(info, asc);
+                            WorkerThreadResult wtr = (WorkerThreadResult) tmp;
+                            List<DispatcherInfo> infos = wtr.getDispatcherInfoList();
+
+                            for (DispatcherInfo info : infos)
+                            {
+                                addThreadResults(info, asc);
+                            }
+                        }
+                        else
+                        {
+                            MessageBoxUtil.showError("Wrong result: expecting a workerthread result, but got: " + tmp.getClass());
                         }
                     }
                 }

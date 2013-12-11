@@ -438,6 +438,10 @@ public class SystemSnapshot implements PropertyChangeListener
                 zf = new ZipFile(fc.getSelectedFile());
 
                 ZipEntry entry = zf.getEntry("config.xml");
+                if (entry == null)
+                {
+                    throw new Exception("Invalid snapshot format. Expecting a file called config.xml in the archive.");
+                }
 
                 // First load the config so that we can reinitialize the JAXB Context properly.
                 Unmarshaller m = m_context.createUnmarshaller();
@@ -452,6 +456,10 @@ public class SystemSnapshot implements PropertyChangeListener
 
                 // Load the snapshot details.
                 entry = zf.getEntry("snapshot.xml");
+                if (entry == null)
+                {
+                    throw new Exception("Invalid snapshot format. Expecting a file called snapshot.xml in the archive.");
+                }
                 m_result = (SnapshotResult) m.unmarshal(zf.getInputStream(entry));
 
                 // Show the data

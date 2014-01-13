@@ -2,22 +2,22 @@ package com.cordys.coe.util.system;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 import java.util.TreeSet;
 
 /**
  * This class returns information about the current JVM.
- *
- * @author  pgussow
+ * 
+ * @author pgussow
  */
 public class SystemInfo
 {
     /**
      * This method returns the boot classpath nicely formatted.
-     *
-     * @return  The boot classpath.
+     * 
+     * @return The boot classpath.
      */
     public static String getBootClasspath()
     {
@@ -31,8 +31,8 @@ public class SystemInfo
 
     /**
      * This method returns the JVM specific classpath nicely formatted.
-     *
-     * @return  The JVM specific classpath.
+     * 
+     * @return The JVM specific classpath.
      */
     public static String getJVMClasspath()
     {
@@ -45,10 +45,10 @@ public class SystemInfo
     }
 
     /**
-     * This method returns the status of the system. It returns a string that contains all the
-     * settings for the current virtual machine.
-     *
-     * @return  A string containing the full system information.
+     * This method returns the status of the system. It returns a string that contains all the settings for the current virtual
+     * machine.
+     * 
+     * @return A string containing the full system information.
      */
     public static String getSystemInformation()
     {
@@ -108,20 +108,38 @@ public class SystemInfo
             pwOut.print(" = ");
             pwOut.println(sValue);
         }
+        pwOut.println();
 
+        // Output enviroment variables.
+        Map<String, String> env = System.getenv();
+
+        pwOut.println("Environment variables (sorted by name)");
+        pwOut.println("======================================");
+        pwOut.println();
+
+        TreeSet<String> sorted = new TreeSet<String>(env.keySet());
+        for (Iterator<String> iKeys = sorted.iterator(); iKeys.hasNext();)
+        {
+            String sKey = iKeys.next();
+            String sValue = env.get(sKey);
+            pwOut.print(sKey);
+            pwOut.print(" = ");
+            pwOut.println(sValue);
+        }
+
+        // Return the result.
         return swWriter.getBuffer().toString();
     }
 
     /**
      * This method returns a path nicely formatted.
-     *
-     * @param  sPropName    The name of the system property.
-     * @param  pProperties  The properties collection.
-     * @param  sCaption     The caption for this path.
-     * @param  pwOut        The printwriter to output it.
+     * 
+     * @param sPropName The name of the system property.
+     * @param pProperties The properties collection.
+     * @param sCaption The caption for this path.
+     * @param pwOut The printwriter to output it.
      */
-    private static void writePath(String sPropName, Properties pProperties, String sCaption,
-                                  PrintWriter pwOut)
+    private static void writePath(String sPropName, Properties pProperties, String sCaption, PrintWriter pwOut)
     {
         if (pProperties.containsKey(sPropName))
         {
@@ -154,14 +172,13 @@ public class SystemInfo
 
     /**
      * This method writes the property to the given output writer.
-     *
-     * @param  sPropName    The name of the property.
-     * @param  pProperties  The propertiescollection.
-     * @param  sCaption     The caption.
-     * @param  pwOut        The output writer.
+     * 
+     * @param sPropName The name of the property.
+     * @param pProperties The propertiescollection.
+     * @param sCaption The caption.
+     * @param pwOut The output writer.
      */
-    private static void writeProperty(String sPropName, Properties pProperties, String sCaption,
-                                      PrintWriter pwOut)
+    private static void writeProperty(String sPropName, Properties pProperties, String sCaption, PrintWriter pwOut)
     {
         if (pProperties.containsKey(sPropName))
         {
@@ -171,6 +188,23 @@ public class SystemInfo
             {
                 pwOut.println(sCaption + " = " + sValue);
             }
+        }
+    }
+
+    /**
+     * Main method.
+     * 
+     * @param saArguments Commandline arguments.
+     */
+    public static void main(String[] saArguments)
+    {
+        try
+        {
+            System.out.println(getSystemInformation());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 }

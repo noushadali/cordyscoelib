@@ -2,7 +2,7 @@
 	This buildfile should be used to customize the default behavior of the build tasks.
 	All targets can be overridden in this file.
 -->
-<project default="all">
+<project default="all" xmlns:sa="http://subclipse.tigris.org/svnant">
 	<!--Pattern set which selects only the core classes for the standard jar. -->
 	<patternset id="coelib.core.classes">
 		<include name="com/cordys/coe/coelib/*.class" />
@@ -33,7 +33,7 @@
 		<include name="com/cordys/coe/util/xmlstore/*.class" />
 		<include name="com/cordys/coe/util/xmlstore/*.class" />
 	</patternset>
-
+	
 	<!--Target for compiling java source files. Done to make sure also .png files are copied -->
 	<target name="compile" description="Compiles Java source files" depends="init,copy-coelib-version" unless="skip.java">
 		<javac srcdir="${src.java}" destdir="${build.classes}" debug="${javac.debug}" deprecation="${javac.deprecation}" optimize="${javac.optimize}" source="${javac.source.version}" target="${javac.target.version}" encoding="${javac.encoding}">
@@ -321,5 +321,35 @@
             <arg value="--comment" />
             <arg value="Uploaded from Jenkins" />
         </java>
+    </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: _updateworkingcopy
+         - - - - - - - - - - - - - - - - - -->
+    <target name="_updateworkingcopy" if="defined.using.svn">
+        <sa:svnSetting id="svnsetting.project" username="${svn.username}" password="${svn.password}" client="svnkit"/>
+	    <sa:svnSetting id="svnsetting.external.sdk" username="${svn.sdk.username}" password="${svn.sdk.password}" client="svnkit"/>
+	    <sa:svnSetting id="svnsetting.external.platform" username="${svn.platform.username}" password="${svn.platform.password}" client="svnkit"/>
+
+        <!-- Revert the build.number file in case we had a failed build and are trying again -->
+    	<sa:svn refid="svnsetting.project">
+            <revert>
+                <fileset file="build.number" />                         
+            </revert>
+        </sa:svn>
+        
+    	<sa:svn refid="svnsetting.project">
+            <info target="${user.dir}" />
+        </sa:svn>
+        
+        <!-- This target updates the local working copy -->
+    	<sa:svn refid="svnsetting.project">
+            <update dir="." recurse="true" />
+        </sa:svn>
+
+    	<!-- Do the status check -->
+    	<sa:svn refid="svnsetting.project">
+            <coestatuscheck path="." failOnModification="true" excludePattern="build.number$"/>
+        </sa:svn>
     </target>
 </project>

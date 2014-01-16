@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><document>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document>
     <properties>
         <title>Cordys CoE Library Changelog</title>
         <author email="pgussow@cordys.com">Phillip Gussow</author>
@@ -12,6 +13,11 @@
 	</template>
     <body>
     <release description="Development release" version="@NEXT@">
+				</release>
+<release date="2014-01-13" description="Development release" version="1.2.15">
+      <action dev="pgussow" type="add"><![CDATA[Added the environment variables to the SystemInfo.getSystemInformation call]]></action>
+    </release>
+    <release date="2014-01-13" description="Development release" version="1.2.14">
       <action dev="pgussow" type="add"><![CDATA[Added the 'ALT-C' shortcut to the Log4J viewer to clean the log entries]]></action>
       <action dev="pgussow" type="add"><![CDATA[Added the getDouble to the XPathHelper classes]]></action>
       <action dev="pgussow" type="update"><![CDATA[Added support for the Web Service Inspector to the Snapshot grabber tool.]]></action>

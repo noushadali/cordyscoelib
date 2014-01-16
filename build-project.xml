@@ -352,4 +352,55 @@
             <coestatuscheck path="." failOnModification="true" excludePattern="build.number$"/>
         </sa:svn>
     </target>
+	
+	<!-- ================================= 
+         target: _update_changelog
+         
+         Updates the changelog.xml file to contain the latest build number and build date.
+         This also adds a new template entry for the next release.
+        ================================= -->
+    <target name="_update_changelog"
+            if="changelog.file.exists">
+        <!-- Check that we don't already have a release with this version -->
+        <xpathselect file="changelog.xml"
+                     xpath="/document/body/release[@version='${version.full}']/@version"
+                     setalways="false"
+                     property="tmp.current.changelog.set" />
+
+        <!-- If not, set the new version and date to the next release entry -->
+        <if>
+            <not>
+                <isset property="tmp.current.changelog.set" />
+            </not>
+            <then>
+                <tstamp>
+                    <format property="changelog.timestamp" pattern="yyyy-MM-dd" />
+                </tstamp>
+                
+                <xmltask source="changelog.xml" dest="changelog.xml"> 
+                    <attr path="/document/body/release[@version='@NEXT@']" attr="date" value="${changelog.timestamp}" />
+                    <attr path="/document/body/release[@version='@NEXT@']" attr="version" value="${version.full}" />
+                    
+                    <insert path="/document/body/release[1]" position="before"> 
+                        <![CDATA[ 
+                <release version="@NEXT@" description="Development release">
+                </release>
+                        ]]> 
+                    </insert> 
+                </xmltask> 
+                
+                <!-- Commit the new changelog to the repository -->
+                <if>
+                    <isset property="defined.using.svn" />
+                    <then>
+                    	<sa:svn refid="svnsetting.project">
+                            <commit message="Updated the changelog release information (build ${version.full})">
+                                <fileset file="changelog.xml" />
+                            </commit>
+                        </sa:svn>          
+                    </then>
+                </if>                   
+            </then>
+        </if>
+    </target>
 </project>

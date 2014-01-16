@@ -13,6 +13,8 @@
 	</template>
     <body>
     <release description="Development release" version="@NEXT@">
+				</release>
+<release date="2014-01-16" description="Development release" version="1.2.16">
       <action dev="pgussow" type="add"><![CDATA[Added the environment variables to the SystemInfo.getSystemInformation call]]></action>
     </release>
     <release date="2014-01-13" description="Development release" version="1.2.14">

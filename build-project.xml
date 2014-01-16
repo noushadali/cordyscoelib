@@ -255,21 +255,73 @@
 	</target>
 
 	<!--Target for copying resources from build to distribution -->
-	<target name="copy-dist" depends="copy-docs,copy-javadocs,copy-isv,copy-testreports,createsourcezip,copy-dist-coelib,_create-build-info,deploy-google">
+	<target name="copy-dist" depends="copy-docs,copy-javadocs,copy-isv,copy-testreports,createsourcezip,copy-dist-coelib,_create-build-info,deploy-wiki">
 	</target>
 
 	<target name="cobertura-report">
 		<!-- No need for cobertura -->
 	</target>
 
-	<!-- ================================= 
-          target: deploy-google              
-         ================================= -->
-	<target name="deploy-google" description="Deploys the binaries to the google code project" if="google.username">
-		<taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="./test/lib/ant-googlecode-0.0.3.jar" name="gcupload" />
-		<gcupload username="${google.username}" password="${google.password}" projectname="${google.project}" filename="${dist.dir}/${isv.filename}_${version.full}.zip" targetfilename="${isv.filename}_${version.full}.zip" summary="Version ${version.full} of the CoE Library" labels="Featured, Type-Package, OpSys-All" />
+	<!-- Target to do the actual upload to wiki -->
+    <target name="deploy-wiki">
+        <basename file="${foreach.fullfile}" property="foreach.filename" />
 
-		<gcupload username="${google.username}" password="${google.password}" projectname="${google.project}" filename="${dist.dir}/${isv.filename}_${version.full}-src.zip" targetfilename="${isv.filename}_${version.full}-src.zip" summary="Version ${version.full} source of the CoE Library" labels="Featured, Type-Package, OpSys-All" />
-	</target>
+        <java jar="${sdk.lib.confluence.dir}/confluence-cli-2.6.0.jar" fork="true">
+            <arg value="--server" />
+            <arg value="${wiki.server}" />
 
+            <arg value="--user" />
+            <arg value="${wiki.username}" />
+
+            <arg value="--password" />
+            <arg value="${wiki.password}" />
+
+            <arg value="--action" />
+            <arg value="addAttachment" />
+
+            <arg value="--space" />
+            <arg value="${wiki.space}" />
+
+            <arg value="--title" />
+            <arg value="${wiki.title}" />
+
+            <arg value="--file" />
+            <arg value="${dist.dir}/${isv.filename}_${version.full}.zip" />
+
+            <arg value="--name" />
+            <arg value="${isv.filename}_${version.full}.zip" />
+
+            <arg value="--comment" />
+            <arg value="Uploaded from Jenkins" />
+        </java>
+    	
+    	<java jar="${sdk.lib.confluence.dir}/confluence-cli-2.6.0.jar" fork="true">
+            <arg value="--server" />
+            <arg value="${wiki.server}" />
+
+            <arg value="--user" />
+            <arg value="${wiki.username}" />
+
+            <arg value="--password" />
+            <arg value="${wiki.password}" />
+
+            <arg value="--action" />
+            <arg value="addAttachment" />
+
+            <arg value="--space" />
+            <arg value="${wiki.space}" />
+
+            <arg value="--title" />
+            <arg value="${wiki.title}" />
+
+            <arg value="--file" />
+            <arg value="${dist.dir}/${isv.filename}_${version.full}-src.zip" />
+
+            <arg value="--name" />
+            <arg value="${isv.filename}_${version.full}-src.zip" />
+
+            <arg value="--comment" />
+            <arg value="Uploaded from Jenkins" />
+        </java>
+    </target>
 </project>

@@ -264,8 +264,6 @@
 
 	<!-- Target to do the actual upload to wiki -->
     <target name="deploy-wiki">
-        <basename file="${foreach.fullfile}" property="foreach.filename" />
-
         <java jar="${sdk.lib.confluence.dir}/confluence-cli-2.6.0.jar" fork="true">
             <arg value="--server" />
             <arg value="${wiki.server}" />

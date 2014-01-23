@@ -1,3 +1,24 @@
+version 1.2.16 (released 2014-01-16)
+-add: Added the environment variables to the SystemInfo.getSystemInformation call
+
+version 1.2.14 (released 2014-01-13)
+-add: Added the 'ALT-C' shortcut to the Log4J viewer to clean the log entries
+-add: Added the getDouble to the XPathHelper classes
+-update: Added support for the Web Service Inspector to the Snapshot grabber tool.
+
+version 1.2.12 (released 2013-09-09)
+-fix: The SoapFaultInfo had a bug in detecting the error.
+
+version 1.2.12 (released 2013-09-09)
+-add: Added ValidateXML class to validae an XML against an XSD
+
+version 1.2.11 (released 2013-04-09)
+-add: Added classes for schema validation
+-fix: Fixed some issues in the XPathHelper in case an XPath returned a null resultset
+
+version 1.2.10 (released 2013-01-24)
+-add: Added the commandline details to the CmdLine exception object.
+
 version 1.2.9 (released 2012-12-14)
 -add: Added an additional option to the Cordys Gateway Client to skip the parsing of the user info.
 
@@ -22,7 +43,6 @@ version 1.2.4 (released 2012-03-08)
 version 1.2.3 (released )
 -add: Added the dynamic XPath methods to the XPathHelper class. These methods clean up the underlying XPath object explicitly, thus improving memory usage.
 -fix: Fixed some Generics things with the WsAppsQueryWrapper
-			
 
 version 1.2.2 (released 2011-12-02)
 -change: Changed the XPathHelper to explicitly clean up the result sets from XPath.

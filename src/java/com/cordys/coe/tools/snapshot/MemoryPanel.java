@@ -218,7 +218,7 @@ public class MemoryPanel extends JPanel
             }
             else if (m_comp instanceof JList)
             {
-                JList list = (JList) m_comp;
+                JList<?> list = (JList<?>) m_comp;
                 selectedRow = list.getSelectedIndex();
                 lsm = list.getSelectionModel();
             }

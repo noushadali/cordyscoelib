@@ -18,7 +18,7 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author  gjlubber
  */
-public class DnDjList extends JList
+public class DnDjList extends JList<Object>
     implements DropTargetListener, DragSourceListener, DragGestureListener, ListSelectionListener
 {
     /**
@@ -64,7 +64,7 @@ public class DnDjList extends JList
         this.isSource = isSource;
         this.isTarget = isTarget;
         this.removeAfterCopy = removeAfterCopy;
-        setModel(new DefaultListModel());
+        setModel(new DefaultListModel<Object>());
         getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         dropTarget = new DropTarget(this, this);
         dragSource = new DragSource();
@@ -79,7 +79,7 @@ public class DnDjList extends JList
      */
     public void addElement(Object oObject)
     {
-        ((DefaultListModel) getModel()).add(0, oObject);
+        ((DefaultListModel<Object>) getModel()).add(0, oObject);
     }
 
     /**
@@ -152,7 +152,7 @@ public class DnDjList extends JList
 
         for (int iCount = 0; iCount < selectionsindex.length; iCount++)
         {
-            tovObject.addTransferObjectToVector(((DefaultListModel) getModel()).elementAt(selectionsindex[iCount]));
+            tovObject.addTransferObjectToVector(((DefaultListModel<Object>) getModel()).elementAt(selectionsindex[iCount]));
         }
 
         if (tovObject.size() > 0)
@@ -216,7 +216,7 @@ public class DnDjList extends JList
      */
     public void removeAllElements()
     {
-        DefaultListModel dlmModel = (DefaultListModel) getModel();
+        DefaultListModel<Object> dlmModel = (DefaultListModel<Object>) getModel();
         dlmModel.clear();
     }
 
@@ -225,7 +225,7 @@ public class DnDjList extends JList
      */
     public void removeElement()
     {
-        ((DefaultListModel) getModel()).removeElement(getSelectedValue());
+        ((DefaultListModel<Object>) getModel()).removeElement(getSelectedValue());
     }
 
     /**

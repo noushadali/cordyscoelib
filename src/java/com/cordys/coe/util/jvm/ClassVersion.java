@@ -15,10 +15,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
- * This class has the possibility to tell what version is used for a specific jar or class file. In
- * case of a jar the first .class file is used.
- *
- * @author  pgussow
+ * This class has the possibility to tell what version is used for a specific jar or class file. In case of a jar the first .class
+ * file is used.
+ * 
+ * @author pgussow
  */
 public class ClassVersion
 {
@@ -40,30 +40,24 @@ public class ClassVersion
 
     /**
      * This method returns the JVM version for the given file.
-     *
-     * @param   sFilename  The name of the class file.
-     *
-     * @return  The proper java version.
-     *
-     * @throws  IOException  In case of any exceptions.
+     * 
+     * @param sFilename The name of the class file.
+     * @return The proper java version.
+     * @throws IOException In case of any exceptions.
      */
-    public static IJavaVersionInfo getVersionForClassFile(String sFilename)
-                                                   throws IOException
+    public static IJavaVersionInfo getVersionForClassFile(String sFilename) throws IOException
     {
         return getVersionForClassFile(new File(sFilename));
     }
 
     /**
      * This method returns the JVM version for the given file.
-     *
-     * @param   fFile  The class file.
-     *
-     * @return  The proper java version.
-     *
-     * @throws  IOException  In case of any exceptions.
+     * 
+     * @param fFile The class file.
+     * @return The proper java version.
+     * @throws IOException In case of any exceptions.
      */
-    public static IJavaVersionInfo getVersionForClassFile(File fFile)
-                                                   throws IOException
+    public static IJavaVersionInfo getVersionForClassFile(File fFile) throws IOException
     {
         IJavaVersionInfo jviReturn = null;
 
@@ -88,30 +82,24 @@ public class ClassVersion
 
     /**
      * This method returns the JVM version for the given jar file.
-     *
-     * @param   sFilename  The name of the jar file.
-     *
-     * @return  The proper java version.
-     *
-     * @throws  IOException  In case of any exceptions.
+     * 
+     * @param sFilename The name of the jar file.
+     * @return The proper java version.
+     * @throws IOException In case of any exceptions.
      */
-    public static IJavaVersionInfo getVersionForJarFile(String sFilename)
-                                                 throws IOException
+    public static IJavaVersionInfo getVersionForJarFile(String sFilename) throws IOException
     {
         return getVersionForJarFile(new File(sFilename));
     }
 
     /**
      * This method returns the JVM version for the given jar file.
-     *
-     * @param   fFile  The jar file.
-     *
-     * @return  The proper java version.
-     *
-     * @throws  IOException  In case of any exceptions.
+     * 
+     * @param fFile The jar file.
+     * @return The proper java version.
+     * @throws IOException In case of any exceptions.
      */
-    public static IJavaVersionInfo getVersionForJarFile(File fFile)
-                                                 throws IOException
+    public static IJavaVersionInfo getVersionForJarFile(File fFile) throws IOException
     {
         if (!fFile.exists())
         {
@@ -120,16 +108,23 @@ public class ClassVersion
 
         // Find the first class in the jar.
         ZipFile xf = new ZipFile(fFile);
-        Enumeration<? extends ZipEntry> e = xf.entries();
-
-        while (e.hasMoreElements())
+        try
         {
-            ZipEntry ze = e.nextElement();
+            Enumeration<? extends ZipEntry> e = xf.entries();
 
-            if (ze.getName().endsWith(".class"))
+            while (e.hasMoreElements())
             {
-                return getVersionForStream(xf.getInputStream(ze));
+                ZipEntry ze = e.nextElement();
+
+                if (ze.getName().endsWith(".class"))
+                {
+                    return getVersionForStream(xf.getInputStream(ze));
+                }
             }
+        }
+        finally
+        {
+            xf.close();
         }
 
         throw new IOException("File " + fFile.getAbsolutePath() + " does not have any class files");
@@ -137,15 +132,12 @@ public class ClassVersion
 
     /**
      * This method returns the java version for the given stream.
-     *
-     * @param   is  The stream to read.
-     *
-     * @return  The Java version.
-     *
-     * @throws  IOException  In case of any exceptions.
+     * 
+     * @param is The stream to read.
+     * @return The Java version.
+     * @throws IOException In case of any exceptions.
      */
-    public static IJavaVersionInfo getVersionForStream(InputStream is)
-                                                throws IOException
+    public static IJavaVersionInfo getVersionForStream(InputStream is) throws IOException
     {
         IJavaVersionInfo jviReturn = null;
 
@@ -177,8 +169,8 @@ public class ClassVersion
 
     /**
      * Main test method.
-     *
-     * @param  args  Command line arguments.
+     * 
+     * @param args Command line arguments.
      */
     public static void main(String[] args)
     {
@@ -186,7 +178,7 @@ public class ClassVersion
         {
             IJavaVersionInfo jvi = getVersionForClassFile(".\\classes\\com\\cordys\\coe\\tools\\es\\ESLogEvent.class");
             System.out.println(jvi.getMajorMinor() + ": " + jvi.getDisplayName());
-            
+
             jvi = getVersionForJarFile(".\\sdk\\lib\\buildtasks.jar");
             System.out.println(jvi.getMajorMinor() + ": " + jvi.getDisplayName());
         }
@@ -198,11 +190,10 @@ public class ClassVersion
 
     /**
      * This class wraps the JVM information.
-     *
-     * @author  pgussow
+     * 
+     * @author pgussow
      */
-    public static class JVMInfo
-        implements IJavaVersionInfo
+    public static class JVMInfo implements IJavaVersionInfo
     {
         /**
          * Holds the display name for the JVM.
@@ -215,9 +206,9 @@ public class ClassVersion
 
         /**
          * Constructor.
-         *
-         * @param  sMajorMinor  The major minor.
-         * @param  sDisplay     The display name for the JVM.
+         * 
+         * @param sMajorMinor The major minor.
+         * @param sDisplay The display name for the JVM.
          */
         public JVMInfo(String sMajorMinor, String sDisplay)
         {
@@ -227,10 +218,9 @@ public class ClassVersion
 
         /**
          * This method returns the display for the given version.
-         *
-         * @return  The display for the given version.
-         *
-         * @see     com.cordys.coe.util.jvm.IJavaVersionInfo#getDisplayName()
+         * 
+         * @return The display for the given version.
+         * @see com.cordys.coe.util.jvm.IJavaVersionInfo#getDisplayName()
          */
         public String getDisplayName()
         {
@@ -239,10 +229,9 @@ public class ClassVersion
 
         /**
          * This method gets the major.minor for this version.
-         *
-         * @return  The major.minor for this version.
-         *
-         * @see     com.cordys.coe.util.jvm.IJavaVersionInfo#getMajorMinor()
+         * 
+         * @return The major.minor for this version.
+         * @see com.cordys.coe.util.jvm.IJavaVersionInfo#getMajorMinor()
          */
         public String getMajorMinor()
         {

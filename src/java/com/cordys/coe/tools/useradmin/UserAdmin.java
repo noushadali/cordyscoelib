@@ -9,7 +9,6 @@ package com.cordys.coe.tools.useradmin;
 import com.cordys.coe.util.general.ldap.LDAPPublisher;
 import com.cordys.coe.util.general.ldap.LDAPUtils;
 import com.cordys.coe.util.swing.LDAPLogin;
-
 import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPEntry;
@@ -21,7 +20,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Toolkit;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -33,7 +31,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -52,10 +49,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TreeSelectionEvent;
-
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -231,6 +226,7 @@ public class UserAdmin extends JFrame
      *
      * @return  retuns a string with the dn of the current selected role
      */
+    @SuppressWarnings("deprecation")
     public LDAPEntry[] getCurrentRoles()
     {
         LDAPEntry[] lLDAPReturn = null;
@@ -406,6 +402,7 @@ public class UserAdmin extends JFrame
      *
      * @param  evt  The KeyReleased event.
      */
+    @SuppressWarnings("deprecation")
     private void deleteAuthenticatedUser(KeyEvent evt)
     {
         // Check for the del-key

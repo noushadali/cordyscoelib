@@ -108,11 +108,11 @@ public class CGCLoginPanel extends javax.swing.JPanel
     /**
      * Holds the drop down with the authentication types.
      */
-    private javax.swing.JComboBox m_cAuthType;
+    private javax.swing.JComboBox<String> m_cAuthType;
     /**
      * Holds the drop down for the certificate types.
      */
-    private javax.swing.JComboBox m_cCertificateType;
+    private javax.swing.JComboBox<String> m_cCertificateType;
     /**
      * Holds the actual web gateway configuration to use.
      */
@@ -120,7 +120,7 @@ public class CGCLoginPanel extends javax.swing.JPanel
     /**
      * Holds the list of currently saved configurations.
      */
-    private javax.swing.JComboBox m_cCurrentConfiguration;
+    private javax.swing.JComboBox<String> m_cCurrentConfiguration;
     /**
      * Holds the configuration manager to use.
      */
@@ -132,11 +132,11 @@ public class CGCLoginPanel extends javax.swing.JPanel
     /**
      * Holds the trust mode to use.
      */
-    private javax.swing.JComboBox m_cTrustMode;
+    private javax.swing.JComboBox<String> m_cTrustMode;
     /**
      * Holds the trust store type.
      */
-    private javax.swing.JComboBox m_cTrustType;
+    private javax.swing.JComboBox<String> m_cTrustType;
     /**
      * Holds the currently selected configuration.
      */
@@ -792,7 +792,7 @@ public class CGCLoginPanel extends javax.swing.JPanel
         if (m_bUseConnectionManager)
         {
             m_lCurrentConfig = new javax.swing.JLabel();
-            m_cCurrentConfiguration = new javax.swing.JComboBox();
+            m_cCurrentConfiguration = new javax.swing.JComboBox<String>();
         }
 
         JLabel jLabel2 = new javax.swing.JLabel();
@@ -800,7 +800,7 @@ public class CGCLoginPanel extends javax.swing.JPanel
         JLabel jLabel4 = new javax.swing.JLabel();
         JLabel jLabel5 = new javax.swing.JLabel();
         JLabel jLabel6 = new javax.swing.JLabel();
-        m_cAuthType = new javax.swing.JComboBox();
+        m_cAuthType = new javax.swing.JComboBox<String>();
         m_tServer = new javax.swing.JTextField();
 
         JLabel jLabel7 = new javax.swing.JLabel();
@@ -826,11 +826,11 @@ public class CGCLoginPanel extends javax.swing.JPanel
         JLabel jLabel10 = new javax.swing.JLabel();
         m_tTrustLocation = new javax.swing.JTextField();
         m_tTrustPassword = new javax.swing.JPasswordField();
-        m_cTrustMode = new javax.swing.JComboBox();
+        m_cTrustMode = new javax.swing.JComboBox<String>();
         m_bBrowseTrust = new javax.swing.JButton();
 
         JLabel jLabel11 = new javax.swing.JLabel();
-        m_cTrustType = new javax.swing.JComboBox();
+        m_cTrustType = new javax.swing.JComboBox<String>();
         m_bAcceptExpired = new javax.swing.JCheckBox();
         m_bAcceptInvalid = new javax.swing.JCheckBox();
 
@@ -842,7 +842,7 @@ public class CGCLoginPanel extends javax.swing.JPanel
         m_bBrowseCertificate = new javax.swing.JButton();
 
         JLabel jLabel27 = new javax.swing.JLabel();
-        m_cCertificateType = new javax.swing.JComboBox();
+        m_cCertificateType = new javax.swing.JComboBox<String>();
 
         JPanel jPanel4 = new javax.swing.JPanel();
         JLabel jLabel28 = new javax.swing.JLabel();
@@ -884,7 +884,7 @@ public class CGCLoginPanel extends javax.swing.JPanel
             m_lCurrentConfig.setText(resourceMap.getString("jLabel1.text")); // NOI18N
             m_lCurrentConfig.setName("jLabel1"); // NOI18N
 
-            m_cCurrentConfiguration.setModel(new javax.swing.DefaultComboBoxModel(new String[]
+            m_cCurrentConfiguration.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]
                                                                                   {
                                                                                       "<New>"
                                                                                   }));
@@ -925,7 +925,7 @@ public class CGCLoginPanel extends javax.swing.JPanel
         jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
         jLabel6.setName("jLabel6"); // NOI18N
 
-        m_cAuthType.setModel(new javax.swing.DefaultComboBoxModel(new String[]
+        m_cAuthType.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]
                                                                   {
                                                                       "Domain (NTLM)", "Basic",
                                                                       "Cordys Custom (C2)",
@@ -1544,7 +1544,7 @@ public class CGCLoginPanel extends javax.swing.JPanel
         m_tTrustPassword.setText(resourceMap.getString("m_tTrustPassword.text")); // NOI18N
         m_tTrustPassword.setName("m_tTrustPassword"); // NOI18N
 
-        m_cTrustMode.setModel(new javax.swing.DefaultComboBoxModel(new String[]
+        m_cTrustMode.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]
                                                                    {
                                                                        "Trust all servers",
                                                                        "Use specific truststore"
@@ -1575,7 +1575,7 @@ public class CGCLoginPanel extends javax.swing.JPanel
         jLabel11.setText(resourceMap.getString("jLabel11.text")); // NOI18N
         jLabel11.setName("jLabel11"); // NOI18N
 
-        m_cTrustType.setModel(new javax.swing.DefaultComboBoxModel(new String[]
+        m_cTrustType.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]
                                                                    {
                                                                        "JKS", "PKCS12"
                                                                    }));
@@ -1797,7 +1797,7 @@ public class CGCLoginPanel extends javax.swing.JPanel
         jLabel27.setText(resourceMap.getString("jLabel27.text")); // NOI18N
         jLabel27.setName("jLabel27"); // NOI18N
 
-        m_cCertificateType.setModel(new javax.swing.DefaultComboBoxModel(new String[]
+        m_cCertificateType.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]
                                                                          {
                                                                              "JKS", "PKCS12"
                                                                          }));

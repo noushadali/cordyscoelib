@@ -59,7 +59,7 @@ public class SoapProcessorDetails extends javax.swing.JPanel
     /**
      * DOCUMENTME.
      */
-    javax.swing.JComboBox m_cbRootPriority;
+    javax.swing.JComboBox<String> m_cbRootPriority;
     /**
      * DOCUMENTME.
      */
@@ -148,7 +148,7 @@ public class SoapProcessorDetails extends javax.swing.JPanel
     /**
      * DOCUMENTME.
      */
-    private javax.swing.JComboBox m_cbLayout;
+    private javax.swing.JComboBox<String> m_cbLayout;
     /**
      * Holds the connection to use for saving the configuration.
      */
@@ -1088,7 +1088,7 @@ public class SoapProcessorDetails extends javax.swing.JPanel
 
         javax.swing.JPanel pCategories = new javax.swing.JPanel();
         javax.swing.JScrollPane jScrollPane5 = new javax.swing.JScrollPane();
-        JComboBox cbLogLevels = new JComboBox();
+        JComboBox<String> cbLogLevels = new JComboBox<String>();
         cbLogLevels.addItem("TRACE");
         cbLogLevels.addItem("DEBUG");
         cbLogLevels.addItem("INFO");
@@ -1111,7 +1111,7 @@ public class SoapProcessorDetails extends javax.swing.JPanel
         javax.swing.JButton jButton8 = new javax.swing.JButton();
         javax.swing.JPanel jPanel4 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel11 = new javax.swing.JLabel();
-        m_cbRootPriority = new javax.swing.JComboBox();
+        m_cbRootPriority = new javax.swing.JComboBox<String>();
 
         javax.swing.JLabel jLabel12 = new javax.swing.JLabel();
         m_tRootAppenders = new javax.swing.JTextField();
@@ -1138,7 +1138,7 @@ public class SoapProcessorDetails extends javax.swing.JPanel
         javax.swing.JTable m_tblAppenderProperties = new javax.swing.JTable();
         javax.swing.JPanel jPanel5 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel13 = new javax.swing.JLabel();
-        m_cbLayout = new javax.swing.JComboBox();
+        m_cbLayout = new javax.swing.JComboBox<String>();
 
         javax.swing.JScrollPane jScrollPane8 = new javax.swing.JScrollPane();
         m_tblLayoutProperties = new javax.swing.JTable();
@@ -2078,7 +2078,7 @@ public class SoapProcessorDetails extends javax.swing.JPanel
 
         jLabel11.setText("Priority:");
 
-        m_cbRootPriority.setModel(new javax.swing.DefaultComboBoxModel(new String[]
+        m_cbRootPriority.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]
                                                                        {
                                                                            "OFF", "TRACE", "DEBUG",
                                                                            "INFO", "WARN", "ERROR",

@@ -82,39 +82,47 @@ public class CheckClassPath
             {
                 Enumeration<?> eFilesInJar;
                 JarFile jfJarFile = new JarFile(sSystemClassPaths[iJarIndex[iCount]]);
-                eFilesInJar = jfJarFile.entries();
-
-                while (eFilesInJar.hasMoreElements())
+                try
                 {
-                    try
+
+                    eFilesInJar = jfJarFile.entries();
+
+                    while (eFilesInJar.hasMoreElements())
                     {
-                        JarEntry jeTemp = (JarEntry) eFilesInJar.nextElement();
-                        byte[] baBuffer = new byte[32767];
-                        InputStream isTemp = jfJarFile.getInputStream(jeTemp);
-                        int iNrOfBytes = isTemp.read(baBuffer);
-                        OutputStream osTemp = new ByteArrayOutputStream();
-                        MD5OutputStream md5Out = new MD5OutputStream(osTemp);
                         try
                         {
-
-                            while (iNrOfBytes > -1)
+                            JarEntry jeTemp = (JarEntry) eFilesInJar.nextElement();
+                            byte[] baBuffer = new byte[32767];
+                            InputStream isTemp = jfJarFile.getInputStream(jeTemp);
+                            int iNrOfBytes = isTemp.read(baBuffer);
+                            OutputStream osTemp = new ByteArrayOutputStream();
+                            MD5OutputStream md5Out = new MD5OutputStream(osTemp);
+                            try
                             {
-                                md5Out.write(baBuffer, 0, iNrOfBytes);
-                                iNrOfBytes = isTemp.read(baBuffer);
-                            }
 
-                            String sHash = MD5.asHex(md5Out.hash());
-                            storeJarFileData(jeTemp, sSystemClassPaths[iJarIndex[iCount]], sHash, iJarIndex[iCount]);
+                                while (iNrOfBytes > -1)
+                                {
+                                    md5Out.write(baBuffer, 0, iNrOfBytes);
+                                    iNrOfBytes = isTemp.read(baBuffer);
+                                }
+
+                                String sHash = MD5.asHex(md5Out.hash());
+                                storeJarFileData(jeTemp, sSystemClassPaths[iJarIndex[iCount]], sHash, iJarIndex[iCount]);
+                            }
+                            finally
+                            {
+                                FileUtils.closeStream(md5Out);
+                            }
                         }
-                        finally
+                        catch (Exception e)
                         {
-                            FileUtils.closeStream(md5Out);
+                            e.printStackTrace();
                         }
                     }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
+                }
+                finally
+                {
+                    jfJarFile.close();
                 }
             }
             catch (Exception e)

@@ -20,7 +20,7 @@ public class NewAppenderDialog extends javax.swing.JDialog
     /**
      * Variables declaration - do not modify//GEN-BEGIN:variables.
      */
-    private javax.swing.JComboBox m_cbType;
+    private javax.swing.JComboBox<String> m_cbType;
     /**
      * DOCUMENTME.
      */
@@ -130,7 +130,7 @@ public class NewAppenderDialog extends javax.swing.JDialog
         javax.swing.JButton bOK = new javax.swing.JButton();
         javax.swing.JButton bCancel = new javax.swing.JButton();
         javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
-        m_cbType = new javax.swing.JComboBox();
+        m_cbType = new javax.swing.JComboBox<String>();
         m_tName = new javax.swing.JTextField();
 
         javax.swing.JLabel jLabel2 = new javax.swing.JLabel();

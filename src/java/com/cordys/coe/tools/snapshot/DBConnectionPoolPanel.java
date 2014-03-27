@@ -12,7 +12,6 @@ import com.cordys.coe.tools.snapshot.data.collector.DBPoolResult;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,12 +25,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-
 import javax.swing.border.TitledBorder;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -269,7 +265,7 @@ public class DBConnectionPoolPanel extends JPanel
             }
             else if (m_comp instanceof JList)
             {
-                JList list = (JList) m_comp;
+                JList<?> list = (JList<?>) m_comp;
                 selectedRow = list.getSelectedIndex();
                 lsm = list.getSelectionModel();
             }

@@ -37,15 +37,15 @@ public class CoEXMLFormatter extends JFrame
     /**
      * Holds whether or not the XML should be formatted.
      */
-    private JComboBox m_cFormat;
+    private JComboBox<String> m_cFormat;
     /**
      * Holds whether or not the whitespace should be preserved.
      */
-    private JComboBox m_cPreserveWhitespace;
+    private JComboBox<String> m_cPreserveWhitespace;
     /**
      * Holds whether or not the XML declaration should be printed.
      */
-    private JComboBox m_cPrintDecl;
+    private JComboBox<String> m_cPrintDecl;
     /**
      * Holds the source XML.
      */
@@ -210,14 +210,14 @@ public class CoEXMLFormatter extends JFrame
 
         JPanel pConfig = new javax.swing.JPanel();
         JLabel jLabel1 = new javax.swing.JLabel();
-        m_cFormat = new javax.swing.JComboBox();
+        m_cFormat = new javax.swing.JComboBox<String>();
 
         JLabel jLabel2 = new javax.swing.JLabel();
         m_tIdent = new javax.swing.JTextField();
 
         JLabel jLabel3 = new javax.swing.JLabel();
-        m_cPrintDecl = new javax.swing.JComboBox();
-        m_cPreserveWhitespace = new javax.swing.JComboBox();
+        m_cPrintDecl = new javax.swing.JComboBox<String>();
+        m_cPreserveWhitespace = new javax.swing.JComboBox<String>();
 
         JLabel jLabel4 = new javax.swing.JLabel();
 
@@ -257,7 +257,7 @@ public class CoEXMLFormatter extends JFrame
         jLabel1.setText("Format:"); // NOI18N
         jLabel1.setName("jLabel1"); // NOI18N
 
-        m_cFormat.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "true", "false" }));
+        m_cFormat.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "true", "false" }));
         m_cFormat.setName("m_cFormat"); // NOI18N
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -271,13 +271,13 @@ public class CoEXMLFormatter extends JFrame
         jLabel3.setText("Print XML declaration:"); // NOI18N
         jLabel3.setName("jLabel3"); // NOI18N
 
-        m_cPrintDecl.setModel(new javax.swing.DefaultComboBoxModel(new String[]
+        m_cPrintDecl.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]
                                                                    {
                                                                        "true", "false"
                                                                    }));
         m_cPrintDecl.setName("m_cPrintDecl"); // NOI18N
 
-        m_cPreserveWhitespace.setModel(new javax.swing.DefaultComboBoxModel(new String[]
+        m_cPreserveWhitespace.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[]
                                                                             {
                                                                                 "true", "false"
                                                                             }));

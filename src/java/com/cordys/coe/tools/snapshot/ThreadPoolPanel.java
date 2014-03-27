@@ -41,7 +41,7 @@ public class ThreadPoolPanel extends JPanel
     /** Holds all threads that were found. */
     private JTable m_allThreads;
     /** Holds the threads that are part of this thread pool. */
-    private JList m_threads;
+    private JList<ThreadInfo> m_threads;
     /** Holds teh stack trace of the individual thread. */
     private JTextArea m_threadInfoDetails;
 
@@ -121,8 +121,8 @@ public class ThreadPoolPanel extends JPanel
         JSplitPane splitPane_2 = new JSplitPane();
         splitPane_1.setRightComponent(splitPane_2);
 
-        m_threads = new JList();
-        m_threads.setModel(new DefaultListModel());
+        m_threads = new JList<ThreadInfo>();
+        m_threads.setModel(new DefaultListModel<ThreadInfo>());
         m_threads.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         m_threads.getSelectionModel().addListSelectionListener(new SelectionListener(m_threads));
         m_threads.setCellRenderer(new DefaultListCellRenderer() {
@@ -131,7 +131,7 @@ public class ThreadPoolPanel extends JPanel
              *      boolean, boolean)
              */
             @Override
-            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
                     boolean cellHasFocus)
             {
                 ThreadInfo ti = (ThreadInfo) value;
@@ -273,7 +273,8 @@ public class ThreadPoolPanel extends JPanel
             }
             else if (m_comp instanceof JList)
             {
-                JList list = (JList) m_comp;
+                @SuppressWarnings("unchecked")
+                JList<String> list = (JList<String>) m_comp;
                 row = list.getSelectedIndex();
                 lsm = list.getSelectionModel();
             }
@@ -283,7 +284,7 @@ public class ThreadPoolPanel extends JPanel
                 if (m_comp == m_allThreads)
                 {
                     DefaultTableModel dtm = (DefaultTableModel) m_allThreads.getModel();
-                    DefaultListModel dlm = (DefaultListModel) m_threads.getModel();
+                    DefaultListModel<ThreadInfo> dlm = (DefaultListModel<ThreadInfo>) m_threads.getModel();
 
                     // Clean the selection.
                     dlm.removeAllElements();

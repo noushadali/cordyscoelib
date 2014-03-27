@@ -47,7 +47,7 @@ public class NewAuthUser extends JDialog
     /**
      * DOCUMENTME.
      */
-    private JComboBox cbOrganization;
+    private JComboBox<CBOrgEntry> cbOrganization;
     /**
      * Holds the list of DN's that have to be updated.
      */
@@ -387,7 +387,7 @@ public class NewAuthUser extends JDialog
         jbClose = new JButton();
         jbAdd = new JButton();
         jbCancel = new JButton();
-        cbOrganization = new JComboBox();
+        cbOrganization = new JComboBox<CBOrgEntry>();
 
         getContentPane().setLayout(null);
 

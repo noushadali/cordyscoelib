@@ -46,7 +46,7 @@ public class OrganizationManager extends javax.swing.JFrame
     /** Variables declaration - do not modify//GEN-BEGIN:variables. */
     javax.swing.JCheckBox m_cbIncludeNonAutomatic;
     /** DOCUMENTME. */
-    javax.swing.JComboBox m_cbOrganizations;
+    javax.swing.JComboBox<ObjectData<LDAPEntry>> m_cbOrganizations;
     /** DOCUMENTME. */
     javax.swing.JMenuItem m_miShowError;
     /** DOCUMENTME. */
@@ -235,7 +235,7 @@ public class OrganizationManager extends javax.swing.JFrame
     private void cleanInformation()
     {
         // Clear the organization box.
-        DefaultComboBoxModel dcbm = (DefaultComboBoxModel) m_cbOrganizations.getModel();
+        DefaultComboBoxModel<ObjectData<LDAPEntry>> dcbm = (DefaultComboBoxModel<ObjectData<LDAPEntry>>) m_cbOrganizations.getModel();
 
         while (dcbm.getSize() > 0)
         {
@@ -392,7 +392,7 @@ public class OrganizationManager extends javax.swing.JFrame
         javax.swing.JButton jButton1 = new javax.swing.JButton();
         javax.swing.JToolBar.Separator jSeparator4 = new javax.swing.JToolBar.Separator();
         javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
-        m_cbOrganizations = new javax.swing.JComboBox();
+        m_cbOrganizations = new javax.swing.JComboBox<ObjectData<LDAPEntry>>();
 
         javax.swing.JButton bShowSPs = new javax.swing.JButton();
         javax.swing.JButton bRefresh = new javax.swing.JButton();
@@ -484,7 +484,7 @@ public class OrganizationManager extends javax.swing.JFrame
         jLabel1.setText("Organization");
         jToolBar1.add(jLabel1);
 
-        m_cbOrganizations.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        m_cbOrganizations.setModel(new javax.swing.DefaultComboBoxModel<ObjectData<LDAPEntry>>((ObjectData<LDAPEntry>[])null));
         jToolBar1.add(m_cbOrganizations);
 
         bShowSPs.setText("Show SPs");
@@ -803,7 +803,7 @@ public class OrganizationManager extends javax.swing.JFrame
      */
     private void updateTableAndCombo() throws CordysGatewayClientException
     {
-        DefaultComboBoxModel dcbm = (DefaultComboBoxModel) m_cbOrganizations.getModel();
+        DefaultComboBoxModel<ObjectData<LDAPEntry>> dcbm = (DefaultComboBoxModel<ObjectData<LDAPEntry>>) m_cbOrganizations.getModel();
         dcbm.addElement(new ObjectData<LDAPEntry>("All", null));
 
         ArrayList<ObjectData<LDAPEntry>> alOrgs = m_phProcesses.getOrganizations();

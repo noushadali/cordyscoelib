@@ -22,7 +22,7 @@ public class TestTimestampToDate
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
             Date d = null;
 
-            d = new Date(1397136979128L);
+            d = new Date(1397138774613L);
             System.out.println(d.getTime() + ": " + sdf.format(d));
 
             d = sdf.parse("2014-04-10T15:30:00.0");
@@ -37,7 +37,7 @@ public class TestTimestampToDate
             d = sdf.parse("2014-04-10T15:58:00.0");
             System.out.println(d.getTime() + ": " + sdf.format(d));
 
-            d = sdf.parse("2014-04-10T16:06:00.0");
+            d = sdf.parse("2014-04-10T16:07:00.0");
             System.out.println(d.getTime() + ": " + sdf.format(d));
         }
         catch (Exception e)

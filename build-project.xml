@@ -74,6 +74,7 @@
 				<replacetokens>
 					<token key="current-version" value="${setbuildnumber.patch.number}" />
 					<token key="build-time" value="${setbuildnumber.build.timestamp}" />
+					<token key="full-version" value="${version.full}" />
 				</replacetokens>
 			</filterchain>
 		</copy>

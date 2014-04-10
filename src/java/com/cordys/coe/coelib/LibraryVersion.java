@@ -29,6 +29,10 @@ public class LibraryVersion
      */
     private static final String sLibraryBuildTimestamp = "@build-time@";
     /**
+     * Holds the full version identifier of this build.
+     */
+    private static final String FULL_VERSION = "@full-version@";
+    /**
      * Name of the version file that will be packaged in the applications using this library.
      */
     private static final String DEFAULT_VERSION_FILE = "coelib.version";
@@ -41,6 +45,16 @@ public class LibraryVersion
     public static int getLibraryVersion()
     {
         return iLibraryVersion;
+    }
+    
+    /**
+     * Returns the full version for this build.
+     * 
+     * @return The full version.
+     */
+    public static String getFullVersion()
+    {
+        return FULL_VERSION;
     }
 
     /**
@@ -203,7 +217,7 @@ public class LibraryVersion
             return;
         }
 
-        System.out.println("CoELib version " + getLibraryVersion() + ". Build on " +
+        System.out.println("CoELib version " + getFullVersion() + ". Build on " +
                            sLibraryBuildTimestamp);
     }
 }

@@ -48,11 +48,11 @@ public class WorkerThreadCollector
 
         for (ObjectName on : result)
         {
-            // Check if its a middle ware part
+            // Check if its a middle ware thread pool. We'll ignore the LDAP cache thread pool as it not of interest. 
             Hashtable<String, String> props = on.getKeyPropertyList();
 
             if (props.containsKey("SOAPConnector") && props.containsKey("MiddlewareWrapper") &&
-                    props.containsKey("Dispatcher"))
+                    props.containsKey("Dispatcher") && !props.containsKey("LDAPCache"))
             {
             	String dispatcherName = props.get("Dispatcher");
             	//The result is an escaped Java string.   
@@ -88,6 +88,39 @@ public class WorkerThreadCollector
 				}
 
                 retVal.addDispatcherInfo(di);
+            }
+            //Check for the long lived thread pool
+            else if ("\"Cordys BPM SOAP Processor\"".equals(props.get("AppConnector")) && "\"Business Process Engine\"".equals(props.get("processEngine")))
+            {
+                String dispatcherName = props.get("processEngine").replaceAll("\"+", "");
+                
+                DispatcherInfo di = new DispatcherInfo();
+
+                di.setName(dispatcherName);
+                di.setActiveWorkers(MBeanUtils.getIntAttributeValue(mbsc, on, "ctrv_numActiveThreads_current"));
+                di.setCurrentWorkers(MBeanUtils.getIntAttributeValue(mbsc, on, "ctrv_threadPoolSize_current"));
+                di.setIdleWorkers(MBeanUtils.getIntAttributeValue(mbsc, on, "ctrv_numFreeThreads_current"));
+
+                di.setMinConcurrentWorkers(1);
+                di.setMaxConcurrentWorkers(MBeanUtils.getIntAttributeValue(mbsc, on, "ctrv_threadPoolSize_current"));
+                
+                //Now we need to get the threads that belong to this dispather information.
+                ObjectName threading = new ObjectName("java.lang", "type", "Threading");
+                CompositeData[] threadInfo = (CompositeData[]) mbsc.invoke(threading, "dumpAllThreads", new Object[]{true, true}, new String[]{"boolean", "boolean"});
+                
+                for (CompositeData cd : threadInfo)
+                {
+                    //Check to see if this thread belongs to this dispatcher
+                    if (((String)cd.get("threadName")).startsWith("BPMEngine_LongLivedProcess_ThreadPool/WorkerThread"))
+                    {
+                        ThreadInfo ti = new ThreadInfo();
+                        ti.parseData(cd);
+                        di.addThreadInfo(ti);
+                    }
+                }
+
+                retVal.addDispatcherInfo(di);
+
             }
         }
 

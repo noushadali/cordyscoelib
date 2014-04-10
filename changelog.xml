@@ -12,6 +12,7 @@
 	</template>
     <body>
     <release description="Development release" version="@NEXT@">
+      <action dev="pgussow" type="change"><![CDATA[Changed the source compliancy to Java 7]]></action>
       <action dev="pgussow" type="update"><![CDATA[- Added the BPM thread pool for long lived processes to the threadpool list
 - Removed the LDAP thread pools from the overview.]]></action>
     </release>

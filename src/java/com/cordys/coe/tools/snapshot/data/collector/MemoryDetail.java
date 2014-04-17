@@ -167,7 +167,7 @@ public class MemoryDetail
      */
     public int getPercentage()
     {
-        float tmp = (float) getCommitted() / getMaximum();
+        float tmp = (float) getUsed() / getMaximum();
         int percentage = Math.round(tmp * 100);
 
         return percentage;

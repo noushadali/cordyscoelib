@@ -2,17 +2,24 @@
 <projectDescription>
 	<name>SVN_CoELibrary_main</name>
 	<comment></comment>
-	<projects>
-	</projects>
-	<buildSpec>
-		<buildCommand>
-			<name>org.eclipse.jdt.core.javabuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-	</buildSpec>
-	<natures>
-		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>com.cordys.coe.CEP.nCordysProjectNature</nature>
-	</natures>
+    <projects>
+    </projects>
+    <buildSpec>
+        <buildCommand>
+            <name>org.eclipse.jdt.core.javabuilder</name>
+            <arguments>
+            </arguments>
+        </buildCommand>
+        <buildCommand>
+            <name>com.cordys.coe.cep.core.projectbuilder.PluginProjectBuilder</name>
+            <arguments>
+            </arguments>
+        </buildCommand>
+    </buildSpec>
+    <natures>
+        <nature>org.eclipse.jdt.core.javanature</nature>
+        <nature>com.cordys.coe.CEP.nCordysProjectNature</nature>
+        <nature>com.cordys.coe.cep.core.PluginProject</nature>
+        <nature>com.cordys.coe.cep.core.ProjectBop4</nature>
+    </natures>
 </projectDescription>

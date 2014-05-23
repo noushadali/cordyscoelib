@@ -8,6 +8,7 @@
 		<include name="com/cordys/coe/coelib/*.class" />
 		<include name="com/cordys/coe/exception/*.class" />
 		<include name="com/cordys/coe/util/*.class" />
+        <include name="com/cordys/coe/util/ac/*.class" />
 		<include name="com/cordys/coe/util/bpm/*.class" />
 		<include name="com/cordys/coe/util/classpath/*.class" />
 		<include name="com/cordys/coe/util/cgc/**" />

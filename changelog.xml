@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><document>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document>
     <properties>
         <title>Cordys CoE Library Changelog</title>
         <author email="pgussow@cordys.com">Phillip Gussow</author>
@@ -12,6 +13,9 @@
 	</template>
     <body>
     <release description="Development release" version="@NEXT@">
+                </release>
+<release date="2014-05-23" description="Development release" version="1.3.4">
+      <action dev="pgussow" type="add"><![CDATA[Added classes to handle XMLStore operations]]></action>
       <action dev="pgussow" type="fix"><![CDATA[The MemoryPanel in the SnapShot grabber now uses the 'used' memory to determine the percentage (and thus the color)]]></action>
     </release>
     <release date="2014-04-10" description="Development release" version="1.3.3">
